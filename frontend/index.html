@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Star Animation</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #000;
+        font-family: "Orbitron", sans-serif;
+      }
+      .star {
+        position: absolute;
+      }
+      .centeredText {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+      }
+      .title {
+        font-size: 2rem;
+      }
+      .subtitle {
+        font-size: 1rem;
+      }
+      .subsubtitle {
+        font-size: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="centeredText">
+      <div class="title">Lightspeed Typing</div>
+      <div class="subtitle">
+        Coming eventually <sup class="subsubtitle">probably</sup>
+      </div>
+    </div>
+
+    <script>
+      let creatingStars = true;
+      const colors = ["#E6F2FF", "#E0DCF5", "#E6E9FF", "#DAEDF2", "#E8DCF5"];
+
+      function randomStarSpeed() {
+        const rand = Math.random();
+        if (rand < 0.5) return 1;
+        else if (rand < 0.8) return 2;
+        else if (rand < 0.9) return 4;
+        else return 5;
+      }
+
+      // Function to create a star element with pre-warming
+      function createStar(preWarm = false) {
+        const speed = randomStarSpeed();
+        const size = speed + (Math.random() * 2 - 1);
+        const star = document.createElement("div");
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        star.classList.add("star");
+        star.style.width = `${size + speed}px`;
+        star.style.height = `${size / 2}px`;
+        star.style.borderRadius = "50%";
+        star.style.backgroundColor = color;
+        document.body.appendChild(star);
+        // Set random position
+        star.style.top = `${Math.random() * window.innerHeight}px`;
+        // Start off screen to the right and pre-warm if needed
+        const preWarmOffset = preWarm ? Math.random() * window.innerWidth : 0;
+        star.style.left = `${window.innerWidth - preWarmOffset}px`;
+
+        // Function to update the star's position
+        function updatePosition() {
+          if (parseInt(star.style.left, 10) <= -10) {
+            // Remove the star if it moves off screen to the left
+            document.body.removeChild(star);
+          } else {
+            // Move star left
+            star.style.left = `${parseInt(star.style.left, 10) - speed}px`;
+            requestAnimationFrame(updatePosition);
+          }
+        }
+        requestAnimationFrame(updatePosition);
+      }
+
+      function preWarmStars() {
+        for (let i = 0; i < 100; i++) {
+          createStar(true);
+        }
+      }
+
+      // Adjust your existing startCreatingStars function to include pre-warming
+      function startCreatingStars() {
+        // Pre-warm the stars when the page loads
+        if (creatingStars) preWarmStars();
+
+        // Then start creating stars at the regular interval
+        setTimeout(function create() {
+          createStar();
+          if (creatingStars) setTimeout(create, 150);
+        }, 150);
+      }
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.visibilityState === "visible") {
+          creatingStars = true;
+          startCreatingStars(); // Restart star creation if tab becomes visible again
+        } else {
+          creatingStars = false; // Stop creating stars when tab is not visible
+        }
+      });
+
+      document.addEventListener("DOMContentLoaded", startCreatingStars);
+    </script>
+  </body>
+</html>
