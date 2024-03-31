@@ -6,7 +6,7 @@ public static class Api
     {
         if (galaxy.OpenGames.Count == 0)
         {
-            Game game = new();
+            Game game = new(galaxy);
             galaxy.OpenGames.Add(game);
         }
 
@@ -21,6 +21,17 @@ public static class Api
                     gameId: openGame.Id,
                     playerId: request.Recipient,
                     playerName: request.PlayerName));
+        }
+
+        if (openGame.Players.Count == openGame.MaxPlayers)
+        {
+            galaxy.OpenGames.Remove(openGame);
+            galaxy.ActiveGames.Add(openGame);
+
+            foreach (Player player in openGame.Players)
+            {
+                galaxy.Outbox.Enqueue(new GameStarting(player.Id, seconds: Game.CountdownDuration));
+            }
         }
     }
 }
