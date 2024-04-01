@@ -13,3 +13,4 @@ C:\development\lightspeedtyping\src\obj\Debug\net7.0\refint\lightspeedtyping.dll
 C:\development\lightspeedtyping\src\obj\Debug\net7.0\lightspeedtyping.pdb
 C:\development\lightspeedtyping\src\obj\Debug\net7.0\lightspeedtyping.genruntimeconfig.cache
 C:\development\lightspeedtyping\src\obj\Debug\net7.0\ref\lightspeedtyping.dll
+C:\development\lightspeedtyping\src\bin\Debug\net7.0\data\phrases\phrases.json

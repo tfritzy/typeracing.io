@@ -10,7 +10,7 @@ public class FindGame
         var galaxy = new Galaxy();
 
         Assert.AreEqual(0, galaxy.OpenGames.Count);
-        Api.FindGame(new FindGameRequest(name: "Alice", id: Guid.NewGuid()), galaxy);
+        Api.FindGame("Alice", IdGen.NewPlayerId(), galaxy);
         Assert.AreEqual(1, galaxy.OpenGames.Count);
     }
 
@@ -18,19 +18,19 @@ public class FindGame
     public void FindGame_PlayerAddedToNewGame()
     {
         var galaxy = new Galaxy();
-        FindGameRequest request = new(name: "Alice", id: Guid.NewGuid());
+        var player = new InGamePlayer("Alice", IdGen.NewPlayerId());
         Assert.AreEqual(0, galaxy.Outbox.Count);
-        Api.FindGame(request, galaxy);
+        Api.FindGame(player.Name, player.Id, galaxy);
         Game game = galaxy.OpenGames[0];
 
         Assert.AreEqual(1, game.Players.Count);
-        Assert.AreEqual(request.PlayerName, game.Players[0].Name);
-        Assert.AreEqual(request.Recipient, game.Players[0].Id);
+        Assert.AreEqual(player.Name, game.Players[0].Name);
+        Assert.AreEqual(player.Id, game.Players[0].Id);
 
         Assert.AreEqual(1, galaxy.Outbox.Count);
         var message = galaxy.Outbox.Dequeue();
         PlayerJoinedGame jg = (PlayerJoinedGame)message;
-        Assert.AreEqual(request.Recipient, jg.PlayerId);
+        Assert.AreEqual(player.Id, jg.PlayerId);
         Assert.AreEqual(game.Id, jg.GameId);
     }
 
@@ -38,22 +38,22 @@ public class FindGame
     public void FindGame_AllPlayersAlreadyInGameInformed()
     {
         var galaxy = new Galaxy();
-        var player1 = new Player("Alice", Guid.NewGuid());
-        var player2 = new Player("Bob", Guid.NewGuid());
-        var player3 = new Player("Charlie", Guid.NewGuid());
-        Api.FindGame(new FindGameRequest(name: player1.Name, id: player1.Id), galaxy);
-        Api.FindGame(new FindGameRequest(name: player2.Name, id: player2.Id), galaxy);
+        var player1 = new InGamePlayer("Alice", IdGen.NewPlayerId());
+        var player2 = new InGamePlayer("Bob", IdGen.NewPlayerId());
+        var player3 = new InGamePlayer("Charlie", IdGen.NewPlayerId());
+        Api.FindGame(player1.Name, player1.Id, galaxy);
+        Api.FindGame(player2.Name, player2.Id, galaxy);
 
         Assert.AreEqual(3, galaxy.Outbox.Count);
         galaxy.Outbox.Clear();
 
-        Api.FindGame(new FindGameRequest(name: player3.Name, id: player3.Id), galaxy);
+        Api.FindGame(player3.Name, player3.Id, galaxy);
         Assert.AreEqual(3, galaxy.Outbox.Count);
         var messages = galaxy.Outbox.ToArray();
 
-        Assert.AreEqual(player1.Id, ((PlayerJoinedGame)messages[0]).Recipient);
-        Assert.AreEqual(player2.Id, ((PlayerJoinedGame)messages[1]).Recipient);
-        Assert.AreEqual(player3.Id, ((PlayerJoinedGame)messages[2]).Recipient);
+        Assert.AreEqual(player1.Id, ((PlayerJoinedGame)messages[0]).SenderOrRecipientId);
+        Assert.AreEqual(player2.Id, ((PlayerJoinedGame)messages[1]).SenderOrRecipientId);
+        Assert.AreEqual(player3.Id, ((PlayerJoinedGame)messages[2]).SenderOrRecipientId);
 
         Assert.AreEqual(player3.Id, ((PlayerJoinedGame)messages[0]).PlayerId);
         Assert.AreEqual(player3.Id, ((PlayerJoinedGame)messages[1]).PlayerId);
@@ -62,5 +62,34 @@ public class FindGame
         Assert.AreEqual(player3.Name, ((PlayerJoinedGame)messages[0]).PlayerName);
         Assert.AreEqual(player3.Name, ((PlayerJoinedGame)messages[1]).PlayerName);
         Assert.AreEqual(player3.Name, ((PlayerJoinedGame)messages[2]).PlayerName);
+    }
+
+    [TestMethod]
+    public void FindGame_UpdatesPlayerGameMap()
+    {
+        var galaxy = new Galaxy();
+
+        var player1 = new InGamePlayer("Alice", IdGen.NewPlayerId());
+        Assert.AreEqual(0, galaxy.PlayerGameMap.Count);
+        Api.FindGame(player1.Name, player1.Id, galaxy);
+        Assert.AreEqual(1, galaxy.PlayerGameMap.Count);
+        Assert.AreEqual(galaxy.OpenGames[0].Id, galaxy.PlayerGameMap[player1.Id]);
+
+        var player2 = new InGamePlayer("Bob", IdGen.NewPlayerId());
+        Api.FindGame(player2.Name, player2.Id, galaxy);
+        Assert.AreEqual(2, galaxy.PlayerGameMap.Count);
+        Assert.AreEqual(galaxy.OpenGames[0].Id, galaxy.PlayerGameMap[player1.Id]);
+        Assert.AreEqual(galaxy.OpenGames[0].Id, galaxy.PlayerGameMap[player2.Id]);
+
+        for (int i = 0; i < 2; i++)
+        {
+            var player = new InGamePlayer($"Player {i}", IdGen.NewPlayerId());
+            Api.FindGame(player.Name, player.Id, galaxy);
+        }
+
+        var player3 = new InGamePlayer("Charlie", IdGen.NewPlayerId());
+        Api.FindGame(player3.Name, player3.Id, galaxy);
+        Assert.AreEqual(5, galaxy.PlayerGameMap.Count);
+        Assert.AreEqual(galaxy.OpenGames[0].Id, galaxy.PlayerGameMap[player3.Id]);
     }
 }

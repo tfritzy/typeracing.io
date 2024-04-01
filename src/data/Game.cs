@@ -2,28 +2,42 @@ namespace LightspeedTyping;
 
 public class Game
 {
-    public List<Player> Players { get; set; }
-    public Guid Id { get; set; }
+    public List<InGamePlayer> Players { get; set; }
+    public string Id { get; set; }
     public int MaxPlayers { get; set; }
+    public GameState State { get; set; }
+    public string Phrase { get; private set; }
+    public string[] Words { get; private set; }
     private Galaxy Galaxy { get; set; }
-    private float StartTime;
+    private readonly float StartTime;
 
     public const float CountdownDuration = 3;
 
+    public enum GameState
+    {
+        Lobby,
+        Countdown,
+        Running,
+        Complete
+    }
+
     public Game(Galaxy galaxy, int maxPlayers = 4)
     {
-        Players = new List<Player>();
-        Id = Guid.NewGuid();
+        Players = new List<InGamePlayer>();
+        Id = IdGen.NewGameId();
         MaxPlayers = maxPlayers;
         Galaxy = galaxy;
         StartTime = Time.Now;
+        Phrase = Phrases.GetRandomPhrase();
+        Words = Phrases.GetWords(Phrase);
     }
 
     public void Update()
     {
-        if (Time.Now - StartTime > 3)
+        if (Time.Now - StartTime > CountdownDuration)
         {
-            foreach (Player player in Players)
+            State = GameState.Running;
+            foreach (InGamePlayer player in Players)
             {
                 Galaxy.Outbox.Enqueue(new GameStarted(player.Id));
             }

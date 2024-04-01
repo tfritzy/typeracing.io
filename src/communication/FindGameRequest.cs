@@ -4,10 +4,10 @@ namespace LightspeedTyping
     {
         public string PlayerName { get; set; }
 
-        public FindGameRequest(string name, Guid id) : base(id)
+        public FindGameRequest(string name, string id) : base(id)
         {
             PlayerName = name;
-            Recipient = id;
+            SenderOrRecipientId = id;
         }
     }
 }

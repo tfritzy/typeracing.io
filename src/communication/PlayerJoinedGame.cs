@@ -2,11 +2,11 @@ namespace LightspeedTyping;
 
 public class PlayerJoinedGame : Message
 {
-    public Guid GameId { get; set; }
-    public Guid PlayerId { get; set; }
+    public string GameId { get; set; }
+    public string PlayerId { get; set; }
     public string PlayerName { get; set; }
 
-    public PlayerJoinedGame(Guid recipient, Guid gameId, Guid playerId, string playerName) : base(recipient)
+    public PlayerJoinedGame(string recipient, string gameId, string playerId, string playerName) : base(recipient)
     {
         PlayerId = playerId;
         GameId = gameId;
