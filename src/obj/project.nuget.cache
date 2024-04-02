@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "UckYpsfQN2W4TPHlJGtOB8zGdCdjiKD4S9VuOnGcAqtYZB/gH7DUG1zz53Ki+NWtdw5uaySblqlTo9B+2Dyxgw==",
+  "dgSpecHash": "PaohSi0j8i99DzYN7r+NeiRYtUFCluYpl+ldpYDg5D9vIbVpa6QUsylpEQH2xIU9VpOjXj2Ok22pHBp3E5dXoQ==",
   "success": true,
   "projectFilePath": "E:\\dev\\LightspeedTyperacing\\src\\lightspeedtyping.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\tfrit\\.nuget\\packages\\google.protobuf\\3.25.1\\google.protobuf.3.25.1.nupkg.sha512",
+    "C:\\Users\\tfrit\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

@@ -1,5 +1,3 @@
-using LightspeedTyping;
-
 namespace Tests;
 
 [TestClass]

@@ -1,6 +1,6 @@
 using System.Net.WebSockets;
 
-namespace LightspeedTyping;
+namespace LightspeedTyperacing;
 
 public class ConnectionManager
 {

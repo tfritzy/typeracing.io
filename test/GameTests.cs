@@ -1,4 +1,4 @@
-namespace LightspeedTyping;
+namespace Tests;
 
 [TestClass]
 public class GameTests
@@ -86,15 +86,15 @@ public class GameTests
         test.Galaxy.Outbox.Clear();
         Api.CompleteWord(game.Words[^1], test.Players[0].Id, test.Galaxy);
         Assert.AreEqual(7, test.Galaxy.Outbox.Count);
-        Assert.AreEqual(4, test.Galaxy.Outbox.Where((Message m) => m is PlayerCompleted).Count());
-        var playerCompletedMessages =
-            test.Galaxy.Outbox.Where((Message m) => m is PlayerCompleted).Cast<PlayerCompleted>();
-        Assert.IsTrue(playerCompletedMessages.All((Message m) => ((PlayerCompleted)m).PlayerId == test.Players[0].Id));
-        Assert.IsTrue(playerCompletedMessages.All((Message m) => ((PlayerCompleted)m).Place == 1));
-        Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.SenderOrRecipientId == test.Players[0].Id).Count());
-        Assert.AreEqual(2, test.Galaxy.Outbox.Where((m) => m.SenderOrRecipientId == test.Players[1].Id).Count());
-        Assert.AreEqual(2, test.Galaxy.Outbox.Where((m) => m.SenderOrRecipientId == test.Players[2].Id).Count());
-        Assert.AreEqual(2, test.Galaxy.Outbox.Where((m) => m.SenderOrRecipientId == test.Players[3].Id).Count());
+        Assert.AreEqual(4, test.Galaxy.Outbox.Where((m) => m.PlayerCompleted != null).Count());
+        PlayerCompleted[] playerCompletedMessages =
+            test.Galaxy.Outbox.Where((m) => m.PlayerCompleted != null).Select((m) => m.PlayerCompleted).ToArray();
+        Assert.IsTrue(playerCompletedMessages.All((m) => m.PlayerId == test.Players[0].Id));
+        Assert.IsTrue(playerCompletedMessages.All((m) => m.Place == 1));
+        Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[0].Id).Count());
+        Assert.AreEqual(2, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[1].Id).Count());
+        Assert.AreEqual(2, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[2].Id).Count());
+        Assert.AreEqual(2, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[3].Id).Count());
         Assert.AreEqual(Game.GameState.Running, game.State);
     }
 
@@ -121,13 +121,13 @@ public class GameTests
         test.Galaxy.Outbox.Clear();
 
         Api.CompleteWord(game.Words[^1], test.Players[3].Id, test.Galaxy);
-        Assert.AreEqual(4, test.Galaxy.Outbox.Where((Message m) => m is PlayerCompleted).Count());
-        Assert.AreEqual(4, test.Galaxy.Outbox.Where((Message m) => m is GameOver).Count());
-        Assert.AreEqual(3, test.Galaxy.Outbox.Where((Message m) => m is WordFinished).Count());
-        Assert.AreEqual(3, test.Galaxy.Outbox.Where((m) => m.SenderOrRecipientId == test.Players[0].Id).Count());
-        Assert.AreEqual(3, test.Galaxy.Outbox.Where((m) => m.SenderOrRecipientId == test.Players[1].Id).Count());
-        Assert.AreEqual(3, test.Galaxy.Outbox.Where((m) => m.SenderOrRecipientId == test.Players[2].Id).Count());
-        Assert.AreEqual(2, test.Galaxy.Outbox.Where((m) => m.SenderOrRecipientId == test.Players[3].Id).Count());
+        Assert.AreEqual(4, test.Galaxy.Outbox.Where((m) => m.PlayerCompleted != null).Count());
+        Assert.AreEqual(4, test.Galaxy.Outbox.Where((m) => m.GameOver != null).Count());
+        Assert.AreEqual(3, test.Galaxy.Outbox.Where((m) => m.WordFinished != null).Count());
+        Assert.AreEqual(3, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[0].Id).Count());
+        Assert.AreEqual(3, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[1].Id).Count());
+        Assert.AreEqual(3, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[2].Id).Count());
+        Assert.AreEqual(2, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[3].Id).Count());
         Assert.AreEqual(Game.GameState.Complete, game.State);
     }
 
@@ -142,13 +142,13 @@ public class GameTests
         test.Galaxy.Outbox.Clear();
         Api.CompleteWord(game.Words[0], test.Players[0].Id, test.Galaxy);
         Assert.AreEqual(3, test.Galaxy.Outbox.Count);
-        Assert.IsTrue(test.Galaxy.Outbox.All((Message m) => m is WordFinished));
-        Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.SenderOrRecipientId == test.Players[1].Id).Count());
-        Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.SenderOrRecipientId == test.Players[2].Id).Count());
-        Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.SenderOrRecipientId == test.Players[3].Id).Count());
-        Assert.IsTrue(test.Galaxy.Outbox.All((Message m) => ((WordFinished)m).PlayerId == test.Players[0].Id));
+        Assert.IsTrue(test.Galaxy.Outbox.All((m) => m.WordFinished != null));
+        Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[1].Id).Count());
+        Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[2].Id).Count());
+        Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[3].Id).Count());
+        Assert.IsTrue(test.Galaxy.Outbox.All((m) => m.WordFinished.PlayerId == test.Players[0].Id));
         Assert.IsTrue(
-            test.Galaxy.Outbox.All((Message m) => ((WordFinished)m).PercentComplete == 1f / (float)game.Words.Length));
+            test.Galaxy.Outbox.All(m => m.WordFinished.PercentComplete == 1f / (float)game.Words.Length));
     }
 
     [TestMethod]

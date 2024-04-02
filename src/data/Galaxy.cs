@@ -1,19 +1,21 @@
-namespace LightspeedTyping;
+using Google.Protobuf;
+
+namespace LightspeedTyperacing;
 
 public class Galaxy
 {
     public List<Game> OpenGames { get; set; }
     public Dictionary<string, Game> ActiveGames { get; set; }
-    public Queue<Message> Outbox { get; set; }
-    public Queue<Message> Inbox { get; set; }
+    public Queue<OneofUpdate> Outbox { get; set; }
+    public Queue<OneofRequest> Inbox { get; set; }
     public Dictionary<string, string> PlayerGameMap { get; set; }
 
     public Galaxy()
     {
         OpenGames = new List<Game>();
         ActiveGames = new Dictionary<string, Game>();
-        Outbox = new Queue<Message>();
-        Inbox = new Queue<Message>();
+        Outbox = new Queue<OneofUpdate>();
+        Inbox = new Queue<OneofRequest>();
         PlayerGameMap = new Dictionary<string, string>();
     }
 

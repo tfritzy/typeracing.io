@@ -1,0 +1,9 @@
+{
+    "protoc": {
+        "compile_on_save": true,
+        "options": [
+            "--csharp_out=${workspaceRoot}\\src\\communication\\compiled",
+            "--proto_path=${workspaceRoot}\\src\\communication\\protos"
+        ]
+    }
+}

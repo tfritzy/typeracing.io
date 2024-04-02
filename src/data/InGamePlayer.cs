@@ -1,4 +1,4 @@
-namespace LightspeedTyping;
+namespace LightspeedTyperacing;
 
 public class InGamePlayer
 {

@@ -1,5 +1,4 @@
-namespace test;
-using LightspeedTyping;
+namespace Tests;
 
 [TestClass]
 public class FindGame
@@ -29,7 +28,7 @@ public class FindGame
 
         Assert.AreEqual(1, galaxy.Outbox.Count);
         var message = galaxy.Outbox.Dequeue();
-        PlayerJoinedGame jg = (PlayerJoinedGame)message;
+        PlayerJoinedGame jg = message.PlayerJoinedGame;
         Assert.AreEqual(player.Id, jg.PlayerId);
         Assert.AreEqual(game.Id, jg.GameId);
     }
@@ -51,17 +50,15 @@ public class FindGame
         Assert.AreEqual(3, galaxy.Outbox.Count);
         var messages = galaxy.Outbox.ToArray();
 
-        Assert.AreEqual(player1.Id, ((PlayerJoinedGame)messages[0]).SenderOrRecipientId);
-        Assert.AreEqual(player2.Id, ((PlayerJoinedGame)messages[1]).SenderOrRecipientId);
-        Assert.AreEqual(player3.Id, ((PlayerJoinedGame)messages[2]).SenderOrRecipientId);
-
-        Assert.AreEqual(player3.Id, ((PlayerJoinedGame)messages[0]).PlayerId);
-        Assert.AreEqual(player3.Id, ((PlayerJoinedGame)messages[1]).PlayerId);
-        Assert.AreEqual(player3.Id, ((PlayerJoinedGame)messages[2]).PlayerId);
-
-        Assert.AreEqual(player3.Name, ((PlayerJoinedGame)messages[0]).PlayerName);
-        Assert.AreEqual(player3.Name, ((PlayerJoinedGame)messages[1]).PlayerName);
-        Assert.AreEqual(player3.Name, ((PlayerJoinedGame)messages[2]).PlayerName);
+        Assert.AreEqual(player1.Id, messages[0].RecipientId);
+        Assert.AreEqual(player2.Id, messages[1].RecipientId);
+        Assert.AreEqual(player3.Id, messages[2].RecipientId);
+        Assert.AreEqual(player3.Id, messages[0].PlayerJoinedGame.PlayerId);
+        Assert.AreEqual(player3.Id, messages[1].PlayerJoinedGame.PlayerId);
+        Assert.AreEqual(player3.Id, messages[2].PlayerJoinedGame.PlayerId);
+        Assert.AreEqual(player3.Name, messages[0].PlayerJoinedGame.PlayerName);
+        Assert.AreEqual(player3.Name, messages[1].PlayerJoinedGame.PlayerName);
+        Assert.AreEqual(player3.Name, messages[2].PlayerJoinedGame.PlayerName);
     }
 
     [TestMethod]

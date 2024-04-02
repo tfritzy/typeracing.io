@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Text.Json;
 
-namespace LightspeedTyping;
+namespace LightspeedTyperacing;
 
 public static class Phrases
 {

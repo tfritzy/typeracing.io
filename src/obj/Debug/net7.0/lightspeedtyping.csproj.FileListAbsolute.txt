@@ -30,3 +30,6 @@ E:\dev\LightspeedTyperacing\src\obj\Debug\net7.0\refint\lightspeedtyping.dll
 E:\dev\LightspeedTyperacing\src\obj\Debug\net7.0\lightspeedtyping.pdb
 E:\dev\LightspeedTyperacing\src\obj\Debug\net7.0\lightspeedtyping.genruntimeconfig.cache
 E:\dev\LightspeedTyperacing\src\obj\Debug\net7.0\ref\lightspeedtyping.dll
+E:\dev\LightspeedTyperacing\src\bin\Debug\net7.0\Google.Protobuf.dll
+E:\dev\LightspeedTyperacing\src\bin\Debug\net7.0\Newtonsoft.Json.dll
+E:\dev\LightspeedTyperacing\src\obj\Debug\net7.0\lightspeedtyping.csproj.CopyComplete

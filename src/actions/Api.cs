@@ -1,4 +1,4 @@
-namespace LightspeedTyping;
+namespace LightspeedTyperacing;
 
 public static class Api
 {
@@ -17,11 +17,16 @@ public static class Api
         foreach (InGamePlayer player in openGame.Players)
         {
             galaxy.Outbox.Enqueue(
-                new PlayerJoinedGame(
-                    recipient: player.Id,
-                    gameId: openGame.Id,
-                    playerId: playerId,
-                    playerName: playerName));
+                new OneofUpdate
+                {
+                    RecipientId = player.Id,
+                    PlayerJoinedGame = new PlayerJoinedGame()
+                    {
+                        GameId = openGame.Id,
+                        PlayerId = playerId,
+                        PlayerName = playerName
+                    }
+                });
         }
 
         if (openGame.Players.Count == openGame.MaxPlayers)
@@ -32,7 +37,15 @@ public static class Api
 
             foreach (InGamePlayer player in openGame.Players)
             {
-                galaxy.Outbox.Enqueue(new GameStarting(player.Id, seconds: Game.CountdownDuration));
+                galaxy.Outbox.Enqueue(new OneofUpdate
+                {
+                    RecipientId = player.Id,
+                    GameStarting = new GameStarting
+                    {
+                        Countdown = Game.CountdownDuration,
+                        Phrase = openGame.Phrase
+                    }
+                });
             }
         }
     }
@@ -80,11 +93,15 @@ public static class Api
                 }
 
                 galaxy.Outbox.Enqueue(
-                    new WordFinished(
-                        recipientId: p.Id,
-                        playerId: playerId,
-                        percentComplete: (float)player.WordIndex / game.Words.Length
-                    )
+                    new OneofUpdate
+                    {
+                        RecipientId = p.Id,
+                        WordFinished = new WordFinished
+                        {
+                            PlayerId = playerId,
+                            PercentComplete = (float)player.WordIndex / game.Words.Length
+                        }
+                    }
                 );
             }
         }
@@ -95,13 +112,15 @@ public static class Api
             int place = game.Placements.Count;
             foreach (InGamePlayer p in game.Players)
             {
-                galaxy.Outbox.Enqueue(
-                    new PlayerCompleted(
-                        recipientId: p.Id,
-                        playerId: player.Id,
-                        place: place
-                    )
-                );
+                galaxy.Outbox.Enqueue(new OneofUpdate
+                {
+                    RecipientId = p.Id,
+                    PlayerCompleted = new PlayerCompleted
+                    {
+                        PlayerId = playerId,
+                        Place = place
+                    }
+                });
             }
         }
 
@@ -111,7 +130,11 @@ public static class Api
 
             foreach (InGamePlayer p in game.Players)
             {
-                galaxy.Outbox.Enqueue(new GameOver(p.Id));
+                galaxy.Outbox.Enqueue(new OneofUpdate
+                {
+                    RecipientId = p.Id,
+                    GameOver = new GameOver()
+                });
             }
         }
     }

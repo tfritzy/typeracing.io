@@ -1,4 +1,4 @@
-namespace LightspeedTyping;
+namespace LightspeedTyperacing;
 
 public class Game
 {
@@ -41,7 +41,11 @@ public class Game
             State = GameState.Running;
             foreach (InGamePlayer player in Players)
             {
-                Galaxy.Outbox.Enqueue(new GameStarted(player.Id));
+                Galaxy.Outbox.Enqueue(new OneofUpdate
+                {
+                    RecipientId = player.Id,
+                    GameStarted = new GameStarted { },
+                });
             }
         }
     }

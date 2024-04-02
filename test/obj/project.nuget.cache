@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "WeT5Wtl2uWlLsEAcZ3vyseEfN0sH4Z9DWFJjrM/MU6NNJay9cWnAdC8d813Ndj4gOgVKXknAOuc3xY0Hi2KaNQ==",
+  "dgSpecHash": "JbiTBmQhTCdXRA6qMauuFJ1BUOwztqWAyemjuQgXMUWovVkRLowIiesvIKTl4VtqMvRuxgk6Ib23jcEtViZ7bA==",
   "success": true,
   "projectFilePath": "E:\\dev\\LightspeedTyperacing\\test\\test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tfrit\\.nuget\\packages\\coverlet.collector\\3.2.0\\coverlet.collector.3.2.0.nupkg.sha512",
+    "C:\\Users\\tfrit\\.nuget\\packages\\google.protobuf\\3.25.1\\google.protobuf.3.25.1.nupkg.sha512",
     "C:\\Users\\tfrit\\.nuget\\packages\\microsoft.codecoverage\\17.5.0\\microsoft.codecoverage.17.5.0.nupkg.sha512",
     "C:\\Users\\tfrit\\.nuget\\packages\\microsoft.net.test.sdk\\17.5.0\\microsoft.net.test.sdk.17.5.0.nupkg.sha512",
     "C:\\Users\\tfrit\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
@@ -13,7 +14,7 @@
     "C:\\Users\\tfrit\\.nuget\\packages\\microsoft.testplatform.testhost\\17.5.0\\microsoft.testplatform.testhost.17.5.0.nupkg.sha512",
     "C:\\Users\\tfrit\\.nuget\\packages\\mstest.testadapter\\2.2.10\\mstest.testadapter.2.2.10.nupkg.sha512",
     "C:\\Users\\tfrit\\.nuget\\packages\\mstest.testframework\\2.2.10\\mstest.testframework.2.2.10.nupkg.sha512",
-    "C:\\Users\\tfrit\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\tfrit\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\tfrit\\.nuget\\packages\\nuget.frameworks\\5.11.0\\nuget.frameworks.5.11.0.nupkg.sha512",
     "C:\\Users\\tfrit\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
     "C:\\Users\\tfrit\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",

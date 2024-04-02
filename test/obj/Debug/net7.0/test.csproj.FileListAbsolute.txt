@@ -210,3 +210,4 @@ E:\dev\LightspeedTyperacing\test\obj\Debug\net7.0\refint\test.dll
 E:\dev\LightspeedTyperacing\test\obj\Debug\net7.0\test.pdb
 E:\dev\LightspeedTyperacing\test\obj\Debug\net7.0\test.genruntimeconfig.cache
 E:\dev\LightspeedTyperacing\test\obj\Debug\net7.0\ref\test.dll
+E:\dev\LightspeedTyperacing\test\bin\Debug\net7.0\Google.Protobuf.dll
