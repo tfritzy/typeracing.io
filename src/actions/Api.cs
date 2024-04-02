@@ -71,6 +71,22 @@ public static class Api
         if (game.Words[player.WordIndex] == word)
         {
             player.WordIndex++;
+
+            foreach (InGamePlayer p in game.Players)
+            {
+                if (p.Id == playerId)
+                {
+                    continue;
+                }
+
+                galaxy.Outbox.Enqueue(
+                    new WordFinished(
+                        recipientId: p.Id,
+                        playerId: playerId,
+                        percentComplete: (float)player.WordIndex / game.Words.Length
+                    )
+                );
+            }
         }
 
         if (player.WordIndex >= game.Words.Length)
@@ -92,6 +108,11 @@ public static class Api
         if (game.Players.All((p) => p.WordIndex >= game.Words.Length))
         {
             game.State = Game.GameState.Complete;
+
+            foreach (InGamePlayer p in game.Players)
+            {
+                galaxy.Outbox.Enqueue(new GameOver(p.Id));
+            }
         }
     }
 }

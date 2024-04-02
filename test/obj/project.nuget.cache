@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8xvY+9S32PwuvwR4jBQjaaaB+b2jf7ARmngk3T7cN5xw66IGhSSix58R51xKYsCyoEtMHSS+eIco/aqDDxnc8Q==",
+  "dgSpecHash": "WeT5Wtl2uWlLsEAcZ3vyseEfN0sH4Z9DWFJjrM/MU6NNJay9cWnAdC8d813Ndj4gOgVKXknAOuc3xY0Hi2KaNQ==",
   "success": true,
-  "projectFilePath": "C:\\development\\lightspeedtyping\\test\\test.csproj",
+  "projectFilePath": "E:\\dev\\LightspeedTyperacing\\test\\test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tfrit\\.nuget\\packages\\coverlet.collector\\3.2.0\\coverlet.collector.3.2.0.nupkg.sha512",
     "C:\\Users\\tfrit\\.nuget\\packages\\microsoft.codecoverage\\17.5.0\\microsoft.codecoverage.17.5.0.nupkg.sha512",

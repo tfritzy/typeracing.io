@@ -2324,27 +2324,29 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\development\\lightspeedtyping\\test\\test.csproj",
+      "projectUniqueName": "E:\\dev\\LightspeedTyperacing\\test\\test.csproj",
       "projectName": "test",
-      "projectPath": "C:\\development\\lightspeedtyping\\test\\test.csproj",
+      "projectPath": "E:\\dev\\LightspeedTyperacing\\test\\test.csproj",
       "packagesPath": "C:\\Users\\tfrit\\.nuget\\packages\\",
-      "outputPath": "C:\\development\\lightspeedtyping\\test\\obj\\",
+      "outputPath": "E:\\dev\\LightspeedTyperacing\\test\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\tfrit\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\tfrit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\development\\lightspeedtyping\\src\\lightspeedtyping.csproj": {
-              "projectPath": "C:\\development\\lightspeedtyping\\src\\lightspeedtyping.csproj"
+            "E:\\dev\\LightspeedTyperacing\\src\\lightspeedtyping.csproj": {
+              "projectPath": "E:\\dev\\LightspeedTyperacing\\src\\lightspeedtyping.csproj"
             }
           }
         }
@@ -2392,7 +2394,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.305\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }
