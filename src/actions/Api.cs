@@ -63,9 +63,35 @@ public static class Api
             return;
         }
 
+        if (player.WordIndex >= game.Words.Length)
+        {
+            return;
+        }
+
         if (game.Words[player.WordIndex] == word)
         {
             player.WordIndex++;
+        }
+
+        if (player.WordIndex >= game.Words.Length)
+        {
+            game.Placements.Add(playerId);
+            int place = game.Placements.Count;
+            foreach (InGamePlayer p in game.Players)
+            {
+                galaxy.Outbox.Enqueue(
+                    new PlayerCompleted(
+                        recipientId: p.Id,
+                        playerId: player.Id,
+                        place: place
+                    )
+                );
+            }
+        }
+
+        if (game.Players.All((p) => p.WordIndex >= game.Words.Length))
+        {
+            game.State = Game.GameState.Complete;
         }
     }
 }

@@ -3,6 +3,7 @@ namespace LightspeedTyping;
 public class Game
 {
     public List<InGamePlayer> Players { get; set; }
+    public List<string> Placements { get; set; }
     public string Id { get; set; }
     public int MaxPlayers { get; set; }
     public GameState State { get; set; }
@@ -24,6 +25,7 @@ public class Game
     public Game(Galaxy galaxy, int maxPlayers = 4)
     {
         Players = new List<InGamePlayer>();
+        Placements = new List<string>();
         Id = IdGen.NewGameId();
         MaxPlayers = maxPlayers;
         Galaxy = galaxy;
