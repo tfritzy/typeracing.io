@@ -1,23 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
 
 function App() {
+  const [ws, setWs] = React.useState<WebSocket | null>(null);
+
+  React.useEffect(() => {
+    var ws = new WebSocket("ws://localhost:5000/");
+    ws.onopen = () => {
+      console.log("Connected");
+    };
+    ws.onmessage = (event) => {
+      console.log(event.data);
+    };
+    ws.onclose = () => {
+      console.log("Disconnected");
+    };
+    setWs(ws);
+    return () => {
+      ws.close();
+    };
+  }, []);
+
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (ws) {
+      ws.send(event.target.value);
+    }
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <input type="text" onChange={handleInput} />
       </header>
     </div>
   );

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JbiTBmQhTCdXRA6qMauuFJ1BUOwztqWAyemjuQgXMUWovVkRLowIiesvIKTl4VtqMvRuxgk6Ib23jcEtViZ7bA==",
+  "dgSpecHash": "wSKptRV6pz8vmtJ+ZzFq3zib4gJ72CEOYuY62I9dS0bz/57l6u2KClVW+tWBIHBDvFeAc1etqpggZoYx+RErBg==",
   "success": true,
-  "projectFilePath": "E:\\dev\\LightspeedTyperacing\\test\\test.csproj",
+  "projectFilePath": "\\\\wsl.localhost\\Ubuntu\\home\\tfritzy\\dev\\LightspeedTyperacing\\test\\test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tfrit\\.nuget\\packages\\coverlet.collector\\3.2.0\\coverlet.collector.3.2.0.nupkg.sha512",
     "C:\\Users\\tfrit\\.nuget\\packages\\google.protobuf\\3.25.1\\google.protobuf.3.25.1.nupkg.sha512",

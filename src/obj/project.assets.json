@@ -97,11 +97,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\dev\\LightspeedTyperacing\\src\\lightspeedtyping.csproj",
+      "projectUniqueName": "\\\\wsl.localhost\\Ubuntu\\home\\tfritzy\\dev\\LightspeedTyperacing\\src\\lightspeedtyping.csproj",
       "projectName": "lightspeedtyping",
-      "projectPath": "E:\\dev\\LightspeedTyperacing\\src\\lightspeedtyping.csproj",
+      "projectPath": "\\\\wsl.localhost\\Ubuntu\\home\\tfritzy\\dev\\LightspeedTyperacing\\src\\lightspeedtyping.csproj",
       "packagesPath": "C:\\Users\\tfrit\\.nuget\\packages\\",
-      "outputPath": "E:\\dev\\LightspeedTyperacing\\src\\obj\\",
+      "outputPath": "\\\\wsl.localhost\\Ubuntu\\home\\tfritzy\\dev\\LightspeedTyperacing\\src\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tfrit\\AppData\\Roaming\\NuGet\\NuGet.Config",

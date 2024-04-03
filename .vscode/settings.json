@@ -3,6 +3,7 @@
         "compile_on_save": true,
         "options": [
             "--csharp_out=${workspaceRoot}\\src\\communication\\compiled",
+            "--js_out=import_style=commonjs,binary:${workspaceRoot}\\src\\communication\\compiled",
             "--proto_path=${workspaceRoot}\\src\\communication\\protos"
         ]
     }
