@@ -1,7 +1,7 @@
 namespace Tests;
 
 [TestClass]
-public class FindGame
+public class FindGameTests
 {
     [TestMethod]
     public void FindGame_GameAddedToGalaxyIfNoneOpen()

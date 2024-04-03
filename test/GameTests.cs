@@ -31,14 +31,14 @@ public class GameTests
         var game = test.Galaxy.ActiveGames[test.Galaxy.PlayerGameMap[test.Players[0].Id]];
 
         // Ignored before game starts
-        Api.CompleteWord(game.Words[0], test.Players[0].Id, test.Galaxy);
+        Api.TypeWord(game.Words[0], test.Players[0].Id, test.Galaxy);
         Assert.AreEqual(0, game.Players[0].WordIndex);
 
         Time.Update(Game.CountdownDuration + .1f);
         test.Galaxy.Update();
 
         // Works now
-        Api.CompleteWord(game.Words[0], test.Players[0].Id, test.Galaxy);
+        Api.TypeWord(game.Words[0], test.Players[0].Id, test.Galaxy);
         Assert.AreEqual(1, game.Players[0].WordIndex);
     }
 
@@ -52,19 +52,19 @@ public class GameTests
 
         foreach (string word in game.Words)
         {
-            Api.CompleteWord(word, test.Players[0].Id, test.Galaxy);
-            Api.CompleteWord(word, test.Players[1].Id, test.Galaxy);
-            Api.CompleteWord(word, test.Players[2].Id, test.Galaxy);
+            Api.TypeWord(word, test.Players[0].Id, test.Galaxy);
+            Api.TypeWord(word, test.Players[1].Id, test.Galaxy);
+            Api.TypeWord(word, test.Players[2].Id, test.Galaxy);
         }
 
         Assert.AreEqual(Game.GameState.Running, game.State);
 
         for (int i = 0; i < game.Words.Length - 1; i++)
         {
-            Api.CompleteWord(game.Words[i], test.Players[3].Id, test.Galaxy);
+            Api.TypeWord(game.Words[i], test.Players[3].Id, test.Galaxy);
         }
         Assert.AreEqual(Game.GameState.Running, game.State);
-        Api.CompleteWord(game.Words[^1], test.Players[3].Id, test.Galaxy);
+        Api.TypeWord(game.Words[^1], test.Players[3].Id, test.Galaxy);
         Assert.AreEqual(Game.GameState.Complete, game.State);
     }
 
@@ -80,11 +80,11 @@ public class GameTests
         for (int i = 0; i < game.Words.Length - 1; i++)
         {
             string word = game.Words[i];
-            Api.CompleteWord(word, test.Players[0].Id, test.Galaxy);
+            Api.TypeWord(word, test.Players[0].Id, test.Galaxy);
         }
 
         test.Galaxy.Outbox.Clear();
-        Api.CompleteWord(game.Words[^1], test.Players[0].Id, test.Galaxy);
+        Api.TypeWord(game.Words[^1], test.Players[0].Id, test.Galaxy);
         Assert.AreEqual(7, test.Galaxy.Outbox.Count);
         Assert.AreEqual(4, test.Galaxy.Outbox.Where((m) => m.PlayerCompleted != null).Count());
         PlayerCompleted[] playerCompletedMessages =
@@ -109,18 +109,18 @@ public class GameTests
         for (int i = 0; i < game.Words.Length - 1; i++)
         {
             string word = game.Words[i];
-            Api.CompleteWord(word, test.Players[0].Id, test.Galaxy);
-            Api.CompleteWord(word, test.Players[1].Id, test.Galaxy);
-            Api.CompleteWord(word, test.Players[2].Id, test.Galaxy);
-            Api.CompleteWord(word, test.Players[3].Id, test.Galaxy);
+            Api.TypeWord(word, test.Players[0].Id, test.Galaxy);
+            Api.TypeWord(word, test.Players[1].Id, test.Galaxy);
+            Api.TypeWord(word, test.Players[2].Id, test.Galaxy);
+            Api.TypeWord(word, test.Players[3].Id, test.Galaxy);
         }
 
-        Api.CompleteWord(game.Words[^1], test.Players[0].Id, test.Galaxy);
-        Api.CompleteWord(game.Words[^1], test.Players[1].Id, test.Galaxy);
-        Api.CompleteWord(game.Words[^1], test.Players[2].Id, test.Galaxy);
+        Api.TypeWord(game.Words[^1], test.Players[0].Id, test.Galaxy);
+        Api.TypeWord(game.Words[^1], test.Players[1].Id, test.Galaxy);
+        Api.TypeWord(game.Words[^1], test.Players[2].Id, test.Galaxy);
         test.Galaxy.Outbox.Clear();
 
-        Api.CompleteWord(game.Words[^1], test.Players[3].Id, test.Galaxy);
+        Api.TypeWord(game.Words[^1], test.Players[3].Id, test.Galaxy);
         Assert.AreEqual(4, test.Galaxy.Outbox.Where((m) => m.PlayerCompleted != null).Count());
         Assert.AreEqual(4, test.Galaxy.Outbox.Where((m) => m.GameOver != null).Count());
         Assert.AreEqual(3, test.Galaxy.Outbox.Where((m) => m.WordFinished != null).Count());
@@ -140,7 +140,7 @@ public class GameTests
         test.Galaxy.Update();
 
         test.Galaxy.Outbox.Clear();
-        Api.CompleteWord(game.Words[0], test.Players[0].Id, test.Galaxy);
+        Api.TypeWord(game.Words[0], test.Players[0].Id, test.Galaxy);
         Assert.AreEqual(3, test.Galaxy.Outbox.Count);
         Assert.IsTrue(test.Galaxy.Outbox.All((m) => m.WordFinished != null));
         Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[1].Id).Count());

@@ -45,6 +45,8 @@
         Coming eventually <sup class="subsubtitle">maybe</sup>
       </div>
     </div>
+    <input type="text" id="input" />
+    <button id="start">Send</button>
 
     <script>
       let creatingStars = true;
@@ -118,6 +120,26 @@
       });
 
       document.addEventListener("DOMContentLoaded", startCreatingStars);
+
+      var ws = new WebSocket("ws://localhost:5000/");
+      ws.onopen = function (event) {
+        console.log("Connection open...");
+        ws.send("Hello Server!");
+      };
+      ws.onmessage = function (event) {
+        console.log("Received: " + event.data);
+      };
+      ws.onclose = function (event) {
+        console.log("Connection closed.");
+      };
+
+      function sendMessage(message) {
+        ws.send(message);
+      }
+
+      document.getElementById("start").addEventListener("click", function () {
+        sendMessage(document.getElementById("input").value);
+      });
     </script>
   </body>
 </html>
