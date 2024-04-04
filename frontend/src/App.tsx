@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import { FindGameRequest, encodeFindGameRequest } from "./compiled";
 
 function App() {
   const [ws, setWs] = React.useState<WebSocket | null>(null);
@@ -27,10 +28,17 @@ function App() {
     }
   };
 
+  const findGame: FindGameRequest = {
+    player_name: "Jeff",
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <input type="text" onChange={handleInput} />
+        <button onClick={() => ws?.send(encodeFindGameRequest(findGame))}>
+          Find Game
+        </button>
       </header>
     </div>
   );

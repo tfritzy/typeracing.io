@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "\\\\wsl.localhost\\Ubuntu\\home\\tfritzy\\dev\\LightspeedTyperacing\\src\\lightspeedtyping.csproj": {}
+    "E:\\dev\\LightspeedTyperacing\\src\\lightspeedtyping.csproj": {}
   },
   "projects": {
-    "\\\\wsl.localhost\\Ubuntu\\home\\tfritzy\\dev\\LightspeedTyperacing\\src\\lightspeedtyping.csproj": {
+    "E:\\dev\\LightspeedTyperacing\\src\\lightspeedtyping.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "\\\\wsl.localhost\\Ubuntu\\home\\tfritzy\\dev\\LightspeedTyperacing\\src\\lightspeedtyping.csproj",
+        "projectUniqueName": "E:\\dev\\LightspeedTyperacing\\src\\lightspeedtyping.csproj",
         "projectName": "lightspeedtyping",
-        "projectPath": "\\\\wsl.localhost\\Ubuntu\\home\\tfritzy\\dev\\LightspeedTyperacing\\src\\lightspeedtyping.csproj",
+        "projectPath": "E:\\dev\\LightspeedTyperacing\\src\\lightspeedtyping.csproj",
         "packagesPath": "C:\\Users\\tfrit\\.nuget\\packages\\",
-        "outputPath": "\\\\wsl.localhost\\Ubuntu\\home\\tfritzy\\dev\\LightspeedTyperacing\\src\\obj\\",
+        "outputPath": "E:\\dev\\LightspeedTyperacing\\src\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tfrit\\AppData\\Roaming\\NuGet\\NuGet.Config",
