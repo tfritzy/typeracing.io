@@ -42,9 +42,10 @@ public class Server
             var receiveResult = await webSocket.ReceiveAsync(
                 new ArraySegment<byte>(receiveBuffer), CancellationToken.None);
 
-            Console.WriteLine($"Received message of type {receiveResult.MessageType}");
+            Console.WriteLine(
+                $"Received message of type {receiveResult.MessageType} with length {receiveResult.Count}");
 
-            if (receiveResult.MessageType == WebSocketMessageType.Text)
+            if (receiveResult.MessageType == WebSocketMessageType.Binary)
             {
                 try
                 {

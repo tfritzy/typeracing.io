@@ -1,6 +1,11 @@
 import React from "react";
 import "./App.css";
-import { FindGameRequest, encodeFindGameRequest } from "./compiled";
+import {
+  FindGameRequest,
+  encodeFindGameRequest,
+  OneofRequest,
+  encodeOneofRequest,
+} from "./compiled";
 
 function App() {
   const [ws, setWs] = React.useState<WebSocket | null>(null);
@@ -31,12 +36,16 @@ function App() {
   const findGame: FindGameRequest = {
     player_name: "Jeff",
   };
+  const request: OneofRequest = {
+    sender_id: "plyr_123",
+    find_game: findGame,
+  };
 
   return (
     <div className="App">
       <header className="App-header">
         <input type="text" onChange={handleInput} />
-        <button onClick={() => ws?.send(encodeFindGameRequest(findGame))}>
+        <button onClick={() => ws?.send(encodeOneofRequest(request))}>
           Find Game
         </button>
       </header>
