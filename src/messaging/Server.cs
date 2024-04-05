@@ -13,10 +13,9 @@ public class Server
     {
         Connections = new Dictionary<string, WebSocket>();
         Galaxy = new Galaxy();
-        StartProcessOutboxTask();
     }
 
-    void StartProcessOutboxTask()
+    public void StartProcessOutboxTask()
     {
         _ = Task.Run(async () =>
         {
@@ -37,6 +36,34 @@ public class Server
             {
                 Console.WriteLine("Restarting ProcessOutbox task...");
                 StartProcessOutboxTask();
+            }
+        }, TaskContinuationOptions.OnlyOnFaulted);
+    }
+
+    public void StartTickTimer()
+    {
+        _ = Task.Run(async () =>
+        {
+            int oneFrame = 1000 / 60;
+            while (true)
+            {
+                await Task.Delay(oneFrame);
+                try
+                {
+                    Time.Update(oneFrame);
+                    Galaxy.Update();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Failed to tick: " + ex.Message);
+                }
+            }
+        }).ContinueWith(t =>
+        {
+            if (t.IsFaulted)
+            {
+                Console.WriteLine("Restarting Tick task...");
+                StartTickTimer();
             }
         }, TaskContinuationOptions.OnlyOnFaulted);
     }

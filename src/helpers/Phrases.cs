@@ -64,7 +64,17 @@ public static class Phrases
         }
 
         Random random = new();
-        return phrases[random.Next(phrases.Count)];
+        var phrase = phrases[random.Next(phrases.Count)];
+        phrase = phrase.Replace("\n", " ");
+        phrase = phrase.Replace("\r", " ");
+        phrase = phrase.Replace("\t", " ");
+        phrase = phrase.Replace("“", "\"");
+        phrase = phrase.Replace("”", "\"");
+        phrase = phrase.Replace("‘", "'");
+        phrase = phrase.Replace("’", "'");
+        phrase = phrase.Replace("—", "-");
+        phrase = phrase.Replace("…", "...");
+        return phrase;
     }
 
     public static string[] GetWords(string phrase)

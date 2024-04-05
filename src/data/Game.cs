@@ -22,7 +22,7 @@ public class Game
         Complete
     }
 
-    public Game(Galaxy galaxy, int maxPlayers = 4)
+    public Game(Galaxy galaxy, int maxPlayers = 2)
     {
         Players = new List<InGamePlayer>();
         Placements = new List<string>();
@@ -36,6 +36,11 @@ public class Game
 
     public void Update()
     {
+        if (State == GameState.Running)
+        {
+            return;
+        }
+
         if (Time.Now - StartTime > CountdownDuration)
         {
             State = GameState.Running;

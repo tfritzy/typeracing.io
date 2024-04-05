@@ -28,9 +28,10 @@ public class FindGameTests
 
         Assert.AreEqual(1, galaxy.Outbox.Count);
         var message = galaxy.Outbox.Dequeue();
-        PlayerJoinedGame jg = message.PlayerJoinedGame;
-        Assert.AreEqual(player.Id, jg.PlayerId);
+        YouveBeenAddedToGame jg = message.YouveBeenAddedToGame;
         Assert.AreEqual(game.Id, jg.GameId);
+        Assert.AreEqual(player.Id, jg.CurrentPlayers[0].Id);
+        Assert.AreEqual(player.Name, jg.CurrentPlayers[0].Name);
     }
 
     [TestMethod]
@@ -49,16 +50,26 @@ public class FindGameTests
         Api.FindGame(player3.Name, player3.Id, galaxy);
         Assert.AreEqual(3, galaxy.Outbox.Count);
         var messages = galaxy.Outbox.ToArray();
+        var playerJoinedGameMessages = messages.Where(m => m.PlayerJoinedGame != null);
+        var addedToGameMessages = messages.Where(m => m.YouveBeenAddedToGame != null);
 
-        Assert.AreEqual(player1.Id, messages[0].RecipientId);
-        Assert.AreEqual(player2.Id, messages[1].RecipientId);
-        Assert.AreEqual(player3.Id, messages[2].RecipientId);
-        Assert.AreEqual(player3.Id, messages[0].PlayerJoinedGame.PlayerId);
-        Assert.AreEqual(player3.Id, messages[1].PlayerJoinedGame.PlayerId);
-        Assert.AreEqual(player3.Id, messages[2].PlayerJoinedGame.PlayerId);
-        Assert.AreEqual(player3.Name, messages[0].PlayerJoinedGame.PlayerName);
-        Assert.AreEqual(player3.Name, messages[1].PlayerJoinedGame.PlayerName);
-        Assert.AreEqual(player3.Name, messages[2].PlayerJoinedGame.PlayerName);
+        Assert.AreEqual(1, addedToGameMessages.Count());
+        Assert.AreEqual(2, playerJoinedGameMessages.Count());
+        Assert.AreEqual(1, playerJoinedGameMessages.Count(m => m.RecipientId == player1.Id));
+        Assert.AreEqual(1, playerJoinedGameMessages.Count(m => m.RecipientId == player2.Id));
+        Assert.IsTrue(playerJoinedGameMessages.All(m => m.PlayerJoinedGame.PlayerId == player3.Id));
+        Assert.IsTrue(playerJoinedGameMessages.All(m => m.PlayerJoinedGame.PlayerName == player3.Name));
+
+        var addedToGameMessage = addedToGameMessages.First();
+        Assert.AreEqual(player3.Id, addedToGameMessage.RecipientId);
+        Assert.AreEqual(3, addedToGameMessage.YouveBeenAddedToGame.CurrentPlayers.Count);
+        Assert.AreEqual(1, addedToGameMessage.YouveBeenAddedToGame.CurrentPlayers.Count(p => p.Id == player1.Id));
+        Assert.AreEqual(1, addedToGameMessage.YouveBeenAddedToGame.CurrentPlayers.Count(p => p.Id == player2.Id));
+        Assert.AreEqual(1, addedToGameMessage.YouveBeenAddedToGame.CurrentPlayers.Count(p => p.Id == player3.Id));
+        Assert.AreEqual(1, addedToGameMessage.YouveBeenAddedToGame.CurrentPlayers.Count(p => p.Name == player1.Name));
+        Assert.AreEqual(1, addedToGameMessage.YouveBeenAddedToGame.CurrentPlayers.Count(p => p.Name == player2.Name));
+        Assert.AreEqual(1, addedToGameMessage.YouveBeenAddedToGame.CurrentPlayers.Count(p => p.Name == player3.Name));
+        Assert.AreEqual(galaxy.OpenGames[0].Id, addedToGameMessage.YouveBeenAddedToGame.GameId);
     }
 
     [TestMethod]

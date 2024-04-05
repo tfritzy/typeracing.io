@@ -8,7 +8,9 @@ httpListener.Prefixes.Add("http://localhost:5000/");
 httpListener.Start();
 Console.WriteLine("Listening...");
 
-Server server = new Server();
+Server server = new();
+server.StartProcessOutboxTask();
+server.StartTickTimer();
 
 while (true)
 {

@@ -2,6 +2,11 @@ syntax = "proto3";
 
 package LightspeedTyperacing;
 
+message Player {
+    string name = 1;
+    string id = 2;
+}
+
 message OneofRequest {
     string sender_id = 1;
     oneof request {
@@ -27,6 +32,7 @@ message OneofUpdate {
         PlayerCompleted player_completed = 5;
         PlayerJoinedGame player_joined_game = 6;
         WordFinished word_finished = 7;
+        YouveBeenAddedToGame youve_been_added_to_game = 8;
     }
 }
 
@@ -57,3 +63,7 @@ message WordFinished {
     float percent_complete = 2;
 }
 
+message YouveBeenAddedToGame {
+    string game_id = 2;
+    repeated Player current_players = 3;
+}

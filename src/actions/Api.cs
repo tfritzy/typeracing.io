@@ -11,9 +11,6 @@ public static class Api
         }
 
         Game openGame = galaxy.OpenGames[0];
-        openGame.Players.Add(new InGamePlayer(playerName, playerId));
-        galaxy.PlayerGameMap[playerId] = openGame.Id;
-
         foreach (InGamePlayer player in openGame.Players)
         {
             galaxy.Outbox.Enqueue(
@@ -28,6 +25,18 @@ public static class Api
                     }
                 });
         }
+        openGame.Players.Add(new InGamePlayer(playerName, playerId));
+        galaxy.PlayerGameMap[playerId] = openGame.Id;
+        var youveBeenAddedToGame = new YouveBeenAddedToGame() { GameId = openGame.Id, };
+        foreach (var p in openGame.Players)
+            youveBeenAddedToGame.CurrentPlayers.Add(new Player { Id = p.Id, Name = p.Name });
+        Console.WriteLine("Enquing youve");
+        galaxy.Outbox.Enqueue(
+            new OneofUpdate
+            {
+                RecipientId = playerId,
+                YouveBeenAddedToGame = youveBeenAddedToGame
+            });
 
         if (openGame.Players.Count == openGame.MaxPlayers)
         {
@@ -67,12 +76,14 @@ public static class Api
 
         if (game.State != Game.GameState.Running)
         {
+            Console.WriteLine($"Game {gameId} not running yet");
             return;
         }
 
         InGamePlayer? player = game.Players.FirstOrDefault(p => p.Id == playerId);
         if (player == null)
         {
+            Console.WriteLine($"Player {playerId} not found in game {gameId}");
             return;
         }
 
@@ -81,6 +92,7 @@ public static class Api
             return;
         }
 
+        Console.WriteLine($"Player {playerId} typed {word}");
         if (game.Words[player.WordIndex] == word)
         {
             player.WordIndex++;
