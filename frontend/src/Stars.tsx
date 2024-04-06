@@ -23,7 +23,7 @@ const generateStar = (
  const size = baseSize * distanceModifier;
 
  return {
-  x: x || rng.next() * 2 - 1,
+  x: x || rng.next() * 4 - 2,
   y: rng.next() * 2 - 1,
   z: z,
   size: size,
@@ -33,7 +33,6 @@ const generateStar = (
 
 export const Stars: React.FC = () => {
  const canvasRef = useRef<HTMLCanvasElement>(null);
- const fpsRef = useRef<HTMLDivElement>(null);
  const speedRef = useRef<HTMLInputElement>(null);
 
  useEffect(() => {
@@ -149,10 +148,6 @@ export const Stars: React.FC = () => {
    const deltaTime_s: number =
     (Date.now() - lastTime) / 1000;
    lastTime = Date.now();
-   const fps = 1 / deltaTime_s;
-   if (fpsRef.current) {
-    fpsRef.current.innerText = `FPS: ${fps.toFixed(2)}`;
-   }
 
    const starBaseMovementSpeed: number =
     speedRef.current?.valueAsNumber || 0;
@@ -270,22 +265,13 @@ export const Stars: React.FC = () => {
      zIndex: -1,
     }}
    ></canvas>
-   <div
-    ref={fpsRef}
-    style={{
-     position: "fixed",
-     color: "white",
-     top: 0,
-     right: 0,
-     zIndex: 100,
-    }}
-   ></div>
    <input
     ref={speedRef}
     type="range"
     min="0"
     max="5"
     step="0.01"
+    defaultValue={0.1}
     style={{
      position: "fixed",
      bottom: "47%",

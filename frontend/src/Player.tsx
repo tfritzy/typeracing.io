@@ -11,7 +11,7 @@ export const Player = (props: PlayerProps) => {
  const progressString =
   "#".repeat(numHashes) + "_".repeat(numSpaces);
  return (
-  <div>
+  <div className="text-white">
    <div>{props.name}</div>
    <div style={{ fontFamily: "monospace" }}>
     [{progressString}]

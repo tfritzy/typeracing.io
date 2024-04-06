@@ -2,14 +2,14 @@ import React from "react";
 import "./App.css";
 import {
  FindGameRequest,
- encodeFindGameRequest,
  OneofRequest,
  encodeOneofRequest,
  decodeOneofUpdate,
  Player as PlayerType,
 } from "./compiled";
-import { Player } from "./Player";
 import { Stars } from "./Stars";
+import { TypeBox } from "./TypeBox";
+import { Player } from "./Player";
 
 type PlayerData = {
  id: string;
@@ -28,8 +28,6 @@ function App() {
  const [players, setPlayers] = React.useState<PlayerData[]>(
   []
  );
- const [inputValue, setInputValue] =
-  React.useState<string>("");
 
  React.useEffect(() => {
   const token =
@@ -110,37 +108,26 @@ function App() {
   };
  }, []);
 
- const handleInput = (
-  event: React.ChangeEvent<HTMLInputElement>
- ) => {
-  if (wordIndex >= words.length) {
-   return;
-  }
-
-  if (event.target.value === words[wordIndex] + " ") {
-   const finishedWordRequest: OneofRequest = {
-    sender_id: token,
-    type_word: {
-     word: words[wordIndex],
-    },
-   };
-   setWordIndex(wordIndex + 1);
-   setPlayers((players) =>
-    players.map((player) =>
-     player.id === token
-      ? {
-         id: player.id,
-         name: player.name,
-         progress: (wordIndex + 1) / words.length,
-        }
-      : player
-    )
-   );
-   ws?.send(encodeOneofRequest(finishedWordRequest));
-   setInputValue("");
-  } else {
-   setInputValue(event.target.value);
-  }
+ const handleWordComplete = (word: string) => {
+  const finishedWordRequest: OneofRequest = {
+   sender_id: token,
+   type_word: {
+    word: words[wordIndex],
+   },
+  };
+  setWordIndex((index) => index + 1);
+  setPlayers((players) =>
+   players.map((player) =>
+    player.id === token
+     ? {
+        id: player.id,
+        name: player.name,
+        progress: (wordIndex + 1) / words.length,
+       }
+     : player
+   )
+  );
+  ws?.send(encodeOneofRequest(finishedWordRequest));
  };
 
  const findGame: FindGameRequest = {
@@ -154,36 +141,31 @@ function App() {
  return (
   <div className="App">
    <header className="App-header">
-    {/* {players.map((player) => (
-          <Player
-            key={player.name}
-            name={player.name}
-            progress={player.progress}
-          />
-        ))}
-        <div>
-          <span style={{ backgroundColor: "#50C878" }}>
-            {words.slice(0, wordIndex).join(" ")}{" "}
-          </span>
-          <span>{words.slice(wordIndex).join(" ")}</span>
-        </div>
-        <input
-          type="text"
-          onChange={handleInput}
-          value={inputValue}
-          placeholder={words[wordIndex] || ""}
-        />
-        <div>
-          <input
-            type="text"
-            value={playerName}
-            onChange={(e) => setPlayerName(e.target.value)}
-            placeholder="Jeff"
-          />
-          <button onClick={() => ws?.send(encodeOneofRequest(request))}>
-            Find Game
-          </button>
-        </div> */}
+    <TypeBox
+     words={words}
+     wordIndex={wordIndex}
+     onWordComplete={handleWordComplete}
+    />
+    {players.map((player) => (
+     <Player
+      key={player.name}
+      name={player.name}
+      progress={player.progress}
+     />
+    ))}
+    <div>
+     <input
+      type="text"
+      value={playerName}
+      onChange={(e) => setPlayerName(e.target.value)}
+      placeholder="Jeff"
+     />
+     <button
+      onClick={() => ws?.send(encodeOneofRequest(request))}
+     >
+      Find Game
+     </button>
+    </div>
     <Stars />
    </header>
   </div>
