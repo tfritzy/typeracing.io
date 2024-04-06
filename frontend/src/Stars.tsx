@@ -156,7 +156,6 @@ export const Stars: React.FC = () => {
 
    const starBaseMovementSpeed: number =
     speedRef.current?.valueAsNumber || 0;
-   // Move stars
    stars.forEach((star) => {
     star.speed =
      star.z * starBaseMovementSpeed +
@@ -168,16 +167,15 @@ export const Stars: React.FC = () => {
     }
    });
 
-   // Prepare positions and texture coordinates for each star (quad)
    const positions = [];
    const textureCoords = [];
    for (let star of stars) {
     const x1 =
      star.x -
-     star.size * 0.001 * Math.max(star.speed, 0.1) * 10; // Adjust size modifier for x dimension
+     star.size * 0.001 * Math.max(star.speed, 0.1) * 10;
     const x2 =
      star.x +
-     star.size * 0.001 * Math.max(star.speed, 0.1) * 10; // Adjust size modifier for x dimension
+     star.size * 0.001 * Math.max(star.speed, 0.1) * 10;
     const y1 = star.y - star.size * 0.001;
     const y2 = star.y + star.size * 0.001;
     positions.push(
