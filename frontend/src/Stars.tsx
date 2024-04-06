@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from "react";
-
 import { splitmix32 } from "./helpers/splitmix32";
 
 type Star = {
@@ -7,6 +6,7 @@ type Star = {
  y: number;
  z: number;
  size: number;
+ speed: number;
 };
 
 const generateStar = (
@@ -15,7 +15,8 @@ const generateStar = (
 ) => {
  const U = rng.next();
  const lambda = 1;
- const z = -Math.log(1 - U) / lambda;
+ let z = -Math.log(1 - U) / lambda;
+ z = 0.5 + z / 2;
  let baseSize = rng.next() * 2 + 1;
  baseSize = 0.75 + baseSize / 4;
  const distanceModifier = 0.75 + z / 4;
@@ -26,12 +27,14 @@ const generateStar = (
   y: rng.next() * 2 - 1,
   z: z,
   size: size,
+  speed: 0,
  };
 };
 
 export const Stars: React.FC = () => {
  const canvasRef = useRef<HTMLCanvasElement>(null);
  const fpsRef = useRef<HTMLDivElement>(null);
+ const speedRef = useRef<HTMLInputElement>(null);
 
  useEffect(() => {
   if (!canvasRef.current) return;
@@ -69,27 +72,23 @@ export const Stars: React.FC = () => {
    return shader;
   };
 
-  // Modified Vertex Shader Source to include size attribute
   const vsSource = `
-      attribute vec4 aVertexPosition;
-      attribute float aPointSize; // Added size attribute
+      attribute vec2 aVertexPosition;
+      attribute vec2 aTextureCoord;
+      uniform vec2 uScale;
       void main() {
-        gl_Position = aVertexPosition;
-        gl_PointSize = aPointSize; // Use the size attribute for the point size
+        gl_Position = vec4(aVertexPosition * uScale, 0, 1.0);
       }
     `;
 
   const fsSource = `
       precision mediump float;
       void main() {
-        // float r = distance(gl_PointCoord, vec2(0.5, 0.5));
-        // if (r > 0.5) {
-        //   discard;
-        // }
         gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0); // White color
       }
     `;
 
+  // Load and compile shaders
   const vertexShader = loadShader(
    gl.VERTEX_SHADER,
    vsSource
@@ -98,18 +97,18 @@ export const Stars: React.FC = () => {
    gl.FRAGMENT_SHADER,
    fsSource
   );
-  if (!vertexShader || !fragmentShader) {
-   return;
-  }
 
+  // Link shaders to create our program
   const shaderProgram = gl.createProgram();
-  if (!shaderProgram) {
+  if (!shaderProgram || !vertexShader || !fragmentShader) {
    console.error("Unable to create shader program");
    return;
   }
+
   gl.attachShader(shaderProgram, vertexShader);
   gl.attachShader(shaderProgram, fragmentShader);
   gl.linkProgram(shaderProgram);
+
   if (
    !gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)
   ) {
@@ -120,26 +119,25 @@ export const Stars: React.FC = () => {
    return;
   }
 
+  // Create buffers
   const positionBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+  const textureCoordBuffer = gl.createBuffer();
 
-  // Setup for size attribute
-  const sizeBuffer = gl.createBuffer();
-
-  const position = gl.getAttribLocation(
+  const positionLocation = gl.getAttribLocation(
    shaderProgram,
    "aVertexPosition"
   );
-  const size = gl.getAttribLocation(
+  const textureCoordLocation = gl.getAttribLocation(
    shaderProgram,
-   "aPointSize"
+   "aTextureCoord"
   );
-
-  gl.enableVertexAttribArray(position);
+  const scaleLocation = gl.getUniformLocation(
+   shaderProgram,
+   "uScale"
+  );
 
   let lastTime = Date.now();
   const numStarsOnScreen = 1000;
-  const starBaseMovementSpeed = 0.5;
   let stars: Star[] = [];
   const seed = Math.floor(Math.random() * 1000000);
   const rng = splitmix32(seed);
@@ -156,48 +154,96 @@ export const Stars: React.FC = () => {
     fpsRef.current.innerText = `FPS: ${fps.toFixed(2)}`;
    }
 
+   const starBaseMovementSpeed: number =
+    speedRef.current?.valueAsNumber || 0;
+   // Move stars
    stars.forEach((star) => {
-    star.x -=
-     star.z * starBaseMovementSpeed * deltaTime_s +
+    star.speed =
+     star.z * starBaseMovementSpeed +
      starBaseMovementSpeed / 40;
-    if (star.x < -1) {
+    star.x -= star.speed * deltaTime_s;
+    if (star.x < -2) {
      star.y = rng.next() * 2 - 1;
-     star.x = 1;
+     star.x = 2;
     }
    });
 
-   const positions = new Float32Array(
-    stars.flatMap((star) => [star.x, star.y])
-   );
-   const sizes = new Float32Array(
-    stars.map((star) => star.size)
+   // Prepare positions and texture coordinates for each star (quad)
+   const positions = [];
+   const textureCoords = [];
+   for (let star of stars) {
+    const x1 =
+     star.x -
+     star.size * 0.001 * Math.max(star.speed, 0.1) * 10; // Adjust size modifier for x dimension
+    const x2 =
+     star.x +
+     star.size * 0.001 * Math.max(star.speed, 0.1) * 10; // Adjust size modifier for x dimension
+    const y1 = star.y - star.size * 0.001;
+    const y2 = star.y + star.size * 0.001;
+    positions.push(
+     x1,
+     y1,
+     x2,
+     y1,
+     x1,
+     y2,
+     x1,
+     y2,
+     x2,
+     y1,
+     x2,
+     y2
+    );
+    textureCoords.push(0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1);
+   }
+
+   const positionsArray = new Float32Array(positions);
+   const textureCoordsArray = new Float32Array(
+    textureCoords
    );
 
+   // Set positions
    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
    gl.bufferData(
     gl.ARRAY_BUFFER,
-    positions,
+    positionsArray,
     gl.STATIC_DRAW
    );
    gl.vertexAttribPointer(
-    position,
+    positionLocation,
     2,
     gl.FLOAT,
     false,
     0,
     0
    );
+   gl.enableVertexAttribArray(positionLocation);
 
-   // Bind and set size buffer data
-   gl.bindBuffer(gl.ARRAY_BUFFER, sizeBuffer);
-   gl.bufferData(gl.ARRAY_BUFFER, sizes, gl.STATIC_DRAW);
-   gl.enableVertexAttribArray(size); // Enable attribute after binding the correct buffer
-   gl.vertexAttribPointer(size, 1, gl.FLOAT, false, 0, 0);
+   // Set texture coordinates
+   gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffer);
+   gl.bufferData(
+    gl.ARRAY_BUFFER,
+    textureCoordsArray,
+    gl.STATIC_DRAW
+   );
+   gl.vertexAttribPointer(
+    textureCoordLocation,
+    2,
+    gl.FLOAT,
+    false,
+    0,
+    0
+   );
+   gl.enableVertexAttribArray(textureCoordLocation);
+
+   // Set uniform
+   gl.uniform2f(scaleLocation, 1.0, 1.0); // Adjust scale if needed
 
    gl.clear(gl.COLOR_BUFFER_BIT);
    gl.useProgram(shaderProgram);
 
-   gl.drawArrays(gl.POINTS, 0, stars.length);
+   // Draw quads
+   gl.drawArrays(gl.TRIANGLES, 0, stars.length * 6);
 
    requestAnimationFrame(drawScene);
   };
@@ -207,7 +253,8 @@ export const Stars: React.FC = () => {
   return () => {
    if (shaderProgram) gl.deleteProgram(shaderProgram);
    if (positionBuffer) gl.deleteBuffer(positionBuffer);
-   if (sizeBuffer) gl.deleteBuffer(sizeBuffer); // Clean up the size buffer
+   if (textureCoordBuffer)
+    gl.deleteBuffer(textureCoordBuffer);
   };
  }, []);
 
@@ -235,6 +282,20 @@ export const Stars: React.FC = () => {
      zIndex: 100,
     }}
    ></div>
+   <input
+    ref={speedRef}
+    type="range"
+    min="0"
+    max="5"
+    step="0.01"
+    style={{
+     position: "fixed",
+     bottom: "47%",
+     left: "25%",
+     width: "50%",
+     zIndex: 100,
+    }}
+   />
   </>
  );
 };
