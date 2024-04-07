@@ -148,7 +148,7 @@ function App() {
       onWordComplete={handleWordComplete}
      />
     </div>
-    {/* {players.map((player) => (
+    {players.map((player) => (
      <Player
       key={player.name}
       name={player.name}
@@ -167,7 +167,7 @@ function App() {
      >
       Find Game
      </button>
-    </div> */}
+    </div>
     <Stars />
    </header>
   </div>

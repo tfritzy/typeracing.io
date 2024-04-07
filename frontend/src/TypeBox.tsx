@@ -25,6 +25,9 @@ export const TypeBox = (props: TypeBoxProps) => {
   useState(0);
  const [targetCursorYPos, setTargetCursorYPos] =
   useState(0);
+ const [cursorPulsing, setCursorPinging] = useState(true);
+ const setPingingRef =
+  React.useRef<NodeJS.Timeout | null>();
 
  useEffect(() => {
   if (phraseRef.current) {
@@ -42,6 +45,14 @@ export const TypeBox = (props: TypeBoxProps) => {
   if (props.wordIndex >= props.words.length) {
    return;
   }
+
+  setCursorPinging(false);
+  if (setPingingRef.current) {
+   clearTimeout(setPingingRef.current);
+  }
+  setPingingRef.current = setTimeout(() => {
+   setCursorPinging(true);
+  }, 1000);
 
   if (
    event.target.value ===
@@ -136,7 +147,9 @@ export const TypeBox = (props: TypeBoxProps) => {
      }}
     />
     <div
-     className="bg-amber-400 h-[24px] w-[3px] fixed rounded"
+     className={`bg-amber-400 h-[24px] w-[3px] fixed rounded ${
+      cursorPulsing ? "animate-pulse-full" : ""
+     }`}
      style={{
       top: cursorYPos,
       left: cursorXPos,
