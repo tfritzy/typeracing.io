@@ -20,3 +20,7 @@ code {
 input::selection {
   background-color: transparent;
 }
+
+.vscode-font {
+  font-family: 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
+}
