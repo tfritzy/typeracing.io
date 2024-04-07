@@ -4,6 +4,10 @@ import React, {
  useState,
 } from "react";
 
+function lerp(start: number, end: number, alpha: number) {
+ return start + (end - start) * alpha;
+}
+
 type TypeBoxProps = {
  words: string[];
  wordIndex: number;
@@ -17,6 +21,10 @@ export const TypeBox = (props: TypeBoxProps) => {
  const cursorRef = React.useRef<HTMLSpanElement>(null);
  const [cursorXPos, setCursorXPos] = useState(0);
  const [cursorYPos, setCursorYPos] = useState(0);
+ const [targetCursorXPos, setTargetCursorXPos] =
+  useState(0);
+ const [targetCursorYPos, setTargetCursorYPos] =
+  useState(0);
 
  useEffect(() => {
   if (phraseRef.current) {
@@ -46,17 +54,38 @@ export const TypeBox = (props: TypeBoxProps) => {
   }
  };
 
+ useEffect(() => {
+  let frameId: number;
+
+  const animate = () => {
+   setCursorXPos((prevX) =>
+    lerp(prevX, targetCursorXPos, 0.4)
+   );
+   setCursorYPos((prevY) =>
+    lerp(prevY, targetCursorYPos, 0.4)
+   );
+
+   frameId = requestAnimationFrame(animate);
+  };
+
+  frameId = requestAnimationFrame(animate);
+
+  return () => {
+   cancelAnimationFrame(frameId);
+  };
+ }, [targetCursorXPos, targetCursorYPos]);
+
  useLayoutEffect(() => {
   if (cursorRef.current) {
    const cursorRect =
     cursorRef.current.getBoundingClientRect();
-   setCursorXPos(cursorRect.left);
-   setCursorYPos(cursorRect.top);
+   setTargetCursorXPos(cursorRect.left);
+   setTargetCursorYPos(cursorRect.top);
   }
  }, [currentWord]);
 
  let text = [
-  <span className="text-white">
+  <span className="text-gray-300">
    {props.words.slice(0, props.wordIndex).join(" ") + " "}
   </span>,
  ];
@@ -64,13 +93,13 @@ export const TypeBox = (props: TypeBoxProps) => {
  for (let i = 0; i < currentWord.length; i++) {
   if (currentWord[i] !== props.words[props.wordIndex][i]) {
    text.push(
-    <span className="text-red-500 underline">
+    <span className="text-rose-500">
      {props.words[props.wordIndex][i] || currentWord[i]}
     </span>
    );
   } else {
    text.push(
-    <span className="text-white">{currentWord[i]}</span>
+    <span className="text-gray-300">{currentWord[i]}</span>
    );
   }
  }
@@ -81,22 +110,19 @@ export const TypeBox = (props: TypeBoxProps) => {
   .slice(props.wordIndex)
   .join(" ");
  text.push(
-  <span className="text-gray-500">
+  <span className="text-gray-600">
    {remainingText.slice(currentWord.length)}
   </span>
  );
 
  return (
-  <div
-   style={{
-    position: "relative",
-   }}
-  >
-   <div className="text-lg font-mono max-w-lg">
+  <div className="relative">
+   <div className="text-xl font-mono max-w-3xl rounded">
     <div ref={phraseRef}>{text}</div>
     <input
      value={currentWord}
      onChange={handleInput}
+     className="w-full bg-transparent outline-none"
      style={{
       position: "absolute",
       top: 0,
@@ -110,7 +136,7 @@ export const TypeBox = (props: TypeBoxProps) => {
      }}
     />
     <div
-     className="bg-white h-[16px] w-[1px] absolute"
+     className="bg-amber-400 h-[24px] w-[3px] fixed rounded"
      style={{
       top: cursorYPos,
       left: cursorXPos,

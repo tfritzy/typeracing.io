@@ -83,7 +83,7 @@ export const Stars: React.FC = () => {
   const fsSource = `
       precision mediump float;
       void main() {
-        gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0); // White color
+        gl_FragColor = vec4(.6, .6, .6, 1.0); 
       }
     `;
 
@@ -150,7 +150,7 @@ export const Stars: React.FC = () => {
    lastTime = Date.now();
 
    const starBaseMovementSpeed: number =
-    speedRef.current?.valueAsNumber || 0;
+    speedRef.current?.valueAsNumber || 0.1;
    stars.forEach((star) => {
     star.speed =
      star.z * starBaseMovementSpeed +
@@ -255,17 +255,12 @@ export const Stars: React.FC = () => {
   <>
    <canvas
     ref={canvasRef}
+    className="fixed left-0 top-0 w-full h-full bg-black"
     style={{
-     position: "fixed",
-     backgroundColor: "black",
-     left: 0,
-     top: 0,
-     width: "100%",
-     height: "100%",
      zIndex: -1,
     }}
    ></canvas>
-   <input
+   {/* <input
     ref={speedRef}
     type="range"
     min="0"
@@ -279,7 +274,7 @@ export const Stars: React.FC = () => {
      width: "50%",
      zIndex: 100,
     }}
-   />
+   /> */}
   </>
  );
 };

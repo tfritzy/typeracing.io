@@ -141,12 +141,14 @@ function App() {
  return (
   <div className="App">
    <header className="App-header">
-    <TypeBox
-     words={words}
-     wordIndex={wordIndex}
-     onWordComplete={handleWordComplete}
-    />
-    {players.map((player) => (
+    <div className="fixed bottom-[40%] flex flex-col items-center w-screen">
+     <TypeBox
+      words={words}
+      wordIndex={wordIndex}
+      onWordComplete={handleWordComplete}
+     />
+    </div>
+    {/* {players.map((player) => (
      <Player
       key={player.name}
       name={player.name}
@@ -165,7 +167,7 @@ function App() {
      >
       Find Game
      </button>
-    </div>
+    </div> */}
     <Stars />
    </header>
   </div>
