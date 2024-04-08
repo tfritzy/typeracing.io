@@ -35,8 +35,8 @@ export const StartGame = (props: StartGameProps) => {
   let content;
   if (state === State.Menu) {
     content = (
-      <div className="border border-neutral-100">
-        <div className="text-3xl w-full bg-neutral-100 text-neutral-800 px-4 py-2">
+      <div className="border border-neutral-100 ">
+        <div className="text-2xl w-full bg-neutral-100 text-neutral-900 px-4 py-2 uppercase font-semibold">
           Lightspeed Typeracing
         </div>
 
@@ -53,7 +53,7 @@ export const StartGame = (props: StartGameProps) => {
             </div>
 
             <button
-              className="border border-neutral-100 text-neutral-100 px-2 py-2 bg-neutral-900 font-bold flex flex-row justify-center items-center space-x-2"
+              className="text-neutral-800 px-2 py-2 bg-neutral-100 font-bold"
               onClick={() => setState(State.EnteringStardate)}
             >
               <div>Join race</div>
@@ -63,9 +63,9 @@ export const StartGame = (props: StartGameProps) => {
           <div className="w-full border-t border-neutral-100" />
 
           <div className="flex flex-col">
-            <div className="px-4 pb-6 pt-4 flex flex-col">
+            <div className="px-4 pb-6 pt-4">
               <div className="mb-3">
-                <div className="text-md font-semibold flex flex-row space-x-1 items-center">
+                <div className="flex flex-row space-x-1 items-center">
                   <div>Practice</div>
                   <GraduationCap height={16} width={16} />
                 </div>
@@ -75,7 +75,7 @@ export const StartGame = (props: StartGameProps) => {
               </div>
 
               <button
-                className="border border-neutral-100 text-neutral-100 px-2 py-2 bg-neutral-900 font-bold"
+                className="border border-neutral-100 text-neutral-100 px-3 py-2 bg-neutral-900 font-bold"
                 onClick={() => setState(State.EnteringStardate)}
               >
                 Start practice
@@ -86,9 +86,9 @@ export const StartGame = (props: StartGameProps) => {
           <div className="w-full border-t border-neutral-100" />
 
           <div className="flex flex-col">
-            <div className="px-4 pb-6 pt-4 flex flex-col">
+            <div className="px-4 pb-6 pt-4 ">
               <div className="mb-3">
-                <div className="text-md font-semibold flex flex-row space-x-1 items-center">
+                <div className="flex flex-row space-x-1 items-center">
                   <div>Race against friends</div>
                   <Lock height={16} width={16} />
                 </div>
@@ -98,7 +98,7 @@ export const StartGame = (props: StartGameProps) => {
               </div>
 
               <button
-                className="border border-neutral-100 text-neutral-100 px-2 py-2 bg-neutral-900 font-bold"
+                className="border border-neutral-100 text-neutral-100 px-3 py-2 bg-neutral-900 font-bold"
                 onClick={() => setState(State.EnteringStardate)}
               >
                 Create lobby

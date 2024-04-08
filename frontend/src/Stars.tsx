@@ -194,7 +194,7 @@ export const Stars: React.FC = () => {
     <>
       <canvas
         ref={canvasRef}
-        className="fixed left-0 top-0 w-full h-full bg-neutral-950"
+        className="fixed left-0 top-0 w-full h-full bg-neutral-900"
         style={{
           zIndex: -1,
         }}
