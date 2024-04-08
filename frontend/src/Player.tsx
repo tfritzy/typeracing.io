@@ -6,16 +6,16 @@ type PlayerProps = {
 };
 
 export const Player = (props: PlayerProps) => {
- const numHashes = Math.floor(props.progress * 30);
- const numSpaces = 30 - numHashes;
- const progressString =
-  "#".repeat(numHashes) + "_".repeat(numSpaces);
  return (
-  <div className="text-white">
-   <div>{props.name}</div>
-   <div style={{ fontFamily: "monospace" }}>
-    [{progressString}]
+  <div className="h-md w-screen px-8">
+   <div className="text-white text-lg">{props.name}</div>
+   <div className="text-gray-300 text-sm">
+    {Math.floor(
+     props.progress * 299_792_458
+    ).toLocaleString()}{" "}
+    m/s
    </div>
+   <img src="/Ship.svg" alt="Ship" className="w-16 h-16" />
   </div>
  );
 };

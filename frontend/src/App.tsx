@@ -1,30 +1,33 @@
 import React from "react";
 import "./App.css";
 import {
- FindGameRequest,
- OneofRequest,
- encodeOneofRequest,
  decodeOneofUpdate,
  Player as PlayerType,
 } from "./compiled";
 import { Stars } from "./Stars";
-import { TypeBox } from "./TypeBox";
-import { Player } from "./Player";
+import { StartGame } from "./StartGame";
+import { InGame } from "./InGame";
 
-type PlayerData = {
+export type PlayerData = {
  id: string;
  name: string;
  progress: number;
 };
 
+enum State {
+ Menu,
+ InGame,
+}
+
 function App() {
+ const [state, setState] = React.useState<State>(
+  State.Menu
+ );
  const [ws, setWs] = React.useState<WebSocket | null>(null);
  const [token, setToken] = React.useState<string>("");
  const [words, setWords] = React.useState<string[]>([]);
  const [playerName, setPlayerName] =
   React.useState<string>("");
- const [wordIndex, setWordIndex] =
-  React.useState<number>(0);
  const [players, setPlayers] = React.useState<PlayerData[]>(
   []
  );
@@ -36,26 +39,22 @@ function App() {
   var ws = new WebSocket(
    `ws://localhost:5000/?token=${token}`
   );
-  ws.onopen = () => {
-   console.log("Connected");
-  };
+  ws.onopen = () => {};
   ws.onmessage = (event) => {
    if (event.data === null) {
-    console.log("Received null data");
    } else if (event.data instanceof Blob) {
     const reader = new FileReader();
     reader.onload = () => {
      if (reader.result instanceof ArrayBuffer) {
       const buffer = new Uint8Array(reader.result);
       const update = decodeOneofUpdate(buffer);
-      console.log("Decoded update", update);
 
       if (update.game_starting) {
-       console.log("game starting");
        setWords(
         (update.game_starting.phrase || "").split(" ")
        );
       } else if (update.youve_been_added_to_game != null) {
+       setState(State.InGame);
        setPlayers(
         (
          update.youve_been_added_to_game.current_players ||
@@ -67,7 +66,6 @@ function App() {
         }))
        );
       } else if (update.player_joined_game) {
-       console.log(update.player_joined_game?.player_name);
        setPlayers((players) => [
         ...players,
         {
@@ -108,68 +106,40 @@ function App() {
   };
  }, []);
 
- const handleWordComplete = (word: string) => {
-  const finishedWordRequest: OneofRequest = {
-   sender_id: token,
-   type_word: {
-    word: words[wordIndex],
-   },
-  };
-  setWordIndex((index) => index + 1);
-  setPlayers((players) =>
-   players.map((player) =>
-    player.id === token
-     ? {
-        id: player.id,
-        name: player.name,
-        progress: (wordIndex + 1) / words.length,
-       }
-     : player
-   )
+ let content;
+ if (state === State.Menu) {
+  content = (
+   <StartGame
+    token={token}
+    playerName={playerName}
+    setPlayerName={setPlayerName}
+    sendRequest={(request) => {
+     if (ws) {
+      ws.send(request);
+     }
+    }}
+   />
   );
-  ws?.send(encodeOneofRequest(finishedWordRequest));
- };
-
- const findGame: FindGameRequest = {
-  player_name: playerName,
- };
- const request: OneofRequest = {
-  sender_id: token,
-  find_game: findGame,
- };
+ } else {
+  content = (
+   <InGame
+    sendRequest={(request) => {
+     if (ws) {
+      ws.send(request);
+     }
+    }}
+    words={words}
+    token={token}
+    players={players}
+    setPlayers={setPlayers}
+   />
+  );
+ }
 
  return (
   <div className="App">
-   <header className="App-header">
-    <div className="fixed bottom-[40%] flex flex-col items-center w-screen">
-     <TypeBox
-      words={words}
-      wordIndex={wordIndex}
-      onWordComplete={handleWordComplete}
-     />
-    </div>
-    {players.map((player) => (
-     <Player
-      key={player.name}
-      name={player.name}
-      progress={player.progress}
-     />
-    ))}
-    <div>
-     <input
-      type="text"
-      value={playerName}
-      onChange={(e) => setPlayerName(e.target.value)}
-      placeholder="Jeff"
-     />
-     <button
-      onClick={() => ws?.send(encodeOneofRequest(request))}
-     >
-      Find Game
-     </button>
-    </div>
-    <Stars />
-   </header>
+   {content}
+   <Stars />
   </div>
  );
 }

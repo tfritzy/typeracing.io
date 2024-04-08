@@ -56,7 +56,9 @@ export const TypeBox = (props: TypeBoxProps) => {
 
   if (
    event.target.value ===
-   props.words[props.wordIndex] + " "
+    props.words[props.wordIndex] + " " ||
+   (props.wordIndex === props.words.length - 1 &&
+    event.target.value === props.words[props.wordIndex])
   ) {
    props.onWordComplete(event.target.value);
    setCurrentWord("");
@@ -145,6 +147,7 @@ export const TypeBox = (props: TypeBoxProps) => {
       color: "transparent",
       border: "none",
      }}
+     autoFocus
     />
     <div
      className={`bg-amber-400 h-[24px] w-[3px] fixed rounded ${
