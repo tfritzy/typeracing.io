@@ -150,7 +150,7 @@ export const Stars: React.FC = () => {
    lastTime = Date.now();
 
    const starBaseMovementSpeed: number =
-    speedRef.current?.valueAsNumber || 0.1;
+    speedRef.current?.valueAsNumber || 0.01;
    stars.forEach((star) => {
     star.speed =
      star.z * starBaseMovementSpeed +
