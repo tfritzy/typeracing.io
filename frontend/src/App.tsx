@@ -1,12 +1,16 @@
 import React from "react";
-import "./App.css";
-import {
- decodeOneofUpdate,
- Player as PlayerType,
-} from "./compiled";
+import { decodeOneofUpdate } from "./compiled";
 import { Stars } from "./Stars";
-import { StartGame } from "./StartGame";
+import { MainMenu } from "./MainMenu";
 import { InGame } from "./InGame";
+import { useDispatch } from "react-redux";
+import {
+ GameStage,
+ setGameStarting,
+ setYouveBeenAddedToGame,
+ addPlayer,
+ wordFinished,
+} from "./store/gameSlice";
 
 export type PlayerData = {
  id: string;
@@ -20,17 +24,14 @@ enum State {
 }
 
 function App() {
+ const dispatch = useDispatch();
  const [state, setState] = React.useState<State>(
   State.Menu
  );
  const [ws, setWs] = React.useState<WebSocket | null>(null);
  const [token, setToken] = React.useState<string>("");
- const [words, setWords] = React.useState<string[]>([]);
  const [playerName, setPlayerName] =
   React.useState<string>("");
- const [players, setPlayers] = React.useState<PlayerData[]>(
-  []
- );
 
  React.useEffect(() => {
   const token =
@@ -50,46 +51,46 @@ function App() {
       const update = decodeOneofUpdate(buffer);
 
       if (update.game_starting) {
-       setWords(
-        (update.game_starting.phrase || "").split(" ")
+       const words =
+        update.game_starting.phrase?.split(" ");
+
+       dispatch(
+        setGameStarting({
+         stage: GameStage.Countdown,
+         words: words || [],
+         countdown: 3,
+        })
        );
       } else if (update.youve_been_added_to_game != null) {
        setState(State.InGame);
-       setPlayers(
-        (
-         update.youve_been_added_to_game.current_players ||
-         []
-        ).map((player: PlayerType) => ({
-         id: player.id || "<unknown>",
-         name: player.name || "<unknown>",
-         progress: 0,
-        }))
+       dispatch(
+        setYouveBeenAddedToGame({
+         players:
+          update.youve_been_added_to_game.current_players?.map(
+           (player) => ({
+            id: player.id || "<unknown>",
+            name: player.name || "<unknown>",
+            progress: 0,
+           })
+          ) || [],
+         words: [],
+        })
        );
       } else if (update.player_joined_game) {
-       setPlayers((players) => [
-        ...players,
-        {
-         id:
-          update.player_joined_game?.player_id ||
-          "<unknown>",
-         name:
-          update.player_joined_game?.player_name ||
-          "<unknown>",
+       dispatch(
+        addPlayer({
+         id: update.player_joined_game.player_id || "",
+         name: update.player_joined_game.player_name || "",
          progress: 0,
-        },
-       ]);
+        })
+       );
       } else if (update.word_finished) {
-       setPlayers((players) =>
-        players.map((player) =>
-         player.id === update.word_finished?.player_id
-          ? {
-             id: player.id,
-             name: player.name,
-             progress:
-              update.word_finished.percent_complete || 0,
-            }
-          : player
-        )
+       dispatch(
+        wordFinished({
+         id: update.word_finished.player_id || "",
+         progress:
+          update.word_finished.percent_complete || 0,
+        })
        );
       }
      }
@@ -109,7 +110,7 @@ function App() {
  let content;
  if (state === State.Menu) {
   content = (
-   <StartGame
+   <MainMenu
     token={token}
     playerName={playerName}
     setPlayerName={setPlayerName}
@@ -128,10 +129,7 @@ function App() {
       ws.send(request);
      }
     }}
-    words={words}
     token={token}
-    players={players}
-    setPlayers={setPlayers}
    />
   );
  }

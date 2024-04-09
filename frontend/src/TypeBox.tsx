@@ -88,6 +88,15 @@ export const TypeBox = (props: TypeBoxProps) => {
   };
  }, [targetCursorXPos, targetCursorYPos]);
 
+ useEffect(() => {
+  if (cursorRef.current) {
+   const cursorRect =
+    cursorRef.current.getBoundingClientRect();
+   setCursorXPos(cursorRect.left);
+   setCursorYPos(cursorRect.top);
+  }
+ }, []);
+
  useLayoutEffect(() => {
   if (cursorRef.current) {
    const cursorRect =
@@ -106,13 +115,13 @@ export const TypeBox = (props: TypeBoxProps) => {
  for (let i = 0; i < currentWord.length; i++) {
   if (currentWord[i] !== props.words[props.wordIndex][i]) {
    text.push(
-    <span className="text-rose-500">
+    <span className="text-rose-500 underline">
      {props.words[props.wordIndex][i] || currentWord[i]}
     </span>
    );
   } else {
    text.push(
-    <span className="text-gray-300">{currentWord[i]}</span>
+    <span className="text-gray-100">{currentWord[i]}</span>
    );
   }
  }
@@ -123,7 +132,7 @@ export const TypeBox = (props: TypeBoxProps) => {
   .slice(props.wordIndex)
   .join(" ");
  text.push(
-  <span className="text-gray-600">
+  <span className="text-gray-500">
    {remainingText.slice(currentWord.length)}
   </span>
  );
