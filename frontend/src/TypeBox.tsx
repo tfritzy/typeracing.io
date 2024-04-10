@@ -72,10 +72,10 @@ export const TypeBox = (props: TypeBoxProps) => {
 
   const animate = () => {
    setCursorXPos((prevX) =>
-    lerp(prevX, targetCursorXPos, 0.4)
+    lerp(prevX, targetCursorXPos, 0.5)
    );
    setCursorYPos((prevY) =>
-    lerp(prevY, targetCursorYPos, 0.4)
+    lerp(prevY, targetCursorYPos, 0.5)
    );
 
    frameId = requestAnimationFrame(animate);
@@ -107,7 +107,7 @@ export const TypeBox = (props: TypeBoxProps) => {
  }, [currentWord]);
 
  let text = [
-  <span className="text-gray-300">
+  <span className="text-white">
    {props.words.slice(0, props.wordIndex).join(" ") + " "}
   </span>,
  ];

@@ -16,7 +16,6 @@ import {
 
 type InGameProps = {
  sendRequest: (request: ArrayBuffer) => void;
- token: string;
 };
 
 export const InGame = (props: InGameProps) => {
@@ -24,13 +23,16 @@ export const InGame = (props: InGameProps) => {
  const gameState: GameState = useSelector(
   (state: RootState) => state.game
  );
+ const player = useSelector(
+  (state: RootState) => state.player
+ );
  const [wordIndex, setWordIndex] = React.useState(0);
 
  const { words, players, state } = gameState;
 
  const handleWordComplete = (word: string) => {
   const finishedWordRequest: OneofRequest = {
-   sender_id: props.token,
+   sender_id: player.token,
    type_word: {
     word: words[wordIndex],
    },
@@ -41,7 +43,7 @@ export const InGame = (props: InGameProps) => {
   );
   dispatch(
    wordFinished({
-    id: props.token,
+    id: player.token,
     progress: (wordIndex + 1) / words.length,
    })
   );

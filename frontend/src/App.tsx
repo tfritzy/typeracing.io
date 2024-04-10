@@ -1,7 +1,7 @@
 import React from "react";
 import { decodeOneofUpdate } from "./compiled";
 import { Stars } from "./Stars";
-import { MainMenu } from "./MainMenu";
+import { HomeScreen } from "./HomeScreen";
 import { InGame } from "./InGame";
 import { useDispatch } from "react-redux";
 import {
@@ -11,6 +11,8 @@ import {
  addPlayer,
  wordFinished,
 } from "./store/gameSlice";
+import { generateRandomName } from "./generateRandomName";
+import { updatePlayer } from "./store/playerSlice";
 
 export type PlayerData = {
  id: string;
@@ -29,14 +31,21 @@ function App() {
   State.Menu
  );
  const [ws, setWs] = React.useState<WebSocket | null>(null);
- const [token, setToken] = React.useState<string>("");
- const [playerName, setPlayerName] =
-  React.useState<string>("");
 
  React.useEffect(() => {
   const token =
    "tkn_" + Math.random().toString(36).substring(7);
-  setToken(token);
+  const playerId =
+   "plyr_" + Math.random().toString(36).substring(7);
+
+  dispatch(
+   updatePlayer({
+    token: token,
+    name: generateRandomName(),
+    id: playerId,
+   })
+  );
+
   var ws = new WebSocket(
    `ws://localhost:5000/?token=${token}`
   );
@@ -110,10 +119,7 @@ function App() {
  let content;
  if (state === State.Menu) {
   content = (
-   <MainMenu
-    token={token}
-    playerName={playerName}
-    setPlayerName={setPlayerName}
+   <HomeScreen
     sendRequest={(request) => {
      if (ws) {
       ws.send(request);
@@ -129,7 +135,6 @@ function App() {
       ws.send(request);
      }
     }}
-    token={token}
    />
   );
  }
