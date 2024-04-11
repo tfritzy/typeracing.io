@@ -32,19 +32,18 @@ public class Game
         MaxPlayers = maxPlayers;
         Galaxy = galaxy;
         StartTime = Time.Now;
-        Phrase = Phrases.GetRandomPhrase();
+        Phrase = Phrases.GetRandomDictionaryPhrase();
         Words = Phrases.GetWords(Phrase);
     }
 
     public void Update()
     {
-        if (State == GameState.Running)
-        {
-            return;
-        }
-
         UpdatePlayerPositions();
+        CheckStartGame();
+    }
 
+    private void CheckStartGame()
+    {
         if (Time.Now - StartTime > CountdownDuration)
         {
             State = GameState.Running;
@@ -63,7 +62,7 @@ public class Game
     {
         foreach (InGamePlayer player in Players)
         {
-            player.Position += player.Velocity_km_s * Time.DeltaTime;
+            player.PositionKm += player.Velocity_km_s * Time.DeltaTime;
         }
     }
 

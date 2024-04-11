@@ -6,7 +6,7 @@ public class InGamePlayer
     public string Id { get; set; }
     public int WordIndex { get; set; }
     public float Velocity_km_s { get; set; }
-    public float Position { get; set; }
+    public float PositionKm { get; set; }
 
     public InGamePlayer(string name, string id)
     {
@@ -14,6 +14,6 @@ public class InGamePlayer
         Id = id;
         WordIndex = 0;
         Velocity_km_s = 0;
-        Position = 0;
+        PositionKm = 0;
     }
 }

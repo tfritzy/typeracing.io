@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text;
 using System.Text.Json;
 
 namespace LightspeedTyperacing;
@@ -40,7 +41,35 @@ public static class Phrases
         File.WriteAllText(path, JsonSerializer.Serialize(phrases));
     }
 
-    public static string GetRandomPhrase()
+    public static string GetRandomDictionaryPhrase()
+    {
+        string? baseDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        if (baseDirectory == null)
+        {
+            throw new InvalidOperationException("Base directory could not be determined.");
+        }
+
+        string wordsPath = Path.Combine(baseDirectory, "data", "dictionary", "words.txt");
+
+        if (!File.Exists(wordsPath))
+        {
+            throw new FileNotFoundException($"The file {wordsPath} was not found.");
+        }
+
+        List<string> words = File.ReadAllLines(wordsPath).ToList();
+        Random random = new();
+        StringBuilder phrase = new();
+        var numWords = random.Next(41, 79);
+        for (int i = 0; i < numWords; i++)
+        {
+            phrase.Append(words[random.Next(words.Count)]);
+            phrase.Append(" ");
+        }
+
+        return phrase.ToString();
+    }
+
+    public static string GetRandomBookPhrase()
     {
         string? baseDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         if (baseDirectory == null)

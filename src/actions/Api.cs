@@ -96,6 +96,8 @@ public static class Api
         if (game.Words[player.WordIndex] == word)
         {
             player.WordIndex++;
+            float velocity = Game.CalculateVelocity((float)player.WordIndex / game.Words.Length);
+            player.Velocity_km_s = velocity;
 
             foreach (InGamePlayer p in game.Players)
             {
@@ -107,7 +109,8 @@ public static class Api
                         {
                             PlayerId = playerId,
                             PercentComplete = (float)player.WordIndex / game.Words.Length,
-                            VelocityKmS = Game.CalculateVelocity((float)player.WordIndex / game.Words.Length)
+                            VelocityKmS = velocity,
+                            PositionKm = player.PositionKm
                         }
                     }
                 );
