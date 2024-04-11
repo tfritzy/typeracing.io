@@ -695,6 +695,8 @@ function _decodePlayerJoinedGame(bb: ByteBuffer): PlayerJoinedGame {
 export interface WordFinished {
   player_id?: string;
   percent_complete?: number;
+  velocity_km_s?: number;
+  position_km?: number;
 }
 
 export function encodeWordFinished(message: WordFinished): Uint8Array {
@@ -716,6 +718,20 @@ function _encodeWordFinished(message: WordFinished, bb: ByteBuffer): void {
   if ($percent_complete !== undefined) {
     writeVarint32(bb, 21);
     writeFloat(bb, $percent_complete);
+  }
+
+  // optional float velocity_km_s = 3;
+  let $velocity_km_s = message.velocity_km_s;
+  if ($velocity_km_s !== undefined) {
+    writeVarint32(bb, 29);
+    writeFloat(bb, $velocity_km_s);
+  }
+
+  // optional float position_km = 4;
+  let $position_km = message.position_km;
+  if ($position_km !== undefined) {
+    writeVarint32(bb, 37);
+    writeFloat(bb, $position_km);
   }
 }
 
@@ -742,6 +758,18 @@ function _decodeWordFinished(bb: ByteBuffer): WordFinished {
       // optional float percent_complete = 2;
       case 2: {
         message.percent_complete = readFloat(bb);
+        break;
+      }
+
+      // optional float velocity_km_s = 3;
+      case 3: {
+        message.velocity_km_s = readFloat(bb);
+        break;
+      }
+
+      // optional float position_km = 4;
+      case 4: {
+        message.position_km = readFloat(bb);
         break;
       }
 

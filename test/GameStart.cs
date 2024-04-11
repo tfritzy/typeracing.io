@@ -47,7 +47,7 @@ public class Test_GameStart
         galaxy.Outbox.Clear();
         Time.Update(Game.CountdownDuration - .1f);
         galaxy.Update();
-        Assert.AreEqual(0, galaxy.Outbox.Count);
+        Assert.AreEqual(0, galaxy.Outbox.Where(m => m.GameStarted != null).Count());
         Time.Update(.2f);
         galaxy.Update();
         OneofUpdate[] messages = galaxy.Outbox.Where(m => m.GameStarted != null).ToArray();

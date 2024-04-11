@@ -99,11 +99,6 @@ public static class Api
 
             foreach (InGamePlayer p in game.Players)
             {
-                if (p.Id == playerId)
-                {
-                    continue;
-                }
-
                 galaxy.Outbox.Enqueue(
                     new OneofUpdate
                     {
@@ -111,7 +106,8 @@ public static class Api
                         WordFinished = new WordFinished
                         {
                             PlayerId = playerId,
-                            PercentComplete = (float)player.WordIndex / game.Words.Length
+                            PercentComplete = (float)player.WordIndex / game.Words.Length,
+                            VelocityKmS = Game.CalculateVelocity((float)player.WordIndex / game.Words.Length)
                         }
                     }
                 );

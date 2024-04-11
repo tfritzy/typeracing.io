@@ -123,7 +123,7 @@ public class GameTests
         Api.TypeWord(game.Words[^1], test.Players[3].Id, test.Galaxy);
         Assert.AreEqual(4, test.Galaxy.Outbox.Where((m) => m.PlayerCompleted != null).Count());
         Assert.AreEqual(4, test.Galaxy.Outbox.Where((m) => m.GameOver != null).Count());
-        Assert.AreEqual(3, test.Galaxy.Outbox.Where((m) => m.WordFinished != null).Count());
+        Assert.AreEqual(4, test.Galaxy.Outbox.Where((m) => m.WordFinished != null).Count());
         Assert.AreEqual(3, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[0].Id).Count());
         Assert.AreEqual(3, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[1].Id).Count());
         Assert.AreEqual(3, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[2].Id).Count());
@@ -141,8 +141,9 @@ public class GameTests
 
         test.Galaxy.Outbox.Clear();
         Api.TypeWord(game.Words[0], test.Players[0].Id, test.Galaxy);
-        Assert.AreEqual(3, test.Galaxy.Outbox.Count);
+        Assert.AreEqual(4, test.Galaxy.Outbox.Count);
         Assert.IsTrue(test.Galaxy.Outbox.All((m) => m.WordFinished != null));
+        Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[0].Id).Count());
         Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[1].Id).Count());
         Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[2].Id).Count());
         Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[3].Id).Count());
@@ -180,6 +181,30 @@ public class GameTests
             Phrases.GetWords("The world is just so beautiful."),
             new string[] { "The", "world", "is", "just", "so", "beautiful." }
         );
+    }
+
+    [TestMethod]
+    public void Game_FinishingWordSendsVelocityAndPosition()
+    {
+        TestSetup test = new();
+        var game = test.Galaxy.ActiveGames[test.Galaxy.PlayerGameMap[test.Players[0].Id]];
+        Time.Update(Game.CountdownDuration + .1f);
+        test.Galaxy.Update();
+
+        test.Galaxy.Outbox.Clear();
+        Api.TypeWord(game.Words[0], test.Players[0].Id, test.Galaxy);
+        Assert.AreEqual(4, test.Galaxy.Outbox.Count);
+        Assert.IsTrue(test.Galaxy.Outbox.All((m) => m.WordFinished != null));
+        Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[0].Id).Count());
+        Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[1].Id).Count());
+        Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[2].Id).Count());
+        Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[3].Id).Count());
+        Assert.IsTrue(test.Galaxy.Outbox.All((m) => m.WordFinished.PlayerId == test.Players[0].Id));
+        float percentComplete = 1 / (float)game.Words.Length;
+        float expectedVelocity = Game.CalculateVelocity(percentComplete);
+        Assert.IsTrue(test.Galaxy.Outbox.All(m => m.WordFinished.PercentComplete == percentComplete));
+        Assert.IsTrue(test.Galaxy.Outbox.All(m => m.WordFinished.VelocityKmS == expectedVelocity));
+        Assert.IsTrue(test.Galaxy.Outbox.All(m => m.WordFinished.PositionKm == 0)); // No time updates
     }
 
     [TestMethod]

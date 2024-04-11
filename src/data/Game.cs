@@ -13,6 +13,8 @@ public class Game
     private readonly float StartTime;
 
     public const float CountdownDuration = 3;
+    public const int NetworkTickRate = 10;
+    public const float NetworkTickDuration = 1 / NetworkTickRate;
 
     public enum GameState
     {
@@ -22,7 +24,7 @@ public class Game
         Complete
     }
 
-    public Game(Galaxy galaxy, int maxPlayers = 2)
+    public Game(Galaxy galaxy, int maxPlayers = 4)
     {
         Players = new List<InGamePlayer>();
         Placements = new List<string>();
@@ -41,6 +43,8 @@ public class Game
             return;
         }
 
+        UpdatePlayerPositions();
+
         if (Time.Now - StartTime > CountdownDuration)
         {
             State = GameState.Running;
@@ -53,5 +57,23 @@ public class Game
                 });
             }
         }
+    }
+
+    private void UpdatePlayerPositions()
+    {
+        foreach (InGamePlayer player in Players)
+        {
+            player.Position += player.Velocity_km_s * Time.DeltaTime;
+        }
+    }
+
+    public static float CalculateVelocity(float percentComplete)
+    {
+        if (percentComplete > 1)
+        {
+            throw new ArgumentException("percentComplete must be between 0 and 1");
+        }
+
+        return MathF.Pow(MathF.E, (percentComplete * 100) / 20) - 1;
     }
 }

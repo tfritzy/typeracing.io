@@ -50,11 +50,12 @@ namespace LightspeedTyperacing
             "EQoJY291bnRkb3duGAEgASgCEg4KBnBocmFzZRgCIAEoCSIzCg9QbGF5ZXJD",
             "b21wbGV0ZWQSEQoJcGxheWVyX2lkGAEgASgJEg0KBXBsYWNlGAIgASgFIksK",
             "EFBsYXllckpvaW5lZEdhbWUSEQoJcGxheWVyX2lkGAEgASgJEhMKC3BsYXll",
-            "cl9uYW1lGAIgASgJEg8KB2dhbWVfaWQYAyABKAkiOwoMV29yZEZpbmlzaGVk",
+            "cl9uYW1lGAIgASgJEg8KB2dhbWVfaWQYAyABKAkiZwoMV29yZEZpbmlzaGVk",
             "EhEKCXBsYXllcl9pZBgBIAEoCRIYChBwZXJjZW50X2NvbXBsZXRlGAIgASgC",
-            "Il4KFFlvdXZlQmVlbkFkZGVkVG9HYW1lEg8KB2dhbWVfaWQYAiABKAkSNQoP",
-            "Y3VycmVudF9wbGF5ZXJzGAMgAygLMhwuTGlnaHRzcGVlZFR5cGVyYWNpbmcu",
-            "UGxheWVyYgZwcm90bzM="));
+            "EhUKDXZlbG9jaXR5X2ttX3MYAyABKAISEwoLcG9zaXRpb25fa20YBCABKAIi",
+            "XgoUWW91dmVCZWVuQWRkZWRUb0dhbWUSDwoHZ2FtZV9pZBgCIAEoCRI1Cg9j",
+            "dXJyZW50X3BsYXllcnMYAyADKAsyHC5MaWdodHNwZWVkVHlwZXJhY2luZy5Q",
+            "bGF5ZXJiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -68,7 +69,7 @@ namespace LightspeedTyperacing
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.GameStarting), global::LightspeedTyperacing.GameStarting.Parser, new[]{ "Countdown", "Phrase" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.PlayerCompleted), global::LightspeedTyperacing.PlayerCompleted.Parser, new[]{ "PlayerId", "Place" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.PlayerJoinedGame), global::LightspeedTyperacing.PlayerJoinedGame.Parser, new[]{ "PlayerId", "PlayerName", "GameId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.WordFinished), global::LightspeedTyperacing.WordFinished.Parser, new[]{ "PlayerId", "PercentComplete" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.WordFinished), global::LightspeedTyperacing.WordFinished.Parser, new[]{ "PlayerId", "PercentComplete", "VelocityKmS", "PositionKm" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.YouveBeenAddedToGame), global::LightspeedTyperacing.YouveBeenAddedToGame.Parser, new[]{ "GameId", "CurrentPlayers" }, null, null, null, null)
           }));
     }
@@ -3029,6 +3030,8 @@ namespace LightspeedTyperacing
     {
       playerId_ = other.playerId_;
       percentComplete_ = other.percentComplete_;
+      velocityKmS_ = other.velocityKmS_;
+      positionKm_ = other.positionKm_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3067,6 +3070,34 @@ namespace LightspeedTyperacing
       }
     }
 
+    /// <summary>Field number for the "velocity_km_s" field.</summary>
+    public const int VelocityKmSFieldNumber = 3;
+    private float velocityKmS_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float VelocityKmS
+    {
+      get { return velocityKmS_; }
+      set
+      {
+        velocityKmS_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "position_km" field.</summary>
+    public const int PositionKmFieldNumber = 4;
+    private float positionKm_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float PositionKm
+    {
+      get { return positionKm_; }
+      set
+      {
+        positionKm_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other)
@@ -3088,6 +3119,8 @@ namespace LightspeedTyperacing
       }
       if (PlayerId != other.PlayerId) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PercentComplete, other.PercentComplete)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(VelocityKmS, other.VelocityKmS)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PositionKm, other.PositionKm)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -3098,6 +3131,8 @@ namespace LightspeedTyperacing
       int hash = 1;
       if (PlayerId.Length != 0) hash ^= PlayerId.GetHashCode();
       if (PercentComplete != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PercentComplete);
+      if (VelocityKmS != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(VelocityKmS);
+      if (PositionKm != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PositionKm);
       if (_unknownFields != null)
       {
         hash ^= _unknownFields.GetHashCode();
@@ -3127,6 +3162,14 @@ namespace LightspeedTyperacing
         output.WriteRawTag(21);
         output.WriteFloat(PercentComplete);
       }
+      if (VelocityKmS != 0F) {
+        output.WriteRawTag(29);
+        output.WriteFloat(VelocityKmS);
+      }
+      if (PositionKm != 0F) {
+        output.WriteRawTag(37);
+        output.WriteFloat(PositionKm);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -3148,6 +3191,16 @@ namespace LightspeedTyperacing
         output.WriteRawTag(21);
         output.WriteFloat(PercentComplete);
       }
+      if (VelocityKmS != 0F)
+      {
+        output.WriteRawTag(29);
+        output.WriteFloat(VelocityKmS);
+      }
+      if (PositionKm != 0F)
+      {
+        output.WriteRawTag(37);
+        output.WriteFloat(PositionKm);
+      }
       if (_unknownFields != null)
       {
         _unknownFields.WriteTo(ref output);
@@ -3165,6 +3218,14 @@ namespace LightspeedTyperacing
         size += 1 + pb::CodedOutputStream.ComputeStringSize(PlayerId);
       }
       if (PercentComplete != 0F)
+      {
+        size += 1 + 4;
+      }
+      if (VelocityKmS != 0F)
+      {
+        size += 1 + 4;
+      }
+      if (PositionKm != 0F)
       {
         size += 1 + 4;
       }
@@ -3191,6 +3252,14 @@ namespace LightspeedTyperacing
       {
         PercentComplete = other.PercentComplete;
       }
+      if (other.VelocityKmS != 0F)
+      {
+        VelocityKmS = other.VelocityKmS;
+      }
+      if (other.PositionKm != 0F)
+      {
+        PositionKm = other.PositionKm;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -3213,6 +3282,14 @@ namespace LightspeedTyperacing
           }
           case 21: {
             PercentComplete = input.ReadFloat();
+            break;
+          }
+          case 29: {
+            VelocityKmS = input.ReadFloat();
+            break;
+          }
+          case 37: {
+            PositionKm = input.ReadFloat();
             break;
           }
         }
@@ -3241,6 +3318,16 @@ namespace LightspeedTyperacing
           case 21:
             {
               PercentComplete = input.ReadFloat();
+              break;
+            }
+          case 29:
+            {
+              VelocityKmS = input.ReadFloat();
+              break;
+            }
+          case 37:
+            {
+              PositionKm = input.ReadFloat();
               break;
             }
         }
