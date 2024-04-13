@@ -19,7 +19,7 @@ export const MainMenu = (props: MainMenuProps) => {
   };
 
   return (
-    <div className="border border-neutral-200 bg-neutral-900">
+    <div className="border border-neutral-200 ">
       <div className="text-2xl w-full bg-neutral-200 text-neutral-900 px-4 py-2 uppercase font-semibold">
         Lightspeed Typeracing
       </div>

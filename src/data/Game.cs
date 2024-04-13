@@ -44,6 +44,11 @@ public class Game
 
     private void CheckStartGame()
     {
+        if (State != GameState.Countdown)
+        {
+            return;
+        }
+
         if (Time.Now - StartTime > CountdownDuration)
         {
             State = GameState.Running;

@@ -78,4 +78,27 @@ public class Test_GameStart
         Assert.AreEqual(1, gameStartingMessages.Count(m => m.RecipientId == players[3].Id));
         Assert.IsTrue(gameStartingMessages.All(m => m.GameStarting.Phrase == galaxy.ActiveGames.Values.First().Phrase));
     }
+
+    [TestMethod]
+    public void GameStart_StopsSendingStartEvent()
+    {
+        var galaxy = new Galaxy();
+        var players = new List<InGamePlayer>();
+        for (int i = 0; i < 4; i++)
+        {
+            InGamePlayer player = new(name: $"Player {i}", id: IdGen.NewPlayerId());
+            players.Add(player);
+            Api.FindGame(player.Name, player.Id, galaxy);
+        }
+
+        galaxy.Outbox.Clear();
+        Time.Update(Game.CountdownDuration + .1f);
+        galaxy.Update();
+        Assert.AreEqual(4, galaxy.Outbox.Where(m => m.GameStarted != null).Count());
+        galaxy.Outbox.Clear();
+
+        Time.Update(.1f);
+        galaxy.Update();
+        Assert.AreEqual(0, galaxy.Outbox.Where(m => m.GameStarted != null).Count());
+    }
 }

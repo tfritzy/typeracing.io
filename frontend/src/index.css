@@ -16,8 +16,7 @@ code {
     monospace;
 }
 
-/* You can also apply it to specific elements */
-input::selection {
+.typebox::selection {
   background-color: transparent;
 }
 
