@@ -75,9 +75,13 @@ const ThreeCanvas: React.FC = () => {
    camera.updateProjectionMatrix();
   };
 
+  let lastTime = 0;
   const render = () => {
+   const time = performance.now();
+   const delta_s = (time - lastTime) / 1000;
    stars.forEach((star) => {
-    const speed = star.position.z * 80 * shipSpeed.current;
+    const speed =
+     star.position.z * 2 * shipSpeed.current * delta_s;
     star.scale.x = 1 + speed / 4;
     star.position.x -= speed;
     if (star.position.x < -width) {
