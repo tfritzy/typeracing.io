@@ -1,18 +1,16 @@
 import React from "react";
 import { MainMenu } from "./MainMenu";
-import { ShipEditor } from "./ShipEditor";
 
 type StartGameProps = {
- sendRequest: (request: ArrayBuffer) => void;
+  sendRequest: (request: ArrayBuffer) => void;
 };
 
 export const HomeScreen = (props: StartGameProps) => {
- return (
-  <div className="w-full h-screen flex flex-col items-center justify-center text-white">
-   <div className="flex flex-row space-x-4">
-    <MainMenu sendRequest={props.sendRequest} />
-    <ShipEditor />
-   </div>
-  </div>
- );
+  return (
+    <div className="w-full h-screen flex flex-col items-center justify-center text-white">
+      <div className="flex flex-row space-x-4">
+        <MainMenu sendRequest={props.sendRequest} />
+      </div>
+    </div>
+  );
 };

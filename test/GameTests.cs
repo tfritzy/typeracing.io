@@ -14,9 +14,9 @@ public class GameTests
             Players = new();
             for (int i = 0; i < 4; i++)
             {
-                InGamePlayer player = new(name: $"Player {i}", id: IdGen.NewPlayerId());
+                InGamePlayer player = new(name: $"Player {i}", id: IdGen.NewPlayerId(), token: IdGen.NewToken());
                 Players.Add(player);
-                Api.FindGame(player.Name, player.Id, Galaxy);
+                Api.FindGame(player.Name, player.Id, player.Token, Galaxy);
             }
         }
     }
@@ -156,13 +156,13 @@ public class GameTests
     public void Game_HasCorrectState()
     {
         Galaxy galaxy = new();
-        Api.FindGame("Alice", IdGen.NewPlayerId(), galaxy);
+        Api.FindGame("Alice", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy);
         Game game = galaxy.OpenGames[0];
         Assert.AreEqual(Game.GameState.Lobby, game.State);
-        Api.FindGame("Bob", IdGen.NewPlayerId(), galaxy);
-        Api.FindGame("Akshay", IdGen.NewPlayerId(), galaxy);
+        Api.FindGame("Bob", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy);
+        Api.FindGame("Akshay", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy);
         Assert.AreEqual(Game.GameState.Lobby, game.State);
-        Api.FindGame("Petunia", IdGen.NewPlayerId(), galaxy);
+        Api.FindGame("Petunia", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy);
         Assert.AreEqual(Game.GameState.Countdown, game.State);
         Time.Update(Game.CountdownDuration - .1f);
         galaxy.Update();
@@ -201,7 +201,7 @@ public class GameTests
         Assert.AreEqual(1, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[3].Id).Count());
         Assert.IsTrue(test.Galaxy.Outbox.All((m) => m.WordFinished.PlayerId == test.Players[0].Id));
         float percentComplete = 1 / (float)game.Words.Length;
-        float expectedVelocity = Game.CalculateVelocity(percentComplete);
+        float expectedVelocity = Game.CalculateVelocity_km_s(percentComplete);
         Assert.IsTrue(test.Galaxy.Outbox.All(m => m.WordFinished.PercentComplete == percentComplete));
         Assert.IsTrue(test.Galaxy.Outbox.All(m => m.WordFinished.VelocityKmS == expectedVelocity));
         Assert.IsTrue(test.Galaxy.Outbox.All(m => m.WordFinished.PositionKm == 0)); // No time updates
@@ -219,7 +219,7 @@ public class GameTests
         Assert.AreEqual(4, test.Galaxy.Outbox.Count);
         Assert.IsTrue(test.Galaxy.Outbox.All((m) => m.WordFinished != null));
         percentComplete = 2 / (float)game.Words.Length;
-        expectedVelocity = Game.CalculateVelocity(percentComplete);
+        expectedVelocity = Game.CalculateVelocity_km_s(percentComplete);
         Assert.IsTrue(test.Galaxy.Outbox.All(m => m.WordFinished.PercentComplete == percentComplete));
         Assert.IsTrue(test.Galaxy.Outbox.All(m => m.WordFinished.VelocityKmS == expectedVelocity));
         Assert.IsTrue(test.Galaxy.Outbox.All(m => m.WordFinished.PositionKm == expectedPosition));
@@ -229,7 +229,7 @@ public class GameTests
     public void Game_HasReasonablePhrase()
     {
         Galaxy galaxy = new();
-        Api.FindGame("Alice", IdGen.NewPlayerId(), galaxy);
+        Api.FindGame("Alice", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy);
         Game game = galaxy.OpenGames[0];
         Assert.IsTrue(game.Words.Length > 40);
         Assert.IsTrue(game.Words.Length < 100);

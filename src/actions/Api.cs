@@ -2,7 +2,7 @@ namespace LightspeedTyperacing;
 
 public static class Api
 {
-    public static void FindGame(string playerName, string playerId, Galaxy galaxy)
+    public static void FindGame(string playerName, string playerId, string playerToken, Galaxy galaxy)
     {
         if (galaxy.OpenGames.Count == 0)
         {
@@ -25,7 +25,7 @@ public static class Api
                     }
                 });
         }
-        openGame.Players.Add(new InGamePlayer(playerName, playerId));
+        openGame.Players.Add(new InGamePlayer(playerName, playerId, playerToken));
         galaxy.PlayerGameMap[playerId] = openGame.Id;
         var youveBeenAddedToGame = new YouveBeenAddedToGame() { GameId = openGame.Id, };
         foreach (var p in openGame.Players)
@@ -96,7 +96,7 @@ public static class Api
         if (game.Words[player.WordIndex] == word)
         {
             player.WordIndex++;
-            float velocity = Game.CalculateVelocity((float)player.WordIndex / game.Words.Length);
+            float velocity = Game.CalculateVelocity_km_s((float)player.WordIndex / game.Words.Length);
             player.Velocity_km_s = velocity;
 
             foreach (InGamePlayer p in game.Players)

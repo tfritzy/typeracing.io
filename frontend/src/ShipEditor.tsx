@@ -13,7 +13,7 @@ export const ShipEditor = () => {
         Shipyard
       </div>
 
-      <img src="/Ship.svg" alt="Ship" className="w-64 h-64 rotate-45" />
+      <img src="/Ship.svg" alt="Ship" className="w-32 h-32 rotate-45" />
 
       <div className="p-2">
         <input

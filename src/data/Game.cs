@@ -71,13 +71,13 @@ public class Game
         }
     }
 
-    public static float CalculateVelocity(float percentComplete)
+    public static float CalculateVelocity_km_s(float percentComplete)
     {
         if (percentComplete > 1)
         {
             throw new ArgumentException("percentComplete must be between 0 and 1");
         }
 
-        return MathF.Pow(MathF.E, (percentComplete * 100) / 20) - 1;
+        return 299_792f * percentComplete;
     }
 }

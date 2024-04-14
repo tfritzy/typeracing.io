@@ -2,16 +2,53 @@ import React, { useRef, useEffect } from "react";
 import * as THREE from "three";
 import { splitmix32 } from "./helpers/splitmix32";
 import { generateStar } from "./helpers/starGenerator";
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
-import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
-import { ColorGradientShader } from "./ColorGradientShader";
+import { BackgroundColor, SpeedOfLightKmS } from "./constants";
+import { useSelector } from "react-redux";
+import { RootState } from "./store/store";
 
-const starColors = ["#68c2d3", "#a2dcc7"];
+const starColors = ["#ffffff"];
 const MAX_SHIP_SPEED = 20000;
 const NUM_STARS = 2000;
 const baseGeometry = new THREE.CircleGeometry(1, 6);
 baseGeometry.rotateZ(Math.PI / 2);
+
+function lerpColor(color1: string, color2: string, t: number) {
+  let r1 = parseInt(color1.substring(1, 3), 16);
+  let g1 = parseInt(color1.substring(3, 5), 16);
+  let b1 = parseInt(color1.substring(5, 7), 16);
+
+  let r2 = parseInt(color2.substring(1, 3), 16);
+  let g2 = parseInt(color2.substring(3, 5), 16);
+  let b2 = parseInt(color2.substring(5, 7), 16);
+
+  let r = Math.round(r1 + (r2 - r1) * t);
+  let g = Math.round(g1 + (g2 - g1) * t);
+  let b = Math.round(b1 + (b2 - b1) * t);
+
+  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+function shakeCamera(camera: THREE.Camera, duration = 500, magnitude = 0.05) {
+  const startTime = performance.now();
+  const shake = () => {
+    const elapsed = performance.now() - startTime;
+    const remaining = duration - elapsed;
+
+    if (remaining > 0) {
+      const x = (Math.random() * 2 - 1) * magnitude;
+      const y = (Math.random() * 2 - 1) * magnitude;
+
+      camera.position.x += x;
+      camera.position.y += y;
+
+      requestAnimationFrame(shake);
+    } else {
+      camera.position.x = 0;
+      camera.position.y = 0;
+    }
+  };
+  shake();
+}
 
 const generateStars = (width: number, height: number) => {
   const stars = [];
@@ -41,13 +78,17 @@ const generateStars = (width: number, height: number) => {
 };
 
 const ThreeCanvas: React.FC = () => {
-  const [inputSpeed, setInputSpeed] = React.useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const shipSpeed = useRef<number>(0.5);
+  const playerShipSpeed =
+    useSelector(
+      (state: RootState) =>
+        state.game.players.find((p) => p.id === state.player.id)?.velocity_km_s
+    ) || 0;
 
   useEffect(() => {
-    shipSpeed.current = inputSpeed;
-  }, [inputSpeed]);
+    shipSpeed.current = playerShipSpeed / SpeedOfLightKmS;
+  }, [playerShipSpeed]);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -66,6 +107,7 @@ const ThreeCanvas: React.FC = () => {
       1,
       1000
     );
+    shakeCamera(camera, 500, 0.05);
     camera.position.z = 500; // adjust accordingly
 
     for (const star of stars) {
@@ -76,7 +118,7 @@ const ThreeCanvas: React.FC = () => {
       canvas: canvasRef.current,
       antialias: true,
     });
-    renderer.setClearColor("#3a3858");
+    renderer.setClearColor(BackgroundColor);
     const adjustCanvas = () => {
       dpr = window.devicePixelRatio || 1;
       width = window.innerWidth * dpr;
@@ -86,24 +128,18 @@ const ThreeCanvas: React.FC = () => {
     };
     adjustCanvas();
 
-    // const composer = new EffectComposer(renderer);
-    // composer.addPass(new RenderPass(scene, camera));
-    // const colorGradientShader = new ShaderPass(ColorGradientShader);
-    // composer.addPass(colorGradientShader);
-
     let lastTime = 0;
     const render = () => {
-      // colorGradientShader.uniforms.speed.value =
-      //   shipSpeed.current * shipSpeed.current * shipSpeed.current;
-
       const time = performance.now();
       const delta_s = (time - lastTime) / 1000;
       lastTime = performance.now();
+      stars[0].material.color.set(
+        lerpColor("#ffffff", BackgroundColor, shipSpeed.current * 0.6)
+      );
       stars.forEach((star) => {
-        // exponentially map from 0 to MAX_SHIP_SPEED
         const speed = shipSpeed.current * MAX_SHIP_SPEED * star.position.z;
         star.scale.x = Math.max(
-          1,
+          star.scale.y,
           shipSpeed.current * shipSpeed.current * star.position.z * 600
         );
         star.position.x -= speed * delta_s;
@@ -112,6 +148,14 @@ const ThreeCanvas: React.FC = () => {
           star.position.y = (Math.random() * 2 - 1) * height;
         }
       });
+
+      // Screen shake
+      const x =
+        (Math.random() * 2 - 1) * shipSpeed.current * shipSpeed.current * 5;
+      const y =
+        (Math.random() * 2 - 1) * shipSpeed.current * shipSpeed.current * 5;
+      camera.position.x = x;
+      camera.position.y = y;
 
       requestAnimationFrame(render);
       renderer.render(scene, camera);
@@ -130,29 +174,17 @@ const ThreeCanvas: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <div className="fixed left-[50%] bottom-[50%] transform translate-x-[-50%] translate-y-[-50%] flex flex-col space-y-4">
-        <div className="text-white text-3xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
-          {Math.trunc(inputSpeed * 299792).toLocaleString()} km/s
-        </div>
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step=".01"
-          value={inputSpeed}
-          onChange={(e) => setInputSpeed(parseFloat(e.target.value))}
-          className="w-96 h-4 bg-neutral-600 rounded-full appearance-none"
-        />
-      </div>
-      <canvas
-        ref={canvasRef}
-        style={{
-          width: "100%",
-          height: "100%",
-        }}
-      />
-    </>
+    <canvas
+      ref={canvasRef}
+      style={{
+        width: "100%",
+        height: "100%",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        zIndex: -1,
+      }}
+    />
   );
 };
 

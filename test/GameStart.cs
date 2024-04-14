@@ -10,16 +10,16 @@ public class Test_GameStart
         var players = new List<InGamePlayer>();
         for (int i = 0; i < 3; i++)
         {
-            InGamePlayer player = new InGamePlayer(name: $"Player {i}", id: IdGen.NewPlayerId());
+            InGamePlayer player = new InGamePlayer($"Player {i}", IdGen.NewPlayerId(), IdGen.NewToken());
             players.Add(player);
-            Api.FindGame(player.Name, player.Id, galaxy);
+            Api.FindGame(player.Name, player.Id, player.Token, galaxy);
         }
 
         galaxy.Outbox.Clear();
-        players.Add(new InGamePlayer(name: "Player 3", id: IdGen.NewPlayerId()));
+        players.Add(new InGamePlayer(name: "Player 3", id: IdGen.NewPlayerId(), token: IdGen.NewToken()));
         Assert.AreEqual(1, galaxy.OpenGames.Count);
         Assert.AreEqual(0, galaxy.ActiveGames.Count);
-        Api.FindGame("Player 3", players[3].Id, galaxy);
+        Api.FindGame("Player 3", players[3].Id, players[3].Token, galaxy);
         Assert.AreEqual(0, galaxy.OpenGames.Count);
         Assert.AreEqual(1, galaxy.ActiveGames.Count);
         OneofUpdate[] messages =
@@ -39,9 +39,9 @@ public class Test_GameStart
         var players = new List<InGamePlayer>();
         for (int i = 0; i < 4; i++)
         {
-            InGamePlayer player = new(name: $"Player {i}", id: IdGen.NewPlayerId());
+            InGamePlayer player = new(name: $"Player {i}", id: IdGen.NewPlayerId(), token: IdGen.NewToken());
             players.Add(player);
-            Api.FindGame(player.Name, player.Id, galaxy);
+            Api.FindGame(player.Name, player.Id, player.Token, galaxy);
         }
 
         galaxy.Outbox.Clear();
@@ -65,9 +65,9 @@ public class Test_GameStart
         var players = new List<InGamePlayer>();
         for (int i = 0; i < 4; i++)
         {
-            InGamePlayer player = new(name: $"Player {i}", id: IdGen.NewPlayerId());
+            InGamePlayer player = new(name: $"Player {i}", id: IdGen.NewPlayerId(), token: IdGen.NewToken());
             players.Add(player);
-            Api.FindGame(player.Name, player.Id, galaxy);
+            Api.FindGame(player.Name, player.Id, player.Token, galaxy);
         }
 
         var gameStartingMessages = galaxy.Outbox.Where(m => m.GameStarting != null).ToArray();
@@ -86,9 +86,9 @@ public class Test_GameStart
         var players = new List<InGamePlayer>();
         for (int i = 0; i < 4; i++)
         {
-            InGamePlayer player = new(name: $"Player {i}", id: IdGen.NewPlayerId());
+            InGamePlayer player = new(name: $"Player {i}", id: IdGen.NewPlayerId(), token: IdGen.NewToken());
             players.Add(player);
-            Api.FindGame(player.Name, player.Id, galaxy);
+            Api.FindGame(player.Name, player.Id, player.Token, galaxy);
         }
 
         galaxy.Outbox.Clear();

@@ -33,4 +33,5 @@ public static class IdGen
 
     public static string NewPlayerId() => GenerateId("plyr");
     public static string NewGameId() => GenerateId("game");
+    public static string NewToken() => GenerateId("tkn");
 }

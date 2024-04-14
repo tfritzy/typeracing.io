@@ -17,6 +17,7 @@ message OneofRequest {
 
 message FindGameRequest {
     string player_name = 1;
+    string player_token = 2;
 }
 
 message TypeWordRequest {

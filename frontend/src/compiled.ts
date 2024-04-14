@@ -148,6 +148,7 @@ function _decodeOneofRequest(bb: ByteBuffer): OneofRequest {
 
 export interface FindGameRequest {
   player_name?: string;
+  player_token?: string;
 }
 
 export function encodeFindGameRequest(message: FindGameRequest): Uint8Array {
@@ -162,6 +163,13 @@ function _encodeFindGameRequest(message: FindGameRequest, bb: ByteBuffer): void 
   if ($player_name !== undefined) {
     writeVarint32(bb, 10);
     writeString(bb, $player_name);
+  }
+
+  // optional string player_token = 2;
+  let $player_token = message.player_token;
+  if ($player_token !== undefined) {
+    writeVarint32(bb, 18);
+    writeString(bb, $player_token);
   }
 }
 
@@ -182,6 +190,12 @@ function _decodeFindGameRequest(bb: ByteBuffer): FindGameRequest {
       // optional string player_name = 1;
       case 1: {
         message.player_name = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // optional string player_token = 2;
+      case 2: {
+        message.player_token = readString(bb, readVarint32(bb));
         break;
       }
 

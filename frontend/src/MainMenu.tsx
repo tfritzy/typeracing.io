@@ -3,6 +3,7 @@ import { FindGameRequest, OneofRequest, encodeOneofRequest } from "./compiled";
 import { GraduationCap, Group, Lock } from "iconoir-react";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
+import { BackgroundColor } from "./constants";
 
 type MainMenuProps = {
   sendRequest: (request: ArrayBuffer) => void;
@@ -12,14 +13,18 @@ export const MainMenu = (props: MainMenuProps) => {
   const player = useSelector((state: RootState) => state.player);
   const findGame: FindGameRequest = {
     player_name: player.name,
+    player_token: player.token,
   };
   const request: OneofRequest = {
-    sender_id: player.token,
+    sender_id: player.id,
     find_game: findGame,
   };
 
   return (
-    <div className="border border-neutral-200 ">
+    <div
+      className="border border-neutral-200 bg-background"
+      style={{ backgroundColor: BackgroundColor }}
+    >
       <div className="text-2xl w-full bg-neutral-200 text-neutral-900 px-4 py-2 uppercase font-semibold">
         Lightspeed Typeracing
       </div>
@@ -53,13 +58,14 @@ export const MainMenu = (props: MainMenuProps) => {
                 <div>Practice</div>
                 <GraduationCap height={16} width={16} />
               </div>
-              <div className="text-sm text-neutral-300">
+              <div className="text-sm text-neutral-200">
                 Race by your self to improve your typing skills
               </div>
             </div>
 
             <button
-              className="border border-neutral-100 text-neutral-100 px-3 py-2 bg-neutral-900 font-bold"
+              className="border border-neutral-100 text-neutral-100 px-3 py-2 font-bold"
+              style={{ backgroundColor: BackgroundColor }}
               onClick={() => alert("Coming soon!")}
             >
               Start practice
@@ -76,13 +82,14 @@ export const MainMenu = (props: MainMenuProps) => {
                 <div>Race against friends</div>
                 <Lock height={16} width={16} />
               </div>
-              <div className="text-sm text-neutral-300">
+              <div className="text-sm text-neutral-200">
                 Create a private lobby and invite your friends
               </div>
             </div>
 
             <button
               className="border border-neutral-100 text-neutral-100 px-3 py-2 bg-neutral-900 font-bold"
+              style={{ backgroundColor: BackgroundColor }}
               onClick={() => alert("Coming soon!")}
             >
               Create lobby

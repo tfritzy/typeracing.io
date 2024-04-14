@@ -71,8 +71,8 @@ public class Server
     public async Task AcceptConnection(HttpListenerContext context)
     {
         WebSocketContext webSocketContext = null;
-        var token = context.Request.QueryString["token"];
-        if (token == null)
+        var id = context.Request.QueryString["id"];
+        if (id == null)
         {
             context.Response.StatusCode = 400;
             context.Response.Close();
@@ -82,7 +82,7 @@ public class Server
         try
         {
             webSocketContext = await context.AcceptWebSocketAsync(subProtocol: null);
-            Connections[token] = webSocketContext.WebSocket;
+            Connections[id] = webSocketContext.WebSocket;
             Console.WriteLine($"WebSocket connection established at {context.Request.Url}");
         }
         catch (Exception e)
@@ -94,7 +94,7 @@ public class Server
         }
 
         WebSocket webSocket = webSocketContext.WebSocket;
-        _ = Task.Run(() => ListenLoop(webSocket, token));
+        _ = Task.Run(() => ListenLoop(webSocket, id));
     }
 
     private async void ListenLoop(WebSocket webSocket, string token)
@@ -164,7 +164,7 @@ public class Server
         switch (request.RequestCase)
         {
             case OneofRequest.RequestOneofCase.FindGame:
-                Api.FindGame(request.FindGame.PlayerName, request.SenderId, Galaxy);
+                Api.FindGame(request.FindGame.PlayerName, request.SenderId, request.FindGame.PlayerToken, Galaxy);
                 break;
             case OneofRequest.RequestOneofCase.TypeWord:
                 Api.TypeWord(request.TypeWord.Word, request.SenderId, Galaxy);
