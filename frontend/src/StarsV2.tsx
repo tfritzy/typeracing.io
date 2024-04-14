@@ -46,12 +46,21 @@ const ThreeCanvas: React.FC = () => {
     shipSpeed.current = inputSpeed;
   }, [inputSpeed]);
 
-  // Increment speed over time
+  // Increment speed over time. NOt framerate dependent
   useEffect(() => {
-    const interval = setInterval(() => {
-      setInputSpeed((prev) => Math.min(1, prev + 0.0001));
-    }, 1);
-    return () => clearInterval(interval);
+    let lastTime = performance.now();
+    let frameId: number;
+    const animate = () => {
+      const deltaTime = performance.now() - lastTime;
+      lastTime = performance.now();
+      setInputSpeed((prev) => Math.min(1, prev + deltaTime * 0.0001));
+      frameId = requestAnimationFrame(animate);
+    };
+    frameId = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+    };
   }, []);
 
   useEffect(() => {
