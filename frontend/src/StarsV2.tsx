@@ -9,7 +9,9 @@ import { ColorGradientShader } from "./ColorGradientShader";
 
 const starColors = ["#68c2d3", "#a2dcc7"];
 const MAX_SHIP_SPEED = 20000;
-const NUM_STARS = 3000;
+const NUM_STARS = 2000;
+const baseGeometry = new THREE.CircleGeometry(1, 6);
+baseGeometry.rotateZ(Math.PI / 2);
 
 const generateStars = (width: number, height: number) => {
   const stars = [];
@@ -26,9 +28,10 @@ const generateStars = (width: number, height: number) => {
     const geometry = new THREE.CircleGeometry(size, 6);
     geometry.rotateZ(Math.PI / 2);
     const circle = new THREE.Mesh(
-      geometry,
+      baseGeometry,
       materials[Math.floor(rng.next() * materials.length)]
     );
+    circle.scale.setScalar(1 + star.z * 2);
     circle.position.x = star.x * width;
     circle.position.y = star.y * height;
     circle.position.z = star.z;
@@ -45,23 +48,6 @@ const ThreeCanvas: React.FC = () => {
   useEffect(() => {
     shipSpeed.current = inputSpeed;
   }, [inputSpeed]);
-
-  // Increment speed over time. NOt framerate dependent
-  useEffect(() => {
-    let lastTime = performance.now();
-    let frameId: number;
-    const animate = () => {
-      const deltaTime = performance.now() - lastTime;
-      lastTime = performance.now();
-      setInputSpeed((prev) => Math.min(1, prev + deltaTime * 0.0001));
-      frameId = requestAnimationFrame(animate);
-    };
-    frameId = requestAnimationFrame(animate);
-
-    return () => {
-      cancelAnimationFrame(frameId);
-    };
-  }, []);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -100,15 +86,15 @@ const ThreeCanvas: React.FC = () => {
     };
     adjustCanvas();
 
-    const composer = new EffectComposer(renderer);
-    composer.addPass(new RenderPass(scene, camera));
-    const colorGradientShader = new ShaderPass(ColorGradientShader);
-    composer.addPass(colorGradientShader);
+    // const composer = new EffectComposer(renderer);
+    // composer.addPass(new RenderPass(scene, camera));
+    // const colorGradientShader = new ShaderPass(ColorGradientShader);
+    // composer.addPass(colorGradientShader);
 
     let lastTime = 0;
     const render = () => {
-      colorGradientShader.uniforms.speed.value =
-        shipSpeed.current * shipSpeed.current * shipSpeed.current;
+      // colorGradientShader.uniforms.speed.value =
+      //   shipSpeed.current * shipSpeed.current * shipSpeed.current;
 
       const time = performance.now();
       const delta_s = (time - lastTime) / 1000;
@@ -118,7 +104,7 @@ const ThreeCanvas: React.FC = () => {
         const speed = shipSpeed.current * MAX_SHIP_SPEED * star.position.z;
         star.scale.x = Math.max(
           1,
-          shipSpeed.current * shipSpeed.current * star.position.z * 400
+          shipSpeed.current * shipSpeed.current * star.position.z * 600
         );
         star.position.x -= speed * delta_s;
         if (star.position.x < -width) {
@@ -128,8 +114,8 @@ const ThreeCanvas: React.FC = () => {
       });
 
       requestAnimationFrame(render);
-      // renderer.render(scene, camera);
-      composer.render();
+      renderer.render(scene, camera);
+      // composer.render();
     };
 
     window.addEventListener("resize", adjustCanvas, false);
@@ -138,25 +124,26 @@ const ThreeCanvas: React.FC = () => {
     return () => {
       window.removeEventListener("resize", adjustCanvas);
       scene.clear();
-      // renderer.dispose();
-      composer.dispose();
+      renderer.dispose();
+      // composer.dispose();
     };
   }, []);
 
   return (
     <>
-      <div className="fixed left-[50%] bottom-[50%] transform[-translate-x-1/2 translate-y-1/2] z-10">
+      <div className="fixed left-[50%] bottom-[50%] transform translate-x-[-50%] translate-y-[-50%] flex flex-col space-y-4">
         <div className="text-white text-3xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
           {Math.trunc(inputSpeed * 299792).toLocaleString()} km/s
         </div>
-        {/* <input
+        <input
           type="range"
           min="0"
           max="1"
           step=".01"
           value={inputSpeed}
           onChange={(e) => setInputSpeed(parseFloat(e.target.value))}
-        /> */}
+          className="w-96 h-4 bg-neutral-600 rounded-full appearance-none"
+        />
       </div>
       <canvas
         ref={canvasRef}

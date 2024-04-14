@@ -20,8 +20,8 @@ export const ColorGradientShader = {
       void main() {
         vec4 texel = texture2D(tDiffuse, vUv);
         float xPosition = vUv.x;
-        vec3 leftColor = vec3(5, 2, 2);
-        vec3 rightColor = vec3(2, 2, 5); // Blue
+        vec3 leftColor = vec3(1, .75, .75);
+        vec3 rightColor = vec3(.75, .75, 1); // Blue
         vec3 color = mix(leftColor, rightColor, xPosition);
         color = mix(vec3(1.0, 1.0, 1.0), color, speed * speed); // Interpolate based on speed
         gl_FragColor = vec4(texel.rgb * color, texel.a);
