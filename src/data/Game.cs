@@ -9,10 +9,10 @@ public class Game
     public GameState State { get; set; }
     public string Phrase { get; private set; }
     public string[] Words { get; private set; }
+    public float StartTime;
     private Galaxy Galaxy { get; set; }
-    private readonly float StartTime;
 
-    public const float CountdownDuration = 3;
+    public const float CountdownDuration = 5;
     public const int NetworkTickRate = 10;
     public const float NetworkTickDuration = 1 / NetworkTickRate;
 
@@ -24,14 +24,13 @@ public class Game
         Complete
     }
 
-    public Game(Galaxy galaxy, int maxPlayers = 4)
+    public Game(Galaxy galaxy, int maxPlayers = 2)
     {
         Players = new List<InGamePlayer>();
         Placements = new List<string>();
         Id = IdGen.NewGameId();
         MaxPlayers = maxPlayers;
         Galaxy = galaxy;
-        StartTime = Time.Now;
         Phrase = Phrases.GetRandomDictionaryPhrase();
         Words = Phrases.GetWords(Phrase);
     }

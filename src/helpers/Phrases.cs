@@ -19,12 +19,12 @@ public static class Phrases
         foreach (string paragraph in paragraphs)
         {
             string[] words = paragraph.Split(" ");
-            if (words.Length < 40)
+            if (words.Length < 20)
             {
                 continue;
             }
 
-            if (words.Length > 100)
+            if (words.Length > 40)
             {
                 continue;
             }
@@ -59,11 +59,11 @@ public static class Phrases
         List<string> words = File.ReadAllLines(wordsPath).ToList();
         Random random = new();
         StringBuilder phrase = new();
-        var numWords = random.Next(41, 79);
+        var numWords = random.Next(20, 40);
         for (int i = 0; i < numWords; i++)
         {
             phrase.Append(words[random.Next(words.Count)]);
-            phrase.Append(" ");
+            if (i != numWords - 1) phrase.Append(" ");
         }
 
         return phrase.ToString();

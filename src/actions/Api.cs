@@ -43,6 +43,7 @@ public static class Api
             galaxy.OpenGames.Remove(openGame);
             galaxy.ActiveGames[openGame.Id] = openGame;
             openGame.State = Game.GameState.Countdown;
+            openGame.StartTime = Time.Now;
 
             foreach (InGamePlayer player in openGame.Players)
             {
@@ -92,7 +93,6 @@ public static class Api
             return;
         }
 
-        Console.WriteLine($"Player {playerId} typed {word}");
         if (game.Words[player.WordIndex] == word)
         {
             player.WordIndex++;
@@ -117,8 +117,11 @@ public static class Api
             }
         }
 
+        Console.WriteLine($"Player {playerId} is {player.WordIndex}/{game.Words.Length} complete");
+
         if (player.WordIndex >= game.Words.Length)
         {
+            Console.WriteLine($"Player {playerId} finished phrase.");
             game.Placements.Add(playerId);
             int place = game.Placements.Count;
             foreach (InGamePlayer p in game.Players)

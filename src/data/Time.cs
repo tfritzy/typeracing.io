@@ -5,9 +5,9 @@ public static class Time
     public static float Now { get; set; }
     public static float DeltaTime { get; set; }
 
-    public static void Update(float deltaTime)
+    public static void Update(float deltaTime_s)
     {
-        DeltaTime = deltaTime;
-        Now += deltaTime;
+        DeltaTime = deltaTime_s;
+        Now += deltaTime_s;
     }
 }

@@ -21,9 +21,11 @@ public class Galaxy
 
     public void Update()
     {
-        foreach (Game game in ActiveGames.Values)
+        for (int i = 0; i < ActiveGames.Count; i++)
         {
-            game.Update();
+            if (i >= ActiveGames.Count)
+                break;
+            ActiveGames.Values.ElementAt(i)?.Update();
         }
     }
 }

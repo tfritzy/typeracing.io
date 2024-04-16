@@ -40,32 +40,46 @@ public class Server
         }, TaskContinuationOptions.OnlyOnFaulted);
     }
 
-    public void StartTickTimer()
+    long lastTick = DateTime.Now.Ticks;
+    public void Tick()
     {
-        _ = Task.Run(async () =>
+        var now = DateTime.Now.Ticks;
+        float elapsed = now - lastTick;
+        lastTick = now;
+        Time.Update(elapsed / TimeSpan.TicksPerSecond);
+        Galaxy.Update();
+    }
+
+    public async void StartAcceptingConnections()
+    {
+        HttpListener httpListener = new();
+        httpListener.Prefixes.Add("http://localhost:5000/");
+        httpListener.Start();
+        Console.WriteLine("Listening...");
+
+        try
         {
-            int oneFrame = 1000 / 60;
             while (true)
             {
-                await Task.Delay(oneFrame);
-                try
+                Tick();
+                var context = await httpListener.GetContextAsync();
+                if (context.Request.IsWebSocketRequest)
                 {
-                    Time.Update(oneFrame);
-                    Galaxy.Update();
+                    var _ = Task.Run(() => AcceptConnection(context));
                 }
-                catch (Exception ex)
+                else
                 {
-                    Console.WriteLine("Failed to tick: " + ex.Message);
+                    context.Response.StatusCode = 400;
+                    context.Response.Close();
                 }
             }
-        }).ContinueWith(t =>
+        }
+        catch (Exception e)
         {
-            if (t.IsFaulted)
-            {
-                Console.WriteLine("Restarting Tick task...");
-                StartTickTimer();
-            }
-        }, TaskContinuationOptions.OnlyOnFaulted);
+            Console.WriteLine("Failed to accept connection: " + e.Message);
+
+            _ = Task.Run(() => StartAcceptingConnections());
+        }
     }
 
     public async Task AcceptConnection(HttpListenerContext context)
