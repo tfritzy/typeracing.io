@@ -14,9 +14,9 @@ type PlayerProps = {
 const Ship = () => {
  return (
   <img
-   src="/ship.svg"
+   src="/Ship.svg"
    alt="Ship"
-   className="w-16 h-16 rotate-90"
+   className="w-12 h-12 rotate-90"
   />
  );
 };
@@ -29,7 +29,7 @@ const PlayerRow = (player: PlayerProps) => {
     {player.velocity_km_s.toLocaleString()} km/s
    </div>
    <div className="text-gray-300 text-sm">
-    {player.position_km.toLocaleString()} km
+    {Math.round(player.position_km).toLocaleString()} km
    </div>
    <div
     className="absolute"
@@ -50,7 +50,7 @@ export const Players = () => {
  const players = useSelector(
   (state: RootState) => state.game.players
  );
- const self = players.find(
+ const selfIndex = players.findIndex(
   (player) => player.id === playerData.id
  );
  const [positionDeltas, setPositionDeltas] = React.useState<
@@ -59,10 +59,17 @@ export const Players = () => {
  const positionRefs = useRef<number[]>([]);
 
  useEffect(() => {
+  positionRefs.current = [];
+  for (let i = 0; i < players.length; i++) {
+   positionRefs.current.push(players[i].position_km);
+  }
+ }, [players]);
+
+ useEffect(() => {
   let frameId: number;
   let lastTime: number = Date.now();
 
-  if (!self) {
+  if (selfIndex === -1) {
    return;
   }
 
@@ -74,11 +81,11 @@ export const Players = () => {
     positionRefs.current.push(0);
    }
 
-   let ownPos = self.position_km;
    for (let i = 0; i < players.length; i++) {
     positionRefs.current[i] +=
      players[i].velocity_km_s * deltaTime_s;
    }
+   let ownPos = positionRefs.current[selfIndex];
    const deltas = [];
    for (let i = 0; i < players.length; i++) {
     deltas.push(positionRefs.current[i] - ownPos);
@@ -93,7 +100,7 @@ export const Players = () => {
   return () => {
    cancelAnimationFrame(frameId);
   };
- }, [players, self]);
+ }, []);
 
  return (
   <div className="flex flex-col space-y-4">

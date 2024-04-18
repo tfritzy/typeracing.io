@@ -7,9 +7,10 @@ import {
  GameStage,
  setGameStarting,
  setYouveBeenAddedToGame,
- addPlayer,
+ playerJoinedGame,
  wordFinished,
  setGameStarted,
+ playerCompleted,
 } from "./store/gameSlice";
 import { generateRandomName } from "./generateRandomName";
 import { updatePlayer } from "./store/playerSlice";
@@ -94,27 +95,14 @@ function App() {
        );
       } else if (update.player_joined_game) {
        dispatch(
-        addPlayer({
-         id: update.player_joined_game.player_id || "",
-         name: update.player_joined_game.player_name || "",
-         progress: 0,
-         velocity_km_s: 0,
-         position_km: 0,
-        })
+        playerJoinedGame(update.player_joined_game)
        );
       } else if (update.game_started) {
        dispatch(setGameStarted());
+      } else if (update.player_completed) {
+       dispatch(playerCompleted(update.player_completed));
       } else if (update.word_finished) {
-       dispatch(
-        wordFinished({
-         id: update.word_finished.player_id || "",
-         progress:
-          update.word_finished.percent_complete || 0,
-         velocity_km_s:
-          update.word_finished.velocity_km_s || 0,
-         position_km: update.word_finished.position_km || 0,
-        })
-       );
+       dispatch(wordFinished(update.word_finished));
       }
      }
     };

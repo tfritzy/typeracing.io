@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PlayerData } from "../App";
-import { PlayerCompleted } from "../compiled";
+import {
+ PlayerCompleted,
+ PlayerJoinedGame,
+ WordFinished,
+} from "../compiled";
 
 export enum GameStage {
  Invalid,
@@ -74,13 +78,20 @@ export const gameSlice = createSlice({
     player.progress = action.payload.progress;
    }
   },
-  addPlayer: (
+  playerJoinedGame: (
    state: GameState,
-   action: { payload: PlayerData }
+   action: { payload: PlayerJoinedGame }
   ) => {
-   state.players.push(action.payload);
+   const player = {
+    id: action.payload.player_id || "",
+    name: action.payload.player_name || "",
+    progress: 0,
+    velocity_km_s: 0,
+    position_km: 0,
+   };
+   state.players.push(player);
   },
-  playerFinished: (
+  playerCompleted: (
    state: GameState,
    action: { payload: PlayerCompleted }
   ) => {
@@ -111,21 +122,17 @@ export const gameSlice = createSlice({
   wordFinished: (
    state: GameState,
    action: {
-    payload: {
-     id: string;
-     progress: number;
-     velocity_km_s: number;
-     position_km: number;
-    };
+    payload: WordFinished;
    }
   ) => {
    const player = state.players.find(
-    (player) => player.id === action.payload.id
+    (player) => player.id === action.payload.player_id
    );
    if (player) {
-    player.progress = action.payload.progress;
-    player.velocity_km_s = action.payload.velocity_km_s;
-    player.position_km = action.payload.position_km;
+    player.progress = action.payload.percent_complete || 0;
+    player.velocity_km_s =
+     action.payload.velocity_km_s || 0;
+    player.position_km = action.payload.position_km || 0;
    }
   },
  },
@@ -135,7 +142,8 @@ export const {
  updatePlayerWordProgress,
  setGameStarting,
  setYouveBeenAddedToGame,
+ playerCompleted,
  setGameStarted,
- addPlayer,
+ playerJoinedGame,
  wordFinished,
 } = gameSlice.actions;

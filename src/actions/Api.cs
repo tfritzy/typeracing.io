@@ -41,7 +41,10 @@ public static class Api
         if (openGame.Players.Count == openGame.MaxPlayers)
         {
             galaxy.OpenGames.Remove(openGame);
-            galaxy.ActiveGames[openGame.Id] = openGame;
+            lock (galaxy.ActiveGames)
+            {
+                galaxy.ActiveGames[openGame.Id] = openGame;
+            }
             openGame.State = Game.GameState.Countdown;
             openGame.StartTime = Time.Now;
 

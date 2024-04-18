@@ -1,15 +1,5 @@
 import { splitmix32 } from "./helpers/splitmix32";
 
-const allegiances = [
- "GSS", // Galactic star ship
- "USS", // United star ship
- "RSS", // Republic star ship
- "CSS", // Confederate star ship
- "ESS", // Empire star ship
- "FSS", // Federation star ship
- "SSS", // Solar star ship
-];
-
 const prefixes = [
  "Advocate",
  "Aegis",
@@ -142,11 +132,9 @@ const suffixes = [
 
 export const generateRandomName = () => {
  const rng = splitmix32(Date.now());
- const allegiance =
-  allegiances[Math.floor(rng.next() * allegiances.length)];
  const prefix =
   prefixes[Math.floor(rng.next() * prefixes.length)];
  const suffix =
   suffixes[Math.floor(rng.next() * suffixes.length)];
- return `${allegiance} ${prefix} ${suffix}`;
+ return `${prefix} ${suffix}`;
 };
