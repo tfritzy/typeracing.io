@@ -3,6 +3,7 @@ import { RootState } from "./store/store";
 import { LineChart, Series } from "./ResultsChart";
 import { useEffect, useMemo, useState } from "react";
 import { PlayerData } from "./App";
+import { getWpmData } from "./wpmMath";
 
 const placementColors = [
  ["#facc15", "#facc1533", "#fef3c7"],
@@ -10,88 +11,9 @@ const placementColors = [
  ["#854d0e", "#854d0e33", "#fef9c3"],
 ];
 
-const getWpmDataByPeriod = (
- data: number[],
- period_duration: number,
- full_duration: number
-) => {
- const framesPerSecond = 1 / period_duration;
-
- const wordsFinishedInQuarterSecondFrames = Array.from(
-  { length: Math.ceil(full_duration * framesPerSecond) },
-  () => 0
- );
- for (const time of data) {
-  const frame = Math.floor(time * framesPerSecond);
-  wordsFinishedInQuarterSecondFrames[frame] += 1;
- }
- return wordsFinishedInQuarterSecondFrames;
-};
-
-const getRollingAverages = (
- data: number[],
- windowSize: number
-) => {
- const rollingAverages = [];
- const buffer = [];
- for (let i = 0; i < data.length; i++) {
-  buffer.push(data[i]);
-  if (buffer.length > windowSize) {
-   buffer.shift();
-  }
-  const rollingAverage =
-   buffer.reduce((acc, val) => acc + val) / buffer.length;
-  rollingAverages.push(rollingAverage);
- }
- return rollingAverages;
-};
-
-const getWpmData = (
- wordFinishTimes: number[],
- duration: number
-) => {
- console.log("wordFinishTimes", wordFinishTimes);
- const numPeriodsPerSecond = 8;
- const periodDuration = 1 / numPeriodsPerSecond;
- const wordsFinishedPerEithSecond = getWpmDataByPeriod(
-  wordFinishTimes,
-  periodDuration,
-  duration
- );
-
- const halfSecondWpms = getRollingAverages(
-  wordsFinishedPerEithSecond,
-  1
- );
-
- console.log("halfSecondWpms", halfSecondWpms);
-
- const avgWpmOfSeconds = Array.from(
-  { length: Math.ceil(duration) },
-  () => 0
- );
- for (let i = 0; i < avgWpmOfSeconds.length; i++) {
-  const wordsFinishedInSecond = halfSecondWpms.slice(
-   i * numPeriodsPerSecond,
-   i * numPeriodsPerSecond + numPeriodsPerSecond
-  );
-  avgWpmOfSeconds[i] =
-   wordsFinishedInSecond.reduce((acc, val) => acc + val) /
-   numPeriodsPerSecond;
- }
-
- return avgWpmOfSeconds;
-};
-
 export const Results = () => {
  const [wpmData, setWpmData] = useState<Series[]>([]);
  const game = useSelector((state: RootState) => state.game);
- const self = useSelector((state: RootState) =>
-  state.game.players.find(
-   (player) => player.id === state.player.id
-  )
- );
- console.log(game);
 
  const finishedPlayers = useMemo(
   () =>
@@ -112,26 +34,31 @@ export const Results = () => {
     player.wordCompletionTimes[
      player.wordCompletionTimes.length - 1
     ];
-   console.log("duration", duration);
    const wpmData = getWpmData(
     player.wordCompletionTimes,
     game.end_time > 0 ? game.end_time : duration
    );
    newWpmData.push({
-    name: player.name,
+    name: player.name + " wpm",
     data: wpmData,
    });
    setWpmData(newWpmData);
   }
  }, [finishedPlayers]);
 
- console.log(wpmData);
+ const netWpm =
+  (game.words.length /
+   finishedPlayers[0].wordCompletionTimes[
+    finishedPlayers[0].wordCompletionTimes.length - 1
+   ]) *
+  60;
 
  return (
   <div className="text-white">
    <div>Results</div>
 
    <LineChart series={wpmData} />
+   {netWpm + " WPM"}
 
    <div className="flex flex-row space-x-2">
     {finishedPlayers.map((player, index) => (
