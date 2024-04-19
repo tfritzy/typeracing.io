@@ -69,8 +69,9 @@ export const InGame = (props: InGameProps) => {
        {centerMessage}
       </div>
      )}
-     {content}
+     <Players />
     </div>
+
     <div
      className="flex flex-col items-center w-screen border-t border-neutral-200 py-8"
      style={{ backgroundColor: BackgroundColor }}

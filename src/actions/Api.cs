@@ -126,7 +126,7 @@ public static class Api
         {
             Console.WriteLine($"Player {playerId} finished phrase.");
             game.Placements.Add(playerId);
-            int place = game.Placements.Count;
+            int place = game.Placements.Count - 1;
             foreach (InGamePlayer p in game.Players)
             {
                 galaxy.Outbox.Enqueue(new OneofUpdate

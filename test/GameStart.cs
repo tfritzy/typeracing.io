@@ -25,7 +25,7 @@ public class Test_GameStart
         OneofUpdate[] messages =
             galaxy.Outbox.Where(m => m.GameStarting != null).ToArray();
         Assert.AreEqual(4, messages.Length);
-        Assert.AreEqual(4, messages.Count(m => m.GameStarting.Countdown == 3));
+        Assert.AreEqual(4, messages.Count(m => m.GameStarting.Countdown == Game.CountdownDuration));
         Assert.AreEqual(1, messages.Count(m => m.RecipientId == players[0].Id));
         Assert.AreEqual(1, messages.Count(m => m.RecipientId == players[1].Id));
         Assert.AreEqual(1, messages.Count(m => m.RecipientId == players[2].Id));

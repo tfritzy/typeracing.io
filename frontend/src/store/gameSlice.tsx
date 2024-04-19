@@ -91,7 +91,7 @@ export const gameSlice = createSlice({
    };
    state.players.push(player);
   },
-  playerCompleted: (
+  playerFinished: (
    state: GameState,
    action: { payload: PlayerCompleted }
   ) => {
@@ -103,18 +103,14 @@ export const gameSlice = createSlice({
     return;
    }
 
-   if (
-    action.payload.place !== undefined &&
-    action.payload.player_id
-   ) {
-    state.placements[action.payload.place] = {
+   if (action.payload.player_id) {
+    state.placements[action.payload.place || 0] = {
      playerId: action.payload.player_id,
     };
    }
-
-   if (player.id === action.payload.player_id) {
-    state.state = GameStage.ViewingResults;
-   }
+  },
+  selfFinished: (state: GameState) => {
+   state.state = GameStage.ViewingResults;
   },
   setGameStarted: (state: GameState) => {
    state.state = GameStage.Racing;
@@ -142,7 +138,8 @@ export const {
  updatePlayerWordProgress,
  setGameStarting,
  setYouveBeenAddedToGame,
- playerCompleted,
+ playerFinished,
+ selfFinished,
  setGameStarted,
  playerJoinedGame,
  wordFinished,

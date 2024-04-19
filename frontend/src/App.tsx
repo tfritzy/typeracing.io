@@ -10,7 +10,8 @@ import {
  playerJoinedGame,
  wordFinished,
  setGameStarted,
- playerCompleted,
+ playerFinished,
+ selfFinished,
 } from "./store/gameSlice";
 import { generateRandomName } from "./generateRandomName";
 import { updatePlayer } from "./store/playerSlice";
@@ -100,7 +101,10 @@ function App() {
       } else if (update.game_started) {
        dispatch(setGameStarted());
       } else if (update.player_completed) {
-       dispatch(playerCompleted(update.player_completed));
+       dispatch(playerFinished(update.player_completed));
+       if (update.player_completed.player_id === playerId) {
+        dispatch(selfFinished());
+       }
       } else if (update.word_finished) {
        dispatch(wordFinished(update.word_finished));
       }

@@ -90,7 +90,7 @@ public class GameTests
         PlayerCompleted[] playerCompletedMessages =
             test.Galaxy.Outbox.Where((m) => m.PlayerCompleted != null).Select((m) => m.PlayerCompleted).ToArray();
         Assert.IsTrue(playerCompletedMessages.All((m) => m.PlayerId == test.Players[0].Id));
-        Assert.IsTrue(playerCompletedMessages.All((m) => m.Place == 1));
+        Assert.IsTrue(playerCompletedMessages.All((m) => m.Place == 0));
         Assert.AreEqual(2, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[0].Id).Count());
         Assert.AreEqual(2, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[1].Id).Count());
         Assert.AreEqual(2, test.Galaxy.Outbox.Where((m) => m.RecipientId == test.Players[2].Id).Count());
@@ -231,7 +231,7 @@ public class GameTests
         Galaxy galaxy = new();
         Api.FindGame("Alice", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy);
         Game game = galaxy.OpenGames[0];
-        Assert.IsTrue(game.Words.Length > 40);
-        Assert.IsTrue(game.Words.Length < 100);
+        Assert.IsTrue(game.Words.Length > 20);
+        Assert.IsTrue(game.Words.Length < 40);
     }
 }
