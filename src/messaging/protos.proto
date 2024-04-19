@@ -38,6 +38,7 @@ message OneofUpdate {
 }
 
 message GameOver {    
+    float end_time_s = 1;
 }
 
 message GameStarted {
@@ -64,6 +65,7 @@ message WordFinished {
     float percent_complete = 2;
     float velocity_km_s = 3;
     float position_km = 4;
+    float time_s = 5;
 }
 
 message YouveBeenAddedToGame {

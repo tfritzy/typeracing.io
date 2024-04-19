@@ -25,7 +25,6 @@ export const InGame = (props: InGameProps) => {
   (state: RootState) => state.player
  );
  const [wordIndex, setWordIndex] = React.useState(0);
-
  const { words, state } = gameState;
 
  const handleWordComplete = React.useCallback(

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net;
 using System.Net.WebSockets;
 using Google.Protobuf;
@@ -8,11 +9,13 @@ public class Server
 {
     public Dictionary<string, WebSocket> Connections { get; set; }
     public Galaxy Galaxy { get; set; }
+    Stopwatch stopwatch = new Stopwatch();
 
     public Server()
     {
         Connections = new Dictionary<string, WebSocket>();
         Galaxy = new Galaxy();
+        stopwatch.Start();
     }
 
     public void StartProcessOutboxTask()
@@ -40,13 +43,9 @@ public class Server
         }, TaskContinuationOptions.OnlyOnFaulted);
     }
 
-    long lastTick = DateTime.Now.Ticks;
     public void Tick()
     {
-        var now = DateTime.Now.Ticks;
-        float elapsed = now - lastTick;
-        lastTick = now;
-        Time.Update(elapsed / TimeSpan.TicksPerSecond);
+        Time.Update(stopwatch.ElapsedMilliseconds / 1000f);
         Galaxy.Update();
     }
 

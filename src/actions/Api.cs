@@ -113,7 +113,8 @@ public static class Api
                             PlayerId = playerId,
                             PercentComplete = (float)player.WordIndex / game.Words.Length,
                             VelocityKmS = velocity,
-                            PositionKm = player.PositionKm
+                            PositionKm = player.PositionKm,
+                            TimeS = Time.Now - game.RaceStartTime
                         }
                     }
                 );
@@ -151,6 +152,9 @@ public static class Api
                 {
                     RecipientId = p.Id,
                     GameOver = new GameOver()
+                    {
+                        EndTimeS = Time.Now - game.RaceStartTime,
+                    }
                 });
             }
         }

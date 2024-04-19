@@ -10,6 +10,7 @@ public class Game
     public string Phrase { get; private set; }
     public string[] Words { get; private set; }
     public float StartTime;
+    public float RaceStartTime => StartTime + CountdownDuration;
     private Galaxy Galaxy { get; set; }
 
     public const float CountdownDuration = 5;
@@ -48,7 +49,6 @@ public class Game
             return;
         }
 
-        Console.WriteLine($"Time.Now: {Time.Now}, StartTime: {StartTime}, CountdownDuration: {CountdownDuration}");
         if (Time.Now - StartTime > CountdownDuration)
         {
             State = GameState.Running;

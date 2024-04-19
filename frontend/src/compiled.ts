@@ -442,6 +442,7 @@ function _decodeOneofUpdate(bb: ByteBuffer): OneofUpdate {
 }
 
 export interface GameOver {
+  end_time_s?: number;
 }
 
 export function encodeGameOver(message: GameOver): Uint8Array {
@@ -451,6 +452,12 @@ export function encodeGameOver(message: GameOver): Uint8Array {
 }
 
 function _encodeGameOver(message: GameOver, bb: ByteBuffer): void {
+  // optional float end_time_s = 1;
+  let $end_time_s = message.end_time_s;
+  if ($end_time_s !== undefined) {
+    writeVarint32(bb, 13);
+    writeFloat(bb, $end_time_s);
+  }
 }
 
 export function decodeGameOver(binary: Uint8Array): GameOver {
@@ -466,6 +473,12 @@ function _decodeGameOver(bb: ByteBuffer): GameOver {
     switch (tag >>> 3) {
       case 0:
         break end_of_message;
+
+      // optional float end_time_s = 1;
+      case 1: {
+        message.end_time_s = readFloat(bb);
+        break;
+      }
 
       default:
         skipUnknownField(bb, tag & 7);
@@ -711,6 +724,7 @@ export interface WordFinished {
   percent_complete?: number;
   velocity_km_s?: number;
   position_km?: number;
+  time_s?: number;
 }
 
 export function encodeWordFinished(message: WordFinished): Uint8Array {
@@ -746,6 +760,13 @@ function _encodeWordFinished(message: WordFinished, bb: ByteBuffer): void {
   if ($position_km !== undefined) {
     writeVarint32(bb, 37);
     writeFloat(bb, $position_km);
+  }
+
+  // optional float time_s = 5;
+  let $time_s = message.time_s;
+  if ($time_s !== undefined) {
+    writeVarint32(bb, 45);
+    writeFloat(bb, $time_s);
   }
 }
 
@@ -784,6 +805,12 @@ function _decodeWordFinished(bb: ByteBuffer): WordFinished {
       // optional float position_km = 4;
       case 4: {
         message.position_km = readFloat(bb);
+        break;
+      }
+
+      // optional float time_s = 5;
+      case 5: {
+        message.time_s = readFloat(bb);
         break;
       }
 

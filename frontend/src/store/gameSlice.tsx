@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PlayerData } from "../App";
 import {
+ GameOver,
  PlayerCompleted,
  PlayerJoinedGame,
  WordFinished,
@@ -24,6 +25,7 @@ export type GameState = {
  players: PlayerData[];
  words: string[];
  start_time: number;
+ end_time: number;
  placements: PlacementData[];
 };
 
@@ -31,7 +33,8 @@ const initialGameState: GameState = {
  state: GameStage.Invalid,
  players: [],
  words: [],
- start_time: 0,
+ start_time: -1,
+ end_time: -1,
  placements: [],
 };
 
@@ -88,6 +91,7 @@ export const gameSlice = createSlice({
     progress: 0,
     velocity_km_s: 0,
     position_km: 0,
+    wordCompletionTimes: [],
    };
    state.players.push(player);
   },
@@ -115,6 +119,13 @@ export const gameSlice = createSlice({
   setGameStarted: (state: GameState) => {
    state.state = GameStage.Racing;
   },
+  setGameOver: (
+   state: GameState,
+   action: { payload: GameOver }
+  ) => {
+   state.state = GameStage.Finished;
+   state.end_time = action.payload.end_time_s || 0;
+  },
   wordFinished: (
    state: GameState,
    action: {
@@ -129,6 +140,9 @@ export const gameSlice = createSlice({
     player.velocity_km_s =
      action.payload.velocity_km_s || 0;
     player.position_km = action.payload.position_km || 0;
+    player.wordCompletionTimes.push(
+     action.payload.time_s || 0
+    );
    }
   },
  },
@@ -143,4 +157,5 @@ export const {
  setGameStarted,
  playerJoinedGame,
  wordFinished,
+ setGameOver,
 } = gameSlice.actions;

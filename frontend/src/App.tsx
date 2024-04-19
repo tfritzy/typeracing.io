@@ -12,6 +12,7 @@ import {
  setGameStarted,
  playerFinished,
  selfFinished,
+ setGameOver,
 } from "./store/gameSlice";
 import { generateRandomName } from "./generateRandomName";
 import { updatePlayer } from "./store/playerSlice";
@@ -24,6 +25,7 @@ export type PlayerData = {
  progress: number;
  velocity_km_s: number;
  position_km: number;
+ wordCompletionTimes: number[];
 };
 
 enum State {
@@ -89,6 +91,7 @@ function App() {
             progress: 0,
             velocity_km_s: 0,
             position_km: 0,
+            wordCompletionTimes: [],
            })
           ) || [],
          words: [],
@@ -100,6 +103,8 @@ function App() {
        );
       } else if (update.game_started) {
        dispatch(setGameStarted());
+      } else if (update.game_over) {
+       dispatch(setGameOver(update.game_over));
       } else if (update.player_completed) {
        dispatch(playerFinished(update.player_completed));
        if (update.player_completed.player_id === playerId) {
