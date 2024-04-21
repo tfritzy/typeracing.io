@@ -139,7 +139,7 @@ export const TypeBox = (props: TypeBoxProps) => {
 
  return (
   <div className="relative ap">
-   <div className="text-xl max-w-3xl vscode-font p-2 shadow-black">
+   <div className="text-2xl max-w-3xl vscode-font p-2 shadow-black">
     <div ref={phraseRef}>{text}</div>
     <input
      value={currentWord}

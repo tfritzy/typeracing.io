@@ -11,7 +11,7 @@ import { RootState } from "./store/store";
 
 const starColors = ["#cccccc"];
 const MAX_SHIP_SPEED = 20000;
-const NUM_STARS = 2000;
+const NUM_STARS = 750;
 const baseGeometry = new THREE.CircleGeometry(1, 6);
 baseGeometry.rotateZ(Math.PI / 2);
 

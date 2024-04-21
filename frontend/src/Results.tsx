@@ -48,17 +48,18 @@ export const Results = () => {
  }, [finishedPlayers]);
 
  return (
-  <div className="text-white p-8">
-   <div
-    className="pt-32"
-    style={{
-     backgroundColor: BackgroundColor + "cc",
-    }}
-   >
-    <LineChart series={wpmData} />
-   </div>
+  <div className="p-8">
+   <div className="text-white">
+    <div
+     className="p-2 px-4"
+     style={{
+      backgroundColor: BackgroundColor + "cc",
+     }}
+    >
+     <LineChart series={wpmData} />
+    </div>
 
-   {/* <div className="flex flex-row space-x-2">
+    {/* <div className="flex flex-row space-x-2">
     {finishedPlayers.map((player, index) => (
      <div style={{ color: placementColors[index][2] }}>
       <div
@@ -95,6 +96,7 @@ export const Results = () => {
      </div>
     ))}
    </div> */}
+   </div>
   </div>
  );
 };
