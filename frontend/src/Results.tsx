@@ -4,6 +4,7 @@ import { LineChart, Series } from "./ResultsChart";
 import { useEffect, useMemo, useState } from "react";
 import { PlayerData } from "./App";
 import { getWpmData } from "./wpmMath";
+import { BackgroundColor } from "./constants";
 
 const placementColors = [
  ["#facc15", "#facc1533", "#fef3c7"],
@@ -46,21 +47,18 @@ export const Results = () => {
   }
  }, [finishedPlayers]);
 
- const netWpm =
-  (game.words.length /
-   finishedPlayers[0].wordCompletionTimes[
-    finishedPlayers[0].wordCompletionTimes.length - 1
-   ]) *
-  60;
-
  return (
-  <div className="text-white">
-   <div>Results</div>
+  <div className="text-white p-8">
+   <div
+    className="pt-32"
+    style={{
+     backgroundColor: BackgroundColor + "cc",
+    }}
+   >
+    <LineChart series={wpmData} />
+   </div>
 
-   <LineChart series={wpmData} />
-   {netWpm + " WPM"}
-
-   <div className="flex flex-row space-x-2">
+   {/* <div className="flex flex-row space-x-2">
     {finishedPlayers.map((player, index) => (
      <div style={{ color: placementColors[index][2] }}>
       <div
@@ -96,7 +94,7 @@ export const Results = () => {
       </div>
      </div>
     ))}
-   </div>
+   </div> */}
   </div>
  );
 };

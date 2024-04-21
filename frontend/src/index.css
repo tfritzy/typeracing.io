@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -24,3 +25,7 @@ code {
   font-family: 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
 }
 
+.apexcharts-tooltip {
+  background: rgba(0, 0, 0, .9) !important; /* Your desired background color */
+  box-shadow: none !important; /* Removes the shadow */
+}

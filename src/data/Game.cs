@@ -78,6 +78,6 @@ public class Game
             throw new ArgumentException("percentComplete must be between 0 and 1");
         }
 
-        return 299_792f * percentComplete;
+        return 299_792f * percentComplete * percentComplete;
     }
 }

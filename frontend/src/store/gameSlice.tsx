@@ -107,6 +107,8 @@ export const gameSlice = createSlice({
     return;
    }
 
+   player.velocity_km_s = 0;
+
    if (action.payload.player_id) {
     state.placements[action.payload.place || 0] = {
      playerId: action.payload.player_id,

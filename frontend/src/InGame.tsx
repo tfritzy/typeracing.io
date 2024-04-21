@@ -68,7 +68,7 @@ export const InGame = (props: InGameProps) => {
        {centerMessage}
       </div>
      )}
-     <Players />
+     {/* <Players /> */}
     </div>
 
     <div

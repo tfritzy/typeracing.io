@@ -26,19 +26,35 @@ export const lerpValuesToSecond = (
  times: number[]
 ) => {
  const perSecondValues: number[] = [values[0]];
- let index = 0;
- let target = 1;
- while (index < times.length && times[index] < target) {
-  index += 1;
+ let index = 1;
+ for (
+  let target = 1;
+  target < times[times.length - 1];
+  target++
+ ) {
+  while (index < times.length && times[index] < target) {
+   index += 1;
+  }
+
+  const low = index - 1;
+  const fullRange = times[index] - times[low];
+  const t = (target - times[low]) / fullRange;
+  const lerpedValue =
+   values[low] + (values[index] - values[low]) * t;
+
+  console.log(
+   "lerpData",
+   low,
+   index,
+   target,
+   t,
+   lerpedValue,
+   times[index],
+   times[low]
+  );
+
+  perSecondValues.push(lerpedValue);
  }
-
- const low = index - 1;
- const t =
-  (times[index] - times[low]) * (target - times[low]);
- const lerpedValue =
-  values[low] + (values[index] - values[low]) * t;
- perSecondValues.push(lerpedValue);
-
  return perSecondValues;
 };
 
@@ -54,8 +70,6 @@ export const getWpmData = (
   rawWpmAtTime,
   wordFinishTimes
  );
-
- console.log("rateBySecond", rateBySecond);
 
  return rateBySecond;
 };

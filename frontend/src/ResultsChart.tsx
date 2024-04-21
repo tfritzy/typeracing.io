@@ -2,37 +2,9 @@ import React from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 
-const options: ApexOptions = {
- chart: {
-  id: "simple-line",
- },
- stroke: {
-  curve: "smooth",
-  width: 2,
- },
- theme: {
-  mode: "dark",
- },
- grid: {
-  borderColor: "white",
- },
- xaxis: {
-  categories: [
-   "Jan",
-   "Feb",
-   "Mar",
-   "Apr",
-   "May",
-   "Jun",
-   "Jul",
-   "Aug",
-   "Sep",
-   "Oct",
-   "Nov",
-   "Dec",
-  ],
- },
-};
+const primaryColor = "#dddddd";
+const areaColor = "#00000022";
+const textColor = "#888888";
 
 export type Series = {
  name: string;
@@ -44,36 +16,119 @@ type LineChartProps = {
 };
 
 export const LineChart = (props: LineChartProps) => {
- const chartMaxX = Math.max(
-  ...props.series.map((wpm) => wpm.data.length)
- );
- const stepSize = Math.ceil(chartMaxX / 10);
- const categories = Array.from(
-  { length: chartMaxX },
-  (_, i) => i + stepSize
- ).map((i) => i.toString());
-
- const fullOptions = {
-  ...options,
-  xaxis: {
-   ...options.xaxis,
-   categories: categories,
+ const getOptions = (yMax: number): ApexOptions => ({
+  chart: {
+   id: "simple-line",
+   background: "transparent",
+   toolbar: {
+    show: false,
+   },
   },
- };
+  fill: {
+   type: "solid",
+   colors: [areaColor],
+  },
+  stroke: {
+   curve: "monotoneCubic",
+   width: 3,
+   colors: [primaryColor],
+   lineCap: "square",
+  },
+  markers: {
+   colors: [primaryColor],
+   size: 3,
+   strokeWidth: 0,
+  },
+  dataLabels: {
+   enabled: false,
+  },
+  theme: {
+   mode: "dark",
+  },
+  tooltip: {
+   theme: "custom",
+   y: {
+    formatter: (val: number) => val.toFixed(0),
+    title: {
+     formatter: (seriesName: string) => "wpm:",
+    },
+   },
+   x: {
+    show: false,
+   },
+   marker: {
+    show: false,
+   },
+  },
+  grid: {
+   show: false,
+  },
+  yaxis: {
+   title: {
+    text: "WPM",
+    style: {
+     color: textColor,
+     fontWeight: 500,
+    },
+   },
+   forceNiceScale: true,
+   max: yMax,
+   min: 0,
+   decimalsInFloat: 0,
+   labels: {
+    style: {
+     colors: textColor,
+    },
+   },
+   axisBorder: {
+    show: true,
+    color: textColor,
+    offsetX: -1,
+   },
+  },
+  xaxis: {
+   title: {
+    text: "Time (s)",
+    offsetY: -8,
+    style: {
+     color: textColor,
+     fontWeight: 500,
+    },
+   },
+   type: "numeric",
+   tickAmount: 10,
+   decimalsInFloat: 0,
+   axisTicks: {
+    show: false,
+   },
+   axisBorder: {
+    show: true,
+    color: textColor,
+    offsetY: 1,
+   },
+   labels: {
+    offsetY: -2,
+    style: {
+     colors: textColor,
+    },
+   },
+  },
+ });
+
+ const highestY = Math.max(
+  ...props.series.map((s) => Math.max(...s.data))
+ );
+
+ const fullOptions = getOptions(highestY + 20);
 
  // Render the Chart component
  return (
-  <div className="app">
-   <div className="row">
-    <div className="mixed-chart">
-     <Chart
-      options={fullOptions}
-      series={props.series}
-      type="line"
-      width="500"
-     />
-    </div>
-   </div>
-  </div>
+  <Chart
+   options={fullOptions}
+   series={props.series}
+   type="area"
+   width="100%"
+   height="300"
+  />
  );
 };

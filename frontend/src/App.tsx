@@ -144,12 +144,9 @@ function App() {
  }
 
  return (
-  <div
-   className="App"
-   style={{ backgroundColor: BackgroundColor }}
-  >
+  <div className="App relative">
    {content}
-   {/* <Stars /> */}
+   <Stars />
   </div>
  );
 }
