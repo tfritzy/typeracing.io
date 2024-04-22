@@ -3,132 +3,131 @@ import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 
 const primaryColor = "#dddddd";
+const secondaryColor = "#555555";
 const areaColor = "#00000022";
 const textColor = "#888888";
 
 export type Series = {
- name: string;
- data: number[];
+  name: string;
+  data: number[];
 };
 
 type LineChartProps = {
- series: Series[];
+  series: Series[];
 };
 
 export const LineChart = (props: LineChartProps) => {
- const getOptions = (yMax: number): ApexOptions => ({
-  chart: {
-   id: "simple-line",
-   background: "transparent",
-   toolbar: {
-    show: false,
-   },
-  },
-  fill: {
-   type: "solid",
-   colors: [areaColor],
-  },
-  stroke: {
-   curve: "monotoneCubic",
-   width: 3,
-   colors: [primaryColor],
-   lineCap: "square",
-  },
-  markers: {
-   colors: [primaryColor],
-   size: 3,
-   strokeWidth: 0,
-  },
-  dataLabels: {
-   enabled: false,
-  },
-  theme: {
-   mode: "dark",
-  },
-  tooltip: {
-   theme: "custom",
-   y: {
-    formatter: (val: number) => val.toFixed(0),
-    title: {
-     formatter: (seriesName: string) => "wpm:",
+  const getOptions = (yMax: number): ApexOptions => ({
+    chart: {
+      id: "simple-line",
+      background: "transparent",
+      toolbar: {
+        show: false,
+      },
     },
-   },
-   x: {
-    show: false,
-   },
-   marker: {
-    show: false,
-   },
-  },
-  grid: {
-   show: false,
-  },
-  yaxis: {
-   title: {
-    text: "WPM",
-    style: {
-     color: textColor,
-     fontWeight: 500,
+    fill: {
+      type: "solid",
+      colors: ["transparent", areaColor],
     },
-   },
-   forceNiceScale: true,
-   max: yMax,
-   min: 0,
-   decimalsInFloat: 0,
-   labels: {
-    style: {
-     colors: textColor,
+    stroke: {
+      curve: "monotoneCubic",
+      width: 3,
+      colors: [secondaryColor, primaryColor],
+      lineCap: "square",
     },
-   },
-   axisBorder: {
-    show: true,
-    color: textColor,
-    offsetX: -1,
-   },
-  },
-  xaxis: {
-   title: {
-    text: "Time (s)",
-    offsetY: -8,
-    style: {
-     color: textColor,
-     fontWeight: 500,
+    markers: {
+      colors: [secondaryColor, primaryColor],
+      size: 3,
+      strokeWidth: 0,
     },
-   },
-   type: "numeric",
-   tickAmount: 10,
-   decimalsInFloat: 0,
-   axisTicks: {
-    show: false,
-   },
-   axisBorder: {
-    show: true,
-    color: textColor,
-    offsetY: 1,
-   },
-   labels: {
-    offsetY: -2,
-    style: {
-     colors: textColor,
+    dataLabels: {
+      enabled: false,
     },
-   },
-  },
- });
+    theme: {
+      mode: "dark",
+    },
+    tooltip: {
+      theme: "custom",
+      y: {
+        formatter: (val: number) => val.toFixed(0),
+      },
+      x: {
+        show: false,
+      },
+      marker: {
+        show: false,
+      },
+    },
+    legend: {
+      show: false,
+    },
+    grid: {
+      show: false,
+    },
+    yaxis: {
+      title: {
+        text: "WPM",
+        style: {
+          color: textColor,
+          fontWeight: 500,
+        },
+      },
+      forceNiceScale: true,
+      max: yMax,
+      min: 0,
+      decimalsInFloat: 0,
+      labels: {
+        style: {
+          colors: textColor,
+        },
+      },
+      axisBorder: {
+        show: true,
+        color: textColor,
+        offsetX: -1,
+      },
+    },
+    xaxis: {
+      title: {
+        text: "Time (s)",
+        offsetY: -8,
+        style: {
+          color: textColor,
+          fontWeight: 500,
+        },
+      },
+      type: "numeric",
+      tickAmount: 10,
+      decimalsInFloat: 0,
+      axisTicks: {
+        show: false,
+      },
+      axisBorder: {
+        show: true,
+        color: textColor,
+        offsetY: 1,
+      },
+      labels: {
+        offsetY: -2,
+        style: {
+          colors: textColor,
+        },
+      },
+    },
+  });
 
- const highestY = Math.max(
-  ...props.series.map((s) => Math.max(...s.data))
- );
+  const highestY = Math.max(...props.series.map((s) => Math.max(...s.data)));
 
- const fullOptions = getOptions(highestY + 20);
+  const fullOptions = getOptions(highestY + 20);
 
- // Render the Chart component
- return (
-  <Chart
-   options={fullOptions}
-   series={props.series}
-   type="area"
-   width="100%"
-   height="300"
-  />
- );
+  // Render the Chart component
+  return (
+    <Chart
+      options={fullOptions}
+      series={props.series}
+      type="area"
+      width="100%"
+      height="300"
+    />
+  );
 };

@@ -3,63 +3,62 @@ import { RootState } from "./store/store";
 import { LineChart, Series } from "./ResultsChart";
 import { useEffect, useMemo, useState } from "react";
 import { PlayerData } from "./App";
-import { getWpmData } from "./wpmMath";
+import { getInstantaneousWpm, getWpmData } from "./wpmMath";
 import { BackgroundColor } from "./constants";
 
 const placementColors = [
- ["#facc15", "#facc1533", "#fef3c7"],
- ["#71717a", "#71717a33", "#e5e5e5"],
- ["#854d0e", "#854d0e33", "#fef9c3"],
+  ["#facc15", "#facc1533", "#fef3c7"],
+  ["#71717a", "#71717a33", "#e5e5e5"],
+  ["#854d0e", "#854d0e33", "#fef9c3"],
 ];
 
 export const Results = () => {
- const [wpmData, setWpmData] = useState<Series[]>([]);
- const game = useSelector((state: RootState) => state.game);
+  const [wpmData, setWpmData] = useState<Series[]>([]);
+  const game = useSelector((state: RootState) => state.game);
 
- const finishedPlayers = useMemo(
-  () =>
-   game.placements
-    .map((placement) => {
-     return game.players.find(
-      (player) => player.id === placement.playerId
-     );
-    })
-    .filter((p) => p) as PlayerData[],
-  [game.placements]
- );
+  const finishedPlayers = useMemo(
+    () =>
+      game.placements
+        .map((placement) => {
+          return game.players.find(
+            (player) => player.id === placement.playerId
+          );
+        })
+        .filter((p) => p) as PlayerData[],
+    [game.placements]
+  );
 
- useEffect(() => {
-  const newWpmData: Series[] = [];
-  for (const player of finishedPlayers) {
-   const duration =
-    player.wordCompletionTimes[
-     player.wordCompletionTimes.length - 1
-    ];
-   const wpmData = getWpmData(
-    player.wordCompletionTimes,
-    game.end_time > 0 ? game.end_time : duration
-   );
-   newWpmData.push({
-    name: player.name + " wpm",
-    data: wpmData,
-   });
-   setWpmData(newWpmData);
-  }
- }, [finishedPlayers]);
+  useEffect(() => {
+    const newWpmData: Series[] = [];
+    for (const player of finishedPlayers) {
+      console.log("inst");
+      const instWpm = getInstantaneousWpm(player.wordCompletionTimes);
+      console.log("instWpm", instWpm);
+      newWpmData.push({
+        name: "raw wpm",
+        data: instWpm,
+      });
 
- return (
-  <div className="p-8">
-   <div className="text-white">
+      const wpmData = getWpmData(player.wordCompletionTimes);
+      newWpmData.push({
+        name: "wpm",
+        data: wpmData,
+      });
+
+      setWpmData(newWpmData);
+    }
+  }, [finishedPlayers]);
+
+  return (
     <div
-     className="p-2 px-4"
-     style={{
-      backgroundColor: BackgroundColor + "cc",
-     }}
+      className="p-8 text-white w-full h-full"
+      style={{
+        backgroundColor: BackgroundColor + "cc",
+      }}
     >
-     <LineChart series={wpmData} />
-    </div>
+      <LineChart series={wpmData} />
 
-    {/* <div className="flex flex-row space-x-2">
+      {/* <div className="flex flex-row space-x-2">
     {finishedPlayers.map((player, index) => (
      <div style={{ color: placementColors[index][2] }}>
       <div
@@ -96,7 +95,6 @@ export const Results = () => {
      </div>
     ))}
    </div> */}
-   </div>
-  </div>
- );
+    </div>
+  );
 };
