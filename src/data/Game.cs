@@ -49,6 +49,7 @@ public class Game
             return;
         }
 
+        Console.WriteLine("Seconds till start: " + (StartTime + CountdownDuration - Time.Now));
         if (Time.Now - StartTime > CountdownDuration)
         {
             State = GameState.Running;

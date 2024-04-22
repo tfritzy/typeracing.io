@@ -36,6 +36,15 @@ export const TypeBox = (props: TypeBoxProps) => {
   if (phraseRef.current) {
    setInputWidth(phraseRef.current.clientWidth);
   }
+
+  if (cursorRef.current) {
+   const cursorRect =
+    cursorRef.current.getBoundingClientRect();
+   setTargetCursorXPos(cursorRect.left);
+   setTargetCursorYPos(cursorRect.top);
+   setCursorXPos(cursorRect.left);
+   setCursorYPos(cursorRect.top);
+  }
  }, [props.phrase, phraseRef.current?.clientWidth]);
 
  const handleInput = (
@@ -63,6 +72,7 @@ export const TypeBox = (props: TypeBoxProps) => {
     props.lockedCharacterIndex,
     props.lockedCharacterIndex + currentWord.length
    );
+   console.log(word, "vs", currentWord);
    if (word === currentWord) {
     props.onWordComplete(
      props.lockedCharacterIndex + currentWord.length,
@@ -141,9 +151,7 @@ export const TypeBox = (props: TypeBoxProps) => {
   props.lockedCharacterIndex + currentWord.length
  );
  text.push(
-  <span className="text-gray-500">
-   {remainingText.slice(currentWord.length)}
-  </span>
+  <span className="text-gray-500">{remainingText}</span>
  );
 
  return (

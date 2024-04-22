@@ -12,6 +12,7 @@ public class Server
     private const int interval = 1000 / 15;
     private bool running = false;
     private Thread updateThread;
+    private DateTime start = DateTime.Now;
 
     public Server()
     {
@@ -20,20 +21,23 @@ public class Server
         updateThread = new Thread(new ThreadStart(Run));
     }
 
-    public void Run()
+    private void Run()
     {
-        var prevTick = DateTime.Now;
         while (running)
         {
-            var ellapsed = DateTime.Now - prevTick;
-            Tick((int)ellapsed.TotalMilliseconds);
+            Tick();
             var nextTick = DateTime.Now.AddMilliseconds(interval);
-            prevTick = DateTime.Now;
 
             int delay = (int)(nextTick - DateTime.Now).TotalMilliseconds;
             if (delay > 0)
                 Thread.Sleep(delay);
         }
+    }
+
+    public void Start()
+    {
+        running = true;
+        updateThread.Start();
     }
 
     public void Stop()
@@ -66,9 +70,10 @@ public class Server
         }, TaskContinuationOptions.OnlyOnFaulted);
     }
 
-    public void Tick(int ellapsed)
+    public void Tick()
     {
-        Time.Update(ellapsed / 1000f);
+        float time_s = (float)((DateTime.Now - start).TotalMilliseconds / 1000f);
+        Time.Update(time_s);
         Galaxy.Update();
     }
 

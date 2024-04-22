@@ -8,6 +8,6 @@ Server server = new();
 server.StartProcessOutboxTask();
 server.StartAcceptingConnections();
 
-server.Run();
+server.Start();
 Console.ReadLine();
 server.Stop();

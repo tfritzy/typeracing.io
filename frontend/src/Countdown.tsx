@@ -11,7 +11,7 @@ export const Countdown = (props: CountdownProps) => {
  React.useEffect(() => {
   let frameId: number;
   const animate = () => {
-   setRemaining((props.endTime - Date.now()) / 1000);
+   setRemaining((Date.now() - props.endTime) / 1000);
 
    frameId = requestAnimationFrame(animate);
   };
