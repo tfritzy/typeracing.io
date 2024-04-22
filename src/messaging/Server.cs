@@ -9,13 +9,36 @@ public class Server
 {
     public Dictionary<string, WebSocket> Connections { get; set; }
     public Galaxy Galaxy { get; set; }
-    Stopwatch stopwatch = new Stopwatch();
+    private const int interval = 1000 / 15;
+    private bool running = false;
+    private Thread updateThread;
 
     public Server()
     {
         Connections = new Dictionary<string, WebSocket>();
         Galaxy = new Galaxy();
-        stopwatch.Start();
+        updateThread = new Thread(new ThreadStart(Run));
+    }
+
+    public void Run()
+    {
+        var prevTick = DateTime.Now;
+        while (running)
+        {
+            var ellapsed = DateTime.Now - prevTick;
+            Tick((int)ellapsed.TotalMilliseconds);
+            var nextTick = DateTime.Now.AddMilliseconds(interval);
+            prevTick = DateTime.Now;
+
+            int delay = (int)(nextTick - DateTime.Now).TotalMilliseconds;
+            if (delay > 0)
+                Thread.Sleep(delay);
+        }
+    }
+
+    public void Stop()
+    {
+        running = false;
     }
 
     public void StartProcessOutboxTask()
@@ -43,9 +66,9 @@ public class Server
         }, TaskContinuationOptions.OnlyOnFaulted);
     }
 
-    public void Tick()
+    public void Tick(int ellapsed)
     {
-        Time.Update(stopwatch.ElapsedMilliseconds / 1000f);
+        Time.Update(ellapsed / 1000f);
         Galaxy.Update();
     }
 
@@ -60,7 +83,6 @@ public class Server
         {
             while (true)
             {
-                Tick();
                 var context = await httpListener.GetContextAsync();
                 if (context.Request.IsWebSocketRequest)
                 {

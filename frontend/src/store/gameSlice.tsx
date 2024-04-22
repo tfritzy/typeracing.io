@@ -23,7 +23,7 @@ type PlacementData = {
 export type GameState = {
  state: GameStage;
  players: PlayerData[];
- words: string[];
+ phrase: string;
  start_time: number;
  end_time: number;
  placements: PlacementData[];
@@ -32,7 +32,7 @@ export type GameState = {
 const initialGameState: GameState = {
  state: GameStage.Invalid,
  players: [],
- words: [],
+ phrase: "",
  start_time: -1,
  end_time: -1,
  placements: [],
@@ -46,14 +46,14 @@ export const gameSlice = createSlice({
    state: GameState,
    action: {
     payload: {
-     words: string[];
+     phrase: string;
      countdown: number;
      stage: GameStage;
     };
    }
   ) => {
    state.state = GameStage.Countdown;
-   state.words = action.payload.words;
+   state.phrase = action.payload.phrase;
    state.start_time =
     Date.now() + action.payload.countdown * 1000;
   },
@@ -62,13 +62,11 @@ export const gameSlice = createSlice({
    action: {
     payload: {
      players: PlayerData[];
-     words: string[];
     };
    }
   ) => {
    state.state = GameStage.WaitingForPlayers;
    state.players = action.payload.players;
-   state.words = action.payload.words;
   },
   updatePlayerWordProgress: (
    state: GameState,

@@ -68,14 +68,10 @@ function App() {
       const update = decodeOneofUpdate(buffer);
 
       if (update.game_starting) {
-       const words = update.game_starting.phrase
-        ?.trim()
-        ?.split(" ");
-
        dispatch(
         setGameStarting({
          stage: GameStage.Countdown,
-         words: words || [],
+         phrase: update.game_starting.phrase || "",
          countdown: update.game_starting.countdown || 0,
         })
        );
@@ -94,7 +90,6 @@ function App() {
             wordCompletionTimes: [],
            })
           ) || [],
-         words: [],
         })
        );
       } else if (update.player_joined_game) {
