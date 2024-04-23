@@ -149,8 +149,12 @@ public class GameTests
                 test.Galaxy);
         }
 
+        InGamePlayer player = test.Galaxy.ActiveGames.Values.First().Players.Find(p => p.Id == test.Players[0].Id)!;
         PlayerCompleted[] playerCompleteds = test.Galaxy.Outbox.Where((m) => m.PlayerCompleted != null).Select((m) => m.PlayerCompleted).ToArray();
         Assert.AreEqual(4, playerCompleteds.Length);
+        Assert.AreEqual(Stats.GetWpm(game.Words.Length, player.CharCompletionTimes_s), playerCompleteds[0].Wpm);
+        CollectionAssert.AreEqual(Stats.GetRawWpmBySecond(game.Phrase, player.CharCompletionTimes_s), playerCompleteds[0].RawWpmBySecond);
+        CollectionAssert.AreEqual(Stats.GetWpmBySecond(player.CharCompletionTimes_s), playerCompleteds[0].WpmBySecond);
     }
 
     [TestMethod]
