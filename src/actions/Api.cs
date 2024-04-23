@@ -120,6 +120,10 @@ public static class Api
                 );
             }
         }
+        else
+        {
+            Console.WriteLine($"Player {playerId} typed wrong word {word} instead of {game.Words[player.WordIndex]}");
+        }
 
         Console.WriteLine($"Player {playerId} is {player.WordIndex}/{game.Words.Length} complete");
 
