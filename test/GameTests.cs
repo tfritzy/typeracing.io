@@ -99,7 +99,7 @@ public class GameTests
     }
 
     [TestMethod]
-    public void Game_SendsCharCompletionTimesWhenPlayerFinishes()
+    public void Game_AggregatesCharCompletionTimes()
     {
         TestSetup test = new();
 
@@ -108,14 +108,49 @@ public class GameTests
         test.Galaxy.Time.Update(time);
         test.Galaxy.Update();
 
-        for (int i = 0; i < 3; i++)
+        InGamePlayer player = test.Galaxy.ActiveGames.Values.First().Players.Find(p => p.Id == test.Players[0].Id)!;
+        Api.TypeWord(
+            game.Words[0],
+            new List<float>() { .1f, .4f, 1.2f },
+            test.Players[0].Id,
+            test.Galaxy);
+        CollectionAssert.AreEqual(
+            new float[] { .1f, .4f, 1.2f },
+            player.CharCompletionTimes_s
+        );
+
+        Api.TypeWord(
+            game.Words[1],
+            new List<float>() { 1.5f, 1.8f, 1.9f },
+            test.Players[0].Id,
+            test.Galaxy);
+        CollectionAssert.AreEqual(
+            new float[] { .1f, .4f, 1.2f, 1.5f, 1.8f, 1.9f },
+            player.CharCompletionTimes_s
+        );
+    }
+
+    [TestMethod]
+    public void Game_SendsWpmStatsAboutPlayersWhenTheyFinish()
+    {
+        TestSetup test = new();
+
+        var game = test.Galaxy.ActiveGames[test.Galaxy.PlayerGameMap[test.Players[0].Id]];
+        float time = Game.CountdownDuration + .1f;
+        test.Galaxy.Time.Update(time);
+        test.Galaxy.Update();
+
+        for (int i = 0; i < game.Words.Length; i++)
         {
-            string word = game.Words[i];
-            Api.TypeWord(word, new List<float>(), test.Players[0].Id, test.Galaxy);
-            time += .1f;
-            test.Galaxy.Time.Update(time);
+            Api.TypeWord(
+                game.Words[i],
+                game.Words[i].Select((c, j) => (float)(i + j / 100f)).ToList(),
+                test.Players[0].Id,
+                test.Galaxy);
         }
 
+        PlayerCompleted[] playerCompleteds = test.Galaxy.Outbox.Where((m) => m.PlayerCompleted != null).Select((m) => m.PlayerCompleted).ToArray();
+        Assert.AreEqual(4, playerCompleteds.Length);
     }
 
     [TestMethod]

@@ -615,7 +615,8 @@ function _decodeGameStarting(bb: ByteBuffer): GameStarting {
 export interface PlayerCompleted {
   player_id?: string;
   place?: number;
-  char_completion_times?: number[];
+  raw_wpm_by_second?: number[];
+  wpm_by_second?: number[];
   wpm?: number;
 }
 
@@ -640,11 +641,11 @@ function _encodePlayerCompleted(message: PlayerCompleted, bb: ByteBuffer): void 
     writeVarint64(bb, intToLong($place));
   }
 
-  // repeated float char_completion_times = 3;
-  let array$char_completion_times = message.char_completion_times;
-  if (array$char_completion_times !== undefined) {
+  // repeated float raw_wpm_by_second = 3;
+  let array$raw_wpm_by_second = message.raw_wpm_by_second;
+  if (array$raw_wpm_by_second !== undefined) {
     let packed = popByteBuffer();
-    for (let value of array$char_completion_times) {
+    for (let value of array$raw_wpm_by_second) {
       writeFloat(packed, value);
     }
     writeVarint32(bb, 26);
@@ -653,10 +654,23 @@ function _encodePlayerCompleted(message: PlayerCompleted, bb: ByteBuffer): void 
     pushByteBuffer(packed);
   }
 
-  // optional float wpm = 4;
+  // repeated float wpm_by_second = 4;
+  let array$wpm_by_second = message.wpm_by_second;
+  if (array$wpm_by_second !== undefined) {
+    let packed = popByteBuffer();
+    for (let value of array$wpm_by_second) {
+      writeFloat(packed, value);
+    }
+    writeVarint32(bb, 34);
+    writeVarint32(bb, packed.offset);
+    writeByteBuffer(bb, packed);
+    pushByteBuffer(packed);
+  }
+
+  // optional float wpm = 5;
   let $wpm = message.wpm;
   if ($wpm !== undefined) {
-    writeVarint32(bb, 37);
+    writeVarint32(bb, 45);
     writeFloat(bb, $wpm);
   }
 }
@@ -687,9 +701,9 @@ function _decodePlayerCompleted(bb: ByteBuffer): PlayerCompleted {
         break;
       }
 
-      // repeated float char_completion_times = 3;
+      // repeated float raw_wpm_by_second = 3;
       case 3: {
-        let values = message.char_completion_times || (message.char_completion_times = []);
+        let values = message.raw_wpm_by_second || (message.raw_wpm_by_second = []);
         if ((tag & 7) === 2) {
           let outerLimit = pushTemporaryLength(bb);
           while (!isAtEnd(bb)) {
@@ -702,8 +716,23 @@ function _decodePlayerCompleted(bb: ByteBuffer): PlayerCompleted {
         break;
       }
 
-      // optional float wpm = 4;
+      // repeated float wpm_by_second = 4;
       case 4: {
+        let values = message.wpm_by_second || (message.wpm_by_second = []);
+        if ((tag & 7) === 2) {
+          let outerLimit = pushTemporaryLength(bb);
+          while (!isAtEnd(bb)) {
+            values.push(readFloat(bb));
+          }
+          bb.limit = outerLimit;
+        } else {
+          values.push(readFloat(bb));
+        }
+        break;
+      }
+
+      // optional float wpm = 5;
+      case 5: {
         message.wpm = readFloat(bb);
         break;
       }

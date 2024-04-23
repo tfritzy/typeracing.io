@@ -30,7 +30,6 @@ public static class Api
         var youveBeenAddedToGame = new YouveBeenAddedToGame() { GameId = openGame.Id, };
         foreach (var p in openGame.Players)
             youveBeenAddedToGame.CurrentPlayers.Add(new Player { Id = p.Id, Name = p.Name });
-        Console.WriteLine("Enquing youve");
         galaxy.Outbox.Enqueue(
             new OneofUpdate
             {
@@ -101,6 +100,7 @@ public static class Api
             player.WordIndex++;
             float velocity = Game.CalculateVelocity_km_s((float)player.WordIndex / game.Words.Length);
             player.Velocity_km_s = velocity;
+            player.CharCompletionTimes_s.AddRange(charCompletionTimes);
 
             foreach (InGamePlayer p in game.Players)
             {
@@ -133,13 +133,21 @@ public static class Api
             int place = game.Placements.Count - 1;
             foreach (InGamePlayer p in game.Players)
             {
+                var playerCompleted = new PlayerCompleted
+                {
+                    PlayerId = playerId,
+                    Place = place,
+                };
+                playerCompleted.WpmBySecond.AddRange(Stats.GetWpmBySecond(player.CharCompletionTimes_s));
+                playerCompleted.RawWpmBySecond.AddRange(Stats.GetRawWpmBySecond(player.CharCompletionTimes_s));
+
                 galaxy.Outbox.Enqueue(new OneofUpdate
                 {
                     RecipientId = p.Id,
                     PlayerCompleted = new PlayerCompleted
                     {
                         PlayerId = playerId,
-                        Place = place
+                        Place = place,
                     }
                 });
             }

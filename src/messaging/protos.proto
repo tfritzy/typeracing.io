@@ -53,8 +53,9 @@ message GameStarting {
 message PlayerCompleted {
     string player_id = 1;
     int32 place = 2;
-    repeated float char_completion_times = 3;
-    float wpm = 4;
+    repeated float raw_wpm_by_second = 3;
+    repeated float wpm_by_second = 4;
+    float wpm = 5;
 }
 
 message PlayerJoinedGame {
