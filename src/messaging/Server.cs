@@ -207,7 +207,11 @@ public class Server
                 Api.FindGame(request.FindGame.PlayerName, request.SenderId, request.FindGame.PlayerToken, Galaxy);
                 break;
             case OneofRequest.RequestOneofCase.TypeWord:
-                Api.TypeWord(request.TypeWord.Word, request.SenderId, Galaxy);
+                Api.TypeWord(
+                    request.TypeWord.Word,
+                    request.TypeWord.CharCompletionTimes.ToList(),
+                    request.SenderId,
+                    Galaxy);
                 break;
             default:
                 throw new Exception("Unknown request type");

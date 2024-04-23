@@ -63,7 +63,7 @@ public static class Api
         }
     }
 
-    public static void TypeWord(string word, string playerId, Galaxy galaxy)
+    public static void TypeWord(string word, List<float> charCompletionTimes, string playerId, Galaxy galaxy)
     {
         if (!galaxy.PlayerGameMap.ContainsKey(playerId))
         {
