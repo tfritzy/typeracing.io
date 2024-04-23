@@ -22,6 +22,7 @@ message FindGameRequest {
 
 message TypeWordRequest {
     string word = 1;
+    repeated float char_completion_times = 2;
 }
 
 message OneofUpdate {
@@ -52,6 +53,8 @@ message GameStarting {
 message PlayerCompleted {
     string player_id = 1;
     int32 place = 2;
+    repeated float char_completion_times = 3;
+    float wpm = 4;
 }
 
 message PlayerJoinedGame {
@@ -65,7 +68,7 @@ message WordFinished {
     float percent_complete = 2;
     float velocity_km_s = 3;
     float position_km = 4;
-    float time_s = 5;
+    repeated float char_completion_times = 5;
 }
 
 message YouveBeenAddedToGame {

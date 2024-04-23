@@ -25,7 +25,7 @@ public class Game
         Complete
     }
 
-    public Game(Galaxy galaxy, int maxPlayers = 2)
+    public Game(Galaxy galaxy, int maxPlayers = 4)
     {
         Players = new List<InGamePlayer>();
         Placements = new List<string>();
@@ -49,8 +49,8 @@ public class Game
             return;
         }
 
-        Console.WriteLine("Seconds till start: " + (StartTime + CountdownDuration - Time.Now));
-        if (Time.Now - StartTime > CountdownDuration)
+        Console.WriteLine("Seconds till start: " + (StartTime + CountdownDuration - Galaxy.Time.Now));
+        if (Galaxy.Time.Now - StartTime > CountdownDuration)
         {
             State = GameState.Running;
             foreach (InGamePlayer player in Players)
@@ -68,7 +68,7 @@ public class Game
     {
         foreach (InGamePlayer player in Players)
         {
-            player.PositionKm += player.Velocity_km_s * Time.DeltaTime;
+            player.PositionKm += player.Velocity_km_s * Galaxy.Time.DeltaTime;
         }
     }
 

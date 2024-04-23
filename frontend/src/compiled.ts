@@ -209,6 +209,7 @@ function _decodeFindGameRequest(bb: ByteBuffer): FindGameRequest {
 
 export interface TypeWordRequest {
   word?: string;
+  char_completion_times?: number[];
 }
 
 export function encodeTypeWordRequest(message: TypeWordRequest): Uint8Array {
@@ -223,6 +224,19 @@ function _encodeTypeWordRequest(message: TypeWordRequest, bb: ByteBuffer): void 
   if ($word !== undefined) {
     writeVarint32(bb, 10);
     writeString(bb, $word);
+  }
+
+  // repeated float char_completion_times = 2;
+  let array$char_completion_times = message.char_completion_times;
+  if (array$char_completion_times !== undefined) {
+    let packed = popByteBuffer();
+    for (let value of array$char_completion_times) {
+      writeFloat(packed, value);
+    }
+    writeVarint32(bb, 18);
+    writeVarint32(bb, packed.offset);
+    writeByteBuffer(bb, packed);
+    pushByteBuffer(packed);
   }
 }
 
@@ -243,6 +257,21 @@ function _decodeTypeWordRequest(bb: ByteBuffer): TypeWordRequest {
       // optional string word = 1;
       case 1: {
         message.word = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // repeated float char_completion_times = 2;
+      case 2: {
+        let values = message.char_completion_times || (message.char_completion_times = []);
+        if ((tag & 7) === 2) {
+          let outerLimit = pushTemporaryLength(bb);
+          while (!isAtEnd(bb)) {
+            values.push(readFloat(bb));
+          }
+          bb.limit = outerLimit;
+        } else {
+          values.push(readFloat(bb));
+        }
         break;
       }
 
@@ -586,6 +615,8 @@ function _decodeGameStarting(bb: ByteBuffer): GameStarting {
 export interface PlayerCompleted {
   player_id?: string;
   place?: number;
+  char_completion_times?: number[];
+  wpm?: number;
 }
 
 export function encodePlayerCompleted(message: PlayerCompleted): Uint8Array {
@@ -607,6 +638,26 @@ function _encodePlayerCompleted(message: PlayerCompleted, bb: ByteBuffer): void 
   if ($place !== undefined) {
     writeVarint32(bb, 16);
     writeVarint64(bb, intToLong($place));
+  }
+
+  // repeated float char_completion_times = 3;
+  let array$char_completion_times = message.char_completion_times;
+  if (array$char_completion_times !== undefined) {
+    let packed = popByteBuffer();
+    for (let value of array$char_completion_times) {
+      writeFloat(packed, value);
+    }
+    writeVarint32(bb, 26);
+    writeVarint32(bb, packed.offset);
+    writeByteBuffer(bb, packed);
+    pushByteBuffer(packed);
+  }
+
+  // optional float wpm = 4;
+  let $wpm = message.wpm;
+  if ($wpm !== undefined) {
+    writeVarint32(bb, 37);
+    writeFloat(bb, $wpm);
   }
 }
 
@@ -633,6 +684,27 @@ function _decodePlayerCompleted(bb: ByteBuffer): PlayerCompleted {
       // optional int32 place = 2;
       case 2: {
         message.place = readVarint32(bb);
+        break;
+      }
+
+      // repeated float char_completion_times = 3;
+      case 3: {
+        let values = message.char_completion_times || (message.char_completion_times = []);
+        if ((tag & 7) === 2) {
+          let outerLimit = pushTemporaryLength(bb);
+          while (!isAtEnd(bb)) {
+            values.push(readFloat(bb));
+          }
+          bb.limit = outerLimit;
+        } else {
+          values.push(readFloat(bb));
+        }
+        break;
+      }
+
+      // optional float wpm = 4;
+      case 4: {
+        message.wpm = readFloat(bb);
         break;
       }
 
@@ -724,7 +796,7 @@ export interface WordFinished {
   percent_complete?: number;
   velocity_km_s?: number;
   position_km?: number;
-  time_s?: number;
+  char_completion_times?: number[];
 }
 
 export function encodeWordFinished(message: WordFinished): Uint8Array {
@@ -762,11 +834,17 @@ function _encodeWordFinished(message: WordFinished, bb: ByteBuffer): void {
     writeFloat(bb, $position_km);
   }
 
-  // optional float time_s = 5;
-  let $time_s = message.time_s;
-  if ($time_s !== undefined) {
-    writeVarint32(bb, 45);
-    writeFloat(bb, $time_s);
+  // repeated float char_completion_times = 5;
+  let array$char_completion_times = message.char_completion_times;
+  if (array$char_completion_times !== undefined) {
+    let packed = popByteBuffer();
+    for (let value of array$char_completion_times) {
+      writeFloat(packed, value);
+    }
+    writeVarint32(bb, 42);
+    writeVarint32(bb, packed.offset);
+    writeByteBuffer(bb, packed);
+    pushByteBuffer(packed);
   }
 }
 
@@ -808,9 +886,18 @@ function _decodeWordFinished(bb: ByteBuffer): WordFinished {
         break;
       }
 
-      // optional float time_s = 5;
+      // repeated float char_completion_times = 5;
       case 5: {
-        message.time_s = readFloat(bb);
+        let values = message.char_completion_times || (message.char_completion_times = []);
+        if ((tag & 7) === 2) {
+          let outerLimit = pushTemporaryLength(bb);
+          while (!isAtEnd(bb)) {
+            values.push(readFloat(bb));
+          }
+          bb.limit = outerLimit;
+        } else {
+          values.push(readFloat(bb));
+        }
         break;
       }
 

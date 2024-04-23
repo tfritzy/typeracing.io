@@ -73,7 +73,7 @@ public class Server
     public void Tick()
     {
         float time_s = (float)((DateTime.Now - start).TotalMilliseconds / 1000f);
-        Time.Update(time_s);
+        Galaxy.Time.Update(time_s);
         Galaxy.Update();
     }
 

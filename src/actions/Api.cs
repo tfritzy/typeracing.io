@@ -46,7 +46,7 @@ public static class Api
                 galaxy.ActiveGames[openGame.Id] = openGame;
             }
             openGame.State = Game.GameState.Countdown;
-            openGame.StartTime = Time.Now;
+            openGame.StartTime = galaxy.Time.Now;
 
             foreach (InGamePlayer player in openGame.Players)
             {
@@ -114,7 +114,6 @@ public static class Api
                             PercentComplete = (float)player.WordIndex / game.Words.Length,
                             VelocityKmS = velocity,
                             PositionKm = player.PositionKm,
-                            TimeS = Time.Now - game.RaceStartTime
                         }
                     }
                 );
@@ -157,7 +156,7 @@ public static class Api
                     RecipientId = p.Id,
                     GameOver = new GameOver()
                     {
-                        EndTimeS = Time.Now - game.RaceStartTime,
+                        EndTimeS = galaxy.Time.Now - game.RaceStartTime,
                     }
                 });
             }

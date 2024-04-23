@@ -9,6 +9,7 @@ public class Galaxy
     public Queue<OneofUpdate> Outbox { get; set; }
     public Queue<OneofRequest> Inbox { get; set; }
     public Dictionary<string, string> PlayerGameMap { get; set; }
+    public Time Time { get; private set; }
 
     public Galaxy()
     {
@@ -17,6 +18,7 @@ public class Galaxy
         Outbox = new Queue<OneofUpdate>();
         Inbox = new Queue<OneofRequest>();
         PlayerGameMap = new Dictionary<string, string>();
+        Time = new Time();
     }
 
     public void Update()

@@ -34,7 +34,7 @@ public class GameTests
         Api.TypeWord(game.Words[0], test.Players[0].Id, test.Galaxy);
         Assert.AreEqual(0, game.Players[0].WordIndex);
 
-        Time.Update(Game.CountdownDuration + .1f);
+        test.Galaxy.Time.Update(Game.CountdownDuration + .1f);
         test.Galaxy.Update();
 
         // Works now
@@ -47,7 +47,7 @@ public class GameTests
     {
         TestSetup test = new();
         var game = test.Galaxy.ActiveGames[test.Galaxy.PlayerGameMap[test.Players[0].Id]];
-        Time.Update(Game.CountdownDuration + .1f);
+        test.Galaxy.Time.Update(Game.CountdownDuration + .1f);
         test.Galaxy.Update();
 
         foreach (string word in game.Words)
@@ -74,7 +74,7 @@ public class GameTests
         TestSetup test = new();
 
         var game = test.Galaxy.ActiveGames[test.Galaxy.PlayerGameMap[test.Players[0].Id]];
-        Time.Update(Game.CountdownDuration + .1f);
+        test.Galaxy.Time.Update(Game.CountdownDuration + .1f);
         test.Galaxy.Update();
 
         for (int i = 0; i < game.Words.Length - 1; i++)
@@ -103,7 +103,7 @@ public class GameTests
     {
         TestSetup test = new();
         var game = test.Galaxy.ActiveGames[test.Galaxy.PlayerGameMap[test.Players[0].Id]];
-        Time.Update(Game.CountdownDuration + .1f);
+        test.Galaxy.Time.Update(Game.CountdownDuration + .1f);
         test.Galaxy.Update();
 
         for (int i = 0; i < game.Words.Length - 1; i++)
@@ -136,7 +136,7 @@ public class GameTests
     {
         TestSetup test = new();
         var game = test.Galaxy.ActiveGames[test.Galaxy.PlayerGameMap[test.Players[0].Id]];
-        Time.Update(Game.CountdownDuration + .1f);
+        test.Galaxy.Time.Update(Game.CountdownDuration + .1f);
         test.Galaxy.Update();
 
         test.Galaxy.Outbox.Clear();
@@ -164,10 +164,10 @@ public class GameTests
         Assert.AreEqual(Game.GameState.Lobby, game.State);
         Api.FindGame("Petunia", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy);
         Assert.AreEqual(Game.GameState.Countdown, game.State);
-        Time.Update(Game.CountdownDuration - .1f);
+        galaxy.Time.Update(Game.CountdownDuration - .1f);
         galaxy.Update();
         Assert.AreEqual(Game.GameState.Countdown, game.State);
-        Time.Update(.2f);
+        galaxy.Time.Update(Game.CountdownDuration + .1f);
         galaxy.Update();
         Assert.AreEqual(Game.GameState.Running, game.State);
 
@@ -188,10 +188,10 @@ public class GameTests
     {
         TestSetup test = new();
         var game = test.Galaxy.ActiveGames[test.Galaxy.PlayerGameMap[test.Players[0].Id]];
-        Time.Update(Game.CountdownDuration + .1f);
+        test.Galaxy.Time.Update(Game.CountdownDuration + .1f);
         test.Galaxy.Update();
-
         test.Galaxy.Outbox.Clear();
+
         Api.TypeWord(game.Words[0], test.Players[0].Id, test.Galaxy);
         Assert.AreEqual(4, test.Galaxy.Outbox.Count);
         Assert.IsTrue(test.Galaxy.Outbox.All((m) => m.WordFinished != null));
@@ -206,11 +206,11 @@ public class GameTests
         Assert.IsTrue(test.Galaxy.Outbox.All(m => m.WordFinished.VelocityKmS == expectedVelocity));
         Assert.IsTrue(test.Galaxy.Outbox.All(m => m.WordFinished.PositionKm == 0)); // No time updates
 
-        Time.Update(.1f);
+        test.Galaxy.Time.Update(Game.CountdownDuration + .2f);
         test.Galaxy.Update();
         test.Galaxy.Outbox.Clear();
         float expectedPosition = expectedVelocity * .1f;
-        Assert.AreEqual(expectedPosition, game.Players[0].PositionKm);
+        AssertExtensions.IsApproximately(expectedPosition, game.Players[0].PositionKm);
         Assert.AreEqual(0, game.Players[1].PositionKm);
         Assert.AreEqual(0, game.Players[2].PositionKm);
         Assert.AreEqual(0, game.Players[3].PositionKm);
@@ -222,7 +222,7 @@ public class GameTests
         expectedVelocity = Game.CalculateVelocity_km_s(percentComplete);
         Assert.IsTrue(test.Galaxy.Outbox.All(m => m.WordFinished.PercentComplete == percentComplete));
         Assert.IsTrue(test.Galaxy.Outbox.All(m => m.WordFinished.VelocityKmS == expectedVelocity));
-        Assert.IsTrue(test.Galaxy.Outbox.All(m => m.WordFinished.PositionKm == expectedPosition));
+        Assert.IsTrue(test.Galaxy.Outbox.All(m => AssertExtensions.ApproximatelyEqual(m.WordFinished.PositionKm, expectedPosition)));
     }
 
     [TestMethod]
