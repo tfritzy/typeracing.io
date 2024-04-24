@@ -139,7 +139,7 @@ public static class Api
                     Place = place,
                     Wpm = Stats.GetWpm(game.Words.Length, player.CharCompletionTimes_s),
                 };
-                playerCompleted.WpmBySecond.AddRange(Stats.GetWpmBySecond(player.CharCompletionTimes_s));
+                playerCompleted.WpmBySecond.AddRange(Stats.GetAggWpmBySecond(game.Phrase, player.CharCompletionTimes_s));
                 playerCompleted.RawWpmBySecond.AddRange(Stats.GetRawWpmBySecond(game.Phrase, player.CharCompletionTimes_s));
 
                 galaxy.Outbox.Enqueue(new OneofUpdate

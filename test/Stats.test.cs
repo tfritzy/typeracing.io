@@ -22,9 +22,27 @@ public class StatsTests
         // Incorrect length
         CollectionAssert.AreEqual(new List<float>(), Stats.GetRawWpmBySecond("an apple", new List<float>() { 1, 2, 3, 4 }));
 
-        List<float> expectedValues = new() { 50, 60, 52.94f, 54.54f, 57.69f, 68.18f, 71.42f, 78.94f };
+        // 50, 60, 52.94f, 54.54f, 57.69f, 68.18f, 71.42f, 78.94f
+        List<float> expectedValues = new() { 54.31f, 66.15f };
         List<float> actualValues = Stats.GetRawWpmBySecond("an apple", new List<float> { .3f, .5f, .85f, 1.1f, 1.3f, 1.32f, 1.47f, 1.52f });
         Assert.IsTrue(expectedValues.Count == actualValues.Count);
+        for (int i = 0; i < expectedValues.Count; i++)
+        {
+            AssertExtensions.IsApproximately(expectedValues[i], actualValues[i]);
+        }
+    }
+
+    [TestMethod]
+    public void Stats_AggWpmBySecond()
+    {
+        CollectionAssert.AreEqual(new List<float>(), Stats.GetRawWpmBySecond("", new List<float>()));
+
+        // Incorrect length
+        CollectionAssert.AreEqual(new List<float>(), Stats.GetRawWpmBySecond("an apple", new List<float>() { 1, 2, 3, 4 }));
+
+        List<float> expectedValues = new() { 53.90f, 64.92f, 52.65f, 40.38f, 28.11f, 21.73f };
+        List<float> actualValues = Stats.GetAggWpmBySecond("an apple", new List<float> { .3f, .5f, .85f, 1.1f, 1.3f, 1.32f, 1.47f, 5.52f });
+        Assert.AreEqual(expectedValues.Count, actualValues.Count);
         for (int i = 0; i < expectedValues.Count; i++)
         {
             AssertExtensions.IsApproximately(expectedValues[i], actualValues[i]);

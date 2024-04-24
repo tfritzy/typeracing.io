@@ -154,7 +154,7 @@ public class GameTests
         Assert.AreEqual(4, playerCompleteds.Length);
         Assert.AreEqual(Stats.GetWpm(game.Words.Length, player.CharCompletionTimes_s), playerCompleteds[0].Wpm);
         CollectionAssert.AreEqual(Stats.GetRawWpmBySecond(game.Phrase, player.CharCompletionTimes_s), playerCompleteds[0].RawWpmBySecond);
-        CollectionAssert.AreEqual(Stats.GetWpmBySecond(player.CharCompletionTimes_s), playerCompleteds[0].WpmBySecond);
+        CollectionAssert.AreEqual(Stats.GetAggWpmBySecond(game.Phrase, player.CharCompletionTimes_s), playerCompleteds[0].WpmBySecond);
     }
 
     [TestMethod]
