@@ -139,22 +139,31 @@ public class GameTests
         float time = Game.CountdownDuration + .1f;
         test.Galaxy.Time.Update(time);
         test.Galaxy.Update();
-
+        List<float> charCompletionTimes = game.Phrase.Select((c, i) => (float)i / 100f).ToList();
+        int charIndex = 0;
         for (int i = 0; i < game.Words.Length; i++)
         {
+            int count = game.Words[i].Length + (i == game.Words.Length - 1 ? 0 : 1);
             Api.TypeWord(
                 game.Words[i],
-                game.Words[i].Select((c, j) => (float)(i + j / 100f)).ToList(),
+                charCompletionTimes.GetRange(charIndex, count),
                 test.Players[0].Id,
                 test.Galaxy);
+            charIndex += game.Words[i].Length;
         }
 
         InGamePlayer player = test.Galaxy.ActiveGames.Values.First().Players.Find(p => p.Id == test.Players[0].Id)!;
         PlayerCompleted[] playerCompleteds = test.Galaxy.Outbox.Where((m) => m.PlayerCompleted != null).Select((m) => m.PlayerCompleted).ToArray();
         Assert.AreEqual(4, playerCompleteds.Length);
         Assert.AreEqual(Stats.GetWpm(game.Words.Length, player.CharCompletionTimes_s), playerCompleteds[0].Wpm);
-        CollectionAssert.AreEqual(Stats.GetRawWpmBySecond(game.Phrase, player.CharCompletionTimes_s), playerCompleteds[0].RawWpmBySecond);
-        CollectionAssert.AreEqual(Stats.GetAggWpmBySecond(game.Phrase, player.CharCompletionTimes_s), playerCompleteds[0].WpmBySecond);
+        Assert.IsTrue(playerCompleteds[0].RawWpmBySecond.Count > 0);
+        Assert.IsTrue(playerCompleteds[0].WpmBySecond.Count > 0);
+        CollectionAssert.AreEqual(
+            Stats.GetRawWpmBySecond(game.Phrase, player.CharCompletionTimes_s),
+            playerCompleteds[0].RawWpmBySecond);
+        CollectionAssert.AreEqual(
+            Stats.GetAggWpmBySecond(game.Phrase, player.CharCompletionTimes_s),
+            playerCompleteds[0].WpmBySecond);
     }
 
     [TestMethod]

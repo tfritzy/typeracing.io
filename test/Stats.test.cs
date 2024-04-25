@@ -24,10 +24,42 @@ public class StatsTests
 
         // 50, 60, 52.94f, 54.54f, 57.69f, 68.18f, 71.42f, 78.94f
         List<float> expectedValues = new() { 54.31f, 66.15f };
-        List<float> actualValues = Stats.GetRawWpmBySecond("an apple", new List<float> { .3f, .5f, .85f, 1.1f, 1.3f, 1.32f, 1.47f, 1.52f });
+        List<float> actualValues = Stats.GetRawWpmBySecond(
+            "an apple",
+            new List<float> { .3f, .5f, .85f, 1.1f, 1.3f, 1.32f, 1.47f, 1.52f });
         Assert.IsTrue(expectedValues.Count == actualValues.Count);
         for (int i = 0; i < expectedValues.Count; i++)
         {
+            Assert.IsTrue(!float.IsNaN(actualValues[i]));
+            Assert.IsTrue(!float.IsInfinity(actualValues[i]));
+            AssertExtensions.IsApproximately(expectedValues[i], actualValues[i]);
+        }
+
+        expectedValues = new() { 0f, 0f, 14.51f, 26.69f, 26.54f };
+        actualValues = Stats.GetRawWpmBySecond(
+            "an apple",
+            new List<float> { 2.3f, 2.5f, 2.6f, 2.7f, 3.3f, 3.32f, 3.47f, 4.52f });
+        Assert.IsTrue(expectedValues.Count == actualValues.Count);
+        for (int i = 0; i < expectedValues.Count; i++)
+        {
+            Assert.IsTrue(!float.IsNaN(actualValues[i]));
+            Assert.IsTrue(!float.IsInfinity(actualValues[i]));
+            AssertExtensions.IsApproximately(expectedValues[i], actualValues[i]);
+        }
+    }
+
+    [TestMethod]
+    public void Stats_RawWpmBySecond_AvoidsNaN()
+    {
+        var expectedValues = new List<float>() { 0f, 0f, 14.51f, 26.69f, 26.54f };
+        var actualValues = Stats.GetRawWpmBySecond(
+            "an apple",
+            new List<float> { 2.3f, 2.5f, 2.6f, 2.7f, 3.3f, 3.32f, 3.47f, 4.52f });
+        Assert.IsTrue(expectedValues.Count == actualValues.Count);
+        for (int i = 0; i < expectedValues.Count; i++)
+        {
+            Assert.IsTrue(!float.IsNaN(actualValues[i]));
+            Assert.IsTrue(!float.IsInfinity(actualValues[i]));
             AssertExtensions.IsApproximately(expectedValues[i], actualValues[i]);
         }
     }

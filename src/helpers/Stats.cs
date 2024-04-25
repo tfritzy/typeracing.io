@@ -39,6 +39,12 @@ public static class Stats
 
         for (int i = 0; i < wpmBySecond.Count; i++)
         {
+            if (charCountBySecond[i] == 0)
+            {
+                wpmBySecond[i] = 0;
+                continue;
+            }
+
             wpmBySecond[i] /= charCountBySecond[i];
         }
 
