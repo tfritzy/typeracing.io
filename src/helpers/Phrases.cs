@@ -59,7 +59,7 @@ public static class Phrases
         List<string> words = File.ReadAllLines(wordsPath).ToList();
         Random random = new();
         StringBuilder phrase = new();
-        var numWords = random.Next(20, 40);
+        var numWords = random.Next(21, 39);
         for (int i = 0; i < numWords; i++)
         {
             phrase.Append(words[random.Next(words.Count)]);

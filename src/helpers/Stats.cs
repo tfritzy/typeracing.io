@@ -57,6 +57,9 @@ public static class Stats
     /// </summary>
     public static List<float> GetAggWpmBySecond(string phrase, List<float> charCompletionTimes_s)
     {
+        Console.WriteLine($"Calculating WPM for {phrase.Length} with {charCompletionTimes_s.Count} characters");
+        Console.WriteLine($"Phrase: {phrase}");
+        Console.WriteLine($"Char times: {string.Join("f, ", charCompletionTimes_s)}");
         if (charCompletionTimes_s.Count == 0 || charCompletionTimes_s.Count != phrase.Length)
         {
             return new List<float>();
@@ -79,7 +82,7 @@ public static class Stats
             while (charCompletionTimes_s[i] > target)
             {
                 target += 1;
-                nearestIndexPriorWpmToSecondBounds.Add(i - 1);
+                nearestIndexPriorWpmToSecondBounds.Add(Math.Max(i - 1, 0));
             }
         }
 
@@ -95,6 +98,7 @@ public static class Stats
             float timespan = nextTime - priorTime;
             float percentAlongTimespan = (second - priorTime) / timespan;
             float lerpedWpm = prevVal + (nextVal - prevVal) * percentAlongTimespan;
+            lerpedWpm = Math.Max(lerpedWpm, 0);
             wpmBySecond.Add(lerpedWpm);
         }
 

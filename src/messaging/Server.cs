@@ -149,19 +149,19 @@ public class Server
 
             if (receiveResult.MessageType == WebSocketMessageType.Binary)
             {
-                try
+                // try
+                // {
+                using (var ms = new MemoryStream(receiveBuffer, 0, messageLength))
                 {
-                    using (var ms = new MemoryStream(receiveBuffer, 0, messageLength))
-                    {
-                        OneofRequest request = OneofRequest.Parser.ParseFrom(ms);
-                        HandleRequest(request);
-                    }
+                    OneofRequest request = OneofRequest.Parser.ParseFrom(ms);
+                    HandleRequest(request);
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Failed to parse request: " + e.Message);
-                    continue;
-                }
+                // }
+                // catch (Exception e)
+                // {
+                //     Console.WriteLine("Failed to parse request: " + e.Message);
+                //     continue;
+                // }
             }
             else if (receiveResult.MessageType == WebSocketMessageType.Close)
             {

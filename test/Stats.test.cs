@@ -65,6 +65,21 @@ public class StatsTests
     }
 
     [TestMethod]
+    public void Stats_AggWpmBySecond_Example()
+    {
+        var expectedValues = new List<float>() { 0, 0, 0, 0, .11f, 11.64f, 16.09f, 15.95f };
+        var actualValues = Stats.GetAggWpmBySecond(
+            "an apple",
+            new List<float> { 5.1f, 5.2f, 5.3f, 5.4f, 6.3f, 6.32f, 6.47f, 7.52f });
+        for (int i = 0; i < expectedValues.Count; i++)
+        {
+            Assert.IsTrue(!float.IsNaN(actualValues[i]));
+            Assert.IsTrue(!float.IsInfinity(actualValues[i]));
+            AssertExtensions.IsApproximately(expectedValues[i], actualValues[i]);
+        }
+    }
+
+    [TestMethod]
     public void Stats_AggWpmBySecond()
     {
         CollectionAssert.AreEqual(new List<float>(), Stats.GetRawWpmBySecond("", new List<float>()));

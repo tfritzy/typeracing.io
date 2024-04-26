@@ -25,7 +25,7 @@ public class Game
         Complete
     }
 
-    public Game(Galaxy galaxy, int maxPlayers = 4)
+    public Game(Galaxy galaxy, int maxPlayers = 1)
     {
         Players = new List<InGamePlayer>();
         Placements = new List<string>();

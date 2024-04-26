@@ -3,7 +3,6 @@ import { RootState } from "./store/store";
 import { LineChart, Series } from "./ResultsChart";
 import { useEffect, useMemo, useState } from "react";
 import { PlayerData } from "./App";
-import { getInstantaneousWpm, getWpmData } from "./wpmMath";
 import { BackgroundColor } from "./constants";
 
 const placementColors = [
@@ -31,18 +30,18 @@ export const Results = () => {
   useEffect(() => {
     const newWpmData: Series[] = [];
     for (const player of finishedPlayers) {
-      console.log("inst");
-      const instWpm = getInstantaneousWpm(player.wordCompletionTimes);
-      console.log("instWpm", instWpm);
+      if (!player.wpm_by_second?.length || !player.raw_wpm_by_second?.length) {
+        continue;
+      }
+
       newWpmData.push({
         name: "raw wpm",
-        data: instWpm,
+        data: player.raw_wpm_by_second,
       });
 
-      const wpmData = getWpmData(player.wordCompletionTimes);
       newWpmData.push({
         name: "wpm",
-        data: wpmData,
+        data: player.wpm_by_second,
       });
 
       setWpmData(newWpmData);
