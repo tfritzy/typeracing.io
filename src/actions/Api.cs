@@ -11,54 +11,69 @@ public static class Api
         }
 
         Game openGame = galaxy.OpenGames[0];
-        foreach (InGamePlayer player in openGame.Players)
+        AddPlayerToGame(galaxy, openGame, new InGamePlayer(playerName, playerId, playerToken));
+    }
+
+    public static void AddPlayerToGame(Galaxy galaxy, Game game, InGamePlayer player)
+    {
+        foreach (InGamePlayer p in game.Players)
         {
             galaxy.Outbox.Enqueue(
                 new OneofUpdate
                 {
-                    RecipientId = player.Id,
+                    RecipientId = p.Id,
                     PlayerJoinedGame = new PlayerJoinedGame()
                     {
-                        GameId = openGame.Id,
-                        PlayerId = playerId,
-                        PlayerName = playerName
+                        GameId = game.Id,
+                        PlayerId = player.Id,
+                        PlayerName = player.Name
                     }
                 });
         }
-        openGame.Players.Add(new InGamePlayer(playerName, playerId, playerToken));
-        galaxy.PlayerGameMap[playerId] = openGame.Id;
-        var youveBeenAddedToGame = new YouveBeenAddedToGame() { GameId = openGame.Id, };
-        foreach (var p in openGame.Players)
-            youveBeenAddedToGame.CurrentPlayers.Add(new Player { Id = p.Id, Name = p.Name });
-        galaxy.Outbox.Enqueue(
-            new OneofUpdate
-            {
-                RecipientId = playerId,
-                YouveBeenAddedToGame = youveBeenAddedToGame
-            });
 
-        if (openGame.Players.Count == openGame.MaxPlayers)
+        game.Players.Add(player);
+        galaxy.PlayerGameMap[player.Id] = game.Id;
+
+        if (player.BotConfig == null)
         {
-            galaxy.OpenGames.Remove(openGame);
-            lock (galaxy.ActiveGames)
-            {
-                galaxy.ActiveGames[openGame.Id] = openGame;
-            }
-            openGame.State = Game.GameState.Countdown;
-            openGame.StartTime = galaxy.Time.Now;
-
-            foreach (InGamePlayer player in openGame.Players)
-            {
-                galaxy.Outbox.Enqueue(new OneofUpdate
+            var youveBeenAddedToGame = new YouveBeenAddedToGame() { GameId = game.Id, };
+            foreach (var p in game.Players)
+                youveBeenAddedToGame.CurrentPlayers.Add(new Player { Id = p.Id, Name = p.Name });
+            galaxy.Outbox.Enqueue(
+                new OneofUpdate
                 {
                     RecipientId = player.Id,
-                    GameStarting = new GameStarting
-                    {
-                        Countdown = Game.CountdownDuration,
-                        Phrase = openGame.Phrase
-                    }
+                    YouveBeenAddedToGame = youveBeenAddedToGame
                 });
-            }
+        }
+
+        if (game.Players.Count == game.MaxPlayers)
+        {
+            Api.StartGame(game, galaxy);
+        }
+    }
+
+    public static void StartGame(Game openGame, Galaxy galaxy)
+    {
+        galaxy.OpenGames.Remove(openGame);
+        lock (galaxy.ActiveGames)
+        {
+            galaxy.ActiveGames[openGame.Id] = openGame;
+        }
+        openGame.State = Game.GameState.Countdown;
+        openGame.StartTime = galaxy.Time.Now;
+
+        foreach (InGamePlayer player in openGame.Players)
+        {
+            galaxy.Outbox.Enqueue(new OneofUpdate
+            {
+                RecipientId = player.Id,
+                GameStarting = new GameStarting
+                {
+                    Countdown = Game.CountdownDuration,
+                    Phrase = openGame.Phrase
+                }
+            });
         }
     }
 

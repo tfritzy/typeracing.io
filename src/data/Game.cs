@@ -38,9 +38,16 @@ public class Game
 
     public void Update()
     {
-        UpdatePlayerPositions();
-        CheckStartGame();
-        UpdateBotProgress();
+        if (State == GameState.Lobby)
+        {
+            AddBotsIfNeeded();
+        }
+        else if (State == GameState.Running || State == GameState.Countdown)
+        {
+            UpdatePlayerPositions();
+            CheckStartGame();
+            UpdateBotProgress();
+        }
     }
 
     private void CheckStartGame()
@@ -51,7 +58,7 @@ public class Game
         }
 
         Console.WriteLine("Seconds till start: " + (StartTime + CountdownDuration - Galaxy.Time.Now));
-        if (Galaxy.Time.Now - StartTime > CountdownDuration)
+        if (Galaxy.Time.Now - StartTime >= CountdownDuration)
         {
             State = GameState.Running;
             foreach (InGamePlayer player in Players)
@@ -85,7 +92,7 @@ public class Game
             return;
         }
 
-        if (Galaxy.Time.Now - StartTime > Constants.TimeBeforeFillingBots)
+        if (Galaxy.Time.Now - StartTime < Constants.TimeBeforeFillingBots)
         {
             return;
         }
@@ -100,7 +107,7 @@ public class Game
                 token: IdGen.NewToken(),
                 isBot: true
             );
-            Players.Add(bot);
+            Api.AddPlayerToGame(Galaxy, this, bot);
         }
     }
 
@@ -119,8 +126,8 @@ public class Game
             }
 
             string currentWord = Words[player.WordIndex];
-            float timeToTypeWord = currentWord.Length / player.BotConfig.Wpm * 60;
-            if (Galaxy.Time.Now - player.BotConfig.LastWordTime > timeToTypeWord)
+            float timeToTypeWord_s = currentWord.Length / player.BotConfig.CharactersPerSecond;
+            if (Galaxy.Time.Now - player.BotConfig.LastWordTime > timeToTypeWord_s)
             {
                 player.BotConfig.LastWordTime = Galaxy.Time.Now;
                 Api.TypeWord(

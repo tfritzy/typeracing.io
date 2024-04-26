@@ -30,5 +30,16 @@ public class Galaxy
                 game.Update();
             }
         }
+
+        for (int i = 0; i < OpenGames.Count; i++)
+        {
+            Game game = OpenGames[i];
+            OpenGames[i].Update();
+
+            if (game.State != Game.GameState.Lobby)
+            {
+                i--;
+            }
+        }
     }
 }

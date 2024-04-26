@@ -32,4 +32,26 @@ public class BotTests
         Assert.AreEqual(4, game.Players.Count);
         Assert.AreEqual(3, game.Players.Count(p => p.BotConfig != null));
     }
+
+    [TestMethod]
+    public void Bots_BeTypin()
+    {
+        TestSetup test = new();
+        Game game = test.Galaxy.OpenGames[0];
+        test.Galaxy.Time.Update(Constants.TimeBeforeFillingBots + .1f);
+        test.Galaxy.Update();
+        var bots = game.Players.Where(p => p.BotConfig != null).ToList();
+
+        Assert.AreEqual(4, game.Players.Count);
+        Assert.AreEqual(Game.GameState.Countdown, game.State);
+
+        test.Galaxy.Time.Update(Constants.TimeBeforeFillingBots + Game.CountdownDuration + .1f);
+        test.Galaxy.Update();
+        Assert.AreEqual(Game.GameState.Running, game.State);
+        Assert.IsTrue(bots.All(b => b.WordIndex == 0));
+
+        test.Galaxy.Time.Update(10f);
+        test.Galaxy.Update();
+        Assert.IsTrue(bots.All(b => b.WordIndex == 1));
+    }
 }
