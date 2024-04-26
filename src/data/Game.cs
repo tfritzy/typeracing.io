@@ -25,7 +25,7 @@ public class Game
         Complete
     }
 
-    public Game(Galaxy galaxy, int maxPlayers = 1)
+    public Game(Galaxy galaxy, int maxPlayers = 4)
     {
         Players = new List<InGamePlayer>();
         Placements = new List<string>();
@@ -40,6 +40,7 @@ public class Game
     {
         UpdatePlayerPositions();
         CheckStartGame();
+        UpdateBotProgress();
     }
 
     private void CheckStartGame()
@@ -69,6 +70,67 @@ public class Game
         foreach (InGamePlayer player in Players)
         {
             player.PositionKm += player.Velocity_km_s * Galaxy.Time.DeltaTime;
+        }
+    }
+
+    private void AddBotsIfNeeded()
+    {
+        if (State != GameState.Lobby)
+        {
+            return;
+        }
+
+        if (Players.Count >= MaxPlayers)
+        {
+            return;
+        }
+
+        if (Galaxy.Time.Now - StartTime > Constants.TimeBeforeFillingBots)
+        {
+            return;
+        }
+
+        int botsToAdd = MaxPlayers - Players.Count;
+        for (int i = 0; i < botsToAdd; i++)
+        {
+            InGamePlayer bot = new
+            (
+                name: "Bot " + i,
+                id: IdGen.NewPlayerId(),
+                token: IdGen.NewToken(),
+                isBot: true
+            );
+            Players.Add(bot);
+        }
+    }
+
+    private void UpdateBotProgress()
+    {
+        foreach (InGamePlayer player in Players)
+        {
+            if (player.BotConfig == null)
+            {
+                continue;
+            }
+
+            if (player.PositionKm > Words.Length)
+            {
+                continue;
+            }
+
+            string currentWord = Words[player.WordIndex];
+            float timeToTypeWord = currentWord.Length / player.BotConfig.Wpm * 60;
+            if (Galaxy.Time.Now - player.BotConfig.LastWordTime > timeToTypeWord)
+            {
+                player.BotConfig.LastWordTime = Galaxy.Time.Now;
+                Api.TypeWord(
+                    word: Words[player.WordIndex],
+                    charCompletionTimes: new List<float>(),
+                    playerId: player.Id,
+                    Galaxy
+                );
+            }
+
         }
     }
 

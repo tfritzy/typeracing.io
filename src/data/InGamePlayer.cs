@@ -9,8 +9,9 @@ public class InGamePlayer
     public float Velocity_km_s { get; set; }
     public float PositionKm { get; set; }
     public List<float> CharCompletionTimes_s { get; set; }
+    public BotConfig? BotConfig { get; set; }
 
-    public InGamePlayer(string name, string id, string token)
+    public InGamePlayer(string name, string id, string token, bool isBot = false)
     {
         Name = name;
         Id = id;
@@ -19,5 +20,10 @@ public class InGamePlayer
         Velocity_km_s = 0;
         PositionKm = 0;
         CharCompletionTimes_s = new List<float>();
+
+        if (isBot)
+        {
+            BotConfig = new BotConfig();
+        }
     }
 }
