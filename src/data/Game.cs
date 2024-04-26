@@ -121,7 +121,7 @@ public class Game
                 continue;
             }
 
-            if (player.PositionKm > Words.Length)
+            if (player.WordIndex >= Words.Length)
             {
                 continue;
             }
