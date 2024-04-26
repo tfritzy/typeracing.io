@@ -107,6 +107,7 @@ public class Game
                 token: IdGen.NewToken(),
                 isBot: true
             );
+            bot.BotConfig!.LastWordTime = Galaxy.Time.Now + CountdownDuration;
             Api.AddPlayerToGame(Galaxy, this, bot);
         }
     }

@@ -50,7 +50,7 @@ public class BotTests
         Assert.AreEqual(Game.GameState.Running, game.State);
         Assert.IsTrue(bots.All(b => b.WordIndex == 0));
 
-        test.Galaxy.Time.Update(10f);
+        test.Galaxy.Time.Update(Constants.TimeBeforeFillingBots + Game.CountdownDuration + 10f);
         test.Galaxy.Update();
         Assert.IsTrue(bots.All(b => b.WordIndex == 1));
     }
