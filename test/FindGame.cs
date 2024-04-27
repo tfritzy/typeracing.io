@@ -18,7 +18,7 @@ public class FindGameTests
     {
         var galaxy = new Galaxy();
         var player = new InGamePlayer("Alice", IdGen.NewPlayerId(), IdGen.NewToken());
-        Assert.AreEqual(0, galaxy.Outbox.Count);
+        Assert.AreEqual(0, galaxy.OutboxCount());
         Api.FindGame(player.Name, player.Id, player.Token, galaxy);
         Game game = galaxy.OpenGames[0];
 
@@ -26,9 +26,9 @@ public class FindGameTests
         Assert.AreEqual(player.Name, game.Players[0].Name);
         Assert.AreEqual(player.Id, game.Players[0].Id);
 
-        Assert.AreEqual(1, galaxy.Outbox.Count);
-        var message = galaxy.Outbox.Dequeue();
-        YouveBeenAddedToGame jg = message.YouveBeenAddedToGame;
+        Assert.AreEqual(1, galaxy.OutboxCount());
+        OneofUpdate? message = galaxy.GetUpdate();
+        YouveBeenAddedToGame jg = message!.YouveBeenAddedToGame;
         Assert.AreEqual(game.Id, jg.GameId);
         Assert.AreEqual(player.Id, jg.CurrentPlayers[0].Id);
         Assert.AreEqual(player.Name, jg.CurrentPlayers[0].Name);
@@ -44,12 +44,12 @@ public class FindGameTests
         Api.FindGame(player1.Name, player1.Id, player1.Token, galaxy);
         Api.FindGame(player2.Name, player2.Id, player2.Token, galaxy);
 
-        Assert.AreEqual(3, galaxy.Outbox.Count);
-        galaxy.Outbox.Clear();
+        Assert.AreEqual(3, galaxy.OutboxCount());
+        galaxy.ClearOutbox();
 
         Api.FindGame(player3.Name, player3.Id, player3.Token, galaxy);
-        Assert.AreEqual(3, galaxy.Outbox.Count);
-        var messages = galaxy.Outbox.ToArray();
+        Assert.AreEqual(3, galaxy.OutboxCount());
+        var messages = galaxy.OutboxMessages();
         var playerJoinedGameMessages = messages.Where(m => m.PlayerJoinedGame != null);
         var addedToGameMessages = messages.Where(m => m.YouveBeenAddedToGame != null);
 

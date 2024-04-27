@@ -18,17 +18,16 @@ public static class Api
     {
         foreach (InGamePlayer p in game.Players)
         {
-            galaxy.Outbox.Enqueue(
-                new OneofUpdate
+            galaxy.SendUpdate(p, new OneofUpdate
+            {
+                RecipientId = p.Id,
+                PlayerJoinedGame = new PlayerJoinedGame()
                 {
-                    RecipientId = p.Id,
-                    PlayerJoinedGame = new PlayerJoinedGame()
-                    {
-                        GameId = game.Id,
-                        PlayerId = player.Id,
-                        PlayerName = player.Name
-                    }
-                });
+                    GameId = game.Id,
+                    PlayerId = player.Id,
+                    PlayerName = player.Name,
+                }
+            });
         }
 
         game.Players.Add(player);
@@ -39,7 +38,8 @@ public static class Api
             var youveBeenAddedToGame = new YouveBeenAddedToGame() { GameId = game.Id, };
             foreach (var p in game.Players)
                 youveBeenAddedToGame.CurrentPlayers.Add(new Player { Id = p.Id, Name = p.Name });
-            galaxy.Outbox.Enqueue(
+            galaxy.SendUpdate(
+                player,
                 new OneofUpdate
                 {
                     RecipientId = player.Id,
@@ -65,7 +65,7 @@ public static class Api
 
         foreach (InGamePlayer player in openGame.Players)
         {
-            galaxy.Outbox.Enqueue(new OneofUpdate
+            galaxy.SendUpdate(player, new OneofUpdate
             {
                 RecipientId = player.Id,
                 GameStarting = new GameStarting
@@ -119,19 +119,17 @@ public static class Api
 
             foreach (InGamePlayer p in game.Players)
             {
-                galaxy.Outbox.Enqueue(
-                    new OneofUpdate
+                galaxy.SendUpdate(p, new OneofUpdate
+                {
+                    RecipientId = p.Id,
+                    WordFinished = new WordFinished
                     {
-                        RecipientId = p.Id,
-                        WordFinished = new WordFinished
-                        {
-                            PlayerId = playerId,
-                            PercentComplete = (float)player.WordIndex / game.Words.Length,
-                            VelocityKmS = velocity,
-                            PositionKm = player.PositionKm,
-                        }
+                        PlayerId = playerId,
+                        PercentComplete = (float)player.WordIndex / game.Words.Length,
+                        VelocityKmS = velocity,
+                        PositionKm = player.PositionKm,
                     }
-                );
+                });
             }
         }
         else
@@ -157,7 +155,7 @@ public static class Api
                 playerCompleted.WpmBySecond.AddRange(Stats.GetAggWpmBySecond(game.Phrase, player.CharCompletionTimes_s));
                 playerCompleted.RawWpmBySecond.AddRange(Stats.GetRawWpmBySecond(game.Phrase, player.CharCompletionTimes_s));
 
-                galaxy.Outbox.Enqueue(new OneofUpdate
+                galaxy.SendUpdate(p, new OneofUpdate
                 {
                     RecipientId = p.Id,
                     PlayerCompleted = playerCompleted
@@ -171,15 +169,72 @@ public static class Api
 
             foreach (InGamePlayer p in game.Players)
             {
-                galaxy.Outbox.Enqueue(new OneofUpdate
+                galaxy.SendUpdate(p, new OneofUpdate
                 {
                     RecipientId = p.Id,
                     GameOver = new GameOver()
                     {
-                        EndTimeS = galaxy.Time.Now - game.RaceStartTime,
+                        EndTimeS = galaxy.Time.Now - game.StartTime,
                     }
                 });
             }
+        }
+    }
+
+    public static void DisconnectPlayer(string playerId, Galaxy galaxy)
+    {
+        if (!galaxy.PlayerGameMap.ContainsKey(playerId))
+        {
+            return;
+        }
+
+        string gameId = galaxy.PlayerGameMap[playerId];
+        Game? game = null;
+        if (galaxy.ActiveGames.ContainsKey(gameId))
+        {
+            game = galaxy.ActiveGames[gameId];
+        }
+        else
+        {
+            game = galaxy.OpenGames.FirstOrDefault(g => g.Id == gameId);
+        }
+
+        if (game == null)
+        {
+            return;
+        }
+
+        InGamePlayer? player = game.Players.FirstOrDefault(p => p.Id == playerId);
+        if (player == null)
+        {
+            return;
+        }
+
+        if (game.State == Game.GameState.Lobby)
+        {
+            game.Players.Remove(player);
+            galaxy.PlayerGameMap.Remove(playerId);
+        }
+        else
+        {
+            player.IsDisconnected = true;
+        }
+
+        foreach (InGamePlayer p in game.Players)
+        {
+            galaxy.SendUpdate(p, new OneofUpdate
+            {
+                RecipientId = p.Id,
+                PlayerDisconnected = new PlayerDisconnected
+                {
+                    PlayerId = playerId,
+                }
+            });
+        }
+
+        if (game.Players.Count == 0)
+        {
+            galaxy.OpenGames.Remove(game);
         }
     }
 }

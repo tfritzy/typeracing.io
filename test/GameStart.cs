@@ -15,7 +15,7 @@ public class Test_GameStart
             Api.FindGame(player.Name, player.Id, player.Token, galaxy);
         }
 
-        galaxy.Outbox.Clear();
+        galaxy.ClearOutbox();
         players.Add(new InGamePlayer(name: "Player 3", id: IdGen.NewPlayerId(), token: IdGen.NewToken()));
         Assert.AreEqual(1, galaxy.OpenGames.Count);
         Assert.AreEqual(0, galaxy.ActiveGames.Count);
@@ -23,7 +23,7 @@ public class Test_GameStart
         Assert.AreEqual(0, galaxy.OpenGames.Count);
         Assert.AreEqual(1, galaxy.ActiveGames.Count);
         OneofUpdate[] messages =
-            galaxy.Outbox.Where(m => m.GameStarting != null).ToArray();
+            galaxy.OutboxMessages().Where(m => m.GameStarting != null).ToArray();
         Assert.AreEqual(4, messages.Length);
         Assert.AreEqual(4, messages.Count(m => m.GameStarting.Countdown == Game.CountdownDuration));
         Assert.AreEqual(1, messages.Count(m => m.RecipientId == players[0].Id));
@@ -44,13 +44,13 @@ public class Test_GameStart
             Api.FindGame(player.Name, player.Id, player.Token, galaxy);
         }
 
-        galaxy.Outbox.Clear();
+        galaxy.ClearOutbox();
         galaxy.Time.Update(Game.CountdownDuration - .1f);
         galaxy.Update();
-        Assert.AreEqual(0, galaxy.Outbox.Where(m => m.GameStarted != null).Count());
+        Assert.AreEqual(0, galaxy.OutboxMessages().Where(m => m.GameStarted != null).Count());
         galaxy.Time.Update(Game.CountdownDuration + .1f);
         galaxy.Update();
-        OneofUpdate[] messages = galaxy.Outbox.Where(m => m.GameStarted != null).ToArray();
+        OneofUpdate[] messages = galaxy.OutboxMessages().Where(m => m.GameStarted != null).ToArray();
         Assert.AreEqual(4, messages.Length);
         Assert.AreEqual(1, messages.Count(m => m.RecipientId == players[0].Id));
         Assert.AreEqual(1, messages.Count(m => m.RecipientId == players[1].Id));
@@ -70,7 +70,7 @@ public class Test_GameStart
             Api.FindGame(player.Name, player.Id, player.Token, galaxy);
         }
 
-        var gameStartingMessages = galaxy.Outbox.Where(m => m.GameStarting != null).ToArray();
+        var gameStartingMessages = galaxy.OutboxMessages().Where(m => m.GameStarting != null).ToArray();
         Assert.AreEqual(4, gameStartingMessages.Length);
         Assert.AreEqual(1, gameStartingMessages.Count(m => m.RecipientId == players[0].Id));
         Assert.AreEqual(1, gameStartingMessages.Count(m => m.RecipientId == players[1].Id));
@@ -91,14 +91,14 @@ public class Test_GameStart
             Api.FindGame(player.Name, player.Id, player.Token, galaxy);
         }
 
-        galaxy.Outbox.Clear();
+        galaxy.ClearOutbox();
         galaxy.Time.Update(Game.CountdownDuration + .1f);
         galaxy.Update();
-        Assert.AreEqual(4, galaxy.Outbox.Where(m => m.GameStarted != null).Count());
-        galaxy.Outbox.Clear();
+        Assert.AreEqual(4, galaxy.OutboxMessages().Where(m => m.GameStarted != null).Count());
+        galaxy.ClearOutbox();
 
         galaxy.Time.Update(.1f);
         galaxy.Update();
-        Assert.AreEqual(0, galaxy.Outbox.Where(m => m.GameStarted != null).Count());
+        Assert.AreEqual(0, galaxy.OutboxMessages().Where(m => m.GameStarted != null).Count());
     }
 }

@@ -17,7 +17,7 @@ public class ServerTests
 
         Assert.AreEqual(1, galaxy.OpenGames.Count);
         Assert.AreEqual(1, galaxy.OpenGames[0].Players.Count);
-        Assert.AreEqual(1, galaxy.Outbox.Count);
+        Assert.AreEqual(1, galaxy.OutboxCount());
 
         server.HandleRequest(new OneofRequest
         {
@@ -25,6 +25,6 @@ public class ServerTests
             TypeWord = new TypeWordRequest { Word = "hello" }
         });
 
-        Assert.AreEqual(1, galaxy.Outbox.Count);
+        Assert.AreEqual(1, galaxy.OutboxCount());
     }
 }

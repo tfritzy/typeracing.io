@@ -292,6 +292,7 @@ export interface OneofUpdate {
   player_joined_game?: PlayerJoinedGame;
   word_finished?: WordFinished;
   youve_been_added_to_game?: YouveBeenAddedToGame;
+  player_disconnected?: PlayerDisconnected;
 }
 
 export function encodeOneofUpdate(message: OneofUpdate): Uint8Array {
@@ -384,6 +385,17 @@ function _encodeOneofUpdate(message: OneofUpdate, bb: ByteBuffer): void {
     writeByteBuffer(bb, nested);
     pushByteBuffer(nested);
   }
+
+  // optional PlayerDisconnected player_disconnected = 9;
+  let $player_disconnected = message.player_disconnected;
+  if ($player_disconnected !== undefined) {
+    writeVarint32(bb, 74);
+    let nested = popByteBuffer();
+    _encodePlayerDisconnected($player_disconnected, nested);
+    writeVarint32(bb, nested.limit);
+    writeByteBuffer(bb, nested);
+    pushByteBuffer(nested);
+  }
 }
 
 export function decodeOneofUpdate(binary: Uint8Array): OneofUpdate {
@@ -458,6 +470,14 @@ function _decodeOneofUpdate(bb: ByteBuffer): OneofUpdate {
       case 8: {
         let limit = pushTemporaryLength(bb);
         message.youve_been_added_to_game = _decodeYouveBeenAddedToGame(bb);
+        bb.limit = limit;
+        break;
+      }
+
+      // optional PlayerDisconnected player_disconnected = 9;
+      case 9: {
+        let limit = pushTemporaryLength(bb);
+        message.player_disconnected = _decodePlayerDisconnected(bb);
         bb.limit = limit;
         break;
       }
@@ -997,6 +1017,53 @@ function _decodeYouveBeenAddedToGame(bb: ByteBuffer): YouveBeenAddedToGame {
         let values = message.current_players || (message.current_players = []);
         values.push(_decodePlayer(bb));
         bb.limit = limit;
+        break;
+      }
+
+      default:
+        skipUnknownField(bb, tag & 7);
+    }
+  }
+
+  return message;
+}
+
+export interface PlayerDisconnected {
+  player_id?: string;
+}
+
+export function encodePlayerDisconnected(message: PlayerDisconnected): Uint8Array {
+  let bb = popByteBuffer();
+  _encodePlayerDisconnected(message, bb);
+  return toUint8Array(bb);
+}
+
+function _encodePlayerDisconnected(message: PlayerDisconnected, bb: ByteBuffer): void {
+  // optional string player_id = 1;
+  let $player_id = message.player_id;
+  if ($player_id !== undefined) {
+    writeVarint32(bb, 10);
+    writeString(bb, $player_id);
+  }
+}
+
+export function decodePlayerDisconnected(binary: Uint8Array): PlayerDisconnected {
+  return _decodePlayerDisconnected(wrapByteBuffer(binary));
+}
+
+function _decodePlayerDisconnected(bb: ByteBuffer): PlayerDisconnected {
+  let message: PlayerDisconnected = {} as any;
+
+  end_of_message: while (!isAtEnd(bb)) {
+    let tag = readVarint32(bb);
+
+    switch (tag >>> 3) {
+      case 0:
+        break end_of_message;
+
+      // optional string player_id = 1;
+      case 1: {
+        message.player_id = readString(bb, readVarint32(bb));
         break;
       }
 

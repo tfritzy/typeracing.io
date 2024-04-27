@@ -64,7 +64,7 @@ public class Game
             State = GameState.Running;
             foreach (InGamePlayer player in Players)
             {
-                Galaxy.Outbox.Enqueue(new OneofUpdate
+                Galaxy.SendUpdate(player, new OneofUpdate
                 {
                     RecipientId = player.Id,
                     GameStarted = new GameStarted { },

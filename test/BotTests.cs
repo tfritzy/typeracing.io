@@ -60,12 +60,13 @@ public class BotTests
         Assert.AreEqual(Game.GameState.Running, game.State);
         Assert.IsTrue(bots.All(b => b.WordIndex == 0));
 
-        time += 10f;
+        time += 20f;
         test.Galaxy.Time.Update(time);
         test.Galaxy.Update();
         Assert.IsTrue(bots.All(b => b.WordIndex == 1));
 
-        test.Galaxy.Time.Update(Constants.TimeBeforeFillingBots + Game.CountdownDuration + 20f);
+        time += 20f;
+        test.Galaxy.Time.Update(time);
         test.Galaxy.Update();
         Assert.IsTrue(bots.All(b => b.WordIndex == 2));
     }

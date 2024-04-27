@@ -174,9 +174,9 @@ public class Server
 
     public async Task ProcessOutbox()
     {
-        while (Galaxy.Outbox.Count > 0)
+        OneofUpdate? update = Galaxy.GetUpdate();
+        while (update != null)
         {
-            OneofUpdate update = Galaxy.Outbox.Dequeue();
             if (
                 Connections.ContainsKey(update.RecipientId) &&
                 Connections[update.RecipientId].State == WebSocketState.Open)
@@ -194,6 +194,8 @@ public class Server
             {
                 Console.WriteLine($"Failed to send update to {update.RecipientId}");
             }
+
+            update = Galaxy.GetUpdate();
         }
     }
 
