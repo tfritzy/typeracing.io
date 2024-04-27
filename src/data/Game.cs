@@ -9,6 +9,7 @@ public class Game
     public GameState State { get; set; }
     public string Phrase { get; private set; }
     public string[] Words { get; private set; }
+    public float CreationTime { get; private set; }
     public float StartTime;
     public float RaceStartTime => StartTime + CountdownDuration;
     private Galaxy Galaxy { get; set; }
@@ -34,6 +35,7 @@ public class Game
         Galaxy = galaxy;
         Phrase = Phrases.GetRandomDictionaryPhrase();
         Words = Phrases.GetWords(Phrase);
+        CreationTime = Galaxy.Time.Now;
     }
 
     public void Update()
@@ -57,7 +59,6 @@ public class Game
             return;
         }
 
-        Console.WriteLine("Seconds till start: " + (StartTime + CountdownDuration - Galaxy.Time.Now));
         if (Galaxy.Time.Now - StartTime >= CountdownDuration)
         {
             State = GameState.Running;
@@ -92,7 +93,7 @@ public class Game
             return;
         }
 
-        if (Galaxy.Time.Now - StartTime < Constants.TimeBeforeFillingBots)
+        if (Galaxy.Time.Now - CreationTime < Constants.TimeBeforeFillingBots)
         {
             return;
         }
