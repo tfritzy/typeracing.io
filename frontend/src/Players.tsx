@@ -28,16 +28,13 @@ const PlayerRow = (player: PlayerProps) => {
    <div className="text-gray-300 text-sm">
     {player.velocity_km_s.toLocaleString()} km/s
    </div>
-   <div className="text-gray-300 text-sm">
-    {Math.round(player.position_km).toLocaleString()} km
-   </div>
-   <div
-    className="absolute"
-    style={{
-     left: (player.position_km / screenWidthKm) * 100 + "%",
-    }}
-   >
-    <Ship />
+   <div className="w-full h-3 bg-neutral-800 rounded-full">
+    <div
+     className="h-full bg-amber-400 rounded-full transition-all duration-500 ease-in-out"
+     style={{
+      width: `${player.progress * 100}%`,
+     }}
+    ></div>
    </div>
   </div>
  );

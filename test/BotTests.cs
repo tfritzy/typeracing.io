@@ -64,5 +64,9 @@ public class BotTests
         test.Galaxy.Time.Update(time);
         test.Galaxy.Update();
         Assert.IsTrue(bots.All(b => b.WordIndex == 1));
+
+        test.Galaxy.Time.Update(Constants.TimeBeforeFillingBots + Game.CountdownDuration + 20f);
+        test.Galaxy.Update();
+        Assert.IsTrue(bots.All(b => b.WordIndex == 2));
     }
 }
