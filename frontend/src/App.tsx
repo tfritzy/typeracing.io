@@ -1,6 +1,5 @@
 import React from "react";
 import { decodeOneofUpdate } from "./compiled";
-import { HomeScreen } from "./HomeScreen";
 import { InGame } from "./InGame";
 import { useDispatch } from "react-redux";
 import {
@@ -13,10 +12,11 @@ import {
   playerFinished,
   selfFinished,
   setGameOver,
+  playerDisconnected,
 } from "./store/gameSlice";
 import { generateRandomName } from "./generateRandomName";
 import { updatePlayer } from "./store/playerSlice";
-import Stars from "./StarsV2";
+import { MainMenu } from "./MainMenu";
 
 export type PlayerData = {
   id: string;
@@ -24,6 +24,8 @@ export type PlayerData = {
   progress: number;
   velocity_km_s: number;
   position_km: number;
+  is_disconnected: boolean;
+  themeColor: string;
   final_wpm?: number;
   wpm_by_second?: number[];
   raw_wpm_by_second?: number[];
@@ -73,19 +75,7 @@ function App() {
             } else if (update.youve_been_added_to_game != null) {
               setState(State.InGame);
               dispatch(
-                setYouveBeenAddedToGame({
-                  players:
-                    update.youve_been_added_to_game.current_players?.map(
-                      (player) => ({
-                        id: player.id || "<unknown>",
-                        name: player.name || "<unknown>",
-                        progress: 0,
-                        velocity_km_s: 0,
-                        position_km: 0,
-                        wordCompletionTimes: [],
-                      })
-                    ) || [],
-                })
+                setYouveBeenAddedToGame(update.youve_been_added_to_game)
               );
             } else if (update.player_joined_game) {
               dispatch(playerJoinedGame(update.player_joined_game));
@@ -93,6 +83,8 @@ function App() {
               dispatch(setGameStarted());
             } else if (update.game_over) {
               dispatch(setGameOver(update.game_over));
+            } else if (update.player_disconnected) {
+              dispatch(playerDisconnected(update.player_disconnected));
             } else if (update.player_completed) {
               dispatch(playerFinished(update.player_completed));
               if (update.player_completed.player_id === playerId) {
@@ -126,15 +118,19 @@ function App() {
 
   let content;
   if (state === State.Menu) {
-    content = <HomeScreen sendRequest={sendRequest} />;
+    content = <MainMenu sendRequest={sendRequest} />;
   } else {
     content = <InGame sendRequest={sendRequest} />;
   }
 
   return (
-    <div className="App relative">
-      {content}
-      <Stars />
+    <div className="flex flex-col items-center">
+      <div
+        className="relative w-[900px] h-screen pt-[20%]"
+        style={{ color: "#dad4cb" }}
+      >
+        {content}
+      </div>
     </div>
   );
 }

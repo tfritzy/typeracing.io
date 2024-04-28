@@ -3,9 +3,12 @@ import { PlayerData } from "../App";
 import {
   GameOver,
   PlayerCompleted,
+  PlayerDisconnected,
   PlayerJoinedGame,
   WordFinished,
+  YouveBeenAddedToGame,
 } from "../compiled";
+import { getColorForPlayer } from "../helpers/getColor";
 
 export enum GameStage {
   Invalid,
@@ -61,13 +64,19 @@ export const gameSlice = createSlice({
     setYouveBeenAddedToGame: (
       state: GameState,
       action: {
-        payload: {
-          players: PlayerData[];
-        };
+        payload: YouveBeenAddedToGame;
       }
     ) => {
       state.state = GameStage.WaitingForPlayers;
-      state.players = action.payload.players;
+      state.players = action.payload.current_players!.map((player) => ({
+        id: player.id || "",
+        name: player.name || "",
+        progress: 0,
+        velocity_km_s: 0,
+        position_km: 0,
+        is_disconnected: false,
+        themeColor: getColorForPlayer(player.id || ""),
+      }));
     },
     updatePlayerWordProgress: (
       state: GameState,
@@ -90,6 +99,8 @@ export const gameSlice = createSlice({
         progress: 0,
         velocity_km_s: 0,
         position_km: 0,
+        is_disconnected: false,
+        themeColor: getColorForPlayer(action.payload.player_id || ""),
       };
       state.players.push(player);
     },
@@ -116,6 +127,23 @@ export const gameSlice = createSlice({
         state.placements[action.payload.place || 0] = {
           playerId: action.payload.player_id,
         };
+      }
+    },
+    playerDisconnected: (
+      state: GameState,
+      action: { payload: PlayerDisconnected }
+    ) => {
+      if (action.payload.removed) {
+        state.players = state.players.filter(
+          (player) => player.id !== action.payload.player_id
+        );
+      } else {
+        const player = state.players.find(
+          (player) => player.id === action.payload.player_id
+        );
+        if (player) {
+          player.is_disconnected = true;
+        }
       }
     },
     selfFinished: (state: GameState) => {
@@ -149,6 +177,7 @@ export const gameSlice = createSlice({
 
 export const {
   updatePlayerWordProgress,
+  playerDisconnected,
   setGameStarting,
   setYouveBeenAddedToGame,
   playerFinished,

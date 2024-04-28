@@ -49,13 +49,8 @@ export const Results = () => {
   }, [finishedPlayers]);
 
   return (
-    <div
-      className="p-8 text-white w-full h-full"
-      style={{
-        backgroundColor: BackgroundColor + "cc",
-      }}
-    >
-      <LineChart series={wpmData} />
+    <div className="p-8 text-white w-full h-full">
+      <LineChart series={wpmData} playerColor={finishedPlayers[0].themeColor} />
 
       {/* <div className="flex flex-row space-x-2">
     {finishedPlayers.map((player, index) => (

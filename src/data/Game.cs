@@ -103,7 +103,7 @@ public class Game
         {
             InGamePlayer bot = new
             (
-                name: "Bot " + i,
+                name: BotNames.GenerateName(),
                 id: IdGen.NewPlayerId(),
                 token: IdGen.NewToken(),
                 isBot: true

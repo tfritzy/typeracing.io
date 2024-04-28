@@ -60,8 +60,8 @@ namespace LightspeedTyperacing
             "X3MYAyABKAISEwoLcG9zaXRpb25fa20YBCABKAISHQoVY2hhcl9jb21wbGV0",
             "aW9uX3RpbWVzGAUgAygCIl4KFFlvdXZlQmVlbkFkZGVkVG9HYW1lEg8KB2dh",
             "bWVfaWQYAiABKAkSNQoPY3VycmVudF9wbGF5ZXJzGAMgAygLMhwuTGlnaHRz",
-            "cGVlZFR5cGVyYWNpbmcuUGxheWVyIicKElBsYXllckRpc2Nvbm5lY3RlZBIR",
-            "CglwbGF5ZXJfaWQYASABKAliBnByb3RvMw=="));
+            "cGVlZFR5cGVyYWNpbmcuUGxheWVyIjgKElBsYXllckRpc2Nvbm5lY3RlZBIR",
+            "CglwbGF5ZXJfaWQYASABKAkSDwoHcmVtb3ZlZBgCIAEoCGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -77,7 +77,7 @@ namespace LightspeedTyperacing
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.PlayerJoinedGame), global::LightspeedTyperacing.PlayerJoinedGame.Parser, new[]{ "PlayerId", "PlayerName", "GameId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.WordFinished), global::LightspeedTyperacing.WordFinished.Parser, new[]{ "PlayerId", "PercentComplete", "VelocityKmS", "PositionKm", "CharCompletionTimes" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.YouveBeenAddedToGame), global::LightspeedTyperacing.YouveBeenAddedToGame.Parser, new[]{ "GameId", "CurrentPlayers" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.PlayerDisconnected), global::LightspeedTyperacing.PlayerDisconnected.Parser, new[]{ "PlayerId" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.PlayerDisconnected), global::LightspeedTyperacing.PlayerDisconnected.Parser, new[]{ "PlayerId", "Removed" }, null, null, null, null)
           }));
     }
     #endregion
@@ -3938,6 +3938,7 @@ namespace LightspeedTyperacing
     public PlayerDisconnected(PlayerDisconnected other) : this()
     {
       playerId_ = other.playerId_;
+      removed_ = other.removed_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3962,6 +3963,20 @@ namespace LightspeedTyperacing
       }
     }
 
+    /// <summary>Field number for the "removed" field.</summary>
+    public const int RemovedFieldNumber = 2;
+    private bool removed_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Removed
+    {
+      get { return removed_; }
+      set
+      {
+        removed_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other)
@@ -3982,6 +3997,7 @@ namespace LightspeedTyperacing
         return true;
       }
       if (PlayerId != other.PlayerId) return false;
+      if (Removed != other.Removed) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -3991,6 +4007,7 @@ namespace LightspeedTyperacing
     {
       int hash = 1;
       if (PlayerId.Length != 0) hash ^= PlayerId.GetHashCode();
+      if (Removed != false) hash ^= Removed.GetHashCode();
       if (_unknownFields != null)
       {
         hash ^= _unknownFields.GetHashCode();
@@ -4016,6 +4033,10 @@ namespace LightspeedTyperacing
         output.WriteRawTag(10);
         output.WriteString(PlayerId);
       }
+      if (Removed != false) {
+        output.WriteRawTag(16);
+        output.WriteBool(Removed);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -4032,6 +4053,11 @@ namespace LightspeedTyperacing
         output.WriteRawTag(10);
         output.WriteString(PlayerId);
       }
+      if (Removed != false)
+      {
+        output.WriteRawTag(16);
+        output.WriteBool(Removed);
+      }
       if (_unknownFields != null)
       {
         _unknownFields.WriteTo(ref output);
@@ -4047,6 +4073,10 @@ namespace LightspeedTyperacing
       if (PlayerId.Length != 0)
       {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(PlayerId);
+      }
+      if (Removed != false)
+      {
+        size += 1 + 1;
       }
       if (_unknownFields != null)
       {
@@ -4067,6 +4097,10 @@ namespace LightspeedTyperacing
       {
         PlayerId = other.PlayerId;
       }
+      if (other.Removed != false)
+      {
+        Removed = other.Removed;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -4085,6 +4119,10 @@ namespace LightspeedTyperacing
             break;
           case 10: {
             PlayerId = input.ReadString();
+            break;
+          }
+          case 16: {
+            Removed = input.ReadBool();
             break;
           }
         }
@@ -4108,6 +4146,11 @@ namespace LightspeedTyperacing
           case 10:
             {
               PlayerId = input.ReadString();
+              break;
+            }
+          case 16:
+            {
+              Removed = input.ReadBool();
               break;
             }
         }

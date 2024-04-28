@@ -228,6 +228,7 @@ public static class Api
                 PlayerDisconnected = new PlayerDisconnected
                 {
                     PlayerId = playerId,
+                    Removed = game.State == Game.GameState.Lobby,
                 }
             });
         }

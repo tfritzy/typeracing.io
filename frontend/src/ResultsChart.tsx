@@ -2,7 +2,6 @@ import React from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 
-const primaryColor = "#dddddd";
 const secondaryColor = "#555555";
 const areaColor = "#00000022";
 const textColor = "#888888";
@@ -14,6 +13,7 @@ export type Series = {
 
 type LineChartProps = {
   series: Series[];
+  playerColor: string;
 };
 
 export const LineChart = (props: LineChartProps) => {
@@ -31,15 +31,15 @@ export const LineChart = (props: LineChartProps) => {
     },
     stroke: {
       curve: "monotoneCubic",
-      width: 3,
-      colors: [secondaryColor, primaryColor],
+      width: 1,
+      colors: [secondaryColor, props.playerColor],
       lineCap: "square",
     },
-    markers: {
-      colors: [secondaryColor, primaryColor],
-      size: 3,
-      strokeWidth: 0,
-    },
+    // markers: {
+    //   colors: [secondaryColor, primaryColor],
+    //   size: 0,
+    //   strokeWidth: 0,
+    // },
     dataLabels: {
       enabled: false,
     },

@@ -32,7 +32,7 @@ export const TypeBox = (props: TypeBoxProps) => {
     if (cursorRef.current) {
       const cursorRect = cursorRef.current.getBoundingClientRect();
       setTargetCursorXPos(cursorRect.left);
-      setTargetCursorYPos(cursorRect.top);
+      setTargetCursorYPos(cursorRect.top + 5);
       setCursorXPos(cursorRect.left);
       setCursorYPos(cursorRect.top);
     }
@@ -108,7 +108,7 @@ export const TypeBox = (props: TypeBoxProps) => {
     if (cursorRef.current) {
       const cursorRect = cursorRef.current.getBoundingClientRect();
       setTargetCursorXPos(cursorRect.left);
-      setTargetCursorYPos(cursorRect.top);
+      setTargetCursorYPos(cursorRect.top + 5);
     }
   }, [currentWord]);
 
@@ -121,7 +121,7 @@ export const TypeBox = (props: TypeBoxProps) => {
   for (let i = 0; i < currentWord.length; i++) {
     if (currentWord[i] !== props.phrase[props.lockedCharacterIndex + i]) {
       text.push(
-        <span className="text-rose-400">
+        <span className="text-red-500 underline">
           {props.phrase[props.lockedCharacterIndex + i]}
         </span>
       );
@@ -139,7 +139,7 @@ export const TypeBox = (props: TypeBoxProps) => {
 
   return (
     <div className="relative ap">
-      <div className="text-2xl max-w-5xl vscode-font tracking-normal p-2">
+      <div className="text-2xl max-w-5xl font-thin vscode-font tracking-normal p-2">
         <div ref={phraseRef}>{text}</div>
         <input
           value={currentWord}
@@ -159,7 +159,7 @@ export const TypeBox = (props: TypeBoxProps) => {
           autoFocus
         />
         <div
-          className={`bg-white h-[24px] w-[2px] fixed rounded ${
+          className={`bg-white h-[24px] w-[1px] fixed ${
             cursorPulsing ? "animate-pulse-full" : ""
           }`}
           style={{
