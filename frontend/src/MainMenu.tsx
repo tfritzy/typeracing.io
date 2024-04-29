@@ -4,11 +4,12 @@ import {
  OneofRequest,
  encodeOneofRequest,
 } from "./compiled";
-import { GraduationCap, Group, Lock } from "iconoir-react";
+import { GraduationCap, Lock } from "iconoir-react";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
-import { BackgroundColor } from "./constants";
 import { ModesSection } from "./ModesSection";
+import { Button } from "./Button";
+import { TextColor } from "./constants";
 
 type MainMenuProps = {
  sendRequest: (request: ArrayBuffer) => void;
@@ -29,10 +30,13 @@ export const MainMenu = (props: MainMenuProps) => {
 
  return (
   <div className="font-thin">
-   <div className="flex flex-col space-y-8">
-    <div className="pt-4 flex flex-col">
-     <div className="mb-5">
-      <div className="text-lg font-semibold flex flex-row space-x-1 items-center">
+   <div className="flex flex-col space-y-6">
+    <div
+     className="pt-4 flex flex-col"
+     style={{ borderColor: TextColor }}
+    >
+     <div className="mb-2">
+      <div className="text-lg  font-semibold flex flex-row space-x-1 items-center">
        <div>Multiplayer</div>
       </div>
       <div className="text-md text-neutral-200">
@@ -41,20 +45,20 @@ export const MainMenu = (props: MainMenuProps) => {
      </div>
 
      <div>
-      <button
-       className="font-bold px-4 py-2 border"
+      <Button
        onClick={() =>
         props.sendRequest(encodeOneofRequest(request))
        }
+       type="primary"
       >
-       Join race
-      </button>
+       <span className="px-5">Join race</span>
+      </Button>
      </div>
     </div>
 
     <div className="flex flex-col">
      <div className="pt-4">
-      <div className="mb-3">
+      <div className="mb-2">
        <div className="flex flex-row space-x-1 items-center font-semibold">
         <div>Practice</div>
         <GraduationCap height={16} width={16} />
@@ -64,18 +68,18 @@ export const MainMenu = (props: MainMenuProps) => {
        </div>
       </div>
 
-      <button
-       className="border border-neutral-100 text-neutral-100 px-3 py-2 font-bold"
+      <Button
+       type="secondary"
        onClick={() => alert("Coming soon!")}
       >
        Start practice
-      </button>
+      </Button>
      </div>
     </div>
 
     <div className="flex flex-col">
      <div className="pt-4 ">
-      <div className="mb-3">
+      <div className="mb-2">
        <div className="flex flex-row space-x-1 items-center font-semibold">
         <div>Race against friends</div>
         <Lock height={16} width={16} />
@@ -85,15 +89,16 @@ export const MainMenu = (props: MainMenuProps) => {
        </div>
       </div>
 
-      <button
-       className="border border-neutral-100 text-neutral-100 px-3 py-2 font-bold"
+      <Button
+       type="secondary"
        onClick={() => alert("Coming soon!")}
       >
        Create lobby
-      </button>
+      </Button>
      </div>
     </div>
 
+    <div />
     <ModesSection />
    </div>
   </div>

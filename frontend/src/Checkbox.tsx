@@ -34,7 +34,7 @@ export const Checkbox = (props: CheckboxProps) => {
  }
 
  return (
-  <div
+  <button
    className="border rounded w-max-min p-2 cursor-pointer hover:shadow-md transition-all duration-100 ease-in-out hover:bg-neutral-900"
    style={{
     borderColor: checked ? "#f3c614" : "#dad4cb",
@@ -43,8 +43,8 @@ export const Checkbox = (props: CheckboxProps) => {
    onClick={() => setChecked(!checked)}
   >
    <div className="flex">
-    <div className="pt-1">{checkbox}</div>
-    <div className="ms-2 text-sm">
+    <div className="pt-[4px]">{checkbox}</div>
+    <div className="ms-2 text-sm text-start">
      <label htmlFor={props.id} className="font-semibold ">
       {props.label}
      </label>
@@ -53,6 +53,6 @@ export const Checkbox = (props: CheckboxProps) => {
      </p>
     </div>
    </div>
-  </div>
+  </button>
  );
 };

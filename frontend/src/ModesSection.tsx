@@ -43,7 +43,7 @@ export const ModesSection = () => {
      enabled game modes.
     </div>
    </div>
-   <div className="grid grid-cols-2 gap-2 max-w-[700px]">
+   <div className="grid grid-cols-2 gap-2 max-w-[600px]">
     {allModes.map((mode: Mode, index: number) => (
      <Checkbox
       label={mode.name}

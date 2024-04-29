@@ -1,7 +1,7 @@
 import React from "react";
 import { decodeOneofUpdate } from "./compiled";
 import { InGame } from "./InGame";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
  GameStage,
  setGameStarting,
@@ -17,6 +17,8 @@ import {
 import { generateRandomName } from "./generateRandomName";
 import { updatePlayer } from "./store/playerSlice";
 import { MainMenu } from "./MainMenu";
+import { TextColor } from "./constants";
+import { RootState } from "./store/store";
 
 export type PlayerData = {
  id: string;
@@ -31,17 +33,13 @@ export type PlayerData = {
  raw_wpm_by_second?: number[];
 };
 
-enum State {
- Menu,
- InGame,
-}
-
 function App() {
  const dispatch = useDispatch();
- const [state, setState] = React.useState<State>(
-  State.Menu
- );
  const [ws, setWs] = React.useState<WebSocket | null>(null);
+ const isInGame = useSelector(
+  (state: RootState) =>
+   state.game.state !== GameStage.Invalid
+ );
 
  React.useEffect(() => {
   const token =
@@ -79,7 +77,6 @@ function App() {
         })
        );
       } else if (update.youve_been_added_to_game != null) {
-       setState(State.InGame);
        dispatch(
         setYouveBeenAddedToGame(
          update.youve_been_added_to_game
@@ -129,7 +126,7 @@ function App() {
  );
 
  let content;
- if (state === State.Menu) {
+ if (!isInGame) {
   content = <MainMenu sendRequest={sendRequest} />;
  } else {
   content = <InGame sendRequest={sendRequest} />;
@@ -138,8 +135,8 @@ function App() {
  return (
   <div className="flex flex-col items-center">
    <div
-    className="relative w-[900px] h-screen flex flex-col justify-center"
-    style={{ color: "#dad4cb" }}
+    className="relative w-[800px] p-8"
+    style={{ color: TextColor }}
    >
     {content}
    </div>
