@@ -1089,6 +1089,7 @@ function _decodeYouveBeenAddedToGame(bb: ByteBuffer): YouveBeenAddedToGame {
 
 export interface PlayerDisconnected {
   player_id?: string;
+  removed?: boolean;
 }
 
 export function encodePlayerDisconnected(message: PlayerDisconnected): Uint8Array {
@@ -1103,6 +1104,13 @@ function _encodePlayerDisconnected(message: PlayerDisconnected, bb: ByteBuffer):
   if ($player_id !== undefined) {
     writeVarint32(bb, 10);
     writeString(bb, $player_id);
+  }
+
+  // optional bool removed = 2;
+  let $removed = message.removed;
+  if ($removed !== undefined) {
+    writeVarint32(bb, 16);
+    writeByte(bb, $removed ? 1 : 0);
   }
 }
 
@@ -1123,6 +1131,12 @@ function _decodePlayerDisconnected(bb: ByteBuffer): PlayerDisconnected {
       // optional string player_id = 1;
       case 1: {
         message.player_id = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // optional bool removed = 2;
+      case 2: {
+        message.removed = !!readByte(bb);
         break;
       }
 

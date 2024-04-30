@@ -1,38 +1,94 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
+import { PlayerData } from "./App";
+import { StarSolid } from "iconoir-react";
+import { AnimatedDots } from "./AnimatedDots";
 
-const screenWidthKm = 1_000_000;
+const placementColors = [
+ "#facc15",
+ "#d1d5db",
+ "#d97706",
+ "#d97706",
+ "#d97706",
+];
 
-type PlayerProps = {
- name: string;
- progress: number;
- velocity_km_s: number;
- position_km: number;
-};
+const placementText = [
+ <span
+  style={{ color: placementColors[0] }}
+  className="font-semibold flex flex-row items-center space-x-1"
+ >
+  <span>1st</span>
+  <StarSolid width={16} height={16} />
+ </span>,
+ <span
+  style={{ color: placementColors[1] }}
+  className="text-neutral-200 font-semibold"
+ >
+  2nd
+ </span>,
+ <span
+  style={{ color: placementColors[2] }}
+  className="text-amber-600 font-semibold"
+ >
+  3rd
+ </span>,
+ <span
+  style={{ color: placementColors[3] }}
+  className="text-amber-600 font-semibold"
+ >
+  4th
+ </span>,
+];
 
-const Ship = () => {
- return (
-  <img
-   src="/Ship.svg"
-   alt="Ship"
-   className="w-12 h-12 rotate-90"
-  />
+const PlayerRow = ({ player }: { player?: PlayerData }) => {
+ const place = useSelector((state: RootState) =>
+  state.game.placements?.findIndex(
+   (p) => p.playerId === player?.id
+  )
  );
-};
 
-const PlayerRow = (player: PlayerProps) => {
- return (
-  <div className="h-md w-screen px-8 relative">
-   <div className="text-white text-lg">{player.name}</div>
-   <div className="text-gray-300 text-sm">
-    {player.velocity_km_s.toLocaleString()} km/s
+ let playerName;
+ if (player?.is_disconnected) {
+  playerName = (
+   <div className="text-white text-lg">
+    <span className="line-through">{player.name}</span>
+    <span className="text-sm"> (Disconnected)</span>
    </div>
-   <div className="w-full h-3 bg-neutral-800 rounded-full">
+  );
+ } else {
+  playerName = (
+   <div className="text-white text-lg font-thin">
+    {player?.name || (
+     <>
+      <span>Searching</span>
+      <AnimatedDots />
+     </>
+    )}
+   </div>
+  );
+ }
+
+ return (
+  <div className="h-md relative">
+   <div className="flex flex-row items-center space-x-2">
+    <span>{playerName}</span>
+    <span>{place !== -1 ? placementText[place] : ""} </span>
+   </div>
+   <div
+    className="w-full h-2 rounded-full mt-2 bg-neutral-800"
+    style={{
+     backgroundColor: "#161a1d",
+    }}
+   >
     <div
-     className="h-full bg-amber-400 rounded-full transition-all duration-500 ease-in-out"
+     className="h-full rounded-full transition-all duration-350 ease-in-out"
      style={{
-      width: `${player.progress * 100}%`,
+      width: `${(player?.progress || 0) * 100}%`,
+      backgroundColor:
+       place === 0
+        ? placementColors[place]
+        : player?.themeColor,
      }}
     ></div>
    </div>
@@ -50,9 +106,6 @@ export const Players = () => {
  const selfIndex = players.findIndex(
   (player) => player.id === playerData.id
  );
- const [positionDeltas, setPositionDeltas] = React.useState<
-  number[]
- >([]);
  const positionRefs = useRef<number[]>([]);
 
  useEffect(() => {
@@ -87,7 +140,6 @@ export const Players = () => {
    for (let i = 0; i < players.length; i++) {
     deltas.push(positionRefs.current[i] - ownPos);
    }
-   setPositionDeltas(deltas);
 
    frameId = requestAnimationFrame(animate);
   };
@@ -101,15 +153,14 @@ export const Players = () => {
 
  return (
   <div className="flex flex-col space-y-4">
-   {players.map((player, index) => (
-    <PlayerRow
-     key={player.id}
-     name={player.name}
-     progress={player.progress}
-     velocity_km_s={player.velocity_km_s}
-     position_km={positionDeltas[index] || 0}
-    />
+   {players.map((player) => (
+    <PlayerRow key={player.id} player={player} />
    ))}
+   {Array.from({ length: 4 - players.length }).map(
+    (_, index) => (
+     <PlayerRow key={index} />
+    )
+   )}
   </div>
  );
 };

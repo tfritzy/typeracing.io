@@ -54,6 +54,7 @@ public class Server
                 try
                 {
                     await ProcessOutbox();
+                    await Task.Delay(66);
                 }
                 catch (Exception ex)
                 {
@@ -165,6 +166,7 @@ public class Server
             }
             else if (receiveResult.MessageType == WebSocketMessageType.Close)
             {
+                Api.DisconnectPlayer(token, Galaxy);
                 Console.WriteLine("WebSocket connection closed by client.");
                 Connections.Remove(token);
                 await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
@@ -177,6 +179,12 @@ public class Server
         OneofUpdate? update = Galaxy.GetUpdate();
         while (update != null)
         {
+            if (Connections.ContainsKey(update.RecipientId) &&
+                Connections[update.RecipientId].State == WebSocketState.Closed)
+            {
+                Connections.Remove(update.RecipientId);
+            }
+
             if (
                 Connections.ContainsKey(update.RecipientId) &&
                 Connections[update.RecipientId].State == WebSocketState.Open)
@@ -189,10 +197,6 @@ public class Server
                     WebSocketMessageType.Binary,
                     true,
                     CancellationToken.None);
-            }
-            else
-            {
-                Console.WriteLine($"Failed to send update to {update.RecipientId}");
             }
 
             update = Galaxy.GetUpdate();

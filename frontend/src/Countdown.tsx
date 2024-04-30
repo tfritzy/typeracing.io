@@ -1,31 +1,30 @@
 import React from "react";
 
 type CountdownProps = {
- endTime: number;
+  endTime: number;
 };
 
 export const Countdown = (props: CountdownProps) => {
- const [remaining, setRemaining] =
-  React.useState<number>(0);
+  const [remaining, setRemaining] = React.useState<number>(0);
 
- React.useEffect(() => {
-  let frameId: number;
-  const animate = () => {
-   setRemaining((Date.now() - props.endTime) / 1000);
+  React.useEffect(() => {
+    let frameId: number;
+    const animate = () => {
+      setRemaining((props.endTime - Date.now()) / 1000);
 
-   frameId = requestAnimationFrame(animate);
-  };
+      frameId = requestAnimationFrame(animate);
+    };
 
-  frameId = requestAnimationFrame(animate);
+    frameId = requestAnimationFrame(animate);
 
-  return () => {
-   cancelAnimationFrame(frameId);
-  };
- }, [props.endTime]);
+    return () => {
+      cancelAnimationFrame(frameId);
+    };
+  }, [props.endTime]);
 
- return (
-  <span className="font-semibold font-mono">
-   {"T" + remaining.toFixed(1)}
-  </span>
- );
+  return (
+    <span className="font-semibold font-mono text-amber-100">
+      {remaining.toFixed(1)}
+    </span>
+  );
 };

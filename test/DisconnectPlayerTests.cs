@@ -53,11 +53,15 @@ public class DisconnectTests
     {
         TestSetup test = new();
         Game game = test.Galaxy.OpenGames[0];
+        test.Galaxy.ClearOutbox();
 
         Api.DisconnectPlayer(test.Player1.Id, test.Galaxy);
         Assert.AreEqual(1, game.Players.Count);
         Assert.AreEqual(Game.GameState.Lobby, game.State);
         Assert.IsFalse(test.Galaxy.PlayerGameMap.ContainsKey(test.Player1.Id));
+        PlayerDisconnected dc = test.Galaxy.GetUpdate()!.PlayerDisconnected;
+        Assert.AreEqual(test.Player1.Id, dc.PlayerId);
+        Assert.IsTrue(dc.Removed);
     }
 
     [TestMethod]

@@ -7,10 +7,11 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import { GameStage, GameState } from "./store/gameSlice";
-import { BackgroundColor } from "./constants";
 import { Countdown } from "./Countdown";
 import { Results } from "./Results";
 import { Players } from "./Players";
+import { AnimatedDots } from "./AnimatedDots";
+import { ActionBar } from "./ActionBar";
 
 type InGameProps = {
  sendRequest: (request: ArrayBuffer) => void;
@@ -48,57 +49,46 @@ export const InGame = (props: InGameProps) => {
   [lockCharIndex, phrase, player.id, sendRequest]
  );
 
- let centerMessage;
- if (state === GameStage.Countdown) {
+ let centerMessage: JSX.Element | string = "";
+ if (state === GameStage.WaitingForPlayers) {
   centerMessage = (
-   <Countdown endTime={gameState.start_time} />
+   <div>
+    <span>Waiting for players</span>
+    <AnimatedDots />
+   </div>
   );
+ } else if (state === GameStage.Countdown) {
+  centerMessage = (
+   <div>
+    <span>Starting in </span>
+    <Countdown endTime={gameState.start_time} />
+   </div>
+  );
+ } else {
+  centerMessage = " ";
  }
 
- let content;
- if (
-  state === GameStage.WaitingForPlayers ||
-  state === GameStage.Countdown ||
-  state === GameStage.Racing
- ) {
-  content = (
-   <>
-    <div
-     className="relative flex flex-col items-center w-screen border-b border-neutral-200 py-4 text-white text-xl font-semibold uppercase shadow-lg"
-     style={{ backgroundColor: BackgroundColor }}
-    >
-     {GameStage[state]}
-    </div>
-    <div className="relative flex flex-col flex-grow justify-center space-y-8 h-[70vh]">
-     {centerMessage && (
-      <div className="absolute left-[50%] top-[50%] transform -translate-x-1/2 -translate-y-1/2 text-2xl text-white">
-       {centerMessage}
-      </div>
-     )}
-     <Players />
-    </div>
-
-    <div
-     className="flex flex-col items-center w-screen border-t border-neutral-200 pb-24 pt-8"
-     style={{ backgroundColor: BackgroundColor }}
-    >
-     <TypeBox
-      phrase={phrase}
-      lockedCharacterIndex={lockCharIndex}
-      onWordComplete={handleWordComplete}
-      startTime={gameState.race_start_time}
-     />
-    </div>
-   </>
-  );
- } else if (
-  state === GameStage.ViewingResults ||
-  state === GameStage.Finished
- ) {
-  content = <Results />;
- }
+ const isGameOver =
+  state === GameStage.Finished ||
+  state === GameStage.ViewingResults;
 
  return (
-  <div className="flex flex-col h-screen">{content}</div>
+  <div className="flex flex-col space-y-8 font-thin">
+   <div className="relative flex flex-col justify-center space-y-12">
+    <Players />
+   </div>
+
+   {!isGameOver && (
+    <TypeBox
+     phrase={phrase}
+     lockedCharacterIndex={lockCharIndex}
+     onWordComplete={handleWordComplete}
+     startTime={gameState.race_start_time}
+    />
+   )}
+
+   {isGameOver && <Results />}
+   {isGameOver && <ActionBar />}
+  </div>
  );
 };

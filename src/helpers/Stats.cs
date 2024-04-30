@@ -57,9 +57,6 @@ public static class Stats
     /// </summary>
     public static List<float> GetAggWpmBySecond(string phrase, List<float> charCompletionTimes_s)
     {
-        Console.WriteLine($"Calculating WPM for {phrase.Length} with {charCompletionTimes_s.Count} characters");
-        Console.WriteLine($"Phrase: {phrase}");
-        Console.WriteLine($"Char times: {string.Join("f, ", charCompletionTimes_s)}");
         if (charCompletionTimes_s.Count == 0 || charCompletionTimes_s.Count != phrase.Length)
         {
             return new List<float>();
