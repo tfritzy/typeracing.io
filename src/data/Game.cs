@@ -10,6 +10,7 @@ public class Game
     public string Phrase { get; private set; }
     public string[] Words { get; private set; }
     public float CreationTime { get; private set; }
+    public GameMode Mode { get; private set; }
     public float StartTime;
     public float RaceStartTime => StartTime + CountdownDuration;
     private Galaxy Galaxy { get; set; }
@@ -26,7 +27,7 @@ public class Game
         Complete
     }
 
-    public Game(Galaxy galaxy, int maxPlayers = 4)
+    public Game(Galaxy galaxy, int maxPlayers = 4, GameMode mode = GameMode.Dictionary)
     {
         Players = new List<InGamePlayer>();
         Placements = new List<string>();
@@ -36,6 +37,7 @@ public class Game
         Phrase = Phrases.GetRandomDictionaryPhrase();
         Words = Phrases.GetWords(Phrase);
         CreationTime = Galaxy.Time.Now;
+        Mode = mode;
     }
 
     public void Update()

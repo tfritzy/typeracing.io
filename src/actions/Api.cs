@@ -2,16 +2,39 @@ namespace LightspeedTyperacing;
 
 public static class Api
 {
-    public static void FindGame(string playerName, string playerId, string playerToken, Galaxy galaxy)
+    public static void FindGame(
+        string playerName,
+        string playerId,
+        string playerToken,
+        Galaxy galaxy,
+        HashSet<GameMode>? enabledModes = null)
     {
-        if (galaxy.OpenGames.Count == 0)
+        enabledModes ??= new HashSet<GameMode> { GameMode.Dictionary };
+        var game = FindFirstMatchingGame(enabledModes, galaxy);
+        if (game == null)
         {
-            Game game = new(galaxy);
+            GameMode mode = enabledModes.ToArray()[new Random().Next(0, enabledModes.Count)];
+            game = new(galaxy, mode: mode);
             galaxy.OpenGames.Add(game);
         }
 
-        Game openGame = galaxy.OpenGames[0];
-        AddPlayerToGame(galaxy, openGame, new InGamePlayer(playerName, playerId, playerToken));
+        AddPlayerToGame(galaxy, game, new InGamePlayer(playerName, playerId, playerToken));
+    }
+
+    public static Game FindFirstMatchingGame(HashSet<GameMode> enabledModes, Galaxy galaxy)
+    {
+        lock (galaxy.OpenGames)
+        {
+            for (int i = 0; i < galaxy.OpenGames.Count; i++)
+            {
+                if (enabledModes.Contains(galaxy.OpenGames[i].Mode))
+                {
+                    return galaxy.OpenGames[i];
+                }
+            }
+        }
+
+        return null;
     }
 
     public static void AddPlayerToGame(Galaxy galaxy, Game game, InGamePlayer player)

@@ -1,3 +1,33 @@
+export const enum GameMode {
+  Invalid = "Invalid",
+  Dictionary = "Dictionary",
+  Numbers = "Numbers",
+  Konami = "Konami",
+  Marathon = "Marathon",
+  HellDiver = "HellDiver",
+  HomeRow = "HomeRow",
+}
+
+export const encodeGameMode: { [key: string]: number } = {
+  Invalid: 0,
+  Dictionary: 1,
+  Numbers: 2,
+  Konami: 3,
+  Marathon: 4,
+  HellDiver: 5,
+  HomeRow: 6,
+};
+
+export const decodeGameMode: { [key: number]: GameMode } = {
+  0: GameMode.Invalid,
+  1: GameMode.Dictionary,
+  2: GameMode.Numbers,
+  3: GameMode.Konami,
+  4: GameMode.Marathon,
+  5: GameMode.HellDiver,
+  6: GameMode.HomeRow,
+};
+
 export interface Player {
   name?: string;
   id?: string;
@@ -149,6 +179,7 @@ function _decodeOneofRequest(bb: ByteBuffer): OneofRequest {
 export interface FindGameRequest {
   player_name?: string;
   player_token?: string;
+  game_modes?: GameMode[];
 }
 
 export function encodeFindGameRequest(message: FindGameRequest): Uint8Array {
@@ -170,6 +201,19 @@ function _encodeFindGameRequest(message: FindGameRequest, bb: ByteBuffer): void 
   if ($player_token !== undefined) {
     writeVarint32(bb, 18);
     writeString(bb, $player_token);
+  }
+
+  // repeated GameMode game_modes = 3;
+  let array$game_modes = message.game_modes;
+  if (array$game_modes !== undefined) {
+    let packed = popByteBuffer();
+    for (let value of array$game_modes) {
+      writeVarint32(packed, encodeGameMode[value]);
+    }
+    writeVarint32(bb, 26);
+    writeVarint32(bb, packed.offset);
+    writeByteBuffer(bb, packed);
+    pushByteBuffer(packed);
   }
 }
 
@@ -196,6 +240,21 @@ function _decodeFindGameRequest(bb: ByteBuffer): FindGameRequest {
       // optional string player_token = 2;
       case 2: {
         message.player_token = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // repeated GameMode game_modes = 3;
+      case 3: {
+        let values = message.game_modes || (message.game_modes = []);
+        if ((tag & 7) === 2) {
+          let outerLimit = pushTemporaryLength(bb);
+          while (!isAtEnd(bb)) {
+            values.push(decodeGameMode[readVarint32(bb)]);
+          }
+          bb.limit = outerLimit;
+        } else {
+          values.push(decodeGameMode[readVarint32(bb)]);
+        }
         break;
       }
 

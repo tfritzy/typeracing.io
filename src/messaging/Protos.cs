@@ -9,23 +9,19 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace LightspeedTyperacing
-{
+namespace LightspeedTyperacing {
 
   /// <summary>Holder for reflection information generated from protos.proto</summary>
-  public static partial class ProtosReflection
-  {
+  public static partial class ProtosReflection {
 
     #region Descriptor
     /// <summary>File descriptor for protos.proto</summary>
-    public static pbr::FileDescriptor Descriptor
-    {
+    public static pbr::FileDescriptor Descriptor {
       get { return descriptor; }
     }
     private static pbr::FileDescriptor descriptor;
 
-    static ProtosReflection()
-    {
+    static ProtosReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cgxwcm90b3MucHJvdG8SFExpZ2h0c3BlZWRUeXBlcmFjaW5nIiIKBlBsYXll",
@@ -33,41 +29,45 @@ namespace LightspeedTyperacing
             "EQoJc2VuZGVyX2lkGAEgASgJEjoKCWZpbmRfZ2FtZRgCIAEoCzIlLkxpZ2h0",
             "c3BlZWRUeXBlcmFjaW5nLkZpbmRHYW1lUmVxdWVzdEgAEjoKCXR5cGVfd29y",
             "ZBgDIAEoCzIlLkxpZ2h0c3BlZWRUeXBlcmFjaW5nLlR5cGVXb3JkUmVxdWVz",
-            "dEgAQgkKB3JlcXVlc3QiPAoPRmluZEdhbWVSZXF1ZXN0EhMKC3BsYXllcl9u",
-            "YW1lGAEgASgJEhQKDHBsYXllcl90b2tlbhgCIAEoCSI+Cg9UeXBlV29yZFJl",
-            "cXVlc3QSDAoEd29yZBgBIAEoCRIdChVjaGFyX2NvbXBsZXRpb25fdGltZXMY",
-            "AiADKAIiuQQKC09uZW9mVXBkYXRlEhQKDHJlY2lwaWVudF9pZBgBIAEoCRIz",
-            "CglnYW1lX292ZXIYAiABKAsyHi5MaWdodHNwZWVkVHlwZXJhY2luZy5HYW1l",
-            "T3ZlckgAEjkKDGdhbWVfc3RhcnRlZBgDIAEoCzIhLkxpZ2h0c3BlZWRUeXBl",
-            "cmFjaW5nLkdhbWVTdGFydGVkSAASOwoNZ2FtZV9zdGFydGluZxgEIAEoCzIi",
-            "LkxpZ2h0c3BlZWRUeXBlcmFjaW5nLkdhbWVTdGFydGluZ0gAEkEKEHBsYXll",
-            "cl9jb21wbGV0ZWQYBSABKAsyJS5MaWdodHNwZWVkVHlwZXJhY2luZy5QbGF5",
-            "ZXJDb21wbGV0ZWRIABJEChJwbGF5ZXJfam9pbmVkX2dhbWUYBiABKAsyJi5M",
-            "aWdodHNwZWVkVHlwZXJhY2luZy5QbGF5ZXJKb2luZWRHYW1lSAASOwoNd29y",
-            "ZF9maW5pc2hlZBgHIAEoCzIiLkxpZ2h0c3BlZWRUeXBlcmFjaW5nLldvcmRG",
-            "aW5pc2hlZEgAEk4KGHlvdXZlX2JlZW5fYWRkZWRfdG9fZ2FtZRgIIAEoCzIq",
-            "LkxpZ2h0c3BlZWRUeXBlcmFjaW5nLllvdXZlQmVlbkFkZGVkVG9HYW1lSAAS",
-            "RwoTcGxheWVyX2Rpc2Nvbm5lY3RlZBgJIAEoCzIoLkxpZ2h0c3BlZWRUeXBl",
-            "cmFjaW5nLlBsYXllckRpc2Nvbm5lY3RlZEgAQggKBnVwZGF0ZSIeCghHYW1l",
-            "T3ZlchISCgplbmRfdGltZV9zGAEgASgCIg0KC0dhbWVTdGFydGVkIjEKDEdh",
-            "bWVTdGFydGluZxIRCgljb3VudGRvd24YASABKAISDgoGcGhyYXNlGAIgASgJ",
-            "InIKD1BsYXllckNvbXBsZXRlZBIRCglwbGF5ZXJfaWQYASABKAkSDQoFcGxh",
-            "Y2UYAiABKAUSGQoRcmF3X3dwbV9ieV9zZWNvbmQYAyADKAISFQoNd3BtX2J5",
-            "X3NlY29uZBgEIAMoAhILCgN3cG0YBSABKAIiSwoQUGxheWVySm9pbmVkR2Ft",
-            "ZRIRCglwbGF5ZXJfaWQYASABKAkSEwoLcGxheWVyX25hbWUYAiABKAkSDwoH",
-            "Z2FtZV9pZBgDIAEoCSKGAQoMV29yZEZpbmlzaGVkEhEKCXBsYXllcl9pZBgB",
-            "IAEoCRIYChBwZXJjZW50X2NvbXBsZXRlGAIgASgCEhUKDXZlbG9jaXR5X2tt",
-            "X3MYAyABKAISEwoLcG9zaXRpb25fa20YBCABKAISHQoVY2hhcl9jb21wbGV0",
-            "aW9uX3RpbWVzGAUgAygCIl4KFFlvdXZlQmVlbkFkZGVkVG9HYW1lEg8KB2dh",
-            "bWVfaWQYAiABKAkSNQoPY3VycmVudF9wbGF5ZXJzGAMgAygLMhwuTGlnaHRz",
-            "cGVlZFR5cGVyYWNpbmcuUGxheWVyIicKElBsYXllckRpc2Nvbm5lY3RlZBIR",
-            "CglwbGF5ZXJfaWQYASABKAliBnByb3RvMw=="));
+            "dEgAQgkKB3JlcXVlc3QicAoPRmluZEdhbWVSZXF1ZXN0EhMKC3BsYXllcl9u",
+            "YW1lGAEgASgJEhQKDHBsYXllcl90b2tlbhgCIAEoCRIyCgpnYW1lX21vZGVz",
+            "GAMgAygOMh4uTGlnaHRzcGVlZFR5cGVyYWNpbmcuR2FtZU1vZGUiPgoPVHlw",
+            "ZVdvcmRSZXF1ZXN0EgwKBHdvcmQYASABKAkSHQoVY2hhcl9jb21wbGV0aW9u",
+            "X3RpbWVzGAIgAygCIrkECgtPbmVvZlVwZGF0ZRIUCgxyZWNpcGllbnRfaWQY",
+            "ASABKAkSMwoJZ2FtZV9vdmVyGAIgASgLMh4uTGlnaHRzcGVlZFR5cGVyYWNp",
+            "bmcuR2FtZU92ZXJIABI5CgxnYW1lX3N0YXJ0ZWQYAyABKAsyIS5MaWdodHNw",
+            "ZWVkVHlwZXJhY2luZy5HYW1lU3RhcnRlZEgAEjsKDWdhbWVfc3RhcnRpbmcY",
+            "BCABKAsyIi5MaWdodHNwZWVkVHlwZXJhY2luZy5HYW1lU3RhcnRpbmdIABJB",
+            "ChBwbGF5ZXJfY29tcGxldGVkGAUgASgLMiUuTGlnaHRzcGVlZFR5cGVyYWNp",
+            "bmcuUGxheWVyQ29tcGxldGVkSAASRAoScGxheWVyX2pvaW5lZF9nYW1lGAYg",
+            "ASgLMiYuTGlnaHRzcGVlZFR5cGVyYWNpbmcuUGxheWVySm9pbmVkR2FtZUgA",
+            "EjsKDXdvcmRfZmluaXNoZWQYByABKAsyIi5MaWdodHNwZWVkVHlwZXJhY2lu",
+            "Zy5Xb3JkRmluaXNoZWRIABJOChh5b3V2ZV9iZWVuX2FkZGVkX3RvX2dhbWUY",
+            "CCABKAsyKi5MaWdodHNwZWVkVHlwZXJhY2luZy5Zb3V2ZUJlZW5BZGRlZFRv",
+            "R2FtZUgAEkcKE3BsYXllcl9kaXNjb25uZWN0ZWQYCSABKAsyKC5MaWdodHNw",
+            "ZWVkVHlwZXJhY2luZy5QbGF5ZXJEaXNjb25uZWN0ZWRIAEIICgZ1cGRhdGUi",
+            "HgoIR2FtZU92ZXISEgoKZW5kX3RpbWVfcxgBIAEoAiINCgtHYW1lU3RhcnRl",
+            "ZCIxCgxHYW1lU3RhcnRpbmcSEQoJY291bnRkb3duGAEgASgCEg4KBnBocmFz",
+            "ZRgCIAEoCSJyCg9QbGF5ZXJDb21wbGV0ZWQSEQoJcGxheWVyX2lkGAEgASgJ",
+            "Eg0KBXBsYWNlGAIgASgFEhkKEXJhd193cG1fYnlfc2Vjb25kGAMgAygCEhUK",
+            "DXdwbV9ieV9zZWNvbmQYBCADKAISCwoDd3BtGAUgASgCIksKEFBsYXllckpv",
+            "aW5lZEdhbWUSEQoJcGxheWVyX2lkGAEgASgJEhMKC3BsYXllcl9uYW1lGAIg",
+            "ASgJEg8KB2dhbWVfaWQYAyABKAkihgEKDFdvcmRGaW5pc2hlZBIRCglwbGF5",
+            "ZXJfaWQYASABKAkSGAoQcGVyY2VudF9jb21wbGV0ZRgCIAEoAhIVCg12ZWxv",
+            "Y2l0eV9rbV9zGAMgASgCEhMKC3Bvc2l0aW9uX2ttGAQgASgCEh0KFWNoYXJf",
+            "Y29tcGxldGlvbl90aW1lcxgFIAMoAiJeChRZb3V2ZUJlZW5BZGRlZFRvR2Ft",
+            "ZRIPCgdnYW1lX2lkGAIgASgJEjUKD2N1cnJlbnRfcGxheWVycxgDIAMoCzIc",
+            "LkxpZ2h0c3BlZWRUeXBlcmFjaW5nLlBsYXllciInChJQbGF5ZXJEaXNjb25u",
+            "ZWN0ZWQSEQoJcGxheWVyX2lkGAEgASgJKmoKCEdhbWVNb2RlEgsKB0ludmFs",
+            "aWQQABIOCgpEaWN0aW9uYXJ5EAESCwoHTnVtYmVycxACEgoKBktvbmFtaRAD",
+            "EgwKCE1hcmF0aG9uEAQSDQoJSGVsbERpdmVyEAUSCwoHSG9tZVJvdxAGYgZw",
+            "cm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::LightspeedTyperacing.GameMode), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.Player), global::LightspeedTyperacing.Player.Parser, new[]{ "Name", "Id" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.OneofRequest), global::LightspeedTyperacing.OneofRequest.Parser, new[]{ "SenderId", "FindGame", "TypeWord" }, new[]{ "Request" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.FindGameRequest), global::LightspeedTyperacing.FindGameRequest.Parser, new[]{ "PlayerName", "PlayerToken" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.FindGameRequest), global::LightspeedTyperacing.FindGameRequest.Parser, new[]{ "PlayerName", "PlayerToken", "GameModes" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.TypeWordRequest), global::LightspeedTyperacing.TypeWordRequest.Parser, new[]{ "Word", "CharCompletionTimes" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.OneofUpdate), global::LightspeedTyperacing.OneofUpdate.Parser, new[]{ "RecipientId", "GameOver", "GameStarted", "GameStarting", "PlayerCompleted", "PlayerJoinedGame", "WordFinished", "YouveBeenAddedToGame", "PlayerDisconnected" }, new[]{ "Update" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.GameOver), global::LightspeedTyperacing.GameOver.Parser, new[]{ "EndTimeS" }, null, null, null, null),
@@ -83,11 +83,24 @@ namespace LightspeedTyperacing
     #endregion
 
   }
+  #region Enums
+  public enum GameMode {
+    [pbr::OriginalName("Invalid")] Invalid = 0,
+    [pbr::OriginalName("Dictionary")] Dictionary = 1,
+    [pbr::OriginalName("Numbers")] Numbers = 2,
+    [pbr::OriginalName("Konami")] Konami = 3,
+    [pbr::OriginalName("Marathon")] Marathon = 4,
+    [pbr::OriginalName("HellDiver")] HellDiver = 5,
+    [pbr::OriginalName("HomeRow")] HomeRow = 6,
+  }
+
+  #endregion
+
   #region Messages
   public sealed partial class Player : pb::IMessage<Player>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
-#endif
+  #endif
   {
     private static readonly pb::MessageParser<Player> _parser = new pb::MessageParser<Player>(() => new Player());
     private pb::UnknownFieldSet _unknownFields;
@@ -97,22 +110,19 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor
-    {
+    public static pbr::MessageDescriptor Descriptor {
       get { return global::LightspeedTyperacing.ProtosReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor
-    {
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Player()
-    {
+    public Player() {
       OnConstruction();
     }
 
@@ -120,8 +130,7 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Player(Player other) : this()
-    {
+    public Player(Player other) : this() {
       name_ = other.name_;
       id_ = other.id_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -129,8 +138,7 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Player Clone()
-    {
+    public Player Clone() {
       return new Player(this);
     }
 
@@ -139,11 +147,9 @@ namespace LightspeedTyperacing
     private string name_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Name
-    {
+    public string Name {
       get { return name_; }
-      set
-      {
+      set {
         name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
@@ -153,32 +159,26 @@ namespace LightspeedTyperacing
     private string id_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Id
-    {
+    public string Id {
       get { return id_; }
-      set
-      {
+      set {
         id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other)
-    {
+    public override bool Equals(object other) {
       return Equals(other as Player);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(Player other)
-    {
-      if (ReferenceEquals(other, null))
-      {
+    public bool Equals(Player other) {
+      if (ReferenceEquals(other, null)) {
         return false;
       }
-      if (ReferenceEquals(other, this))
-      {
+      if (ReferenceEquals(other, this)) {
         return true;
       }
       if (Name != other.Name) return false;
@@ -188,13 +188,11 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode()
-    {
+    public override int GetHashCode() {
       int hash = 1;
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Id.Length != 0) hash ^= Id.GetHashCode();
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
       return hash;
@@ -202,18 +200,16 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString()
-    {
+    public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
-#else
+    #else
       if (Name.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(Name);
@@ -225,46 +221,38 @@ namespace LightspeedTyperacing
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
-    {
-      if (Name.Length != 0)
-      {
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Name.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(Name);
       }
-      if (Id.Length != 0)
-      {
+      if (Id.Length != 0) {
         output.WriteRawTag(18);
         output.WriteString(Id);
       }
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
     }
-#endif
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize()
-    {
+    public int CalculateSize() {
       int size = 0;
-      if (Name.Length != 0)
-      {
+      if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
-      if (Id.Length != 0)
-      {
+      if (Id.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
       }
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
       return size;
@@ -272,18 +260,14 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(Player other)
-    {
-      if (other == null)
-      {
+    public void MergeFrom(Player other) {
+      if (other == null) {
         return;
       }
-      if (other.Name.Length != 0)
-      {
+      if (other.Name.Length != 0) {
         Name = other.Name;
       }
-      if (other.Id.Length != 0)
-      {
+      if (other.Id.Length != 0) {
         Id = other.Id;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -291,11 +275,10 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
-#else
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -312,43 +295,38 @@ namespace LightspeedTyperacing
           }
         }
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
-    {
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
-      while ((tag = input.ReadTag()) != 0)
-      {
-        switch (tag)
-        {
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 10:
-            {
-              Name = input.ReadString();
-              break;
-            }
-          case 18:
-            {
-              Id = input.ReadString();
-              break;
-            }
+          case 10: {
+            Name = input.ReadString();
+            break;
+          }
+          case 18: {
+            Id = input.ReadString();
+            break;
+          }
         }
       }
     }
-#endif
+    #endif
 
   }
 
   public sealed partial class OneofRequest : pb::IMessage<OneofRequest>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
-#endif
+  #endif
   {
     private static readonly pb::MessageParser<OneofRequest> _parser = new pb::MessageParser<OneofRequest>(() => new OneofRequest());
     private pb::UnknownFieldSet _unknownFields;
@@ -358,22 +336,19 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor
-    {
+    public static pbr::MessageDescriptor Descriptor {
       get { return global::LightspeedTyperacing.ProtosReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor
-    {
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public OneofRequest()
-    {
+    public OneofRequest() {
       OnConstruction();
     }
 
@@ -381,11 +356,9 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public OneofRequest(OneofRequest other) : this()
-    {
+    public OneofRequest(OneofRequest other) : this() {
       senderId_ = other.senderId_;
-      switch (other.RequestCase)
-      {
+      switch (other.RequestCase) {
         case RequestOneofCase.FindGame:
           FindGame = other.FindGame.Clone();
           break;
@@ -399,8 +372,7 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public OneofRequest Clone()
-    {
+    public OneofRequest Clone() {
       return new OneofRequest(this);
     }
 
@@ -409,11 +381,9 @@ namespace LightspeedTyperacing
     private string senderId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string SenderId
-    {
+    public string SenderId {
       get { return senderId_; }
-      set
-      {
+      set {
         senderId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
@@ -422,11 +392,9 @@ namespace LightspeedTyperacing
     public const int FindGameFieldNumber = 2;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::LightspeedTyperacing.FindGameRequest FindGame
-    {
-      get { return requestCase_ == RequestOneofCase.FindGame ? (global::LightspeedTyperacing.FindGameRequest)request_ : null; }
-      set
-      {
+    public global::LightspeedTyperacing.FindGameRequest FindGame {
+      get { return requestCase_ == RequestOneofCase.FindGame ? (global::LightspeedTyperacing.FindGameRequest) request_ : null; }
+      set {
         request_ = value;
         requestCase_ = value == null ? RequestOneofCase.None : RequestOneofCase.FindGame;
       }
@@ -436,11 +404,9 @@ namespace LightspeedTyperacing
     public const int TypeWordFieldNumber = 3;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::LightspeedTyperacing.TypeWordRequest TypeWord
-    {
-      get { return requestCase_ == RequestOneofCase.TypeWord ? (global::LightspeedTyperacing.TypeWordRequest)request_ : null; }
-      set
-      {
+    public global::LightspeedTyperacing.TypeWordRequest TypeWord {
+      get { return requestCase_ == RequestOneofCase.TypeWord ? (global::LightspeedTyperacing.TypeWordRequest) request_ : null; }
+      set {
         request_ = value;
         requestCase_ = value == null ? RequestOneofCase.None : RequestOneofCase.TypeWord;
       }
@@ -448,8 +414,7 @@ namespace LightspeedTyperacing
 
     private object request_;
     /// <summary>Enum of possible cases for the "request" oneof.</summary>
-    public enum RequestOneofCase
-    {
+    public enum RequestOneofCase {
       None = 0,
       FindGame = 2,
       TypeWord = 3,
@@ -457,36 +422,30 @@ namespace LightspeedTyperacing
     private RequestOneofCase requestCase_ = RequestOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public RequestOneofCase RequestCase
-    {
+    public RequestOneofCase RequestCase {
       get { return requestCase_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void ClearRequest()
-    {
+    public void ClearRequest() {
       requestCase_ = RequestOneofCase.None;
       request_ = null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other)
-    {
+    public override bool Equals(object other) {
       return Equals(other as OneofRequest);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(OneofRequest other)
-    {
-      if (ReferenceEquals(other, null))
-      {
+    public bool Equals(OneofRequest other) {
+      if (ReferenceEquals(other, null)) {
         return false;
       }
-      if (ReferenceEquals(other, this))
-      {
+      if (ReferenceEquals(other, this)) {
         return true;
       }
       if (SenderId != other.SenderId) return false;
@@ -498,15 +457,13 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode()
-    {
+    public override int GetHashCode() {
       int hash = 1;
       if (SenderId.Length != 0) hash ^= SenderId.GetHashCode();
       if (requestCase_ == RequestOneofCase.FindGame) hash ^= FindGame.GetHashCode();
       if (requestCase_ == RequestOneofCase.TypeWord) hash ^= TypeWord.GetHashCode();
-      hash ^= (int)requestCase_;
-      if (_unknownFields != null)
-      {
+      hash ^= (int) requestCase_;
+      if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
       return hash;
@@ -514,18 +471,16 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString()
-    {
+    public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
-#else
+    #else
       if (SenderId.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(SenderId);
@@ -541,55 +496,45 @@ namespace LightspeedTyperacing
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
-    {
-      if (SenderId.Length != 0)
-      {
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (SenderId.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(SenderId);
       }
-      if (requestCase_ == RequestOneofCase.FindGame)
-      {
+      if (requestCase_ == RequestOneofCase.FindGame) {
         output.WriteRawTag(18);
         output.WriteMessage(FindGame);
       }
-      if (requestCase_ == RequestOneofCase.TypeWord)
-      {
+      if (requestCase_ == RequestOneofCase.TypeWord) {
         output.WriteRawTag(26);
         output.WriteMessage(TypeWord);
       }
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
     }
-#endif
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize()
-    {
+    public int CalculateSize() {
       int size = 0;
-      if (SenderId.Length != 0)
-      {
+      if (SenderId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(SenderId);
       }
-      if (requestCase_ == RequestOneofCase.FindGame)
-      {
+      if (requestCase_ == RequestOneofCase.FindGame) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(FindGame);
       }
-      if (requestCase_ == RequestOneofCase.TypeWord)
-      {
+      if (requestCase_ == RequestOneofCase.TypeWord) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(TypeWord);
       }
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
       return size;
@@ -597,28 +542,22 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(OneofRequest other)
-    {
-      if (other == null)
-      {
+    public void MergeFrom(OneofRequest other) {
+      if (other == null) {
         return;
       }
-      if (other.SenderId.Length != 0)
-      {
+      if (other.SenderId.Length != 0) {
         SenderId = other.SenderId;
       }
-      switch (other.RequestCase)
-      {
+      switch (other.RequestCase) {
         case RequestOneofCase.FindGame:
-          if (FindGame == null)
-          {
+          if (FindGame == null) {
             FindGame = new global::LightspeedTyperacing.FindGameRequest();
           }
           FindGame.MergeFrom(other.FindGame);
           break;
         case RequestOneofCase.TypeWord:
-          if (TypeWord == null)
-          {
+          if (TypeWord == null) {
             TypeWord = new global::LightspeedTyperacing.TypeWordRequest();
           }
           TypeWord.MergeFrom(other.TypeWord);
@@ -630,11 +569,10 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
-#else
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -665,60 +603,52 @@ namespace LightspeedTyperacing
           }
         }
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
-    {
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
-      while ((tag = input.ReadTag()) != 0)
-      {
-        switch (tag)
-        {
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 10:
-            {
-              SenderId = input.ReadString();
-              break;
+          case 10: {
+            SenderId = input.ReadString();
+            break;
+          }
+          case 18: {
+            global::LightspeedTyperacing.FindGameRequest subBuilder = new global::LightspeedTyperacing.FindGameRequest();
+            if (requestCase_ == RequestOneofCase.FindGame) {
+              subBuilder.MergeFrom(FindGame);
             }
-          case 18:
-            {
-              global::LightspeedTyperacing.FindGameRequest subBuilder = new global::LightspeedTyperacing.FindGameRequest();
-              if (requestCase_ == RequestOneofCase.FindGame)
-              {
-                subBuilder.MergeFrom(FindGame);
-              }
-              input.ReadMessage(subBuilder);
-              FindGame = subBuilder;
-              break;
+            input.ReadMessage(subBuilder);
+            FindGame = subBuilder;
+            break;
+          }
+          case 26: {
+            global::LightspeedTyperacing.TypeWordRequest subBuilder = new global::LightspeedTyperacing.TypeWordRequest();
+            if (requestCase_ == RequestOneofCase.TypeWord) {
+              subBuilder.MergeFrom(TypeWord);
             }
-          case 26:
-            {
-              global::LightspeedTyperacing.TypeWordRequest subBuilder = new global::LightspeedTyperacing.TypeWordRequest();
-              if (requestCase_ == RequestOneofCase.TypeWord)
-              {
-                subBuilder.MergeFrom(TypeWord);
-              }
-              input.ReadMessage(subBuilder);
-              TypeWord = subBuilder;
-              break;
-            }
+            input.ReadMessage(subBuilder);
+            TypeWord = subBuilder;
+            break;
+          }
         }
       }
     }
-#endif
+    #endif
 
   }
 
   public sealed partial class FindGameRequest : pb::IMessage<FindGameRequest>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
-#endif
+  #endif
   {
     private static readonly pb::MessageParser<FindGameRequest> _parser = new pb::MessageParser<FindGameRequest>(() => new FindGameRequest());
     private pb::UnknownFieldSet _unknownFields;
@@ -728,22 +658,19 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor
-    {
+    public static pbr::MessageDescriptor Descriptor {
       get { return global::LightspeedTyperacing.ProtosReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor
-    {
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public FindGameRequest()
-    {
+    public FindGameRequest() {
       OnConstruction();
     }
 
@@ -751,17 +678,16 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public FindGameRequest(FindGameRequest other) : this()
-    {
+    public FindGameRequest(FindGameRequest other) : this() {
       playerName_ = other.playerName_;
       playerToken_ = other.playerToken_;
+      gameModes_ = other.gameModes_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public FindGameRequest Clone()
-    {
+    public FindGameRequest Clone() {
       return new FindGameRequest(this);
     }
 
@@ -770,11 +696,9 @@ namespace LightspeedTyperacing
     private string playerName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string PlayerName
-    {
+    public string PlayerName {
       get { return playerName_; }
-      set
-      {
+      set {
         playerName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
@@ -784,48 +708,53 @@ namespace LightspeedTyperacing
     private string playerToken_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string PlayerToken
-    {
+    public string PlayerToken {
       get { return playerToken_; }
-      set
-      {
+      set {
         playerToken_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
+    /// <summary>Field number for the "game_modes" field.</summary>
+    public const int GameModesFieldNumber = 3;
+    private static readonly pb::FieldCodec<global::LightspeedTyperacing.GameMode> _repeated_gameModes_codec
+        = pb::FieldCodec.ForEnum(26, x => (int) x, x => (global::LightspeedTyperacing.GameMode) x);
+    private readonly pbc::RepeatedField<global::LightspeedTyperacing.GameMode> gameModes_ = new pbc::RepeatedField<global::LightspeedTyperacing.GameMode>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other)
-    {
+    public pbc::RepeatedField<global::LightspeedTyperacing.GameMode> GameModes {
+      get { return gameModes_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
       return Equals(other as FindGameRequest);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(FindGameRequest other)
-    {
-      if (ReferenceEquals(other, null))
-      {
+    public bool Equals(FindGameRequest other) {
+      if (ReferenceEquals(other, null)) {
         return false;
       }
-      if (ReferenceEquals(other, this))
-      {
+      if (ReferenceEquals(other, this)) {
         return true;
       }
       if (PlayerName != other.PlayerName) return false;
       if (PlayerToken != other.PlayerToken) return false;
+      if(!gameModes_.Equals(other.gameModes_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode()
-    {
+    public override int GetHashCode() {
       int hash = 1;
       if (PlayerName.Length != 0) hash ^= PlayerName.GetHashCode();
       if (PlayerToken.Length != 0) hash ^= PlayerToken.GetHashCode();
-      if (_unknownFields != null)
-      {
+      hash ^= gameModes_.GetHashCode();
+      if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
       return hash;
@@ -833,18 +762,16 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString()
-    {
+    public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
-#else
+    #else
       if (PlayerName.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(PlayerName);
@@ -853,49 +780,44 @@ namespace LightspeedTyperacing
         output.WriteRawTag(18);
         output.WriteString(PlayerToken);
       }
+      gameModes_.WriteTo(output, _repeated_gameModes_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
-    {
-      if (PlayerName.Length != 0)
-      {
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (PlayerName.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(PlayerName);
       }
-      if (PlayerToken.Length != 0)
-      {
+      if (PlayerToken.Length != 0) {
         output.WriteRawTag(18);
         output.WriteString(PlayerToken);
       }
-      if (_unknownFields != null)
-      {
+      gameModes_.WriteTo(ref output, _repeated_gameModes_codec);
+      if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
     }
-#endif
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize()
-    {
+    public int CalculateSize() {
       int size = 0;
-      if (PlayerName.Length != 0)
-      {
+      if (PlayerName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(PlayerName);
       }
-      if (PlayerToken.Length != 0)
-      {
+      if (PlayerToken.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(PlayerToken);
       }
-      if (_unknownFields != null)
-      {
+      size += gameModes_.CalculateSize(_repeated_gameModes_codec);
+      if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
       return size;
@@ -903,30 +825,26 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(FindGameRequest other)
-    {
-      if (other == null)
-      {
+    public void MergeFrom(FindGameRequest other) {
+      if (other == null) {
         return;
       }
-      if (other.PlayerName.Length != 0)
-      {
+      if (other.PlayerName.Length != 0) {
         PlayerName = other.PlayerName;
       }
-      if (other.PlayerToken.Length != 0)
-      {
+      if (other.PlayerToken.Length != 0) {
         PlayerToken = other.PlayerToken;
       }
+      gameModes_.Add(other.gameModes_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
-#else
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -941,45 +859,50 @@ namespace LightspeedTyperacing
             PlayerToken = input.ReadString();
             break;
           }
+          case 26:
+          case 24: {
+            gameModes_.AddEntriesFrom(input, _repeated_gameModes_codec);
+            break;
+          }
         }
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
-    {
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
-      while ((tag = input.ReadTag()) != 0)
-      {
-        switch (tag)
-        {
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 10:
-            {
-              PlayerName = input.ReadString();
-              break;
-            }
-          case 18:
-            {
-              PlayerToken = input.ReadString();
-              break;
-            }
+          case 10: {
+            PlayerName = input.ReadString();
+            break;
+          }
+          case 18: {
+            PlayerToken = input.ReadString();
+            break;
+          }
+          case 26:
+          case 24: {
+            gameModes_.AddEntriesFrom(ref input, _repeated_gameModes_codec);
+            break;
+          }
         }
       }
     }
-#endif
+    #endif
 
   }
 
   public sealed partial class TypeWordRequest : pb::IMessage<TypeWordRequest>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
-#endif
+  #endif
   {
     private static readonly pb::MessageParser<TypeWordRequest> _parser = new pb::MessageParser<TypeWordRequest>(() => new TypeWordRequest());
     private pb::UnknownFieldSet _unknownFields;
@@ -989,22 +912,19 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor
-    {
+    public static pbr::MessageDescriptor Descriptor {
       get { return global::LightspeedTyperacing.ProtosReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor
-    {
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public TypeWordRequest()
-    {
+    public TypeWordRequest() {
       OnConstruction();
     }
 
@@ -1012,8 +932,7 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public TypeWordRequest(TypeWordRequest other) : this()
-    {
+    public TypeWordRequest(TypeWordRequest other) : this() {
       word_ = other.word_;
       charCompletionTimes_ = other.charCompletionTimes_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -1021,8 +940,7 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public TypeWordRequest Clone()
-    {
+    public TypeWordRequest Clone() {
       return new TypeWordRequest(this);
     }
 
@@ -1031,11 +949,9 @@ namespace LightspeedTyperacing
     private string word_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Word
-    {
+    public string Word {
       get { return word_; }
-      set
-      {
+      set {
         word_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
@@ -1047,44 +963,37 @@ namespace LightspeedTyperacing
     private readonly pbc::RepeatedField<float> charCompletionTimes_ = new pbc::RepeatedField<float>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<float> CharCompletionTimes
-    {
+    public pbc::RepeatedField<float> CharCompletionTimes {
       get { return charCompletionTimes_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other)
-    {
+    public override bool Equals(object other) {
       return Equals(other as TypeWordRequest);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(TypeWordRequest other)
-    {
-      if (ReferenceEquals(other, null))
-      {
+    public bool Equals(TypeWordRequest other) {
+      if (ReferenceEquals(other, null)) {
         return false;
       }
-      if (ReferenceEquals(other, this))
-      {
+      if (ReferenceEquals(other, this)) {
         return true;
       }
       if (Word != other.Word) return false;
-      if (!charCompletionTimes_.Equals(other.charCompletionTimes_)) return false;
+      if(!charCompletionTimes_.Equals(other.charCompletionTimes_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode()
-    {
+    public override int GetHashCode() {
       int hash = 1;
       if (Word.Length != 0) hash ^= Word.GetHashCode();
       hash ^= charCompletionTimes_.GetHashCode();
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
       return hash;
@@ -1092,18 +1001,16 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString()
-    {
+    public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
-#else
+    #else
       if (Word.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(Word);
@@ -1112,39 +1019,33 @@ namespace LightspeedTyperacing
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
-    {
-      if (Word.Length != 0)
-      {
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Word.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(Word);
       }
       charCompletionTimes_.WriteTo(ref output, _repeated_charCompletionTimes_codec);
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
     }
-#endif
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize()
-    {
+    public int CalculateSize() {
       int size = 0;
-      if (Word.Length != 0)
-      {
+      if (Word.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Word);
       }
       size += charCompletionTimes_.CalculateSize(_repeated_charCompletionTimes_codec);
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
       return size;
@@ -1152,14 +1053,11 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(TypeWordRequest other)
-    {
-      if (other == null)
-      {
+    public void MergeFrom(TypeWordRequest other) {
+      if (other == null) {
         return;
       }
-      if (other.Word.Length != 0)
-      {
+      if (other.Word.Length != 0) {
         Word = other.Word;
       }
       charCompletionTimes_.Add(other.charCompletionTimes_);
@@ -1168,11 +1066,10 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
-#else
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -1190,44 +1087,39 @@ namespace LightspeedTyperacing
           }
         }
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
-    {
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
-      while ((tag = input.ReadTag()) != 0)
-      {
-        switch (tag)
-        {
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 10:
-            {
-              Word = input.ReadString();
-              break;
-            }
+          case 10: {
+            Word = input.ReadString();
+            break;
+          }
           case 18:
-          case 21:
-            {
-              charCompletionTimes_.AddEntriesFrom(ref input, _repeated_charCompletionTimes_codec);
-              break;
-            }
+          case 21: {
+            charCompletionTimes_.AddEntriesFrom(ref input, _repeated_charCompletionTimes_codec);
+            break;
+          }
         }
       }
     }
-#endif
+    #endif
 
   }
 
   public sealed partial class OneofUpdate : pb::IMessage<OneofUpdate>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
-#endif
+  #endif
   {
     private static readonly pb::MessageParser<OneofUpdate> _parser = new pb::MessageParser<OneofUpdate>(() => new OneofUpdate());
     private pb::UnknownFieldSet _unknownFields;
@@ -1237,22 +1129,19 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor
-    {
+    public static pbr::MessageDescriptor Descriptor {
       get { return global::LightspeedTyperacing.ProtosReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor
-    {
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public OneofUpdate()
-    {
+    public OneofUpdate() {
       OnConstruction();
     }
 
@@ -1260,11 +1149,9 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public OneofUpdate(OneofUpdate other) : this()
-    {
+    public OneofUpdate(OneofUpdate other) : this() {
       recipientId_ = other.recipientId_;
-      switch (other.UpdateCase)
-      {
+      switch (other.UpdateCase) {
         case UpdateOneofCase.GameOver:
           GameOver = other.GameOver.Clone();
           break;
@@ -1296,8 +1183,7 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public OneofUpdate Clone()
-    {
+    public OneofUpdate Clone() {
       return new OneofUpdate(this);
     }
 
@@ -1306,11 +1192,9 @@ namespace LightspeedTyperacing
     private string recipientId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string RecipientId
-    {
+    public string RecipientId {
       get { return recipientId_; }
-      set
-      {
+      set {
         recipientId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
@@ -1319,11 +1203,9 @@ namespace LightspeedTyperacing
     public const int GameOverFieldNumber = 2;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::LightspeedTyperacing.GameOver GameOver
-    {
-      get { return updateCase_ == UpdateOneofCase.GameOver ? (global::LightspeedTyperacing.GameOver)update_ : null; }
-      set
-      {
+    public global::LightspeedTyperacing.GameOver GameOver {
+      get { return updateCase_ == UpdateOneofCase.GameOver ? (global::LightspeedTyperacing.GameOver) update_ : null; }
+      set {
         update_ = value;
         updateCase_ = value == null ? UpdateOneofCase.None : UpdateOneofCase.GameOver;
       }
@@ -1333,11 +1215,9 @@ namespace LightspeedTyperacing
     public const int GameStartedFieldNumber = 3;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::LightspeedTyperacing.GameStarted GameStarted
-    {
-      get { return updateCase_ == UpdateOneofCase.GameStarted ? (global::LightspeedTyperacing.GameStarted)update_ : null; }
-      set
-      {
+    public global::LightspeedTyperacing.GameStarted GameStarted {
+      get { return updateCase_ == UpdateOneofCase.GameStarted ? (global::LightspeedTyperacing.GameStarted) update_ : null; }
+      set {
         update_ = value;
         updateCase_ = value == null ? UpdateOneofCase.None : UpdateOneofCase.GameStarted;
       }
@@ -1347,11 +1227,9 @@ namespace LightspeedTyperacing
     public const int GameStartingFieldNumber = 4;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::LightspeedTyperacing.GameStarting GameStarting
-    {
-      get { return updateCase_ == UpdateOneofCase.GameStarting ? (global::LightspeedTyperacing.GameStarting)update_ : null; }
-      set
-      {
+    public global::LightspeedTyperacing.GameStarting GameStarting {
+      get { return updateCase_ == UpdateOneofCase.GameStarting ? (global::LightspeedTyperacing.GameStarting) update_ : null; }
+      set {
         update_ = value;
         updateCase_ = value == null ? UpdateOneofCase.None : UpdateOneofCase.GameStarting;
       }
@@ -1361,11 +1239,9 @@ namespace LightspeedTyperacing
     public const int PlayerCompletedFieldNumber = 5;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::LightspeedTyperacing.PlayerCompleted PlayerCompleted
-    {
-      get { return updateCase_ == UpdateOneofCase.PlayerCompleted ? (global::LightspeedTyperacing.PlayerCompleted)update_ : null; }
-      set
-      {
+    public global::LightspeedTyperacing.PlayerCompleted PlayerCompleted {
+      get { return updateCase_ == UpdateOneofCase.PlayerCompleted ? (global::LightspeedTyperacing.PlayerCompleted) update_ : null; }
+      set {
         update_ = value;
         updateCase_ = value == null ? UpdateOneofCase.None : UpdateOneofCase.PlayerCompleted;
       }
@@ -1375,11 +1251,9 @@ namespace LightspeedTyperacing
     public const int PlayerJoinedGameFieldNumber = 6;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::LightspeedTyperacing.PlayerJoinedGame PlayerJoinedGame
-    {
-      get { return updateCase_ == UpdateOneofCase.PlayerJoinedGame ? (global::LightspeedTyperacing.PlayerJoinedGame)update_ : null; }
-      set
-      {
+    public global::LightspeedTyperacing.PlayerJoinedGame PlayerJoinedGame {
+      get { return updateCase_ == UpdateOneofCase.PlayerJoinedGame ? (global::LightspeedTyperacing.PlayerJoinedGame) update_ : null; }
+      set {
         update_ = value;
         updateCase_ = value == null ? UpdateOneofCase.None : UpdateOneofCase.PlayerJoinedGame;
       }
@@ -1389,11 +1263,9 @@ namespace LightspeedTyperacing
     public const int WordFinishedFieldNumber = 7;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::LightspeedTyperacing.WordFinished WordFinished
-    {
-      get { return updateCase_ == UpdateOneofCase.WordFinished ? (global::LightspeedTyperacing.WordFinished)update_ : null; }
-      set
-      {
+    public global::LightspeedTyperacing.WordFinished WordFinished {
+      get { return updateCase_ == UpdateOneofCase.WordFinished ? (global::LightspeedTyperacing.WordFinished) update_ : null; }
+      set {
         update_ = value;
         updateCase_ = value == null ? UpdateOneofCase.None : UpdateOneofCase.WordFinished;
       }
@@ -1403,11 +1275,9 @@ namespace LightspeedTyperacing
     public const int YouveBeenAddedToGameFieldNumber = 8;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::LightspeedTyperacing.YouveBeenAddedToGame YouveBeenAddedToGame
-    {
-      get { return updateCase_ == UpdateOneofCase.YouveBeenAddedToGame ? (global::LightspeedTyperacing.YouveBeenAddedToGame)update_ : null; }
-      set
-      {
+    public global::LightspeedTyperacing.YouveBeenAddedToGame YouveBeenAddedToGame {
+      get { return updateCase_ == UpdateOneofCase.YouveBeenAddedToGame ? (global::LightspeedTyperacing.YouveBeenAddedToGame) update_ : null; }
+      set {
         update_ = value;
         updateCase_ = value == null ? UpdateOneofCase.None : UpdateOneofCase.YouveBeenAddedToGame;
       }
@@ -1417,11 +1287,9 @@ namespace LightspeedTyperacing
     public const int PlayerDisconnectedFieldNumber = 9;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::LightspeedTyperacing.PlayerDisconnected PlayerDisconnected
-    {
-      get { return updateCase_ == UpdateOneofCase.PlayerDisconnected ? (global::LightspeedTyperacing.PlayerDisconnected)update_ : null; }
-      set
-      {
+    public global::LightspeedTyperacing.PlayerDisconnected PlayerDisconnected {
+      get { return updateCase_ == UpdateOneofCase.PlayerDisconnected ? (global::LightspeedTyperacing.PlayerDisconnected) update_ : null; }
+      set {
         update_ = value;
         updateCase_ = value == null ? UpdateOneofCase.None : UpdateOneofCase.PlayerDisconnected;
       }
@@ -1429,8 +1297,7 @@ namespace LightspeedTyperacing
 
     private object update_;
     /// <summary>Enum of possible cases for the "update" oneof.</summary>
-    public enum UpdateOneofCase
-    {
+    public enum UpdateOneofCase {
       None = 0,
       GameOver = 2,
       GameStarted = 3,
@@ -1444,36 +1311,30 @@ namespace LightspeedTyperacing
     private UpdateOneofCase updateCase_ = UpdateOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public UpdateOneofCase UpdateCase
-    {
+    public UpdateOneofCase UpdateCase {
       get { return updateCase_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void ClearUpdate()
-    {
+    public void ClearUpdate() {
       updateCase_ = UpdateOneofCase.None;
       update_ = null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other)
-    {
+    public override bool Equals(object other) {
       return Equals(other as OneofUpdate);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(OneofUpdate other)
-    {
-      if (ReferenceEquals(other, null))
-      {
+    public bool Equals(OneofUpdate other) {
+      if (ReferenceEquals(other, null)) {
         return false;
       }
-      if (ReferenceEquals(other, this))
-      {
+      if (ReferenceEquals(other, this)) {
         return true;
       }
       if (RecipientId != other.RecipientId) return false;
@@ -1491,8 +1352,7 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode()
-    {
+    public override int GetHashCode() {
       int hash = 1;
       if (RecipientId.Length != 0) hash ^= RecipientId.GetHashCode();
       if (updateCase_ == UpdateOneofCase.GameOver) hash ^= GameOver.GetHashCode();
@@ -1503,9 +1363,8 @@ namespace LightspeedTyperacing
       if (updateCase_ == UpdateOneofCase.WordFinished) hash ^= WordFinished.GetHashCode();
       if (updateCase_ == UpdateOneofCase.YouveBeenAddedToGame) hash ^= YouveBeenAddedToGame.GetHashCode();
       if (updateCase_ == UpdateOneofCase.PlayerDisconnected) hash ^= PlayerDisconnected.GetHashCode();
-      hash ^= (int)updateCase_;
-      if (_unknownFields != null)
-      {
+      hash ^= (int) updateCase_;
+      if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
       return hash;
@@ -1513,18 +1372,16 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString()
-    {
+    public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
-#else
+    #else
       if (RecipientId.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(RecipientId);
@@ -1564,109 +1421,87 @@ namespace LightspeedTyperacing
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
-    {
-      if (RecipientId.Length != 0)
-      {
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (RecipientId.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(RecipientId);
       }
-      if (updateCase_ == UpdateOneofCase.GameOver)
-      {
+      if (updateCase_ == UpdateOneofCase.GameOver) {
         output.WriteRawTag(18);
         output.WriteMessage(GameOver);
       }
-      if (updateCase_ == UpdateOneofCase.GameStarted)
-      {
+      if (updateCase_ == UpdateOneofCase.GameStarted) {
         output.WriteRawTag(26);
         output.WriteMessage(GameStarted);
       }
-      if (updateCase_ == UpdateOneofCase.GameStarting)
-      {
+      if (updateCase_ == UpdateOneofCase.GameStarting) {
         output.WriteRawTag(34);
         output.WriteMessage(GameStarting);
       }
-      if (updateCase_ == UpdateOneofCase.PlayerCompleted)
-      {
+      if (updateCase_ == UpdateOneofCase.PlayerCompleted) {
         output.WriteRawTag(42);
         output.WriteMessage(PlayerCompleted);
       }
-      if (updateCase_ == UpdateOneofCase.PlayerJoinedGame)
-      {
+      if (updateCase_ == UpdateOneofCase.PlayerJoinedGame) {
         output.WriteRawTag(50);
         output.WriteMessage(PlayerJoinedGame);
       }
-      if (updateCase_ == UpdateOneofCase.WordFinished)
-      {
+      if (updateCase_ == UpdateOneofCase.WordFinished) {
         output.WriteRawTag(58);
         output.WriteMessage(WordFinished);
       }
-      if (updateCase_ == UpdateOneofCase.YouveBeenAddedToGame)
-      {
+      if (updateCase_ == UpdateOneofCase.YouveBeenAddedToGame) {
         output.WriteRawTag(66);
         output.WriteMessage(YouveBeenAddedToGame);
       }
-      if (updateCase_ == UpdateOneofCase.PlayerDisconnected)
-      {
+      if (updateCase_ == UpdateOneofCase.PlayerDisconnected) {
         output.WriteRawTag(74);
         output.WriteMessage(PlayerDisconnected);
       }
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
     }
-#endif
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize()
-    {
+    public int CalculateSize() {
       int size = 0;
-      if (RecipientId.Length != 0)
-      {
+      if (RecipientId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(RecipientId);
       }
-      if (updateCase_ == UpdateOneofCase.GameOver)
-      {
+      if (updateCase_ == UpdateOneofCase.GameOver) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(GameOver);
       }
-      if (updateCase_ == UpdateOneofCase.GameStarted)
-      {
+      if (updateCase_ == UpdateOneofCase.GameStarted) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(GameStarted);
       }
-      if (updateCase_ == UpdateOneofCase.GameStarting)
-      {
+      if (updateCase_ == UpdateOneofCase.GameStarting) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(GameStarting);
       }
-      if (updateCase_ == UpdateOneofCase.PlayerCompleted)
-      {
+      if (updateCase_ == UpdateOneofCase.PlayerCompleted) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(PlayerCompleted);
       }
-      if (updateCase_ == UpdateOneofCase.PlayerJoinedGame)
-      {
+      if (updateCase_ == UpdateOneofCase.PlayerJoinedGame) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(PlayerJoinedGame);
       }
-      if (updateCase_ == UpdateOneofCase.WordFinished)
-      {
+      if (updateCase_ == UpdateOneofCase.WordFinished) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(WordFinished);
       }
-      if (updateCase_ == UpdateOneofCase.YouveBeenAddedToGame)
-      {
+      if (updateCase_ == UpdateOneofCase.YouveBeenAddedToGame) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(YouveBeenAddedToGame);
       }
-      if (updateCase_ == UpdateOneofCase.PlayerDisconnected)
-      {
+      if (updateCase_ == UpdateOneofCase.PlayerDisconnected) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(PlayerDisconnected);
       }
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
       return size;
@@ -1674,70 +1509,58 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(OneofUpdate other)
-    {
-      if (other == null)
-      {
+    public void MergeFrom(OneofUpdate other) {
+      if (other == null) {
         return;
       }
-      if (other.RecipientId.Length != 0)
-      {
+      if (other.RecipientId.Length != 0) {
         RecipientId = other.RecipientId;
       }
-      switch (other.UpdateCase)
-      {
+      switch (other.UpdateCase) {
         case UpdateOneofCase.GameOver:
-          if (GameOver == null)
-          {
+          if (GameOver == null) {
             GameOver = new global::LightspeedTyperacing.GameOver();
           }
           GameOver.MergeFrom(other.GameOver);
           break;
         case UpdateOneofCase.GameStarted:
-          if (GameStarted == null)
-          {
+          if (GameStarted == null) {
             GameStarted = new global::LightspeedTyperacing.GameStarted();
           }
           GameStarted.MergeFrom(other.GameStarted);
           break;
         case UpdateOneofCase.GameStarting:
-          if (GameStarting == null)
-          {
+          if (GameStarting == null) {
             GameStarting = new global::LightspeedTyperacing.GameStarting();
           }
           GameStarting.MergeFrom(other.GameStarting);
           break;
         case UpdateOneofCase.PlayerCompleted:
-          if (PlayerCompleted == null)
-          {
+          if (PlayerCompleted == null) {
             PlayerCompleted = new global::LightspeedTyperacing.PlayerCompleted();
           }
           PlayerCompleted.MergeFrom(other.PlayerCompleted);
           break;
         case UpdateOneofCase.PlayerJoinedGame:
-          if (PlayerJoinedGame == null)
-          {
+          if (PlayerJoinedGame == null) {
             PlayerJoinedGame = new global::LightspeedTyperacing.PlayerJoinedGame();
           }
           PlayerJoinedGame.MergeFrom(other.PlayerJoinedGame);
           break;
         case UpdateOneofCase.WordFinished:
-          if (WordFinished == null)
-          {
+          if (WordFinished == null) {
             WordFinished = new global::LightspeedTyperacing.WordFinished();
           }
           WordFinished.MergeFrom(other.WordFinished);
           break;
         case UpdateOneofCase.YouveBeenAddedToGame:
-          if (YouveBeenAddedToGame == null)
-          {
+          if (YouveBeenAddedToGame == null) {
             YouveBeenAddedToGame = new global::LightspeedTyperacing.YouveBeenAddedToGame();
           }
           YouveBeenAddedToGame.MergeFrom(other.YouveBeenAddedToGame);
           break;
         case UpdateOneofCase.PlayerDisconnected:
-          if (PlayerDisconnected == null)
-          {
+          if (PlayerDisconnected == null) {
             PlayerDisconnected = new global::LightspeedTyperacing.PlayerDisconnected();
           }
           PlayerDisconnected.MergeFrom(other.PlayerDisconnected);
@@ -1749,11 +1572,10 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
-#else
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -1838,126 +1660,106 @@ namespace LightspeedTyperacing
           }
         }
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
-    {
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
-      while ((tag = input.ReadTag()) != 0)
-      {
-        switch (tag)
-        {
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 10:
-            {
-              RecipientId = input.ReadString();
-              break;
+          case 10: {
+            RecipientId = input.ReadString();
+            break;
+          }
+          case 18: {
+            global::LightspeedTyperacing.GameOver subBuilder = new global::LightspeedTyperacing.GameOver();
+            if (updateCase_ == UpdateOneofCase.GameOver) {
+              subBuilder.MergeFrom(GameOver);
             }
-          case 18:
-            {
-              global::LightspeedTyperacing.GameOver subBuilder = new global::LightspeedTyperacing.GameOver();
-              if (updateCase_ == UpdateOneofCase.GameOver)
-              {
-                subBuilder.MergeFrom(GameOver);
-              }
-              input.ReadMessage(subBuilder);
-              GameOver = subBuilder;
-              break;
+            input.ReadMessage(subBuilder);
+            GameOver = subBuilder;
+            break;
+          }
+          case 26: {
+            global::LightspeedTyperacing.GameStarted subBuilder = new global::LightspeedTyperacing.GameStarted();
+            if (updateCase_ == UpdateOneofCase.GameStarted) {
+              subBuilder.MergeFrom(GameStarted);
             }
-          case 26:
-            {
-              global::LightspeedTyperacing.GameStarted subBuilder = new global::LightspeedTyperacing.GameStarted();
-              if (updateCase_ == UpdateOneofCase.GameStarted)
-              {
-                subBuilder.MergeFrom(GameStarted);
-              }
-              input.ReadMessage(subBuilder);
-              GameStarted = subBuilder;
-              break;
+            input.ReadMessage(subBuilder);
+            GameStarted = subBuilder;
+            break;
+          }
+          case 34: {
+            global::LightspeedTyperacing.GameStarting subBuilder = new global::LightspeedTyperacing.GameStarting();
+            if (updateCase_ == UpdateOneofCase.GameStarting) {
+              subBuilder.MergeFrom(GameStarting);
             }
-          case 34:
-            {
-              global::LightspeedTyperacing.GameStarting subBuilder = new global::LightspeedTyperacing.GameStarting();
-              if (updateCase_ == UpdateOneofCase.GameStarting)
-              {
-                subBuilder.MergeFrom(GameStarting);
-              }
-              input.ReadMessage(subBuilder);
-              GameStarting = subBuilder;
-              break;
+            input.ReadMessage(subBuilder);
+            GameStarting = subBuilder;
+            break;
+          }
+          case 42: {
+            global::LightspeedTyperacing.PlayerCompleted subBuilder = new global::LightspeedTyperacing.PlayerCompleted();
+            if (updateCase_ == UpdateOneofCase.PlayerCompleted) {
+              subBuilder.MergeFrom(PlayerCompleted);
             }
-          case 42:
-            {
-              global::LightspeedTyperacing.PlayerCompleted subBuilder = new global::LightspeedTyperacing.PlayerCompleted();
-              if (updateCase_ == UpdateOneofCase.PlayerCompleted)
-              {
-                subBuilder.MergeFrom(PlayerCompleted);
-              }
-              input.ReadMessage(subBuilder);
-              PlayerCompleted = subBuilder;
-              break;
+            input.ReadMessage(subBuilder);
+            PlayerCompleted = subBuilder;
+            break;
+          }
+          case 50: {
+            global::LightspeedTyperacing.PlayerJoinedGame subBuilder = new global::LightspeedTyperacing.PlayerJoinedGame();
+            if (updateCase_ == UpdateOneofCase.PlayerJoinedGame) {
+              subBuilder.MergeFrom(PlayerJoinedGame);
             }
-          case 50:
-            {
-              global::LightspeedTyperacing.PlayerJoinedGame subBuilder = new global::LightspeedTyperacing.PlayerJoinedGame();
-              if (updateCase_ == UpdateOneofCase.PlayerJoinedGame)
-              {
-                subBuilder.MergeFrom(PlayerJoinedGame);
-              }
-              input.ReadMessage(subBuilder);
-              PlayerJoinedGame = subBuilder;
-              break;
+            input.ReadMessage(subBuilder);
+            PlayerJoinedGame = subBuilder;
+            break;
+          }
+          case 58: {
+            global::LightspeedTyperacing.WordFinished subBuilder = new global::LightspeedTyperacing.WordFinished();
+            if (updateCase_ == UpdateOneofCase.WordFinished) {
+              subBuilder.MergeFrom(WordFinished);
             }
-          case 58:
-            {
-              global::LightspeedTyperacing.WordFinished subBuilder = new global::LightspeedTyperacing.WordFinished();
-              if (updateCase_ == UpdateOneofCase.WordFinished)
-              {
-                subBuilder.MergeFrom(WordFinished);
-              }
-              input.ReadMessage(subBuilder);
-              WordFinished = subBuilder;
-              break;
+            input.ReadMessage(subBuilder);
+            WordFinished = subBuilder;
+            break;
+          }
+          case 66: {
+            global::LightspeedTyperacing.YouveBeenAddedToGame subBuilder = new global::LightspeedTyperacing.YouveBeenAddedToGame();
+            if (updateCase_ == UpdateOneofCase.YouveBeenAddedToGame) {
+              subBuilder.MergeFrom(YouveBeenAddedToGame);
             }
-          case 66:
-            {
-              global::LightspeedTyperacing.YouveBeenAddedToGame subBuilder = new global::LightspeedTyperacing.YouveBeenAddedToGame();
-              if (updateCase_ == UpdateOneofCase.YouveBeenAddedToGame)
-              {
-                subBuilder.MergeFrom(YouveBeenAddedToGame);
-              }
-              input.ReadMessage(subBuilder);
-              YouveBeenAddedToGame = subBuilder;
-              break;
+            input.ReadMessage(subBuilder);
+            YouveBeenAddedToGame = subBuilder;
+            break;
+          }
+          case 74: {
+            global::LightspeedTyperacing.PlayerDisconnected subBuilder = new global::LightspeedTyperacing.PlayerDisconnected();
+            if (updateCase_ == UpdateOneofCase.PlayerDisconnected) {
+              subBuilder.MergeFrom(PlayerDisconnected);
             }
-          case 74:
-            {
-              global::LightspeedTyperacing.PlayerDisconnected subBuilder = new global::LightspeedTyperacing.PlayerDisconnected();
-              if (updateCase_ == UpdateOneofCase.PlayerDisconnected)
-              {
-                subBuilder.MergeFrom(PlayerDisconnected);
-              }
-              input.ReadMessage(subBuilder);
-              PlayerDisconnected = subBuilder;
-              break;
-            }
+            input.ReadMessage(subBuilder);
+            PlayerDisconnected = subBuilder;
+            break;
+          }
         }
       }
     }
-#endif
+    #endif
 
   }
 
   public sealed partial class GameOver : pb::IMessage<GameOver>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
-#endif
+  #endif
   {
     private static readonly pb::MessageParser<GameOver> _parser = new pb::MessageParser<GameOver>(() => new GameOver());
     private pb::UnknownFieldSet _unknownFields;
@@ -1967,22 +1769,19 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor
-    {
+    public static pbr::MessageDescriptor Descriptor {
       get { return global::LightspeedTyperacing.ProtosReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor
-    {
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GameOver()
-    {
+    public GameOver() {
       OnConstruction();
     }
 
@@ -1990,16 +1789,14 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GameOver(GameOver other) : this()
-    {
+    public GameOver(GameOver other) : this() {
       endTimeS_ = other.endTimeS_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GameOver Clone()
-    {
+    public GameOver Clone() {
       return new GameOver(this);
     }
 
@@ -2008,32 +1805,26 @@ namespace LightspeedTyperacing
     private float endTimeS_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public float EndTimeS
-    {
+    public float EndTimeS {
       get { return endTimeS_; }
-      set
-      {
+      set {
         endTimeS_ = value;
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other)
-    {
+    public override bool Equals(object other) {
       return Equals(other as GameOver);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(GameOver other)
-    {
-      if (ReferenceEquals(other, null))
-      {
+    public bool Equals(GameOver other) {
+      if (ReferenceEquals(other, null)) {
         return false;
       }
-      if (ReferenceEquals(other, this))
-      {
+      if (ReferenceEquals(other, this)) {
         return true;
       }
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(EndTimeS, other.EndTimeS)) return false;
@@ -2042,12 +1833,10 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode()
-    {
+    public override int GetHashCode() {
       int hash = 1;
       if (EndTimeS != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(EndTimeS);
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
       return hash;
@@ -2055,18 +1844,16 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString()
-    {
+    public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
-#else
+    #else
       if (EndTimeS != 0F) {
         output.WriteRawTag(13);
         output.WriteFloat(EndTimeS);
@@ -2074,37 +1861,31 @@ namespace LightspeedTyperacing
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
-    {
-      if (EndTimeS != 0F)
-      {
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (EndTimeS != 0F) {
         output.WriteRawTag(13);
         output.WriteFloat(EndTimeS);
       }
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
     }
-#endif
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize()
-    {
+    public int CalculateSize() {
       int size = 0;
-      if (EndTimeS != 0F)
-      {
+      if (EndTimeS != 0F) {
         size += 1 + 4;
       }
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
       return size;
@@ -2112,14 +1893,11 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(GameOver other)
-    {
-      if (other == null)
-      {
+    public void MergeFrom(GameOver other) {
+      if (other == null) {
         return;
       }
-      if (other.EndTimeS != 0F)
-      {
+      if (other.EndTimeS != 0F) {
         EndTimeS = other.EndTimeS;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -2127,11 +1905,10 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
-#else
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -2144,38 +1921,34 @@ namespace LightspeedTyperacing
           }
         }
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
-    {
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
-      while ((tag = input.ReadTag()) != 0)
-      {
-        switch (tag)
-        {
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 13:
-            {
-              EndTimeS = input.ReadFloat();
-              break;
-            }
+          case 13: {
+            EndTimeS = input.ReadFloat();
+            break;
+          }
         }
       }
     }
-#endif
+    #endif
 
   }
 
   public sealed partial class GameStarted : pb::IMessage<GameStarted>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
-#endif
+  #endif
   {
     private static readonly pb::MessageParser<GameStarted> _parser = new pb::MessageParser<GameStarted>(() => new GameStarted());
     private pb::UnknownFieldSet _unknownFields;
@@ -2185,22 +1958,19 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor
-    {
+    public static pbr::MessageDescriptor Descriptor {
       get { return global::LightspeedTyperacing.ProtosReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor
-    {
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GameStarted()
-    {
+    public GameStarted() {
       OnConstruction();
     }
 
@@ -2208,35 +1978,29 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GameStarted(GameStarted other) : this()
-    {
+    public GameStarted(GameStarted other) : this() {
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GameStarted Clone()
-    {
+    public GameStarted Clone() {
       return new GameStarted(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other)
-    {
+    public override bool Equals(object other) {
       return Equals(other as GameStarted);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(GameStarted other)
-    {
-      if (ReferenceEquals(other, null))
-      {
+    public bool Equals(GameStarted other) {
+      if (ReferenceEquals(other, null)) {
         return false;
       }
-      if (ReferenceEquals(other, this))
-      {
+      if (ReferenceEquals(other, this)) {
         return true;
       }
       return Equals(_unknownFields, other._unknownFields);
@@ -2244,11 +2008,9 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode()
-    {
+    public override int GetHashCode() {
       int hash = 1;
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
       return hash;
@@ -2256,43 +2018,37 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString()
-    {
+    public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
-#else
+    #else
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
-    {
-      if (_unknownFields != null)
-      {
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
     }
-#endif
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize()
-    {
+    public int CalculateSize() {
       int size = 0;
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
       return size;
@@ -2300,10 +2056,8 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(GameStarted other)
-    {
-      if (other == null)
-      {
+    public void MergeFrom(GameStarted other) {
+      if (other == null) {
         return;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -2311,11 +2065,10 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
-#else
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -2324,33 +2077,30 @@ namespace LightspeedTyperacing
             break;
         }
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
-    {
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
-      while ((tag = input.ReadTag()) != 0)
-      {
-        switch (tag)
-        {
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
         }
       }
     }
-#endif
+    #endif
 
   }
 
   public sealed partial class GameStarting : pb::IMessage<GameStarting>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
-#endif
+  #endif
   {
     private static readonly pb::MessageParser<GameStarting> _parser = new pb::MessageParser<GameStarting>(() => new GameStarting());
     private pb::UnknownFieldSet _unknownFields;
@@ -2360,22 +2110,19 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor
-    {
+    public static pbr::MessageDescriptor Descriptor {
       get { return global::LightspeedTyperacing.ProtosReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor
-    {
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GameStarting()
-    {
+    public GameStarting() {
       OnConstruction();
     }
 
@@ -2383,8 +2130,7 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GameStarting(GameStarting other) : this()
-    {
+    public GameStarting(GameStarting other) : this() {
       countdown_ = other.countdown_;
       phrase_ = other.phrase_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -2392,8 +2138,7 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GameStarting Clone()
-    {
+    public GameStarting Clone() {
       return new GameStarting(this);
     }
 
@@ -2402,11 +2147,9 @@ namespace LightspeedTyperacing
     private float countdown_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public float Countdown
-    {
+    public float Countdown {
       get { return countdown_; }
-      set
-      {
+      set {
         countdown_ = value;
       }
     }
@@ -2416,32 +2159,26 @@ namespace LightspeedTyperacing
     private string phrase_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Phrase
-    {
+    public string Phrase {
       get { return phrase_; }
-      set
-      {
+      set {
         phrase_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other)
-    {
+    public override bool Equals(object other) {
       return Equals(other as GameStarting);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(GameStarting other)
-    {
-      if (ReferenceEquals(other, null))
-      {
+    public bool Equals(GameStarting other) {
+      if (ReferenceEquals(other, null)) {
         return false;
       }
-      if (ReferenceEquals(other, this))
-      {
+      if (ReferenceEquals(other, this)) {
         return true;
       }
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Countdown, other.Countdown)) return false;
@@ -2451,13 +2188,11 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode()
-    {
+    public override int GetHashCode() {
       int hash = 1;
       if (Countdown != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Countdown);
       if (Phrase.Length != 0) hash ^= Phrase.GetHashCode();
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
       return hash;
@@ -2465,18 +2200,16 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString()
-    {
+    public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
-#else
+    #else
       if (Countdown != 0F) {
         output.WriteRawTag(13);
         output.WriteFloat(Countdown);
@@ -2488,46 +2221,38 @@ namespace LightspeedTyperacing
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
-    {
-      if (Countdown != 0F)
-      {
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Countdown != 0F) {
         output.WriteRawTag(13);
         output.WriteFloat(Countdown);
       }
-      if (Phrase.Length != 0)
-      {
+      if (Phrase.Length != 0) {
         output.WriteRawTag(18);
         output.WriteString(Phrase);
       }
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
     }
-#endif
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize()
-    {
+    public int CalculateSize() {
       int size = 0;
-      if (Countdown != 0F)
-      {
+      if (Countdown != 0F) {
         size += 1 + 4;
       }
-      if (Phrase.Length != 0)
-      {
+      if (Phrase.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Phrase);
       }
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
       return size;
@@ -2535,18 +2260,14 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(GameStarting other)
-    {
-      if (other == null)
-      {
+    public void MergeFrom(GameStarting other) {
+      if (other == null) {
         return;
       }
-      if (other.Countdown != 0F)
-      {
+      if (other.Countdown != 0F) {
         Countdown = other.Countdown;
       }
-      if (other.Phrase.Length != 0)
-      {
+      if (other.Phrase.Length != 0) {
         Phrase = other.Phrase;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -2554,11 +2275,10 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
-#else
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -2575,43 +2295,38 @@ namespace LightspeedTyperacing
           }
         }
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
-    {
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
-      while ((tag = input.ReadTag()) != 0)
-      {
-        switch (tag)
-        {
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 13:
-            {
-              Countdown = input.ReadFloat();
-              break;
-            }
-          case 18:
-            {
-              Phrase = input.ReadString();
-              break;
-            }
+          case 13: {
+            Countdown = input.ReadFloat();
+            break;
+          }
+          case 18: {
+            Phrase = input.ReadString();
+            break;
+          }
         }
       }
     }
-#endif
+    #endif
 
   }
 
   public sealed partial class PlayerCompleted : pb::IMessage<PlayerCompleted>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
-#endif
+  #endif
   {
     private static readonly pb::MessageParser<PlayerCompleted> _parser = new pb::MessageParser<PlayerCompleted>(() => new PlayerCompleted());
     private pb::UnknownFieldSet _unknownFields;
@@ -2621,22 +2336,19 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor
-    {
+    public static pbr::MessageDescriptor Descriptor {
       get { return global::LightspeedTyperacing.ProtosReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor
-    {
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerCompleted()
-    {
+    public PlayerCompleted() {
       OnConstruction();
     }
 
@@ -2644,8 +2356,7 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerCompleted(PlayerCompleted other) : this()
-    {
+    public PlayerCompleted(PlayerCompleted other) : this() {
       playerId_ = other.playerId_;
       place_ = other.place_;
       rawWpmBySecond_ = other.rawWpmBySecond_.Clone();
@@ -2656,8 +2367,7 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerCompleted Clone()
-    {
+    public PlayerCompleted Clone() {
       return new PlayerCompleted(this);
     }
 
@@ -2666,11 +2376,9 @@ namespace LightspeedTyperacing
     private string playerId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string PlayerId
-    {
+    public string PlayerId {
       get { return playerId_; }
-      set
-      {
+      set {
         playerId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
@@ -2680,11 +2388,9 @@ namespace LightspeedTyperacing
     private int place_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Place
-    {
+    public int Place {
       get { return place_; }
-      set
-      {
+      set {
         place_ = value;
       }
     }
@@ -2696,8 +2402,7 @@ namespace LightspeedTyperacing
     private readonly pbc::RepeatedField<float> rawWpmBySecond_ = new pbc::RepeatedField<float>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<float> RawWpmBySecond
-    {
+    public pbc::RepeatedField<float> RawWpmBySecond {
       get { return rawWpmBySecond_; }
     }
 
@@ -2708,8 +2413,7 @@ namespace LightspeedTyperacing
     private readonly pbc::RepeatedField<float> wpmBySecond_ = new pbc::RepeatedField<float>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<float> WpmBySecond
-    {
+    public pbc::RepeatedField<float> WpmBySecond {
       get { return wpmBySecond_; }
     }
 
@@ -2718,54 +2422,46 @@ namespace LightspeedTyperacing
     private float wpm_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public float Wpm
-    {
+    public float Wpm {
       get { return wpm_; }
-      set
-      {
+      set {
         wpm_ = value;
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other)
-    {
+    public override bool Equals(object other) {
       return Equals(other as PlayerCompleted);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(PlayerCompleted other)
-    {
-      if (ReferenceEquals(other, null))
-      {
+    public bool Equals(PlayerCompleted other) {
+      if (ReferenceEquals(other, null)) {
         return false;
       }
-      if (ReferenceEquals(other, this))
-      {
+      if (ReferenceEquals(other, this)) {
         return true;
       }
       if (PlayerId != other.PlayerId) return false;
       if (Place != other.Place) return false;
-      if (!rawWpmBySecond_.Equals(other.rawWpmBySecond_)) return false;
-      if (!wpmBySecond_.Equals(other.wpmBySecond_)) return false;
+      if(!rawWpmBySecond_.Equals(other.rawWpmBySecond_)) return false;
+      if(!wpmBySecond_.Equals(other.wpmBySecond_)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Wpm, other.Wpm)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode()
-    {
+    public override int GetHashCode() {
       int hash = 1;
       if (PlayerId.Length != 0) hash ^= PlayerId.GetHashCode();
       if (Place != 0) hash ^= Place.GetHashCode();
       hash ^= rawWpmBySecond_.GetHashCode();
       hash ^= wpmBySecond_.GetHashCode();
       if (Wpm != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Wpm);
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
       return hash;
@@ -2773,18 +2469,16 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString()
-    {
+    public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
-#else
+    #else
       if (PlayerId.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(PlayerId);
@@ -2802,59 +2496,49 @@ namespace LightspeedTyperacing
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
-    {
-      if (PlayerId.Length != 0)
-      {
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (PlayerId.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(PlayerId);
       }
-      if (Place != 0)
-      {
+      if (Place != 0) {
         output.WriteRawTag(16);
         output.WriteInt32(Place);
       }
       rawWpmBySecond_.WriteTo(ref output, _repeated_rawWpmBySecond_codec);
       wpmBySecond_.WriteTo(ref output, _repeated_wpmBySecond_codec);
-      if (Wpm != 0F)
-      {
+      if (Wpm != 0F) {
         output.WriteRawTag(45);
         output.WriteFloat(Wpm);
       }
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
     }
-#endif
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize()
-    {
+    public int CalculateSize() {
       int size = 0;
-      if (PlayerId.Length != 0)
-      {
+      if (PlayerId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(PlayerId);
       }
-      if (Place != 0)
-      {
+      if (Place != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Place);
       }
       size += rawWpmBySecond_.CalculateSize(_repeated_rawWpmBySecond_codec);
       size += wpmBySecond_.CalculateSize(_repeated_wpmBySecond_codec);
-      if (Wpm != 0F)
-      {
+      if (Wpm != 0F) {
         size += 1 + 4;
       }
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
       return size;
@@ -2862,24 +2546,19 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(PlayerCompleted other)
-    {
-      if (other == null)
-      {
+    public void MergeFrom(PlayerCompleted other) {
+      if (other == null) {
         return;
       }
-      if (other.PlayerId.Length != 0)
-      {
+      if (other.PlayerId.Length != 0) {
         PlayerId = other.PlayerId;
       }
-      if (other.Place != 0)
-      {
+      if (other.Place != 0) {
         Place = other.Place;
       }
       rawWpmBySecond_.Add(other.rawWpmBySecond_);
       wpmBySecond_.Add(other.wpmBySecond_);
-      if (other.Wpm != 0F)
-      {
+      if (other.Wpm != 0F) {
         Wpm = other.Wpm;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -2887,11 +2566,10 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
-#else
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -2922,60 +2600,52 @@ namespace LightspeedTyperacing
           }
         }
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
-    {
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
-      while ((tag = input.ReadTag()) != 0)
-      {
-        switch (tag)
-        {
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 10:
-            {
-              PlayerId = input.ReadString();
-              break;
-            }
-          case 16:
-            {
-              Place = input.ReadInt32();
-              break;
-            }
+          case 10: {
+            PlayerId = input.ReadString();
+            break;
+          }
+          case 16: {
+            Place = input.ReadInt32();
+            break;
+          }
           case 26:
-          case 29:
-            {
-              rawWpmBySecond_.AddEntriesFrom(ref input, _repeated_rawWpmBySecond_codec);
-              break;
-            }
+          case 29: {
+            rawWpmBySecond_.AddEntriesFrom(ref input, _repeated_rawWpmBySecond_codec);
+            break;
+          }
           case 34:
-          case 37:
-            {
-              wpmBySecond_.AddEntriesFrom(ref input, _repeated_wpmBySecond_codec);
-              break;
-            }
-          case 45:
-            {
-              Wpm = input.ReadFloat();
-              break;
-            }
+          case 37: {
+            wpmBySecond_.AddEntriesFrom(ref input, _repeated_wpmBySecond_codec);
+            break;
+          }
+          case 45: {
+            Wpm = input.ReadFloat();
+            break;
+          }
         }
       }
     }
-#endif
+    #endif
 
   }
 
   public sealed partial class PlayerJoinedGame : pb::IMessage<PlayerJoinedGame>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
-#endif
+  #endif
   {
     private static readonly pb::MessageParser<PlayerJoinedGame> _parser = new pb::MessageParser<PlayerJoinedGame>(() => new PlayerJoinedGame());
     private pb::UnknownFieldSet _unknownFields;
@@ -2985,22 +2655,19 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor
-    {
+    public static pbr::MessageDescriptor Descriptor {
       get { return global::LightspeedTyperacing.ProtosReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor
-    {
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerJoinedGame()
-    {
+    public PlayerJoinedGame() {
       OnConstruction();
     }
 
@@ -3008,8 +2675,7 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerJoinedGame(PlayerJoinedGame other) : this()
-    {
+    public PlayerJoinedGame(PlayerJoinedGame other) : this() {
       playerId_ = other.playerId_;
       playerName_ = other.playerName_;
       gameId_ = other.gameId_;
@@ -3018,8 +2684,7 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerJoinedGame Clone()
-    {
+    public PlayerJoinedGame Clone() {
       return new PlayerJoinedGame(this);
     }
 
@@ -3028,11 +2693,9 @@ namespace LightspeedTyperacing
     private string playerId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string PlayerId
-    {
+    public string PlayerId {
       get { return playerId_; }
-      set
-      {
+      set {
         playerId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
@@ -3042,11 +2705,9 @@ namespace LightspeedTyperacing
     private string playerName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string PlayerName
-    {
+    public string PlayerName {
       get { return playerName_; }
-      set
-      {
+      set {
         playerName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
@@ -3056,32 +2717,26 @@ namespace LightspeedTyperacing
     private string gameId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string GameId
-    {
+    public string GameId {
       get { return gameId_; }
-      set
-      {
+      set {
         gameId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other)
-    {
+    public override bool Equals(object other) {
       return Equals(other as PlayerJoinedGame);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(PlayerJoinedGame other)
-    {
-      if (ReferenceEquals(other, null))
-      {
+    public bool Equals(PlayerJoinedGame other) {
+      if (ReferenceEquals(other, null)) {
         return false;
       }
-      if (ReferenceEquals(other, this))
-      {
+      if (ReferenceEquals(other, this)) {
         return true;
       }
       if (PlayerId != other.PlayerId) return false;
@@ -3092,14 +2747,12 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode()
-    {
+    public override int GetHashCode() {
       int hash = 1;
       if (PlayerId.Length != 0) hash ^= PlayerId.GetHashCode();
       if (PlayerName.Length != 0) hash ^= PlayerName.GetHashCode();
       if (GameId.Length != 0) hash ^= GameId.GetHashCode();
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
       return hash;
@@ -3107,18 +2760,16 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString()
-    {
+    public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
-#else
+    #else
       if (PlayerId.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(PlayerId);
@@ -3134,55 +2785,45 @@ namespace LightspeedTyperacing
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
-    {
-      if (PlayerId.Length != 0)
-      {
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (PlayerId.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(PlayerId);
       }
-      if (PlayerName.Length != 0)
-      {
+      if (PlayerName.Length != 0) {
         output.WriteRawTag(18);
         output.WriteString(PlayerName);
       }
-      if (GameId.Length != 0)
-      {
+      if (GameId.Length != 0) {
         output.WriteRawTag(26);
         output.WriteString(GameId);
       }
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
     }
-#endif
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize()
-    {
+    public int CalculateSize() {
       int size = 0;
-      if (PlayerId.Length != 0)
-      {
+      if (PlayerId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(PlayerId);
       }
-      if (PlayerName.Length != 0)
-      {
+      if (PlayerName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(PlayerName);
       }
-      if (GameId.Length != 0)
-      {
+      if (GameId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(GameId);
       }
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
       return size;
@@ -3190,22 +2831,17 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(PlayerJoinedGame other)
-    {
-      if (other == null)
-      {
+    public void MergeFrom(PlayerJoinedGame other) {
+      if (other == null) {
         return;
       }
-      if (other.PlayerId.Length != 0)
-      {
+      if (other.PlayerId.Length != 0) {
         PlayerId = other.PlayerId;
       }
-      if (other.PlayerName.Length != 0)
-      {
+      if (other.PlayerName.Length != 0) {
         PlayerName = other.PlayerName;
       }
-      if (other.GameId.Length != 0)
-      {
+      if (other.GameId.Length != 0) {
         GameId = other.GameId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -3213,11 +2849,10 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
-#else
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -3238,48 +2873,42 @@ namespace LightspeedTyperacing
           }
         }
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
-    {
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
-      while ((tag = input.ReadTag()) != 0)
-      {
-        switch (tag)
-        {
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 10:
-            {
-              PlayerId = input.ReadString();
-              break;
-            }
-          case 18:
-            {
-              PlayerName = input.ReadString();
-              break;
-            }
-          case 26:
-            {
-              GameId = input.ReadString();
-              break;
-            }
+          case 10: {
+            PlayerId = input.ReadString();
+            break;
+          }
+          case 18: {
+            PlayerName = input.ReadString();
+            break;
+          }
+          case 26: {
+            GameId = input.ReadString();
+            break;
+          }
         }
       }
     }
-#endif
+    #endif
 
   }
 
   public sealed partial class WordFinished : pb::IMessage<WordFinished>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
-#endif
+  #endif
   {
     private static readonly pb::MessageParser<WordFinished> _parser = new pb::MessageParser<WordFinished>(() => new WordFinished());
     private pb::UnknownFieldSet _unknownFields;
@@ -3289,22 +2918,19 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor
-    {
+    public static pbr::MessageDescriptor Descriptor {
       get { return global::LightspeedTyperacing.ProtosReflection.Descriptor.MessageTypes[10]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor
-    {
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public WordFinished()
-    {
+    public WordFinished() {
       OnConstruction();
     }
 
@@ -3312,8 +2938,7 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public WordFinished(WordFinished other) : this()
-    {
+    public WordFinished(WordFinished other) : this() {
       playerId_ = other.playerId_;
       percentComplete_ = other.percentComplete_;
       velocityKmS_ = other.velocityKmS_;
@@ -3324,8 +2949,7 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public WordFinished Clone()
-    {
+    public WordFinished Clone() {
       return new WordFinished(this);
     }
 
@@ -3334,11 +2958,9 @@ namespace LightspeedTyperacing
     private string playerId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string PlayerId
-    {
+    public string PlayerId {
       get { return playerId_; }
-      set
-      {
+      set {
         playerId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
@@ -3348,11 +2970,9 @@ namespace LightspeedTyperacing
     private float percentComplete_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public float PercentComplete
-    {
+    public float PercentComplete {
       get { return percentComplete_; }
-      set
-      {
+      set {
         percentComplete_ = value;
       }
     }
@@ -3362,11 +2982,9 @@ namespace LightspeedTyperacing
     private float velocityKmS_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public float VelocityKmS
-    {
+    public float VelocityKmS {
       get { return velocityKmS_; }
-      set
-      {
+      set {
         velocityKmS_ = value;
       }
     }
@@ -3376,11 +2994,9 @@ namespace LightspeedTyperacing
     private float positionKm_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public float PositionKm
-    {
+    public float PositionKm {
       get { return positionKm_; }
-      set
-      {
+      set {
         positionKm_ = value;
       }
     }
@@ -3392,50 +3008,43 @@ namespace LightspeedTyperacing
     private readonly pbc::RepeatedField<float> charCompletionTimes_ = new pbc::RepeatedField<float>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<float> CharCompletionTimes
-    {
+    public pbc::RepeatedField<float> CharCompletionTimes {
       get { return charCompletionTimes_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other)
-    {
+    public override bool Equals(object other) {
       return Equals(other as WordFinished);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(WordFinished other)
-    {
-      if (ReferenceEquals(other, null))
-      {
+    public bool Equals(WordFinished other) {
+      if (ReferenceEquals(other, null)) {
         return false;
       }
-      if (ReferenceEquals(other, this))
-      {
+      if (ReferenceEquals(other, this)) {
         return true;
       }
       if (PlayerId != other.PlayerId) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PercentComplete, other.PercentComplete)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(VelocityKmS, other.VelocityKmS)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PositionKm, other.PositionKm)) return false;
-      if (!charCompletionTimes_.Equals(other.charCompletionTimes_)) return false;
+      if(!charCompletionTimes_.Equals(other.charCompletionTimes_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode()
-    {
+    public override int GetHashCode() {
       int hash = 1;
       if (PlayerId.Length != 0) hash ^= PlayerId.GetHashCode();
       if (PercentComplete != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PercentComplete);
       if (VelocityKmS != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(VelocityKmS);
       if (PositionKm != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PositionKm);
       hash ^= charCompletionTimes_.GetHashCode();
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
       return hash;
@@ -3443,18 +3052,16 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString()
-    {
+    public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
-#else
+    #else
       if (PlayerId.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(PlayerId);
@@ -3475,66 +3082,54 @@ namespace LightspeedTyperacing
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
-    {
-      if (PlayerId.Length != 0)
-      {
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (PlayerId.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(PlayerId);
       }
-      if (PercentComplete != 0F)
-      {
+      if (PercentComplete != 0F) {
         output.WriteRawTag(21);
         output.WriteFloat(PercentComplete);
       }
-      if (VelocityKmS != 0F)
-      {
+      if (VelocityKmS != 0F) {
         output.WriteRawTag(29);
         output.WriteFloat(VelocityKmS);
       }
-      if (PositionKm != 0F)
-      {
+      if (PositionKm != 0F) {
         output.WriteRawTag(37);
         output.WriteFloat(PositionKm);
       }
       charCompletionTimes_.WriteTo(ref output, _repeated_charCompletionTimes_codec);
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
     }
-#endif
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize()
-    {
+    public int CalculateSize() {
       int size = 0;
-      if (PlayerId.Length != 0)
-      {
+      if (PlayerId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(PlayerId);
       }
-      if (PercentComplete != 0F)
-      {
+      if (PercentComplete != 0F) {
         size += 1 + 4;
       }
-      if (VelocityKmS != 0F)
-      {
+      if (VelocityKmS != 0F) {
         size += 1 + 4;
       }
-      if (PositionKm != 0F)
-      {
+      if (PositionKm != 0F) {
         size += 1 + 4;
       }
       size += charCompletionTimes_.CalculateSize(_repeated_charCompletionTimes_codec);
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
       return size;
@@ -3542,26 +3137,20 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(WordFinished other)
-    {
-      if (other == null)
-      {
+    public void MergeFrom(WordFinished other) {
+      if (other == null) {
         return;
       }
-      if (other.PlayerId.Length != 0)
-      {
+      if (other.PlayerId.Length != 0) {
         PlayerId = other.PlayerId;
       }
-      if (other.PercentComplete != 0F)
-      {
+      if (other.PercentComplete != 0F) {
         PercentComplete = other.PercentComplete;
       }
-      if (other.VelocityKmS != 0F)
-      {
+      if (other.VelocityKmS != 0F) {
         VelocityKmS = other.VelocityKmS;
       }
-      if (other.PositionKm != 0F)
-      {
+      if (other.PositionKm != 0F) {
         PositionKm = other.PositionKm;
       }
       charCompletionTimes_.Add(other.charCompletionTimes_);
@@ -3570,11 +3159,10 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
-#else
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -3604,59 +3192,51 @@ namespace LightspeedTyperacing
           }
         }
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
-    {
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
-      while ((tag = input.ReadTag()) != 0)
-      {
-        switch (tag)
-        {
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 10:
-            {
-              PlayerId = input.ReadString();
-              break;
-            }
-          case 21:
-            {
-              PercentComplete = input.ReadFloat();
-              break;
-            }
-          case 29:
-            {
-              VelocityKmS = input.ReadFloat();
-              break;
-            }
-          case 37:
-            {
-              PositionKm = input.ReadFloat();
-              break;
-            }
+          case 10: {
+            PlayerId = input.ReadString();
+            break;
+          }
+          case 21: {
+            PercentComplete = input.ReadFloat();
+            break;
+          }
+          case 29: {
+            VelocityKmS = input.ReadFloat();
+            break;
+          }
+          case 37: {
+            PositionKm = input.ReadFloat();
+            break;
+          }
           case 42:
-          case 45:
-            {
-              charCompletionTimes_.AddEntriesFrom(ref input, _repeated_charCompletionTimes_codec);
-              break;
-            }
+          case 45: {
+            charCompletionTimes_.AddEntriesFrom(ref input, _repeated_charCompletionTimes_codec);
+            break;
+          }
         }
       }
     }
-#endif
+    #endif
 
   }
 
   public sealed partial class YouveBeenAddedToGame : pb::IMessage<YouveBeenAddedToGame>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
-#endif
+  #endif
   {
     private static readonly pb::MessageParser<YouveBeenAddedToGame> _parser = new pb::MessageParser<YouveBeenAddedToGame>(() => new YouveBeenAddedToGame());
     private pb::UnknownFieldSet _unknownFields;
@@ -3666,22 +3246,19 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor
-    {
+    public static pbr::MessageDescriptor Descriptor {
       get { return global::LightspeedTyperacing.ProtosReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor
-    {
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public YouveBeenAddedToGame()
-    {
+    public YouveBeenAddedToGame() {
       OnConstruction();
     }
 
@@ -3689,8 +3266,7 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public YouveBeenAddedToGame(YouveBeenAddedToGame other) : this()
-    {
+    public YouveBeenAddedToGame(YouveBeenAddedToGame other) : this() {
       gameId_ = other.gameId_;
       currentPlayers_ = other.currentPlayers_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -3698,8 +3274,7 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public YouveBeenAddedToGame Clone()
-    {
+    public YouveBeenAddedToGame Clone() {
       return new YouveBeenAddedToGame(this);
     }
 
@@ -3708,11 +3283,9 @@ namespace LightspeedTyperacing
     private string gameId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string GameId
-    {
+    public string GameId {
       get { return gameId_; }
-      set
-      {
+      set {
         gameId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
@@ -3724,44 +3297,37 @@ namespace LightspeedTyperacing
     private readonly pbc::RepeatedField<global::LightspeedTyperacing.Player> currentPlayers_ = new pbc::RepeatedField<global::LightspeedTyperacing.Player>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::LightspeedTyperacing.Player> CurrentPlayers
-    {
+    public pbc::RepeatedField<global::LightspeedTyperacing.Player> CurrentPlayers {
       get { return currentPlayers_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other)
-    {
+    public override bool Equals(object other) {
       return Equals(other as YouveBeenAddedToGame);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(YouveBeenAddedToGame other)
-    {
-      if (ReferenceEquals(other, null))
-      {
+    public bool Equals(YouveBeenAddedToGame other) {
+      if (ReferenceEquals(other, null)) {
         return false;
       }
-      if (ReferenceEquals(other, this))
-      {
+      if (ReferenceEquals(other, this)) {
         return true;
       }
       if (GameId != other.GameId) return false;
-      if (!currentPlayers_.Equals(other.currentPlayers_)) return false;
+      if(!currentPlayers_.Equals(other.currentPlayers_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode()
-    {
+    public override int GetHashCode() {
       int hash = 1;
       if (GameId.Length != 0) hash ^= GameId.GetHashCode();
       hash ^= currentPlayers_.GetHashCode();
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
       return hash;
@@ -3769,18 +3335,16 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString()
-    {
+    public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
-#else
+    #else
       if (GameId.Length != 0) {
         output.WriteRawTag(18);
         output.WriteString(GameId);
@@ -3789,39 +3353,33 @@ namespace LightspeedTyperacing
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
-    {
-      if (GameId.Length != 0)
-      {
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (GameId.Length != 0) {
         output.WriteRawTag(18);
         output.WriteString(GameId);
       }
       currentPlayers_.WriteTo(ref output, _repeated_currentPlayers_codec);
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
     }
-#endif
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize()
-    {
+    public int CalculateSize() {
       int size = 0;
-      if (GameId.Length != 0)
-      {
+      if (GameId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(GameId);
       }
       size += currentPlayers_.CalculateSize(_repeated_currentPlayers_codec);
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
       return size;
@@ -3829,14 +3387,11 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(YouveBeenAddedToGame other)
-    {
-      if (other == null)
-      {
+    public void MergeFrom(YouveBeenAddedToGame other) {
+      if (other == null) {
         return;
       }
-      if (other.GameId.Length != 0)
-      {
+      if (other.GameId.Length != 0) {
         GameId = other.GameId;
       }
       currentPlayers_.Add(other.currentPlayers_);
@@ -3845,11 +3400,10 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
-#else
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -3866,43 +3420,38 @@ namespace LightspeedTyperacing
           }
         }
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
-    {
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
-      while ((tag = input.ReadTag()) != 0)
-      {
-        switch (tag)
-        {
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 18:
-            {
-              GameId = input.ReadString();
-              break;
-            }
-          case 26:
-            {
-              currentPlayers_.AddEntriesFrom(ref input, _repeated_currentPlayers_codec);
-              break;
-            }
+          case 18: {
+            GameId = input.ReadString();
+            break;
+          }
+          case 26: {
+            currentPlayers_.AddEntriesFrom(ref input, _repeated_currentPlayers_codec);
+            break;
+          }
         }
       }
     }
-#endif
+    #endif
 
   }
 
   public sealed partial class PlayerDisconnected : pb::IMessage<PlayerDisconnected>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
-#endif
+  #endif
   {
     private static readonly pb::MessageParser<PlayerDisconnected> _parser = new pb::MessageParser<PlayerDisconnected>(() => new PlayerDisconnected());
     private pb::UnknownFieldSet _unknownFields;
@@ -3912,22 +3461,19 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor
-    {
+    public static pbr::MessageDescriptor Descriptor {
       get { return global::LightspeedTyperacing.ProtosReflection.Descriptor.MessageTypes[12]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor
-    {
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerDisconnected()
-    {
+    public PlayerDisconnected() {
       OnConstruction();
     }
 
@@ -3935,16 +3481,14 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerDisconnected(PlayerDisconnected other) : this()
-    {
+    public PlayerDisconnected(PlayerDisconnected other) : this() {
       playerId_ = other.playerId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerDisconnected Clone()
-    {
+    public PlayerDisconnected Clone() {
       return new PlayerDisconnected(this);
     }
 
@@ -3953,32 +3497,26 @@ namespace LightspeedTyperacing
     private string playerId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string PlayerId
-    {
+    public string PlayerId {
       get { return playerId_; }
-      set
-      {
+      set {
         playerId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other)
-    {
+    public override bool Equals(object other) {
       return Equals(other as PlayerDisconnected);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(PlayerDisconnected other)
-    {
-      if (ReferenceEquals(other, null))
-      {
+    public bool Equals(PlayerDisconnected other) {
+      if (ReferenceEquals(other, null)) {
         return false;
       }
-      if (ReferenceEquals(other, this))
-      {
+      if (ReferenceEquals(other, this)) {
         return true;
       }
       if (PlayerId != other.PlayerId) return false;
@@ -3987,12 +3525,10 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode()
-    {
+    public override int GetHashCode() {
       int hash = 1;
       if (PlayerId.Length != 0) hash ^= PlayerId.GetHashCode();
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
       return hash;
@@ -4000,18 +3536,16 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString()
-    {
+    public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
-#else
+    #else
       if (PlayerId.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(PlayerId);
@@ -4019,37 +3553,31 @@ namespace LightspeedTyperacing
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
-    {
-      if (PlayerId.Length != 0)
-      {
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (PlayerId.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(PlayerId);
       }
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
     }
-#endif
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize()
-    {
+    public int CalculateSize() {
       int size = 0;
-      if (PlayerId.Length != 0)
-      {
+      if (PlayerId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(PlayerId);
       }
-      if (_unknownFields != null)
-      {
+      if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
       return size;
@@ -4057,14 +3585,11 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(PlayerDisconnected other)
-    {
-      if (other == null)
-      {
+    public void MergeFrom(PlayerDisconnected other) {
+      if (other == null) {
         return;
       }
-      if (other.PlayerId.Length != 0)
-      {
+      if (other.PlayerId.Length != 0) {
         PlayerId = other.PlayerId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -4072,11 +3597,10 @@ namespace LightspeedTyperacing
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input)
-    {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
-#else
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -4089,31 +3613,27 @@ namespace LightspeedTyperacing
           }
         }
       }
-#endif
+    #endif
     }
 
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
-    {
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
-      while ((tag = input.ReadTag()) != 0)
-      {
-        switch (tag)
-        {
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 10:
-            {
-              PlayerId = input.ReadString();
-              break;
-            }
+          case 10: {
+            PlayerId = input.ReadString();
+            break;
+          }
         }
       }
     }
-#endif
+    #endif
 
   }
 

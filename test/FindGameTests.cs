@@ -100,4 +100,33 @@ public class FindGameTests
         Assert.AreEqual(5, galaxy.PlayerGameMap.Count);
         Assert.AreEqual(galaxy.OpenGames[0].Id, galaxy.PlayerGameMap[player3.Id]);
     }
+
+    [TestMethod]
+    public void FindGame_FindsFirstMatchingGamePreference()
+    {
+        var galaxy = new Galaxy();
+        Api.FindGame("Jeff 1", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy);
+        Assert.AreEqual(1, galaxy.OpenGames.Count);
+        Assert.AreEqual(GameMode.Dictionary, galaxy.OpenGames[0].Mode);
+        Assert.AreEqual(1, galaxy.OpenGames[0].Players.Count);
+
+        Api.FindGame("Jeff 2", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, new HashSet<GameMode> { GameMode.Numbers });
+        Assert.AreEqual(2, galaxy.OpenGames.Count);
+        Assert.AreEqual(GameMode.Numbers, galaxy.OpenGames[1].Mode);
+        Assert.AreEqual(1, galaxy.OpenGames[1].Players.Count);
+
+        Api.FindGame("Jeff 3", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, new HashSet<GameMode> { GameMode.Numbers });
+        Assert.AreEqual(2, galaxy.OpenGames.Count);
+        Assert.AreEqual(2, galaxy.OpenGames[1].Players.Count);
+
+        Api.FindGame("Jeff 4", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, new HashSet<GameMode> { GameMode.Konami, GameMode.Numbers });
+        Assert.AreEqual(2, galaxy.OpenGames.Count);
+        Assert.AreEqual(3, galaxy.OpenGames[1].Players.Count);
+
+        Api.FindGame("Jeff 5", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, new HashSet<GameMode> { GameMode.HellDiver });
+        Assert.AreEqual(3, galaxy.OpenGames.Count);
+
+        Api.FindGame("Jeff 6", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, new HashSet<GameMode> { GameMode.HellDiver, GameMode.Numbers });
+        Assert.AreEqual(2, galaxy.OpenGames.Count);
+    }
 }
