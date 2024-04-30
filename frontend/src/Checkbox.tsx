@@ -6,10 +6,12 @@ type CheckboxProps = {
  id: string;
  label: string;
  description: string;
+ checked: boolean;
+ setChecked: (checked: boolean) => void;
 };
 
 export const Checkbox = (props: CheckboxProps) => {
- const [checked, setChecked] = React.useState(false);
+ const { checked, setChecked } = props;
 
  let checkbox;
  if (checked) {
