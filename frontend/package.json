@@ -12,6 +12,7 @@
   "@types/react": "^18.2.74",
   "@types/react-dom": "^18.2.24",
   "apexcharts": "^3.48.0",
+  "dotnet": "^1.1.4",
   "google-protobuf": "^3.21.2",
   "iconoir-react": "^7.6.0",
   "react": "^18.2.0",

@@ -178,7 +178,7 @@ export const TypeBox = (props: TypeBoxProps) => {
 
  return (
   <div className="relative ap">
-   <div className="text-2xl max-w-5xl font-thin vscode-font tracking-normal p-2">
+   <div className="text-2xl max-w-5xl font-thin type-box tracking-normal p-2">
     <div style={{ whiteSpace: "pre-wrap" }} ref={phraseRef}>
      {text}
     </div>

@@ -133,9 +133,9 @@ function App() {
  }
 
  return (
-  <div className="flex flex-col items-center">
+  <div className="w-screen h-screen">
    <div
-    className="relative w-[800px] p-8"
+    className="font-thin center-column"
     style={{ color: TextColor }}
    >
     {content}
