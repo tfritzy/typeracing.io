@@ -1,214 +1,187 @@
-import React, {
- useEffect,
- useLayoutEffect,
- useState,
-} from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { TextColor } from "./constants";
 
 function lerp(start: number, end: number, alpha: number) {
- return start + (end - start) * alpha;
+  return start + (end - start) * alpha;
 }
 
 type TypeBoxProps = {
- phrase: string;
- lockedCharacterIndex: number;
- onWordComplete: (
-  charIndex: number,
-  charCompletionTimes: number[]
- ) => void;
- startTime: number;
+  phrase: string;
+  lockedCharacterIndex: number;
+  onWordComplete: (charIndex: number, charCompletionTimes: number[]) => void;
+  startTime: number;
 };
 
 export const TypeBox = (props: TypeBoxProps) => {
- const [currentWord, setCurrentWord] = useState("");
- const [inputWidth, setInputWidth] = useState(0);
- const phraseRef = React.useRef<HTMLDivElement>(null);
- const cursorRef = React.useRef<HTMLSpanElement>(null);
- const charTimes = React.useRef<number[]>([]);
- const [cursorXPos, setCursorXPos] = useState(0);
- const [cursorYPos, setCursorYPos] = useState(0);
- const [targetCursorXPos, setTargetCursorXPos] =
-  useState(0);
- const [targetCursorYPos, setTargetCursorYPos] =
-  useState(0);
- const [cursorPulsing, setCursorPinging] = useState(true);
- const setPingingRef =
-  React.useRef<NodeJS.Timeout | null>();
+  const [focused, setFocused] = useState(false);
+  const [currentWord, setCurrentWord] = useState("");
+  const [inputWidth, setInputWidth] = useState(0);
+  const phraseRef = React.useRef<HTMLDivElement>(null);
+  const cursorRef = React.useRef<HTMLSpanElement>(null);
+  const charTimes = React.useRef<number[]>([]);
+  const [cursorXPos, setCursorXPos] = useState(0);
+  const [cursorYPos, setCursorYPos] = useState(0);
+  const [targetCursorXPos, setTargetCursorXPos] = useState(0);
+  const [targetCursorYPos, setTargetCursorYPos] = useState(0);
+  const [cursorPulsing, setCursorPinging] = useState(true);
+  const setPingingRef = React.useRef<NodeJS.Timeout | null>();
 
- useEffect(() => {
-  if (phraseRef.current) {
-   setInputWidth(phraseRef.current.clientWidth);
-  }
+  useEffect(() => {
+    if (phraseRef.current) {
+      setInputWidth(phraseRef.current.clientWidth);
+    }
 
-  if (cursorRef.current) {
-   const cursorRect =
-    cursorRef.current.getBoundingClientRect();
-   setTargetCursorXPos(cursorRect.left);
-   setTargetCursorYPos(cursorRect.top + 5);
-   setCursorXPos(cursorRect.left);
-   setCursorYPos(cursorRect.top);
-  }
- }, [props.phrase, phraseRef.current?.clientWidth]);
+    if (cursorRef.current) {
+      const cursorRect = cursorRef.current.getBoundingClientRect();
+      setTargetCursorXPos(cursorRect.left);
+      setTargetCursorYPos(cursorRect.top + 5);
+      setCursorXPos(cursorRect.left);
+      setCursorYPos(cursorRect.top);
+    }
+  }, [props.phrase, phraseRef.current?.clientWidth]);
 
- const handleInput = (
-  event: React.ChangeEvent<HTMLInputElement>
- ) => {
-  if (props.lockedCharacterIndex >= props.phrase.length) {
-   return;
-  }
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (props.lockedCharacterIndex >= props.phrase.length) {
+      return;
+    }
 
-  setCursorPinging(false);
-  if (setPingingRef.current) {
-   clearTimeout(setPingingRef.current);
-  }
-  setPingingRef.current = setTimeout(() => {
-   setCursorPinging(true);
-  }, 1000);
+    setCursorPinging(false);
+    if (setPingingRef.current) {
+      clearTimeout(setPingingRef.current);
+    }
+    setPingingRef.current = setTimeout(() => {
+      setCursorPinging(true);
+    }, 1000);
 
-  const currentWord = event.target.value;
-  setCurrentWord(event.target.value);
-  while (
-   charTimes.current.length < event.target.value.length
-  ) {
-   charTimes.current.push(
-    (Date.now() - props.startTime) / 1000
-   );
-  }
-  while (
-   charTimes.current.length > event.target.value.length
-  ) {
-   charTimes.current.pop();
-  }
+    const currentWord = event.target.value;
+    setCurrentWord(event.target.value);
+    while (charTimes.current.length < event.target.value.length) {
+      charTimes.current.push((Date.now() - props.startTime) / 1000);
+    }
+    while (charTimes.current.length > event.target.value.length) {
+      charTimes.current.pop();
+    }
 
-  console.log(currentWord);
-  if (
-   event.target.value.endsWith(" ") ||
-   props.lockedCharacterIndex + currentWord.length ===
-    props.phrase.length
-  ) {
-   const word = props.phrase
-    .slice(props.lockedCharacterIndex)
-    .split(" ")[0];
-   console.log("Checking word matched", word, currentWord);
-   if (word === currentWord.trim()) {
-    console.log(
-     "Completed word",
-     currentWord,
-     charTimes.current
-    );
-    props.onWordComplete(
-     props.lockedCharacterIndex + currentWord.length,
-     charTimes.current
-    );
-    setCurrentWord("");
-    charTimes.current = [];
-   }
-  }
- };
-
- useEffect(() => {
-  let frameId: number;
-
-  const animate = () => {
-   setCursorXPos((prevX) =>
-    lerp(prevX, targetCursorXPos, 0.5)
-   );
-   setCursorYPos((prevY) =>
-    lerp(prevY, targetCursorYPos, 0.5)
-   );
-
-   frameId = requestAnimationFrame(animate);
+    console.log(currentWord);
+    if (
+      event.target.value.endsWith(" ") ||
+      props.lockedCharacterIndex + currentWord.length === props.phrase.length
+    ) {
+      const word = props.phrase.slice(props.lockedCharacterIndex).split(" ")[0];
+      console.log("Checking word matched", word, currentWord);
+      if (word === currentWord.trim()) {
+        console.log("Completed word", currentWord, charTimes.current);
+        props.onWordComplete(
+          props.lockedCharacterIndex + currentWord.length,
+          charTimes.current
+        );
+        setCurrentWord("");
+        charTimes.current = [];
+      }
+    }
   };
 
-  frameId = requestAnimationFrame(animate);
+  useEffect(() => {
+    let frameId: number;
 
-  return () => {
-   cancelAnimationFrame(frameId);
-  };
- }, [targetCursorXPos, targetCursorYPos]);
+    const animate = () => {
+      setCursorXPos((prevX) => lerp(prevX, targetCursorXPos, 0.5));
+      setCursorYPos((prevY) => lerp(prevY, targetCursorYPos, 0.5));
 
- useEffect(() => {
-  if (cursorRef.current) {
-   const cursorRect =
-    cursorRef.current.getBoundingClientRect();
-   setCursorXPos(cursorRect.left);
-   setCursorYPos(cursorRect.top);
+      frameId = requestAnimationFrame(animate);
+    };
+
+    frameId = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+    };
+  }, [targetCursorXPos, targetCursorYPos]);
+
+  useEffect(() => {
+    if (cursorRef.current) {
+      const cursorRect = cursorRef.current.getBoundingClientRect();
+      setCursorXPos(cursorRect.left);
+      setCursorYPos(cursorRect.top);
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    if (cursorRef.current) {
+      const cursorRect = cursorRef.current.getBoundingClientRect();
+      setTargetCursorXPos(cursorRect.left);
+      setTargetCursorYPos(cursorRect.top + 5);
+    }
+  }, [currentWord]);
+
+  let text = [
+    <span className="text-neutral-200">
+      {props.phrase.slice(0, props.lockedCharacterIndex)}
+    </span>,
+  ];
+
+  for (let i = 0; i < currentWord.length; i++) {
+    if (currentWord[i] !== props.phrase[props.lockedCharacterIndex + i]) {
+      text.push(
+        <span className="text-red-500 underline">
+          {props.phrase[props.lockedCharacterIndex + i]}
+        </span>
+      );
+    } else {
+      text.push(<span className="text-gray-100">{currentWord[i]}</span>);
+    }
   }
- }, []);
 
- useLayoutEffect(() => {
-  if (cursorRef.current) {
-   const cursorRect =
-    cursorRef.current.getBoundingClientRect();
-   setTargetCursorXPos(cursorRect.left);
-   setTargetCursorYPos(cursorRect.top + 5);
-  }
- }, [currentWord]);
+  text.push(<span ref={cursorRef} key="cursor" />);
 
- let text = [
-  <span className="text-neutral-200">
-   {props.phrase.slice(0, props.lockedCharacterIndex)}
-  </span>,
- ];
+  let remainingText = props.phrase.slice(
+    props.lockedCharacterIndex + currentWord.length
+  );
+  text.push(<span className="text-gray-500">{remainingText}</span>);
 
- for (let i = 0; i < currentWord.length; i++) {
-  if (
-   currentWord[i] !==
-   props.phrase[props.lockedCharacterIndex + i]
-  ) {
-   text.push(
-    <span className="text-red-500 underline">
-     {props.phrase[props.lockedCharacterIndex + i]}
-    </span>
-   );
-  } else {
-   text.push(
-    <span className="text-gray-100">{currentWord[i]}</span>
-   );
-  }
- }
-
- text.push(<span ref={cursorRef} key="cursor" />);
-
- let remainingText = props.phrase.slice(
-  props.lockedCharacterIndex + currentWord.length
- );
- text.push(
-  <span className="text-gray-500">{remainingText}</span>
- );
-
- return (
-  <div className="relative ap">
-   <div className="text-2xl max-w-5xl font-thin type-box tracking-normal p-2">
-    <div style={{ whiteSpace: "pre-wrap" }} ref={phraseRef}>
-     {text}
+  return (
+    <div className="relative ap">
+      {!focused && (
+        <div className="absolute top-[50%] left-[50%] transform -translate-x-[-50%] -translate-y-[-50%] text-gray-500">
+          Click to focus
+        </div>
+      )}
+      <div className="relative text-2xl max-w-5xl font-thin type-box tracking-normal p-2">
+        <div style={{ whiteSpace: "pre-wrap" }} ref={phraseRef}>
+          {text}
+        </div>
+        <input
+          value={currentWord}
+          onChange={handleInput}
+          className="w-full bg-transparent outline-none typebox rounded-lg"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: `${inputWidth}px`,
+            maxWidth: "100%",
+            height: "100%",
+            background: "transparent",
+            color: "transparent",
+            borderColor: TextColor,
+            borderStyle: focused ? "none" : "solid",
+            borderWidth: "1px",
+          }}
+          autoFocus
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+        />
+        <div
+          className={`bg-white h-[24px] w-[1px] fixed ${
+            cursorPulsing ? "animate-pulse-full" : ""
+          }`}
+          style={{
+            top: cursorYPos,
+            left: cursorXPos,
+          }}
+          hidden={!focused || props.lockedCharacterIndex >= props.phrase.length}
+        />
+      </div>
     </div>
-    <input
-     value={currentWord}
-     onChange={handleInput}
-     className="w-full bg-transparent outline-none typebox"
-     style={{
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: `${inputWidth}px`,
-      maxWidth: "100%",
-      height: "100%",
-      background: "transparent",
-      color: "transparent",
-      border: "none",
-     }}
-     autoFocus
-    />
-    <div
-     className={`bg-white h-[24px] w-[1px] fixed ${
-      cursorPulsing ? "animate-pulse-full" : ""
-     }`}
-     style={{
-      top: cursorYPos,
-      left: cursorXPos,
-     }}
-    />
-   </div>
-  </div>
- );
+  );
 };

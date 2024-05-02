@@ -210,7 +210,12 @@ public class Server
         switch (request.RequestCase)
         {
             case OneofRequest.RequestOneofCase.FindGame:
-                Api.FindGame(request.FindGame.PlayerName, request.SenderId, request.FindGame.PlayerToken, Galaxy);
+                Api.FindGame(
+                    request.FindGame.PlayerName,
+                    request.SenderId,
+                    request.FindGame.PlayerToken,
+                    Galaxy,
+                    new HashSet<GameMode>(request.FindGame.GameModes));
                 break;
             case OneofRequest.RequestOneofCase.TypeWord:
                 Api.TypeWord(
