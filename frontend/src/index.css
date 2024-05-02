@@ -51,3 +51,46 @@ h2 {
   margin: 0 auto;            /* Centers the div in the container */
   box-sizing: border-box;    /* Includes padding and border in the width */
 }
+
+/* Hide the original checkbox */
+input[type="checkbox"] {
+  display: none;
+}
+
+/* Create a custom box */
+label .checkmark {
+  position: relative;
+  height: 14px;
+  width: 14px;
+  background-color: #555555;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 20px;
+}
+
+/* On checking the checkbox, add a checkmark */
+input[type="checkbox"]:checked + .checkmark {
+  background-color: white;
+}
+
+label .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* input[type="checkbox"]:checked + .checkmark:after {
+  display: block;
+  left: 7px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+} */
+
+/* Adding transitions for smooth visual effects */
+label .checkmark {
+  transition: background-color 0.2s;
+}
