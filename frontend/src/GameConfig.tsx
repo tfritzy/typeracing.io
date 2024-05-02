@@ -36,7 +36,7 @@ type ModeButtonProps = {
 const ModeButton = (props: ModeButtonProps) => {
   return (
     <button
-      className="transition-all font-normal w-[200px] py-1"
+      className="transition-all font-normal w-[200px] py-2 rounded"
       tabIndex={props.interactive ? 0 : -1}
       style={
         props.selected
@@ -102,7 +102,7 @@ const ModeCheckboxes = () => {
   return (
     <div>
       <div className="text-sm font-semibold">Game modes</div>
-      <div className="text-sm mb-3" style={{ color: SecondaryTextColor }}>
+      <div className="text-sm mb-5" style={{ color: SecondaryTextColor }}>
         You'll be randomly placed in a games of one of the enabled modes.
       </div>
       <div className="grid grid-cols-2 gap-x-4 gap-y-2">{checkboxes}</div>
@@ -123,7 +123,7 @@ const Content = ({
 }) => {
   return (
     <div
-      className="transition-all border p-8 px-12 rounded-lg flex flex-col space-y-4"
+      className="transition-all border p-8 px-12 rounded-lg flex flex-col"
       style={
         shown
           ? {
@@ -135,10 +135,10 @@ const Content = ({
       }
     >
       <div>
-        <div className="text-sm font-semibold mb-1">Game type</div>
+        <div className="text-sm font-semibold mb-2">Game type</div>
         <div
-          className="flex flex-row border w-min"
-          style={{ borderColor: BorderColor }}
+          className="flex flex-row w-min p-2 rounded-lg"
+          style={{ borderColor: BorderColor, backgroundColor: "#00000011" }}
         >
           <ModeButton
             text="Multiplayer"
@@ -151,7 +151,6 @@ const Content = ({
             onClick={() => setMode("Private lobby")}
             selected={mode === "Private lobby"}
             interactive={shown}
-            middle
           />
           <ModeButton
             text="Practice"
@@ -161,7 +160,10 @@ const Content = ({
           />
         </div>
       </div>
-      <div className="border-b w-full" style={{ borderColor: BorderColor }} />
+      <div
+        className="border-b w-full mt-6 mb-5"
+        style={{ borderColor: BorderColor }}
+      />
       <ModeCheckboxes />
     </div>
   );
@@ -180,7 +182,7 @@ export const GameConfig = (props: GameConfigProps) => {
       <button
         className="flex flex-row space-x-1 translate-y-1"
         onClick={() => setExpanded(!expanded)}
-        style={{ backgroundColor: BackgroundColor }}
+        style={{ color: SecondaryTextColor }}
       >
         <div
           className="transition-all"
