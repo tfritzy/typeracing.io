@@ -216,10 +216,10 @@ export const TypeBox = (props: TypeBoxProps) => {
       height: "100%",
       background: "transparent",
       color: "transparent",
-      borderColor: BorderColor,
-      cursor: !focused ? "pointer" : "text",
-      borderStyle: focused ? "none" : "solid",
-      borderWidth: "1px",
+      // borderColor: BorderColor,
+      // cursor: !focused ? "pointer" : "text",
+      // borderStyle: focused ? "none" : "solid",
+      // borderWidth: "1px",
      }}
      autoFocus
      onFocus={() => setFocused(true)}

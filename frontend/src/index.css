@@ -10,7 +10,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #1f2428;
-  /* background-image: linear-gradient( 120deg,  rgba(30,33,48,1) 6.8%, rgba(74,98,110,1) 131% ); */
 }
 
 code {
@@ -76,17 +75,6 @@ label .checkmark:after {
   position: absolute;
   display: none;
 }
-
-/* input[type="checkbox"]:checked + .checkmark:after {
-  display: block;
-  left: 7px;
-  top: 3px;
-  width: 5px;
-  height: 10px;
-  border: solid black;
-  border-width: 0 3px 3px 0;
-  transform: rotate(45deg);
-} */
 
 /* Adding transitions for smooth visual effects */
 label .checkmark {
