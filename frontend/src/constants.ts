@@ -5,3 +5,4 @@ export const NeutralColor = "#2c3135";
 export const TextColor = "#dad4cb";
 export const SecondaryTextColor = TextColor + "88";
 export const BorderColor = TextColor + "55";
+export const VeryChillBorder = TextColor + "11";

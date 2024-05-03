@@ -25,7 +25,7 @@ export const MainMenu = (props: MainMenuProps) => {
     };
 
     props.sendRequest(encodeOneofRequest(request));
-  }, []);
+  }, [player.enabledModes, player.id, player.name, player.token, props]);
 
   return (
     <div className="">

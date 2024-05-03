@@ -6,6 +6,20 @@ namespace LightspeedTyperacing;
 
 public static class Phrases
 {
+    public static string GetPhraseForGameMode(GameMode mode)
+    {
+        return mode switch
+        {
+            GameMode.Dictionary => GetRandomDictionaryPhrase(),
+            GameMode.Numbers => GetPhraseForNumbers(),
+            GameMode.Konami => GetRandomDictionaryPhrase(),
+            GameMode.Marathon => GetRandomDictionaryPhrase(),
+            GameMode.HellDiver => GetRandomDictionaryPhrase(),
+            GameMode.HomeRow => GetRandomDictionaryPhrase(),
+            _ => GetRandomDictionaryPhrase()
+        };
+    }
+
     public static List<string> Parse(string path)
     {
         List<string> phrases = new();
@@ -104,6 +118,25 @@ public static class Phrases
         phrase = phrase.Replace("—", "-");
         phrase = phrase.Replace("…", "...");
         return phrase;
+    }
+
+    public static string GetPhraseForNumbers()
+    {
+        Random random = new();
+        StringBuilder phrase = new();
+        int numNumbers = random.Next(20, 40);
+        for (int i = 0; i < numNumbers; i++)
+        {
+            int numberLength = random.Next(1, 10);
+            for (int j = 0; j < numberLength; j++)
+            {
+                phrase.Append(random.Next(0, 10));
+            }
+
+            if (i != numNumbers - 1) phrase.Append(" ");
+        }
+
+        return phrase.ToString();
     }
 
     public static string[] GetWords(string phrase)

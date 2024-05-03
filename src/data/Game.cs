@@ -34,7 +34,7 @@ public class Game
         Id = IdGen.NewGameId();
         MaxPlayers = maxPlayers;
         Galaxy = galaxy;
-        Phrase = Phrases.GetRandomDictionaryPhrase();
+        Phrase = Phrases.GetPhraseForGameMode(mode);
         Words = Phrases.GetWords(Phrase);
         CreationTime = Galaxy.Time.Now;
         Mode = mode;

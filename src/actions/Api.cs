@@ -10,6 +10,7 @@ public static class Api
         HashSet<GameMode>? enabledModes = null)
     {
         enabledModes ??= new HashSet<GameMode> { GameMode.Dictionary };
+        Console.WriteLine($"Player {playerId} is looking for a game with modes {string.Join(", ", enabledModes)}");
         var game = FindFirstMatchingGame(enabledModes, galaxy);
         if (game == null)
         {
