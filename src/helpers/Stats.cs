@@ -105,7 +105,7 @@ public static class Stats
         return wpmBySecond;
     }
 
-    public static float GetWpm(int numWords, List<float> charCompletionTimes_s)
+    public static float GetWpm(int numWords, float percentComplete, List<float> charCompletionTimes_s)
     {
         if (charCompletionTimes_s.Count == 0)
         {
@@ -113,6 +113,6 @@ public static class Stats
         }
 
         float end_time_s = charCompletionTimes_s[^1];
-        return numWords / end_time_s * 60;
+        return numWords / end_time_s * 60 * percentComplete;
     }
 }

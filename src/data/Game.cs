@@ -15,7 +15,7 @@ public class Game
     public float RaceStartTime => StartTime + CountdownDuration;
     private Galaxy Galaxy { get; set; }
 
-    public const float CountdownDuration = 0;
+    public const float CountdownDuration = 5;
     public const int NetworkTickRate = 10;
     public const float NetworkTickDuration = 1 / NetworkTickRate;
 
@@ -133,10 +133,14 @@ public class Game
             float timeToTypeWord_s = currentWord.Length / player.BotConfig.CharactersPerSecond;
             if (Galaxy.Time.Now - player.BotConfig.LastWordTime > timeToTypeWord_s)
             {
+                List<float> charCompletionTimes = new();
+                for (int i = 0; i < currentWord.Length; i++)
+                    charCompletionTimes.Add(Galaxy.Time.Now - RaceStartTime);
+
                 player.BotConfig.LastWordTime = Galaxy.Time.Now;
                 Api.TypeWord(
                     word: Words[player.WordIndex],
-                    charCompletionTimes: new List<float>(),
+                    charCompletionTimes: charCompletionTimes,
                     playerId: player.Id,
                     Galaxy
                 );

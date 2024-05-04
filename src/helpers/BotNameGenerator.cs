@@ -11,7 +11,6 @@ public static class BotNames
         "Automaton",
         "Bot",
         "Mech",
-        "Synth",
     };
 
     public static string[] Prefixes = new string[] {
@@ -21,7 +20,6 @@ public static class BotNames
         "Quantum",
         "Hyper",
         "Titanium",
-        "Shadow",
         "Iron",
         "Galactic",
         "Omni",

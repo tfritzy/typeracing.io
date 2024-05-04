@@ -155,7 +155,7 @@ public class GameTests
         InGamePlayer player = test.Galaxy.ActiveGames.Values.First().Players.Find(p => p.Id == test.Players[0].Id)!;
         PlayerCompleted[] playerCompleteds = test.Galaxy.OutboxMessages().Where((m) => m.PlayerCompleted != null).Select((m) => m.PlayerCompleted).ToArray();
         Assert.AreEqual(4, playerCompleteds.Length);
-        Assert.AreEqual(Stats.GetWpm(game.Words.Length, player.CharCompletionTimes_s), playerCompleteds[0].Wpm);
+        Assert.AreEqual(Stats.GetWpm(game.Words.Length, 1f, player.CharCompletionTimes_s), playerCompleteds[0].Wpm);
         Assert.IsTrue(playerCompleteds[0].RawWpmBySecond.Count > 0);
         Assert.IsTrue(playerCompleteds[0].WpmBySecond.Count > 0);
         CollectionAssert.AreEqual(

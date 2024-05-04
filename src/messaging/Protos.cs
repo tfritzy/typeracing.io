@@ -24,48 +24,49 @@ namespace LightspeedTyperacing {
     static ProtosReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cgxwcm90b3MucHJvdG8SFExpZ2h0c3BlZWRUeXBlcmFjaW5nIiIKBlBsYXll",
-            "chIMCgRuYW1lGAEgASgJEgoKAmlkGAIgASgJIqQBCgxPbmVvZlJlcXVlc3QS",
-            "EQoJc2VuZGVyX2lkGAEgASgJEjoKCWZpbmRfZ2FtZRgCIAEoCzIlLkxpZ2h0",
-            "c3BlZWRUeXBlcmFjaW5nLkZpbmRHYW1lUmVxdWVzdEgAEjoKCXR5cGVfd29y",
-            "ZBgDIAEoCzIlLkxpZ2h0c3BlZWRUeXBlcmFjaW5nLlR5cGVXb3JkUmVxdWVz",
-            "dEgAQgkKB3JlcXVlc3QicAoPRmluZEdhbWVSZXF1ZXN0EhMKC3BsYXllcl9u",
-            "YW1lGAEgASgJEhQKDHBsYXllcl90b2tlbhgCIAEoCRIyCgpnYW1lX21vZGVz",
-            "GAMgAygOMh4uTGlnaHRzcGVlZFR5cGVyYWNpbmcuR2FtZU1vZGUiPgoPVHlw",
-            "ZVdvcmRSZXF1ZXN0EgwKBHdvcmQYASABKAkSHQoVY2hhcl9jb21wbGV0aW9u",
-            "X3RpbWVzGAIgAygCIrkECgtPbmVvZlVwZGF0ZRIUCgxyZWNpcGllbnRfaWQY",
-            "ASABKAkSMwoJZ2FtZV9vdmVyGAIgASgLMh4uTGlnaHRzcGVlZFR5cGVyYWNp",
-            "bmcuR2FtZU92ZXJIABI5CgxnYW1lX3N0YXJ0ZWQYAyABKAsyIS5MaWdodHNw",
-            "ZWVkVHlwZXJhY2luZy5HYW1lU3RhcnRlZEgAEjsKDWdhbWVfc3RhcnRpbmcY",
-            "BCABKAsyIi5MaWdodHNwZWVkVHlwZXJhY2luZy5HYW1lU3RhcnRpbmdIABJB",
-            "ChBwbGF5ZXJfY29tcGxldGVkGAUgASgLMiUuTGlnaHRzcGVlZFR5cGVyYWNp",
-            "bmcuUGxheWVyQ29tcGxldGVkSAASRAoScGxheWVyX2pvaW5lZF9nYW1lGAYg",
-            "ASgLMiYuTGlnaHRzcGVlZFR5cGVyYWNpbmcuUGxheWVySm9pbmVkR2FtZUgA",
-            "EjsKDXdvcmRfZmluaXNoZWQYByABKAsyIi5MaWdodHNwZWVkVHlwZXJhY2lu",
-            "Zy5Xb3JkRmluaXNoZWRIABJOChh5b3V2ZV9iZWVuX2FkZGVkX3RvX2dhbWUY",
-            "CCABKAsyKi5MaWdodHNwZWVkVHlwZXJhY2luZy5Zb3V2ZUJlZW5BZGRlZFRv",
-            "R2FtZUgAEkcKE3BsYXllcl9kaXNjb25uZWN0ZWQYCSABKAsyKC5MaWdodHNw",
-            "ZWVkVHlwZXJhY2luZy5QbGF5ZXJEaXNjb25uZWN0ZWRIAEIICgZ1cGRhdGUi",
-            "HgoIR2FtZU92ZXISEgoKZW5kX3RpbWVfcxgBIAEoAiINCgtHYW1lU3RhcnRl",
-            "ZCIxCgxHYW1lU3RhcnRpbmcSEQoJY291bnRkb3duGAEgASgCEg4KBnBocmFz",
-            "ZRgCIAEoCSJyCg9QbGF5ZXJDb21wbGV0ZWQSEQoJcGxheWVyX2lkGAEgASgJ",
-            "Eg0KBXBsYWNlGAIgASgFEhkKEXJhd193cG1fYnlfc2Vjb25kGAMgAygCEhUK",
-            "DXdwbV9ieV9zZWNvbmQYBCADKAISCwoDd3BtGAUgASgCIksKEFBsYXllckpv",
-            "aW5lZEdhbWUSEQoJcGxheWVyX2lkGAEgASgJEhMKC3BsYXllcl9uYW1lGAIg",
-            "ASgJEg8KB2dhbWVfaWQYAyABKAkihgEKDFdvcmRGaW5pc2hlZBIRCglwbGF5",
-            "ZXJfaWQYASABKAkSGAoQcGVyY2VudF9jb21wbGV0ZRgCIAEoAhIVCg12ZWxv",
-            "Y2l0eV9rbV9zGAMgASgCEhMKC3Bvc2l0aW9uX2ttGAQgASgCEh0KFWNoYXJf",
-            "Y29tcGxldGlvbl90aW1lcxgFIAMoAiJeChRZb3V2ZUJlZW5BZGRlZFRvR2Ft",
-            "ZRIPCgdnYW1lX2lkGAIgASgJEjUKD2N1cnJlbnRfcGxheWVycxgDIAMoCzIc",
-            "LkxpZ2h0c3BlZWRUeXBlcmFjaW5nLlBsYXllciI4ChJQbGF5ZXJEaXNjb25u",
-            "ZWN0ZWQSEQoJcGxheWVyX2lkGAEgASgJEg8KB3JlbW92ZWQYAiABKAgqagoI",
-            "R2FtZU1vZGUSCwoHSW52YWxpZBAAEg4KCkRpY3Rpb25hcnkQARILCgdOdW1i",
-            "ZXJzEAISCgoGS29uYW1pEAMSDAoITWFyYXRob24QBBINCglIZWxsRGl2ZXIQ",
-            "BRILCgdIb21lUm93EAZiBnByb3RvMw=="));
+            "Cgxwcm90b3MucHJvdG8SFExpZ2h0c3BlZWRUeXBlcmFjaW5nIjIKBlBsYXll",
+            "chIMCgRuYW1lGAEgASgJEgoKAmlkGAIgASgJEg4KBmlzX2JvdBgDIAEoCCKk",
+            "AQoMT25lb2ZSZXF1ZXN0EhEKCXNlbmRlcl9pZBgBIAEoCRI6CglmaW5kX2dh",
+            "bWUYAiABKAsyJS5MaWdodHNwZWVkVHlwZXJhY2luZy5GaW5kR2FtZVJlcXVl",
+            "c3RIABI6Cgl0eXBlX3dvcmQYAyABKAsyJS5MaWdodHNwZWVkVHlwZXJhY2lu",
+            "Zy5UeXBlV29yZFJlcXVlc3RIAEIJCgdyZXF1ZXN0InAKD0ZpbmRHYW1lUmVx",
+            "dWVzdBITCgtwbGF5ZXJfbmFtZRgBIAEoCRIUCgxwbGF5ZXJfdG9rZW4YAiAB",
+            "KAkSMgoKZ2FtZV9tb2RlcxgDIAMoDjIeLkxpZ2h0c3BlZWRUeXBlcmFjaW5n",
+            "LkdhbWVNb2RlIj4KD1R5cGVXb3JkUmVxdWVzdBIMCgR3b3JkGAEgASgJEh0K",
+            "FWNoYXJfY29tcGxldGlvbl90aW1lcxgCIAMoAiK5BAoLT25lb2ZVcGRhdGUS",
+            "FAoMcmVjaXBpZW50X2lkGAEgASgJEjMKCWdhbWVfb3ZlchgCIAEoCzIeLkxp",
+            "Z2h0c3BlZWRUeXBlcmFjaW5nLkdhbWVPdmVySAASOQoMZ2FtZV9zdGFydGVk",
+            "GAMgASgLMiEuTGlnaHRzcGVlZFR5cGVyYWNpbmcuR2FtZVN0YXJ0ZWRIABI7",
+            "Cg1nYW1lX3N0YXJ0aW5nGAQgASgLMiIuTGlnaHRzcGVlZFR5cGVyYWNpbmcu",
+            "R2FtZVN0YXJ0aW5nSAASQQoQcGxheWVyX2NvbXBsZXRlZBgFIAEoCzIlLkxp",
+            "Z2h0c3BlZWRUeXBlcmFjaW5nLlBsYXllckNvbXBsZXRlZEgAEkQKEnBsYXll",
+            "cl9qb2luZWRfZ2FtZRgGIAEoCzImLkxpZ2h0c3BlZWRUeXBlcmFjaW5nLlBs",
+            "YXllckpvaW5lZEdhbWVIABI7Cg13b3JkX2ZpbmlzaGVkGAcgASgLMiIuTGln",
+            "aHRzcGVlZFR5cGVyYWNpbmcuV29yZEZpbmlzaGVkSAASTgoYeW91dmVfYmVl",
+            "bl9hZGRlZF90b19nYW1lGAggASgLMiouTGlnaHRzcGVlZFR5cGVyYWNpbmcu",
+            "WW91dmVCZWVuQWRkZWRUb0dhbWVIABJHChNwbGF5ZXJfZGlzY29ubmVjdGVk",
+            "GAkgASgLMiguTGlnaHRzcGVlZFR5cGVyYWNpbmcuUGxheWVyRGlzY29ubmVj",
+            "dGVkSABCCAoGdXBkYXRlIh4KCEdhbWVPdmVyEhIKCmVuZF90aW1lX3MYASAB",
+            "KAIiDQoLR2FtZVN0YXJ0ZWQiMQoMR2FtZVN0YXJ0aW5nEhEKCWNvdW50ZG93",
+            "bhgBIAEoAhIOCgZwaHJhc2UYAiABKAkicgoPUGxheWVyQ29tcGxldGVkEhEK",
+            "CXBsYXllcl9pZBgBIAEoCRINCgVwbGFjZRgCIAEoBRIZChFyYXdfd3BtX2J5",
+            "X3NlY29uZBgDIAMoAhIVCg13cG1fYnlfc2Vjb25kGAQgAygCEgsKA3dwbRgF",
+            "IAEoAiJRChBQbGF5ZXJKb2luZWRHYW1lEiwKBnBsYXllchgBIAEoCzIcLkxp",
+            "Z2h0c3BlZWRUeXBlcmFjaW5nLlBsYXllchIPCgdnYW1lX2lkGAIgASgJIpMB",
+            "CgxXb3JkRmluaXNoZWQSEQoJcGxheWVyX2lkGAEgASgJEhgKEHBlcmNlbnRf",
+            "Y29tcGxldGUYAiABKAISFQoNdmVsb2NpdHlfa21fcxgDIAEoAhITCgtwb3Np",
+            "dGlvbl9rbRgEIAEoAhIdChVjaGFyX2NvbXBsZXRpb25fdGltZXMYBSADKAIS",
+            "CwoDd3BtGAYgASgCIl4KFFlvdXZlQmVlbkFkZGVkVG9HYW1lEg8KB2dhbWVf",
+            "aWQYAiABKAkSNQoPY3VycmVudF9wbGF5ZXJzGAMgAygLMhwuTGlnaHRzcGVl",
+            "ZFR5cGVyYWNpbmcuUGxheWVyIjgKElBsYXllckRpc2Nvbm5lY3RlZBIRCglw",
+            "bGF5ZXJfaWQYASABKAkSDwoHcmVtb3ZlZBgCIAEoCCpqCghHYW1lTW9kZRIL",
+            "CgdJbnZhbGlkEAASDgoKRGljdGlvbmFyeRABEgsKB051bWJlcnMQAhIKCgZL",
+            "b25hbWkQAxIMCghNYXJhdGhvbhAEEg0KCUhlbGxEaXZlchAFEgsKB0hvbWVS",
+            "b3cQBmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::LightspeedTyperacing.GameMode), }, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.Player), global::LightspeedTyperacing.Player.Parser, new[]{ "Name", "Id" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.Player), global::LightspeedTyperacing.Player.Parser, new[]{ "Name", "Id", "IsBot" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.OneofRequest), global::LightspeedTyperacing.OneofRequest.Parser, new[]{ "SenderId", "FindGame", "TypeWord" }, new[]{ "Request" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.FindGameRequest), global::LightspeedTyperacing.FindGameRequest.Parser, new[]{ "PlayerName", "PlayerToken", "GameModes" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.TypeWordRequest), global::LightspeedTyperacing.TypeWordRequest.Parser, new[]{ "Word", "CharCompletionTimes" }, null, null, null, null),
@@ -74,8 +75,8 @@ namespace LightspeedTyperacing {
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.GameStarted), global::LightspeedTyperacing.GameStarted.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.GameStarting), global::LightspeedTyperacing.GameStarting.Parser, new[]{ "Countdown", "Phrase" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.PlayerCompleted), global::LightspeedTyperacing.PlayerCompleted.Parser, new[]{ "PlayerId", "Place", "RawWpmBySecond", "WpmBySecond", "Wpm" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.PlayerJoinedGame), global::LightspeedTyperacing.PlayerJoinedGame.Parser, new[]{ "PlayerId", "PlayerName", "GameId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.WordFinished), global::LightspeedTyperacing.WordFinished.Parser, new[]{ "PlayerId", "PercentComplete", "VelocityKmS", "PositionKm", "CharCompletionTimes" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.PlayerJoinedGame), global::LightspeedTyperacing.PlayerJoinedGame.Parser, new[]{ "Player", "GameId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.WordFinished), global::LightspeedTyperacing.WordFinished.Parser, new[]{ "PlayerId", "PercentComplete", "VelocityKmS", "PositionKm", "CharCompletionTimes", "Wpm" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.YouveBeenAddedToGame), global::LightspeedTyperacing.YouveBeenAddedToGame.Parser, new[]{ "GameId", "CurrentPlayers" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.PlayerDisconnected), global::LightspeedTyperacing.PlayerDisconnected.Parser, new[]{ "PlayerId", "Removed" }, null, null, null, null)
           }));
@@ -133,6 +134,7 @@ namespace LightspeedTyperacing {
     public Player(Player other) : this() {
       name_ = other.name_;
       id_ = other.id_;
+      isBot_ = other.isBot_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -166,6 +168,18 @@ namespace LightspeedTyperacing {
       }
     }
 
+    /// <summary>Field number for the "is_bot" field.</summary>
+    public const int IsBotFieldNumber = 3;
+    private bool isBot_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool IsBot {
+      get { return isBot_; }
+      set {
+        isBot_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -183,6 +197,7 @@ namespace LightspeedTyperacing {
       }
       if (Name != other.Name) return false;
       if (Id != other.Id) return false;
+      if (IsBot != other.IsBot) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -192,6 +207,7 @@ namespace LightspeedTyperacing {
       int hash = 1;
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (IsBot != false) hash ^= IsBot.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -218,6 +234,10 @@ namespace LightspeedTyperacing {
         output.WriteRawTag(18);
         output.WriteString(Id);
       }
+      if (IsBot != false) {
+        output.WriteRawTag(24);
+        output.WriteBool(IsBot);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -236,6 +256,10 @@ namespace LightspeedTyperacing {
         output.WriteRawTag(18);
         output.WriteString(Id);
       }
+      if (IsBot != false) {
+        output.WriteRawTag(24);
+        output.WriteBool(IsBot);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -251,6 +275,9 @@ namespace LightspeedTyperacing {
       }
       if (Id.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      }
+      if (IsBot != false) {
+        size += 1 + 1;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -269,6 +296,9 @@ namespace LightspeedTyperacing {
       }
       if (other.Id.Length != 0) {
         Id = other.Id;
+      }
+      if (other.IsBot != false) {
+        IsBot = other.IsBot;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -293,6 +323,10 @@ namespace LightspeedTyperacing {
             Id = input.ReadString();
             break;
           }
+          case 24: {
+            IsBot = input.ReadBool();
+            break;
+          }
         }
       }
     #endif
@@ -314,6 +348,10 @@ namespace LightspeedTyperacing {
           }
           case 18: {
             Id = input.ReadString();
+            break;
+          }
+          case 24: {
+            IsBot = input.ReadBool();
             break;
           }
         }
@@ -2676,8 +2714,7 @@ namespace LightspeedTyperacing {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public PlayerJoinedGame(PlayerJoinedGame other) : this() {
-      playerId_ = other.playerId_;
-      playerName_ = other.playerName_;
+      player_ = other.player_ != null ? other.player_.Clone() : null;
       gameId_ = other.gameId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -2688,32 +2725,20 @@ namespace LightspeedTyperacing {
       return new PlayerJoinedGame(this);
     }
 
-    /// <summary>Field number for the "player_id" field.</summary>
-    public const int PlayerIdFieldNumber = 1;
-    private string playerId_ = "";
+    /// <summary>Field number for the "player" field.</summary>
+    public const int PlayerFieldNumber = 1;
+    private global::LightspeedTyperacing.Player player_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string PlayerId {
-      get { return playerId_; }
+    public global::LightspeedTyperacing.Player Player {
+      get { return player_; }
       set {
-        playerId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "player_name" field.</summary>
-    public const int PlayerNameFieldNumber = 2;
-    private string playerName_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string PlayerName {
-      get { return playerName_; }
-      set {
-        playerName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        player_ = value;
       }
     }
 
     /// <summary>Field number for the "game_id" field.</summary>
-    public const int GameIdFieldNumber = 3;
+    public const int GameIdFieldNumber = 2;
     private string gameId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -2739,8 +2764,7 @@ namespace LightspeedTyperacing {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (PlayerId != other.PlayerId) return false;
-      if (PlayerName != other.PlayerName) return false;
+      if (!object.Equals(Player, other.Player)) return false;
       if (GameId != other.GameId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -2749,8 +2773,7 @@ namespace LightspeedTyperacing {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (PlayerId.Length != 0) hash ^= PlayerId.GetHashCode();
-      if (PlayerName.Length != 0) hash ^= PlayerName.GetHashCode();
+      if (player_ != null) hash ^= Player.GetHashCode();
       if (GameId.Length != 0) hash ^= GameId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -2770,16 +2793,12 @@ namespace LightspeedTyperacing {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (PlayerId.Length != 0) {
+      if (player_ != null) {
         output.WriteRawTag(10);
-        output.WriteString(PlayerId);
-      }
-      if (PlayerName.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(PlayerName);
+        output.WriteMessage(Player);
       }
       if (GameId.Length != 0) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(18);
         output.WriteString(GameId);
       }
       if (_unknownFields != null) {
@@ -2792,16 +2811,12 @@ namespace LightspeedTyperacing {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (PlayerId.Length != 0) {
+      if (player_ != null) {
         output.WriteRawTag(10);
-        output.WriteString(PlayerId);
-      }
-      if (PlayerName.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(PlayerName);
+        output.WriteMessage(Player);
       }
       if (GameId.Length != 0) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(18);
         output.WriteString(GameId);
       }
       if (_unknownFields != null) {
@@ -2814,11 +2829,8 @@ namespace LightspeedTyperacing {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (PlayerId.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(PlayerId);
-      }
-      if (PlayerName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(PlayerName);
+      if (player_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Player);
       }
       if (GameId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(GameId);
@@ -2835,11 +2847,11 @@ namespace LightspeedTyperacing {
       if (other == null) {
         return;
       }
-      if (other.PlayerId.Length != 0) {
-        PlayerId = other.PlayerId;
-      }
-      if (other.PlayerName.Length != 0) {
-        PlayerName = other.PlayerName;
+      if (other.player_ != null) {
+        if (player_ == null) {
+          Player = new global::LightspeedTyperacing.Player();
+        }
+        Player.MergeFrom(other.Player);
       }
       if (other.GameId.Length != 0) {
         GameId = other.GameId;
@@ -2860,14 +2872,13 @@ namespace LightspeedTyperacing {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            PlayerId = input.ReadString();
+            if (player_ == null) {
+              Player = new global::LightspeedTyperacing.Player();
+            }
+            input.ReadMessage(Player);
             break;
           }
           case 18: {
-            PlayerName = input.ReadString();
-            break;
-          }
-          case 26: {
             GameId = input.ReadString();
             break;
           }
@@ -2887,14 +2898,13 @@ namespace LightspeedTyperacing {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            PlayerId = input.ReadString();
+            if (player_ == null) {
+              Player = new global::LightspeedTyperacing.Player();
+            }
+            input.ReadMessage(Player);
             break;
           }
           case 18: {
-            PlayerName = input.ReadString();
-            break;
-          }
-          case 26: {
             GameId = input.ReadString();
             break;
           }
@@ -2944,6 +2954,7 @@ namespace LightspeedTyperacing {
       velocityKmS_ = other.velocityKmS_;
       positionKm_ = other.positionKm_;
       charCompletionTimes_ = other.charCompletionTimes_.Clone();
+      wpm_ = other.wpm_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3012,6 +3023,18 @@ namespace LightspeedTyperacing {
       get { return charCompletionTimes_; }
     }
 
+    /// <summary>Field number for the "wpm" field.</summary>
+    public const int WpmFieldNumber = 6;
+    private float wpm_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float Wpm {
+      get { return wpm_; }
+      set {
+        wpm_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -3032,6 +3055,7 @@ namespace LightspeedTyperacing {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(VelocityKmS, other.VelocityKmS)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PositionKm, other.PositionKm)) return false;
       if(!charCompletionTimes_.Equals(other.charCompletionTimes_)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Wpm, other.Wpm)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -3044,6 +3068,7 @@ namespace LightspeedTyperacing {
       if (VelocityKmS != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(VelocityKmS);
       if (PositionKm != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PositionKm);
       hash ^= charCompletionTimes_.GetHashCode();
+      if (Wpm != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Wpm);
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3079,6 +3104,10 @@ namespace LightspeedTyperacing {
         output.WriteFloat(PositionKm);
       }
       charCompletionTimes_.WriteTo(output, _repeated_charCompletionTimes_codec);
+      if (Wpm != 0F) {
+        output.WriteRawTag(53);
+        output.WriteFloat(Wpm);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -3106,6 +3135,10 @@ namespace LightspeedTyperacing {
         output.WriteFloat(PositionKm);
       }
       charCompletionTimes_.WriteTo(ref output, _repeated_charCompletionTimes_codec);
+      if (Wpm != 0F) {
+        output.WriteRawTag(53);
+        output.WriteFloat(Wpm);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -3129,6 +3162,9 @@ namespace LightspeedTyperacing {
         size += 1 + 4;
       }
       size += charCompletionTimes_.CalculateSize(_repeated_charCompletionTimes_codec);
+      if (Wpm != 0F) {
+        size += 1 + 4;
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -3154,6 +3190,9 @@ namespace LightspeedTyperacing {
         PositionKm = other.PositionKm;
       }
       charCompletionTimes_.Add(other.charCompletionTimes_);
+      if (other.Wpm != 0F) {
+        Wpm = other.Wpm;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -3190,6 +3229,10 @@ namespace LightspeedTyperacing {
             charCompletionTimes_.AddEntriesFrom(input, _repeated_charCompletionTimes_codec);
             break;
           }
+          case 53: {
+            Wpm = input.ReadFloat();
+            break;
+          }
         }
       }
     #endif
@@ -3224,6 +3267,10 @@ namespace LightspeedTyperacing {
           case 42:
           case 45: {
             charCompletionTimes_.AddEntriesFrom(ref input, _repeated_charCompletionTimes_codec);
+            break;
+          }
+          case 53: {
+            Wpm = input.ReadFloat();
             break;
           }
         }
