@@ -5,6 +5,7 @@ import {
   TertiaryTextColor,
   TextColor,
 } from "./constants";
+import { CursorPointer } from "iconoir-react";
 
 function lerp(start: number, end: number, alpha: number) {
   return start + (end - start) * alpha;
@@ -155,15 +156,27 @@ export const TypeBox = (props: TypeBoxProps) => {
 
   return (
     <div className="relative">
-      <div className="text-2xl max-w-5xl font-thin type-box tracking-normal">
+      <div className="text-2xl max-w-5xl font-thin type-box tracking-normal transition-all">
         <div
           style={{
             whiteSpace: "pre-wrap",
+            filter: focused ? "blur(0)" : "blur(2px)",
+            opacity: focused ? 1 : 0.5,
           }}
           ref={phraseRef}
         >
           {text}
         </div>
+        {
+          <div
+            className="absolute top-1/2 left-1/2 transform -translate-x-[30%] -translate-y-[10%] cursor-pointer text-amber-400 transition-all pointer-events-none"
+            style={{
+              opacity: !focused ? 1 : 0,
+            }}
+          >
+            <CursorPointer />
+          </div>
+        }
         <input
           value={currentWord}
           onChange={handleInput}
@@ -177,13 +190,14 @@ export const TypeBox = (props: TypeBoxProps) => {
             height: "100%",
             background: "transparent",
             color: "transparent",
+            cursor: !focused ? "pointer" : "auto",
           }}
           autoFocus
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
         />
         <div
-          className={`bg-white h-[24px] w-[1px] fixed ${
+          className={`bg-amber-200 h-[24px] w-[1px] fixed ${
             cursorPulsing ? "animate-pulse-full" : ""
           }`}
           style={{
