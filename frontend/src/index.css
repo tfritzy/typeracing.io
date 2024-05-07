@@ -80,3 +80,14 @@ label .checkmark:after {
 label .checkmark {
   transition: background-color 0.2s;
 }
+
+/* Remove default focus ring */
+:focus {
+  outline: none;
+}
+
+/* Style focus ring */
+:focus-visible {
+  outline: 2px solid white; /* Change color and size as desired */
+  outline-offset: 2px; /* Adjust offset to prevent overlap with element */
+}

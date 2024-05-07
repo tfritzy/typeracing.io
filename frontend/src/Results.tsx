@@ -52,6 +52,10 @@ export const Results = () => {
   }
  }, [finishedPlayers]);
 
+ if (!finishedPlayers.length) {
+  return null;
+ }
+
  return (
   <LineChart
    series={wpmData}

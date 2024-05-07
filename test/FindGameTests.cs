@@ -57,8 +57,8 @@ public class FindGameTests
         Assert.AreEqual(2, playerJoinedGameMessages.Count());
         Assert.AreEqual(1, playerJoinedGameMessages.Count(m => m.RecipientId == player1.Id));
         Assert.AreEqual(1, playerJoinedGameMessages.Count(m => m.RecipientId == player2.Id));
-        Assert.IsTrue(playerJoinedGameMessages.All(m => m.PlayerJoinedGame.PlayerId == player3.Id));
-        Assert.IsTrue(playerJoinedGameMessages.All(m => m.PlayerJoinedGame.PlayerName == player3.Name));
+        Assert.IsTrue(playerJoinedGameMessages.All(m => m.PlayerJoinedGame.Player.Id == player3.Id));
+        Assert.IsTrue(playerJoinedGameMessages.All(m => m.PlayerJoinedGame.Player.Name == player3.Name));
 
         var addedToGameMessage = addedToGameMessages.First();
         Assert.AreEqual(player3.Id, addedToGameMessage.RecipientId);

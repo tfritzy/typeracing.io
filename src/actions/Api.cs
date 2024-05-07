@@ -10,11 +10,13 @@ public static class Api
         HashSet<GameMode>? enabledModes = null)
     {
         enabledModes ??= new HashSet<GameMode> { GameMode.Dictionary };
-        Console.WriteLine($"Player {playerId} is looking for a game with modes {string.Join(", ", enabledModes)}");
+        if (enabledModes.Count == 0)
+            enabledModes.Add(GameMode.Dictionary);
+            
         var game = FindFirstMatchingGame(enabledModes, galaxy);
         if (game == null)
         {
-            GameMode mode = enabledModes.ToArray()[new Random().Next(0, enabledModes.Count)];
+            GameMode mode =  enabledModes.ToArray()[new Random().Next(0, enabledModes.Count)];
             game = new(galaxy, mode: mode);
             galaxy.OpenGames.Add(game);
         }

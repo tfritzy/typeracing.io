@@ -10,13 +10,10 @@ public static class Phrases
     {
         return mode switch
         {
-            GameMode.Dictionary => GetRandomDictionaryPhrase(),
+            GameMode.Dictionary => GetRandomDictionaryPhrase(20, 40),
             GameMode.Numbers => GetPhraseForNumbers(),
-            GameMode.Konami => GetRandomDictionaryPhrase(),
-            GameMode.Marathon => GetRandomDictionaryPhrase(),
-            GameMode.HellDiver => GetRandomDictionaryPhrase(),
-            GameMode.HomeRow => GetRandomDictionaryPhrase(),
-            _ => GetRandomDictionaryPhrase()
+            GameMode.Marathon => GetRandomDictionaryPhrase(60, 100),
+            GameMode.HellDiver => GetHellDiverPhrase(),
         };
     }
 
@@ -55,7 +52,7 @@ public static class Phrases
         File.WriteAllText(path, JsonSerializer.Serialize(phrases));
     }
 
-    public static string GetRandomDictionaryPhrase()
+    public static string GetRandomDictionaryPhrase(int minWords, int maxWords)
     {
         string? baseDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         if (baseDirectory == null)
@@ -71,12 +68,11 @@ public static class Phrases
         }
 
         List<string> words = File.ReadAllLines(wordsPath).ToList();
-        Random random = new();
         StringBuilder phrase = new();
-        var numWords = random.Next(21, 39);
+        var numWords = Randy.Random.Next(minWords, maxWords);
         for (int i = 0; i < numWords; i++)
         {
-            phrase.Append(words[random.Next(words.Count)]);
+            phrase.Append(words[Randy.Random.Next(words.Count)]);
             if (i != numWords - 1) phrase.Append(" ");
         }
 
@@ -106,8 +102,7 @@ public static class Phrases
             throw new InvalidOperationException("No phrases were loaded.");
         }
 
-        Random random = new();
-        var phrase = phrases[random.Next(phrases.Count)];
+        var phrase = phrases[Randy.Random.Next(phrases.Count)];
         phrase = phrase.Replace("\n", " ");
         phrase = phrase.Replace("\r", " ");
         phrase = phrase.Replace("\t", " ");
@@ -124,16 +119,44 @@ public static class Phrases
     {
         Random random = new();
         StringBuilder phrase = new();
-        int numNumbers = random.Next(20, 40);
+        int numNumbers = Randy.Random.Next(20, 40);
         for (int i = 0; i < numNumbers; i++)
         {
-            int numberLength = random.Next(1, 10);
+            int numberLength = Randy.Random.Next(1, 10);
             for (int j = 0; j < numberLength; j++)
             {
-                phrase.Append(random.Next(0, 10));
+                phrase.Append(Randy.Random.Next(0, 10));
             }
 
             if (i != numNumbers - 1) phrase.Append(" ");
+        }
+
+        return phrase.ToString();
+    }
+
+    public static string GetHellDiverPhrase()
+    {
+        string? baseDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        if (baseDirectory == null)
+        {
+            throw new InvalidOperationException("Base directory could not be determined.");
+        }
+
+        string path = Path.Combine(baseDirectory, "data", "helldivers", "codes.txt");
+
+        if (!File.Exists(path))
+        {
+            throw new FileNotFoundException($"The file {path} was not found.");
+        }
+
+        List<string> codes = File.ReadAllLines(path).ToList();
+
+        StringBuilder phrase = new();
+        var numCodes = Randy.Random.Next(5, 10);
+        for (int i = 0; i < numCodes; i++)
+        {
+            phrase.Append(codes[Randy.Random.Next(codes.Count)]);
+            if (i != numCodes - 1) phrase.Append(" ");
         }
 
         return phrase.ToString();

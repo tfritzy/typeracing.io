@@ -6,10 +6,9 @@ enum GameMode {
     Invalid = 0;
     Dictionary = 1;
     Numbers = 2;
-    Konami = 3;
-    Marathon = 4;
-    HellDiver = 5;
-    HomeRow = 6;
+    Marathon = 3;
+    HellDiver = 4;
+    HomeRow = 5;
 }
 
 message Player {
