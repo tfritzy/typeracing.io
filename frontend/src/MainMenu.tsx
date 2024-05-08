@@ -45,7 +45,11 @@ export const MainMenu = (props: MainMenuProps) => {
      phrase="Find game"
      onPhraseComplete={findGame}
     />
-    <GameConfig />
+    <GameConfig
+     onClose={() => {
+      document.getElementById("type-box")?.focus();
+     }}
+    />
    </div>
   </div>
  );

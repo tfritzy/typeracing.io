@@ -164,31 +164,6 @@ export const TypeBox = (props: TypeBoxProps) => {
   }
  }, [currentWord]);
 
- const appendString = (
-  e: React.SyntheticEvent,
-  value: string
- ) => {
-  e.preventDefault();
-  const newString = currentWord + value;
-  setCurrentWord(newString);
-  if (inputRef.current) {
-   inputRef.current.selectionStart = currentWord.length;
-   inputRef.current.selectionEnd = currentWord.length;
-  }
- };
-
- const handleArrowKeys = (e: React.KeyboardEvent) => {
-  if (e.code === "ArrowUp") {
-   appendString(e, "↑ ");
-  } else if (e.code === "ArrowRight") {
-   appendString(e, "→ ");
-  } else if (e.code === "ArrowDown") {
-   appendString(e, "↓ ");
-  } else if (e.code === "ArrowLeft") {
-   appendString(e, "← ");
-  }
- };
-
  let text = [
   <span style={{ color: TextColor }}>
    {props.phrase.slice(0, props.lockedCharacterIndex)}
@@ -240,7 +215,7 @@ export const TypeBox = (props: TypeBoxProps) => {
     </div>
     {
      <div
-      className="absolute top-1/2 left-1/2 transform -translate-x-[30%] -translate-y-[10%] cursor-pointer text-amber-400 transition-all pointer-events-none"
+      className="absolute top-1/2 left-1/2 transform -translate-x-[30%] -translate-y-[10%] cursor-pointer text-neutral-400 transition-all pointer-events-none"
       style={{
        opacity: !focused ? 1 : 0,
       }}
@@ -251,6 +226,7 @@ export const TypeBox = (props: TypeBoxProps) => {
     <input
      value={currentWord}
      onChange={handleInput}
+     id="type-box"
      className="w-full outline-none typebox rounded-lg"
      ref={inputRef}
      style={{
@@ -268,10 +244,9 @@ export const TypeBox = (props: TypeBoxProps) => {
      autoFocus
      onFocus={() => setFocused(true)}
      onBlur={() => setFocused(false)}
-     onKeyDown={handleArrowKeys}
     />
     <div
-     className={`bg-amber-200 h-[24px] w-[1px] fixed ${
+     className={`bg-white h-[24px] w-[1px] fixed ${
       cursorPulsing ? "animate-pulse-full" : ""
      }`}
      style={{

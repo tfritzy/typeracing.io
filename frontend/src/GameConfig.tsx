@@ -19,6 +19,7 @@ import {
  TextColor,
 } from "./constants";
 import { Modal } from "./Modal";
+import { Drawer } from "./Drawer";
 
 type ValidGameMode = Exclude<GameMode, GameMode.Invalid>;
 
@@ -135,17 +136,15 @@ const ModeCheckboxes = () => {
 
  return (
   <div>
-   <div className="text-sm font-normal mb-1">
-    Game modes
-   </div>
+   <div className="font-normal mb-1">Game modes</div>
    <div
-    className="text-sm mb-4"
+    className="mb-4"
     style={{ color: SecondaryTextColor }}
    >
     You'll be randomly placed in a games of one of the
     enabled modes.
    </div>
-   <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+   <div className="grid grid-cols-2 gap-x-4 gap-y-4">
     {checkboxes}
    </div>
   </div>
@@ -169,11 +168,11 @@ const Content = ({
    }}
   >
    <div>
-    <div className="text-sm font-normal mb-1">
+    <div className="font-normal mb-1">
      Multiplayer settings
     </div>
     <div
-     className="text-sm mb-4"
+     className="mb-4"
      style={{ color: SecondaryTextColor }}
     >
      Configure how/whether you want to play with others.
@@ -211,7 +210,7 @@ const Content = ({
  );
 };
 
-type GameConfigProps = {};
+type GameConfigProps = { onClose: () => void };
 export const GameConfig = (props: GameConfigProps) => {
  const [mode, setMode] =
   React.useState<Mode>("Multiplayer");
@@ -242,13 +241,18 @@ export const GameConfig = (props: GameConfigProps) => {
     </div>
    </button>
 
-   <Modal
+   <Drawer
     title="Game settings"
     open={open}
-    onClose={() => setOpen(false)}
+    onClose={() => {
+     setOpen(false);
+     props.onClose();
+    }}
    >
-    <Content mode={mode} setMode={setMode} />
-   </Modal>
+    <div className="p-4">
+     <Content mode={mode} setMode={setMode} />
+    </div>
+   </Drawer>
   </>
  );
 };

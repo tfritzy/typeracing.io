@@ -4,11 +4,21 @@ package LightspeedTyperacing;
 
 enum GameMode {
     Invalid = 0;
-    Dictionary = 1;
-    Numbers = 2;
-    Marathon = 3;
-    HellDiver = 4;
-    HomeRow = 5;
+    MostCommon = 1;
+    HundredMostCommon = 2;
+    Dictionary = 3;
+    LeastCommonWords = 4;
+    CopyPastas = 5;
+    ClickRace = 6;
+    Numbers = 7;
+    Marathon = 8;
+    HomeRow = 9;
+    UpperRow = 10;
+    RightHand = 11;
+    LeftHand = 12;
+    AlternatingHand = 13;
+    Random = 14;
+    LongestHundred = 15;
 }
 
 message Player {

@@ -10,76 +10,80 @@ public static class Phrases
     {
         return mode switch
         {
-            GameMode.Dictionary => GetRandomDictionaryPhrase(20, 40),
+            GameMode.MostCommon => RandomlyGrabFromList(new string[] { "the" }, 40, 60),
+            GameMode.HundredMostCommon => GetPhraseFromWordFile("HundredMostCommon.txt", 20, 40),
+            GameMode.Dictionary => GetPhraseFromWordFile("words.txt", 20, 40),
+            GameMode.LeastCommonWords => GetPhraseFromWordFile("RareWords.txt", 20, 40),
+            GameMode.CopyPastas => GetPhraseFromWordFile("CopyPastas.txt", 1, 1),
+            GameMode.ClickRace => GetClickRace(),
             GameMode.Numbers => GetPhraseForNumbers(),
-            GameMode.Marathon => GetRandomDictionaryPhrase(60, 100),
-            GameMode.HellDiver => GetHellDiverPhrase(),
+            GameMode.HomeRow => GetPhraseFromWordFile("HomeRow.txt", 20, 40),
+            GameMode.UpperRow => GetPhraseFromWordFile("UpperRow.txt", 20, 40),
+            GameMode.LeftHand => GetPhraseFromWordFile("LeftHand.txt", 20, 40),
+            GameMode.RightHand => GetPhraseFromWordFile("RightHand.txt", 20, 40),
+            GameMode.AlternatingHand => GetPhraseFromWordFile("AlternatingHand.txt", 20, 40),
+            GameMode.Marathon => GetPhraseFromWordFile("words.txt", 80, 120),
+            GameMode.Random => GetRandomLetterPhrase(20, 40),
+            GameMode.LongestHundred => GetPhraseFromWordFile("LongestHundred.txt", 10, 15),
         };
     }
 
-    public static List<string> Parse(string path)
+    public static string RandomlyGrabFromList(string[] options, int minCount, int maxCount)
     {
-        List<string> phrases = new();
-        string fullText = File.ReadAllText(path);
-        string[] paragraphs = fullText.Split("\n\n");
-        for (int i = 0; i < paragraphs.Length; i++)
-        {
-            paragraphs[i] = paragraphs[i].Replace("\n", " ");
-        }
-
-        foreach (string paragraph in paragraphs)
-        {
-            string[] words = paragraph.Split(" ");
-            if (words.Length < 20)
-            {
-                continue;
-            }
-
-            if (words.Length > 40)
-            {
-                continue;
-            }
-
-            phrases.Add(paragraph);
-        }
-
-        return phrases;
-    }
-
-    public static void WritePhrases(string path, List<string> phrases)
-    {
-        File.Create(path).Close();
-        File.WriteAllText(path, JsonSerializer.Serialize(phrases));
-    }
-
-    public static string GetRandomDictionaryPhrase(int minWords, int maxWords)
-    {
-        string? baseDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        if (baseDirectory == null)
-        {
-            throw new InvalidOperationException("Base directory could not be determined.");
-        }
-
-        string wordsPath = Path.Combine(baseDirectory, "data", "dictionary", "words.txt");
-
-        if (!File.Exists(wordsPath))
-        {
-            throw new FileNotFoundException($"The file {wordsPath} was not found.");
-        }
-
-        List<string> words = File.ReadAllLines(wordsPath).ToList();
         StringBuilder phrase = new();
-        var numWords = Randy.Random.Next(minWords, maxWords);
+        var numWords = Randy.Random.Next(minCount, maxCount);
         for (int i = 0; i < numWords; i++)
         {
-            phrase.Append(words[Randy.Random.Next(words.Count)]);
-            if (i != numWords - 1) phrase.Append(" ");
+            phrase.Append(options[Randy.Random.Next(options.Length)]);
+            if (i != numWords - 1) phrase.Append(' ');
         }
 
         return phrase.ToString();
     }
 
-    public static string GetRandomBookPhrase()
+    public static string GetClickRace()
+    {
+        string characters = "abcdefghijklmnopqrstuvwxyz";
+        StringBuilder phrase = new();
+        int numCharacters = Randy.Random.Next(100, 200);
+        char character = characters[Randy.Random.Next(characters.Length)];
+        for (int i = 0; i < numCharacters; i++)
+        {
+            phrase.Append(character);
+
+            if (i != numCharacters - 1) phrase.Append(' ');
+        }
+
+        return phrase.ToString();
+    }
+
+    public static string GetPhraseFromWordFile(string filename, int minWords, int maxWords)
+    {
+        string path = Path.Combine("data", "lists", filename);
+        string[] words = ReadLines(path);
+        return RandomlyGrabFromList(words, minWords, maxWords);
+    }
+
+    public static string GetRandomLetterPhrase(int minWords, int maxWords)
+    {
+        string characters = "abcdefghijklmnopqrstuvwxyz";
+        StringBuilder phrase = new();
+        int numWords = Randy.Random.Next(minWords, maxWords);
+        for (int i = 0; i < numWords; i++)
+        {
+            int wordLength = Randy.Random.Next(1, 10);
+            for (int j = 0; j < wordLength; j++)
+            {
+                phrase.Append(characters[Randy.Random.Next(characters.Length)]);
+            }
+
+            if (i != numWords - 1) phrase.Append(' ');
+        }
+
+        return phrase.ToString();
+    }
+
+    public static string[] ReadLines(string path)
     {
         string? baseDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         if (baseDirectory == null)
@@ -87,37 +91,19 @@ public static class Phrases
             throw new InvalidOperationException("Base directory could not be determined.");
         }
 
-        string jsonFilePath = Path.Combine(baseDirectory, "data", "phrases", "phrases.json");
+        string filePath = Path.Combine(baseDirectory, path);
 
-        if (!File.Exists(jsonFilePath))
+        if (!File.Exists(filePath))
         {
-            throw new FileNotFoundException($"The file {jsonFilePath} was not found.");
+            throw new FileNotFoundException($"The file {filePath} was not found.");
         }
 
-        string jsonContent = File.ReadAllText(jsonFilePath);
-        List<string>? phrases = JsonSerializer.Deserialize<List<string>>(jsonContent) ?? new List<string>();
-
-        if (phrases.Count == 0)
-        {
-            throw new InvalidOperationException("No phrases were loaded.");
-        }
-
-        var phrase = phrases[Randy.Random.Next(phrases.Count)];
-        phrase = phrase.Replace("\n", " ");
-        phrase = phrase.Replace("\r", " ");
-        phrase = phrase.Replace("\t", " ");
-        phrase = phrase.Replace("“", "\"");
-        phrase = phrase.Replace("”", "\"");
-        phrase = phrase.Replace("‘", "'");
-        phrase = phrase.Replace("’", "'");
-        phrase = phrase.Replace("—", "-");
-        phrase = phrase.Replace("…", "...");
-        return phrase;
+        string[] lines = File.ReadAllLines(filePath);
+        return lines;
     }
 
     public static string GetPhraseForNumbers()
     {
-        Random random = new();
         StringBuilder phrase = new();
         int numNumbers = Randy.Random.Next(20, 40);
         for (int i = 0; i < numNumbers; i++)
@@ -129,34 +115,6 @@ public static class Phrases
             }
 
             if (i != numNumbers - 1) phrase.Append(" ");
-        }
-
-        return phrase.ToString();
-    }
-
-    public static string GetHellDiverPhrase()
-    {
-        string? baseDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        if (baseDirectory == null)
-        {
-            throw new InvalidOperationException("Base directory could not be determined.");
-        }
-
-        string path = Path.Combine(baseDirectory, "data", "helldivers", "codes.txt");
-
-        if (!File.Exists(path))
-        {
-            throw new FileNotFoundException($"The file {path} was not found.");
-        }
-
-        List<string> codes = File.ReadAllLines(path).ToList();
-
-        StringBuilder phrase = new();
-        var numCodes = Randy.Random.Next(5, 10);
-        for (int i = 0; i < numCodes; i++)
-        {
-            phrase.Append(codes[Randy.Random.Next(codes.Count)]);
-            if (i != numCodes - 1) phrase.Append(" ");
         }
 
         return phrase.ToString();

@@ -5,16 +5,11 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #24292e;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
 }
 
 h1 {
@@ -88,6 +83,6 @@ label .checkmark {
 
 /* Style focus ring */
 :focus-visible {
-  outline: 2px solid white; /* Change color and size as desired */
+  outline: 2px solid #999999; /* Change color and size as desired */
   outline-offset: 2px; /* Adjust offset to prevent overlap with element */
 }

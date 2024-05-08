@@ -119,14 +119,14 @@ public class FindGameTests
         Assert.AreEqual(2, galaxy.OpenGames.Count);
         Assert.AreEqual(2, galaxy.OpenGames[1].Players.Count);
 
-        Api.FindGame("Jeff 4", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, new HashSet<GameMode> { GameMode.Konami, GameMode.Numbers });
+        Api.FindGame("Jeff 4", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, new HashSet<GameMode> { GameMode.ClickRace, GameMode.Numbers });
         Assert.AreEqual(2, galaxy.OpenGames.Count);
         Assert.AreEqual(3, galaxy.OpenGames[1].Players.Count);
 
-        Api.FindGame("Jeff 5", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, new HashSet<GameMode> { GameMode.HellDiver });
+        Api.FindGame("Jeff 5", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, new HashSet<GameMode> { GameMode.CopyPastas });
         Assert.AreEqual(3, galaxy.OpenGames.Count);
 
-        Api.FindGame("Jeff 6", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, new HashSet<GameMode> { GameMode.HellDiver, GameMode.Numbers });
+        Api.FindGame("Jeff 6", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, new HashSet<GameMode> { GameMode.CopyPastas, GameMode.Numbers });
         Assert.AreEqual(2, galaxy.OpenGames.Count);
     }
 }

@@ -59,10 +59,13 @@ namespace LightspeedTyperacing {
             "CwoDd3BtGAYgASgCIl4KFFlvdXZlQmVlbkFkZGVkVG9HYW1lEg8KB2dhbWVf",
             "aWQYAiABKAkSNQoPY3VycmVudF9wbGF5ZXJzGAMgAygLMhwuTGlnaHRzcGVl",
             "ZFR5cGVyYWNpbmcuUGxheWVyIjgKElBsYXllckRpc2Nvbm5lY3RlZBIRCglw",
-            "bGF5ZXJfaWQYASABKAkSDwoHcmVtb3ZlZBgCIAEoCCpqCghHYW1lTW9kZRIL",
-            "CgdJbnZhbGlkEAASDgoKRGljdGlvbmFyeRABEgsKB051bWJlcnMQAhIKCgZL",
-            "b25hbWkQAxIMCghNYXJhdGhvbhAEEg0KCUhlbGxEaXZlchAFEgsKB0hvbWVS",
-            "b3cQBmIGcHJvdG8z"));
+            "bGF5ZXJfaWQYASABKAkSDwoHcmVtb3ZlZBgCIAEoCCqLAgoIR2FtZU1vZGUS",
+            "CwoHSW52YWxpZBAAEg4KCk1vc3RDb21tb24QARIVChFIdW5kcmVkTW9zdENv",
+            "bW1vbhACEg4KCkRpY3Rpb25hcnkQAxIUChBMZWFzdENvbW1vbldvcmRzEAQS",
+            "DgoKQ29weVBhc3RhcxAFEg0KCUNsaWNrUmFjZRAGEgsKB051bWJlcnMQBxIM",
+            "CghNYXJhdGhvbhAIEgsKB0hvbWVSb3cQCRIMCghVcHBlclJvdxAKEg0KCVJp",
+            "Z2h0SGFuZBALEgwKCExlZnRIYW5kEAwSEwoPQWx0ZXJuYXRpbmdIYW5kEA0S",
+            "CgoGUmFuZG9tEA4SEgoOTG9uZ2VzdEh1bmRyZWQQD2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::LightspeedTyperacing.GameMode), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -87,12 +90,21 @@ namespace LightspeedTyperacing {
   #region Enums
   public enum GameMode {
     [pbr::OriginalName("Invalid")] Invalid = 0,
-    [pbr::OriginalName("Dictionary")] Dictionary = 1,
-    [pbr::OriginalName("Numbers")] Numbers = 2,
-    [pbr::OriginalName("Konami")] Konami = 3,
-    [pbr::OriginalName("Marathon")] Marathon = 4,
-    [pbr::OriginalName("HellDiver")] HellDiver = 5,
-    [pbr::OriginalName("HomeRow")] HomeRow = 6,
+    [pbr::OriginalName("MostCommon")] MostCommon = 1,
+    [pbr::OriginalName("HundredMostCommon")] HundredMostCommon = 2,
+    [pbr::OriginalName("Dictionary")] Dictionary = 3,
+    [pbr::OriginalName("LeastCommonWords")] LeastCommonWords = 4,
+    [pbr::OriginalName("CopyPastas")] CopyPastas = 5,
+    [pbr::OriginalName("ClickRace")] ClickRace = 6,
+    [pbr::OriginalName("Numbers")] Numbers = 7,
+    [pbr::OriginalName("Marathon")] Marathon = 8,
+    [pbr::OriginalName("HomeRow")] HomeRow = 9,
+    [pbr::OriginalName("UpperRow")] UpperRow = 10,
+    [pbr::OriginalName("RightHand")] RightHand = 11,
+    [pbr::OriginalName("LeftHand")] LeftHand = 12,
+    [pbr::OriginalName("AlternatingHand")] AlternatingHand = 13,
+    [pbr::OriginalName("Random")] Random = 14,
+    [pbr::OriginalName("LongestHundred")] LongestHundred = 15,
   }
 
   #endregion
