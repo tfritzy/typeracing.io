@@ -60,8 +60,44 @@ public static class Phrases
     public static string GetPhraseFromWordFile(string filename, int minWords, int maxWords)
     {
         string path = Path.Combine("data", "lists", filename);
-        string[] words = ReadLines(path);
-        return RandomlyGrabFromList(words, minWords, maxWords);
+        // string[] words = ReadLines(path);
+        // return RandomlyGrabFromList(words, minWords, maxWords);
+
+        int lineCount = File.ReadLines(path).Count();
+        List<int> lineNumbersToInclude = new();
+        int numWords = Randy.Random.Next(minWords, maxWords);
+        while (lineNumbersToInclude.Count < numWords)
+        {
+            lineNumbersToInclude.Add(Randy.Random.Next(0, lineCount));
+        }
+
+        string[] words = new string[numWords];
+        using (var sr = new StreamReader(path))
+        {
+            int lineNumber = 0;
+            while (!sr.EndOfStream)
+            {
+                string line = sr.ReadLine();
+                if (lineNumbersToInclude.Contains(lineNumber))
+                {
+                    words[lineNumbersToInclude.IndexOf(lineNumber)] = line;
+                }
+
+                lineNumber++;
+            }
+        }
+
+        StringBuilder phrase = new();
+        for (int i = 0; i < numWords; i++)
+        {
+            if (String.IsNullOrEmpty(words[i]))
+                continue;
+
+            phrase.Append(words[i]);
+            if (i != numWords - 1) phrase.Append(' ');
+        }
+
+        return phrase.ToString().Trim();
     }
 
     public static string GetRandomLetterPhrase(int minWords, int maxWords)
