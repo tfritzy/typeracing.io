@@ -1,258 +1,318 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
- EditPencil,
- NavArrowRight,
- Settings,
- X,
- Xmark,
+  Arc3d,
+  BookmarkBook,
+  Brain,
+  Copy,
+  Cube,
+  Home,
+  MathBook,
+  Message,
+  MessageAlert,
+  MouseButtonLeft,
+  OpenSelectHandGesture,
+  Running,
+  Settings,
+  Stretching,
+  Upload,
 } from "iconoir-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import { GameMode } from "./compiled";
 import { setModeEnabled } from "./store/playerSlice";
 import {
- BackgroundColor,
- BorderColor,
- NeutralColor,
- SecondaryTextColor,
- TertiaryTextColor,
- TextColor,
+  AccentColor,
+  BackgroundColor,
+  BorderColor,
+  NeutralColor,
+  SecondaryTextColor,
+  TertiaryTextColor,
+  TextColor,
 } from "./constants";
-import { Modal } from "./Modal";
 import { Drawer } from "./Drawer";
+import { Hotkey } from "./Hotkey";
 
 type ValidGameMode = Exclude<GameMode, GameMode.Invalid>;
 
-let modes: Record<
- ValidGameMode,
- { name: string; description: string }
-> = {
- Dictionary: {
-  name: "Dictionary",
-  description: "1000 most common words",
- },
- Numbers: { name: "Numbers", description: "Only numbers" },
- Konami: {
-  name: "Konami",
-  description: "The literal konami code",
- },
- Marathon: {
-  name: "Marathon",
-  description: "Endurance test",
- },
- HellDiver: {
-  name: "Hell diver",
-  description: "Stratagem codes",
- },
- HomeRow: {
-  name: "Home row",
-  description: "Words with only home row letters",
- },
+type ModeConfig = {
+  name: string;
+  description: string;
+  icon: React.ReactNode;
+  hotkey: string;
+};
+
+let modes: Record<ValidGameMode, ModeConfig> = {
+  HundredMostCommon: {
+    name: "Common words",
+    description: "Sampled from the 100 most common words.",
+    icon: <Cube width={20} height={20} />,
+    hotkey: "C",
+  },
+  Dictionary: {
+    name: "Entire dictionary",
+    description: "Random words from the entire dictionary.",
+    icon: <BookmarkBook width={20} height={20} />,
+    hotkey: "D",
+  },
+  MostCommon: {
+    name: "Most common word",
+    description: "The the the the the the the the the.",
+    icon: <Message width={20} height={20} />,
+    hotkey: "T",
+  },
+  LeastCommonWords: {
+    name: "Rare words",
+    description: "Extremely archaic words.",
+    icon: <Brain width={20} height={20} />,
+    hotkey: "R",
+  },
+  CopyPastas: {
+    name: "Copy pastas",
+    description: "Famous copy pastas.",
+    icon: <Copy width={20} height={20} />,
+    hotkey: "P",
+  },
+  ClickRace: {
+    name: "Spam tap",
+    description: "Like a mouse clicking race, but keyboard.",
+    icon: <MouseButtonLeft width={20} height={20} />,
+    hotkey: "S",
+  },
+  Numbers: {
+    name: "Numbers",
+    description: "You know, numbers.",
+    icon: <MathBook width={20} height={20} />,
+    hotkey: "N",
+  },
+  Marathon: {
+    name: "Marathon",
+    description: "Painfully long phrases.",
+    icon: <Running width={20} height={20} />,
+    hotkey: "M",
+  },
+  HomeRow: {
+    name: "Home row",
+    description: "Words that can be typed using only the home row.",
+    icon: <Home width={20} height={20} />,
+    hotkey: "H",
+  },
+  UpperRow: {
+    name: "Upper row",
+    description: "Words that can be typed using only the upper row.",
+    icon: <Upload width={20} height={20} />,
+    hotkey: "U",
+  },
+  LeftHand: {
+    name: "Left hand only",
+    description: "Words that can be typed using only the left hand.",
+    icon: (
+      <div className="flip-horizontal">
+        <OpenSelectHandGesture width={20} height={20} />
+      </div>
+    ),
+    hotkey: "L",
+  },
+  RightHand: {
+    name: "Right hand only",
+    description: "Words that can be typed using only the right hand.",
+    icon: <OpenSelectHandGesture width={20} height={20} />,
+    hotkey: "R",
+  },
+  AlternatingHand: {
+    name: "Alternating hand",
+    description: "Words that alternate between left and right hand.",
+    icon: <Arc3d width={20} height={20} />,
+    hotkey: "A",
+  },
+  Random: {
+    name: "Fake words",
+    description: "fwois woisn woiqun sowiqun soiwnmd.",
+    icon: <MessageAlert width={20} height={20} />,
+    hotkey: "F",
+  },
+  LongestHundred: {
+    name: "Very long words",
+    description: "The longest 100 words in the dictionary.",
+    icon: <Stretching width={20} height={20} />,
+    hotkey: "V",
+  },
 };
 
 type ModeButtonProps = {
- text: string;
- selected: boolean;
- onClick: () => void;
- middle?: boolean;
+  text: string;
+  selected: boolean;
+  onClick: () => void;
+  middle?: boolean;
 };
 
 const ModeButton = (props: ModeButtonProps) => {
- return (
-  <button
-   className="transition-all py-2 rounded w-32"
-   style={
-    props.selected
-     ? {
-        backgroundColor: TextColor,
-        color: BackgroundColor,
-        borderColor: BorderColor,
-        borderLeft: props.middle ? "1px solid" : "none",
-        borderRight: props.middle ? "1px solid" : "none",
-        fontWeight: 600,
-       }
-     : {
-        backgroundColor: "transparent",
-        color: SecondaryTextColor,
-        borderColor: BorderColor,
-        borderLeft: props.middle ? "1px solid" : "none",
-        borderRight: props.middle ? "1px solid" : "none",
-        fontWeight: 400,
-       }
-   }
-   onClick={props.onClick}
-  >
-   {props.text}
-  </button>
- );
+  return (
+    <button
+      className="font-normal py-2 rounded w-32"
+      style={
+        props.selected
+          ? {
+              backgroundColor: AccentColor + "20",
+              color: AccentColor,
+              borderColor: AccentColor,
+              borderLeft: props.middle ? "1px solid" : "none",
+              borderRight: props.middle ? "1px solid" : "none",
+            }
+          : {
+              backgroundColor: "transparent",
+              color: SecondaryTextColor,
+              borderColor: BorderColor,
+              borderLeft: props.middle ? "1px solid" : "none",
+              borderRight: props.middle ? "1px solid" : "none",
+            }
+      }
+      onClick={props.onClick}
+    >
+      {props.text}
+    </button>
+  );
 };
 
 const ModeCheckboxes = () => {
- const dispatch = useDispatch();
- const player = useSelector(
-  (state: RootState) => state.player
- );
+  const dispatch = useDispatch();
+  const player = useSelector((state: RootState) => state.player);
 
- const checkboxes = [];
- for (const [key, value] of Object.entries(modes) as [
-  ValidGameMode,
-  { name: string; description: string }
- ][]) {
-  const handleClick = () => {
-   if (player.enabledModes.includes(key)) {
-    dispatch(setModeEnabled({ mode: key, enabled: false }));
-   } else {
-    dispatch(setModeEnabled({ mode: key, enabled: true }));
-   }
-  };
+  const checkboxes = [];
+  for (const [key, value] of Object.entries(modes) as [
+    ValidGameMode,
+    ModeConfig
+  ][]) {
+    const handleClick = () => {
+      if (player.enabledModes.includes(key)) {
+        dispatch(setModeEnabled({ mode: key, enabled: false }));
+      } else {
+        dispatch(setModeEnabled({ mode: key, enabled: true }));
+      }
+    };
 
-  checkboxes.push(
-   <label
-    key={key}
-    className="flex flex-row space-x-2 items-start cursor-pointer"
-   >
-    <input
-     className="cursor-pointer"
-     type="checkbox"
-     checked={player.enabledModes.includes(key)}
-     onChange={handleClick}
-    />
-    <button
-     className="checkmark mt-[6px]"
-     onClick={handleClick}
-    />
+    const isEnabled = player.enabledModes.includes(key);
+
+    checkboxes.push(
+      <button
+        key={key}
+        className="flex flex-row items-center space-x-2 border rounded-md p-2"
+        style={{
+          backgroundColor: isEnabled ? AccentColor + "20" : "transparent",
+          borderColor: isEnabled ? AccentColor : TertiaryTextColor,
+          color: isEnabled ? AccentColor : TextColor,
+        }}
+        onClick={handleClick}
+      >
+        <div className="">{value.icon}</div>
+        <div className="">{value.name}</div>
+        <div className="grow" />
+        <Hotkey code={value.hotkey} />
+      </button>
+    );
+  }
+
+  return (
     <div>
-     <div className="">{value.name}</div>
-     <div
-      className="text-sm"
-      style={{ color: SecondaryTextColor }}
-     >
-      {value.description}
-     </div>
+      <div className="font-normal mb-1">Game modes</div>
+      <div className="mb-4" style={{ color: SecondaryTextColor }}>
+        You'll be randomly placed in a games of one of the enabled modes.
+      </div>
+      <div className="grid grid-cols-2 gap-x-2 gap-y-2">{checkboxes}</div>
     </div>
-   </label>
   );
- }
-
- return (
-  <div>
-   <div className="font-normal mb-1">Game modes</div>
-   <div
-    className="mb-4"
-    style={{ color: SecondaryTextColor }}
-   >
-    You'll be randomly placed in a games of one of the
-    enabled modes.
-   </div>
-   <div className="grid grid-cols-2 gap-x-4 gap-y-4">
-    {checkboxes}
-   </div>
-  </div>
- );
 };
 
 type Mode = "Multiplayer" | "Private lobby" | "Practice";
 
 const Content = ({
- mode,
- setMode,
+  mode,
+  setMode,
 }: {
- mode: Mode;
- setMode: (mode: Mode) => void;
+  mode: Mode;
+  setMode: (mode: Mode) => void;
 }) => {
- return (
-  <div
-   className="transition-all rounded-lg flex flex-col space-y-8"
-   style={{
-    borderColor: BorderColor,
-   }}
-  >
-   <div>
-    <div className="font-normal mb-1">
-     Multiplayer settings
-    </div>
+  return (
     <div
-     className="mb-4"
-     style={{ color: SecondaryTextColor }}
+      className="rounded-lg flex flex-col space-y-8"
+      style={{
+        borderColor: BorderColor,
+      }}
     >
-     Configure how/whether you want to play with others.
+      <div>
+        <div className="font-normal mb-1">Multiplayer settings</div>
+        <div className="mb-4" style={{ color: SecondaryTextColor }}>
+          Configure how/whether you want to play with others.
+        </div>
+        <div
+          className="flex flex-row items-stretch rounded-lg w-min border"
+          style={{
+            borderColor: BorderColor,
+            backgroundColor: BackgroundColor,
+          }}
+        >
+          <ModeButton
+            text="Multiplayer"
+            onClick={() => setMode("Multiplayer")}
+            selected={mode === "Multiplayer"}
+          />
+          <ModeButton
+            text="Private lobby"
+            onClick={() => setMode("Private lobby")}
+            selected={mode === "Private lobby"}
+          />
+          <ModeButton
+            text="Practice"
+            onClick={() => setMode("Practice")}
+            selected={mode === "Practice"}
+          />
+        </div>
+      </div>
+      <ModeCheckboxes />
     </div>
-    <div
-     className="flex flex-row items-stretch rounded-lg w-min"
-     style={{
-      borderColor: BorderColor,
-      backgroundColor: BackgroundColor,
-     }}
-    >
-     <ModeButton
-      text="Multiplayer"
-      onClick={() => setMode("Multiplayer")}
-      selected={mode === "Multiplayer"}
-     />
-     <ModeButton
-      text="Private lobby"
-      onClick={() => setMode("Private lobby")}
-      selected={mode === "Private lobby"}
-     />
-     <ModeButton
-      text="Practice"
-      onClick={() => setMode("Practice")}
-      selected={mode === "Practice"}
-     />
-    </div>
-   </div>
-   {/* <div
-        className="border-b w-full mt-6 mb-5"
-        style={{ borderColor: BorderColor }}
-      /> */}
-   <ModeCheckboxes />
-  </div>
- );
+  );
 };
 
 type GameConfigProps = { onClose: () => void };
 export const GameConfig = (props: GameConfigProps) => {
- const [mode, setMode] =
-  React.useState<Mode>("Multiplayer");
- const [open, setOpen] = React.useState<boolean>(false);
- const player = useSelector(
-  (state: RootState) => state.player
- );
+  const [mode, setMode] = React.useState<Mode>("Multiplayer");
+  const [open, setOpen] = React.useState<boolean>(false);
+  const player = useSelector((state: RootState) => state.player);
 
- let modesString = "";
- if (player.enabledModes.length === 1) {
-  modesString = player.enabledModes[0].toString();
- } else {
-  modesString = player.enabledModes.length + " modes";
- }
+  let modesString = "";
+  if (player.enabledModes.length === 1) {
+    modesString = player.enabledModes[0].toString();
+  } else {
+    modesString = player.enabledModes.length + " modes";
+  }
 
- return (
-  <>
-   <button
-    className="flex flex-row items-center space-x-1 rounded-full p-2 px-4 text-tertiary focus:text-main"
-    onClick={() => setOpen(true)}
-    style={{
-     backgroundColor: NeutralColor,
-    }}
-   >
-    <Settings width={20} height={20} />
-    <div>
-     {mode.toString()}, {modesString}
-    </div>
-   </button>
+  return (
+    <>
+      <button
+        className="flex flex-row items-center space-x-2 rounded-full p-2 px-4 text-tertiary focus:text-main"
+        onClick={() => setOpen(true)}
+        style={{
+          backgroundColor: NeutralColor,
+        }}
+      >
+        <Settings width={20} height={20} />
+        <div>
+          {mode.toString()}, {modesString}
+        </div>
+        <Hotkey code="=" />
+      </button>
 
-   <Drawer
-    title="Game settings"
-    open={open}
-    onClose={() => {
-     setOpen(false);
-     props.onClose();
-    }}
-   >
-    <div className="p-4">
-     <Content mode={mode} setMode={setMode} />
-    </div>
-   </Drawer>
-  </>
- );
+      <Drawer
+        title="Game settings"
+        open={open}
+        onClose={() => {
+          setOpen(false);
+          props.onClose();
+        }}
+      >
+        <div className="p-4">
+          <Content mode={mode} setMode={setMode} />
+        </div>
+      </Drawer>
+    </>
+  );
 };

@@ -44,38 +44,6 @@ h2 {
   box-sizing: border-box;    /* Includes padding and border in the width */
 }
 
-/* Hide the original checkbox */
-input[type="checkbox"] {
-  display: none;
-}
-
-/* Create a custom box */
-label .checkmark {
-  position: relative;
-  height: 14px;
-  width: 14px;
-  background-color: #dad4cb33;
-  display: inline-block;
-  vertical-align: middle;
-  border-radius: 20px;
-}
-
-/* On checking the checkbox, add a checkmark */
-input[type="checkbox"]:checked + .checkmark {
-  background-color: white;
-}
-
-label .checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-/* Adding transitions for smooth visual effects */
-label .checkmark {
-  transition: background-color 0.2s;
-}
-
 /* Remove default focus ring */
 :focus {
   outline: none;
@@ -85,4 +53,13 @@ label .checkmark {
 :focus-visible {
   outline: 2px solid #999999; /* Change color and size as desired */
   outline-offset: 2px; /* Adjust offset to prevent overlap with element */
+}
+
+.flip-horizontal {
+  -moz-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  transform: scaleX(-1);
+  -ms-filter: fliph; /*IE*/
+  filter: fliph; /*IE*/
 }

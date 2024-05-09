@@ -211,11 +211,11 @@ public class Server
         {
             case OneofRequest.RequestOneofCase.FindGame:
                 Api.FindGame(
-                    request.FindGame.PlayerName,
-                    request.SenderId,
-                    request.FindGame.PlayerToken,
-                    Galaxy,
-                    new HashSet<GameMode>(request.FindGame.GameModes));
+                        request.FindGame.PlayerName,
+                        request.SenderId,
+                        request.FindGame.PlayerToken,
+                        Galaxy,
+                        new HashSet<GameMode>(request.FindGame.GameModes));
                 break;
             case OneofRequest.RequestOneofCase.TypeWord:
                 Api.TypeWord(

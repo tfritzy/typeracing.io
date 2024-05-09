@@ -22,7 +22,7 @@ public static class Phrases
             GameMode.LeftHand => GetPhraseFromWordFile("LeftHand.txt", 20, 40),
             GameMode.RightHand => GetPhraseFromWordFile("RightHand.txt", 20, 40),
             GameMode.AlternatingHand => GetPhraseFromWordFile("AlternatingHand.txt", 20, 40),
-            GameMode.Marathon => GetPhraseFromWordFile("words.txt", 80, 120),
+            GameMode.Marathon => GetPhraseFromWordFile("CommonWords.txt", 80, 120),
             GameMode.Random => GetRandomLetterPhrase(20, 40),
             GameMode.LongestHundred => GetPhraseFromWordFile("LongestHundred.txt", 10, 15),
         };
