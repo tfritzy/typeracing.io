@@ -47,18 +47,18 @@ namespace LightspeedTyperacing {
             "WW91dmVCZWVuQWRkZWRUb0dhbWVIABJHChNwbGF5ZXJfZGlzY29ubmVjdGVk",
             "GAkgASgLMiguTGlnaHRzcGVlZFR5cGVyYWNpbmcuUGxheWVyRGlzY29ubmVj",
             "dGVkSABCCAoGdXBkYXRlIh4KCEdhbWVPdmVyEhIKCmVuZF90aW1lX3MYASAB",
-            "KAIiDQoLR2FtZVN0YXJ0ZWQiMQoMR2FtZVN0YXJ0aW5nEhEKCWNvdW50ZG93",
-            "bhgBIAEoAhIOCgZwaHJhc2UYAiABKAkicgoPUGxheWVyQ29tcGxldGVkEhEK",
-            "CXBsYXllcl9pZBgBIAEoCRINCgVwbGFjZRgCIAEoBRIZChFyYXdfd3BtX2J5",
-            "X3NlY29uZBgDIAMoAhIVCg13cG1fYnlfc2Vjb25kGAQgAygCEgsKA3dwbRgF",
-            "IAEoAiJRChBQbGF5ZXJKb2luZWRHYW1lEiwKBnBsYXllchgBIAEoCzIcLkxp",
-            "Z2h0c3BlZWRUeXBlcmFjaW5nLlBsYXllchIPCgdnYW1lX2lkGAIgASgJIpMB",
-            "CgxXb3JkRmluaXNoZWQSEQoJcGxheWVyX2lkGAEgASgJEhgKEHBlcmNlbnRf",
-            "Y29tcGxldGUYAiABKAISFQoNdmVsb2NpdHlfa21fcxgDIAEoAhITCgtwb3Np",
-            "dGlvbl9rbRgEIAEoAhIdChVjaGFyX2NvbXBsZXRpb25fdGltZXMYBSADKAIS",
-            "CwoDd3BtGAYgASgCIl4KFFlvdXZlQmVlbkFkZGVkVG9HYW1lEg8KB2dhbWVf",
-            "aWQYAiABKAkSNQoPY3VycmVudF9wbGF5ZXJzGAMgAygLMhwuTGlnaHRzcGVl",
-            "ZFR5cGVyYWNpbmcuUGxheWVyIjgKElBsYXllckRpc2Nvbm5lY3RlZBIRCglw",
+            "KAIiDQoLR2FtZVN0YXJ0ZWQiIQoMR2FtZVN0YXJ0aW5nEhEKCWNvdW50ZG93",
+            "bhgBIAEoAiJyCg9QbGF5ZXJDb21wbGV0ZWQSEQoJcGxheWVyX2lkGAEgASgJ",
+            "Eg0KBXBsYWNlGAIgASgFEhkKEXJhd193cG1fYnlfc2Vjb25kGAMgAygCEhUK",
+            "DXdwbV9ieV9zZWNvbmQYBCADKAISCwoDd3BtGAUgASgCIlEKEFBsYXllckpv",
+            "aW5lZEdhbWUSLAoGcGxheWVyGAEgASgLMhwuTGlnaHRzcGVlZFR5cGVyYWNp",
+            "bmcuUGxheWVyEg8KB2dhbWVfaWQYAiABKAkikwEKDFdvcmRGaW5pc2hlZBIR",
+            "CglwbGF5ZXJfaWQYASABKAkSGAoQcGVyY2VudF9jb21wbGV0ZRgCIAEoAhIV",
+            "Cg12ZWxvY2l0eV9rbV9zGAMgASgCEhMKC3Bvc2l0aW9uX2ttGAQgASgCEh0K",
+            "FWNoYXJfY29tcGxldGlvbl90aW1lcxgFIAMoAhILCgN3cG0YBiABKAIibgoU",
+            "WW91dmVCZWVuQWRkZWRUb0dhbWUSDwoHZ2FtZV9pZBgBIAEoCRI1Cg9jdXJy",
+            "ZW50X3BsYXllcnMYAiADKAsyHC5MaWdodHNwZWVkVHlwZXJhY2luZy5QbGF5",
+            "ZXISDgoGcGhyYXNlGAMgASgJIjgKElBsYXllckRpc2Nvbm5lY3RlZBIRCglw",
             "bGF5ZXJfaWQYASABKAkSDwoHcmVtb3ZlZBgCIAEoCCqLAgoIR2FtZU1vZGUS",
             "CwoHSW52YWxpZBAAEg4KCk1vc3RDb21tb24QARIVChFIdW5kcmVkTW9zdENv",
             "bW1vbhACEg4KCkRpY3Rpb25hcnkQAxIUChBMZWFzdENvbW1vbldvcmRzEAQS",
@@ -76,11 +76,11 @@ namespace LightspeedTyperacing {
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.OneofUpdate), global::LightspeedTyperacing.OneofUpdate.Parser, new[]{ "RecipientId", "GameOver", "GameStarted", "GameStarting", "PlayerCompleted", "PlayerJoinedGame", "WordFinished", "YouveBeenAddedToGame", "PlayerDisconnected" }, new[]{ "Update" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.GameOver), global::LightspeedTyperacing.GameOver.Parser, new[]{ "EndTimeS" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.GameStarted), global::LightspeedTyperacing.GameStarted.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.GameStarting), global::LightspeedTyperacing.GameStarting.Parser, new[]{ "Countdown", "Phrase" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.GameStarting), global::LightspeedTyperacing.GameStarting.Parser, new[]{ "Countdown" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.PlayerCompleted), global::LightspeedTyperacing.PlayerCompleted.Parser, new[]{ "PlayerId", "Place", "RawWpmBySecond", "WpmBySecond", "Wpm" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.PlayerJoinedGame), global::LightspeedTyperacing.PlayerJoinedGame.Parser, new[]{ "Player", "GameId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.WordFinished), global::LightspeedTyperacing.WordFinished.Parser, new[]{ "PlayerId", "PercentComplete", "VelocityKmS", "PositionKm", "CharCompletionTimes", "Wpm" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.YouveBeenAddedToGame), global::LightspeedTyperacing.YouveBeenAddedToGame.Parser, new[]{ "GameId", "CurrentPlayers" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.YouveBeenAddedToGame), global::LightspeedTyperacing.YouveBeenAddedToGame.Parser, new[]{ "GameId", "CurrentPlayers", "Phrase" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.PlayerDisconnected), global::LightspeedTyperacing.PlayerDisconnected.Parser, new[]{ "PlayerId", "Removed" }, null, null, null, null)
           }));
     }
@@ -2182,7 +2182,6 @@ namespace LightspeedTyperacing {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public GameStarting(GameStarting other) : this() {
       countdown_ = other.countdown_;
-      phrase_ = other.phrase_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -2204,18 +2203,6 @@ namespace LightspeedTyperacing {
       }
     }
 
-    /// <summary>Field number for the "phrase" field.</summary>
-    public const int PhraseFieldNumber = 2;
-    private string phrase_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Phrase {
-      get { return phrase_; }
-      set {
-        phrase_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -2232,7 +2219,6 @@ namespace LightspeedTyperacing {
         return true;
       }
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Countdown, other.Countdown)) return false;
-      if (Phrase != other.Phrase) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -2241,7 +2227,6 @@ namespace LightspeedTyperacing {
     public override int GetHashCode() {
       int hash = 1;
       if (Countdown != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Countdown);
-      if (Phrase.Length != 0) hash ^= Phrase.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2264,10 +2249,6 @@ namespace LightspeedTyperacing {
         output.WriteRawTag(13);
         output.WriteFloat(Countdown);
       }
-      if (Phrase.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Phrase);
-      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2282,10 +2263,6 @@ namespace LightspeedTyperacing {
         output.WriteRawTag(13);
         output.WriteFloat(Countdown);
       }
-      if (Phrase.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Phrase);
-      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -2298,9 +2275,6 @@ namespace LightspeedTyperacing {
       int size = 0;
       if (Countdown != 0F) {
         size += 1 + 4;
-      }
-      if (Phrase.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Phrase);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2316,9 +2290,6 @@ namespace LightspeedTyperacing {
       }
       if (other.Countdown != 0F) {
         Countdown = other.Countdown;
-      }
-      if (other.Phrase.Length != 0) {
-        Phrase = other.Phrase;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -2339,10 +2310,6 @@ namespace LightspeedTyperacing {
             Countdown = input.ReadFloat();
             break;
           }
-          case 18: {
-            Phrase = input.ReadString();
-            break;
-          }
         }
       }
     #endif
@@ -2360,10 +2327,6 @@ namespace LightspeedTyperacing {
             break;
           case 13: {
             Countdown = input.ReadFloat();
-            break;
-          }
-          case 18: {
-            Phrase = input.ReadString();
             break;
           }
         }
@@ -3328,6 +3291,7 @@ namespace LightspeedTyperacing {
     public YouveBeenAddedToGame(YouveBeenAddedToGame other) : this() {
       gameId_ = other.gameId_;
       currentPlayers_ = other.currentPlayers_.Clone();
+      phrase_ = other.phrase_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3338,7 +3302,7 @@ namespace LightspeedTyperacing {
     }
 
     /// <summary>Field number for the "game_id" field.</summary>
-    public const int GameIdFieldNumber = 2;
+    public const int GameIdFieldNumber = 1;
     private string gameId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -3350,14 +3314,26 @@ namespace LightspeedTyperacing {
     }
 
     /// <summary>Field number for the "current_players" field.</summary>
-    public const int CurrentPlayersFieldNumber = 3;
+    public const int CurrentPlayersFieldNumber = 2;
     private static readonly pb::FieldCodec<global::LightspeedTyperacing.Player> _repeated_currentPlayers_codec
-        = pb::FieldCodec.ForMessage(26, global::LightspeedTyperacing.Player.Parser);
+        = pb::FieldCodec.ForMessage(18, global::LightspeedTyperacing.Player.Parser);
     private readonly pbc::RepeatedField<global::LightspeedTyperacing.Player> currentPlayers_ = new pbc::RepeatedField<global::LightspeedTyperacing.Player>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public pbc::RepeatedField<global::LightspeedTyperacing.Player> CurrentPlayers {
       get { return currentPlayers_; }
+    }
+
+    /// <summary>Field number for the "phrase" field.</summary>
+    public const int PhraseFieldNumber = 3;
+    private string phrase_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Phrase {
+      get { return phrase_; }
+      set {
+        phrase_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3377,6 +3353,7 @@ namespace LightspeedTyperacing {
       }
       if (GameId != other.GameId) return false;
       if(!currentPlayers_.Equals(other.currentPlayers_)) return false;
+      if (Phrase != other.Phrase) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -3386,6 +3363,7 @@ namespace LightspeedTyperacing {
       int hash = 1;
       if (GameId.Length != 0) hash ^= GameId.GetHashCode();
       hash ^= currentPlayers_.GetHashCode();
+      if (Phrase.Length != 0) hash ^= Phrase.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3405,10 +3383,14 @@ namespace LightspeedTyperacing {
       output.WriteRawMessage(this);
     #else
       if (GameId.Length != 0) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(10);
         output.WriteString(GameId);
       }
       currentPlayers_.WriteTo(output, _repeated_currentPlayers_codec);
+      if (Phrase.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Phrase);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -3420,10 +3402,14 @@ namespace LightspeedTyperacing {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (GameId.Length != 0) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(10);
         output.WriteString(GameId);
       }
       currentPlayers_.WriteTo(ref output, _repeated_currentPlayers_codec);
+      if (Phrase.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Phrase);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -3438,6 +3424,9 @@ namespace LightspeedTyperacing {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(GameId);
       }
       size += currentPlayers_.CalculateSize(_repeated_currentPlayers_codec);
+      if (Phrase.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Phrase);
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -3454,6 +3443,9 @@ namespace LightspeedTyperacing {
         GameId = other.GameId;
       }
       currentPlayers_.Add(other.currentPlayers_);
+      if (other.Phrase.Length != 0) {
+        Phrase = other.Phrase;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -3469,12 +3461,16 @@ namespace LightspeedTyperacing {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 18: {
+          case 10: {
             GameId = input.ReadString();
             break;
           }
-          case 26: {
+          case 18: {
             currentPlayers_.AddEntriesFrom(input, _repeated_currentPlayers_codec);
+            break;
+          }
+          case 26: {
+            Phrase = input.ReadString();
             break;
           }
         }
@@ -3492,12 +3488,16 @@ namespace LightspeedTyperacing {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 18: {
+          case 10: {
             GameId = input.ReadString();
             break;
           }
-          case 26: {
+          case 18: {
             currentPlayers_.AddEntriesFrom(ref input, _repeated_currentPlayers_codec);
+            break;
+          }
+          case 26: {
+            Phrase = input.ReadString();
             break;
           }
         }

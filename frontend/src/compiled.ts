@@ -673,7 +673,6 @@ function _decodeGameStarted(bb: ByteBuffer): GameStarted {
 
 export interface GameStarting {
   countdown?: number;
-  phrase?: string;
 }
 
 export function encodeGameStarting(message: GameStarting): Uint8Array {
@@ -688,13 +687,6 @@ function _encodeGameStarting(message: GameStarting, bb: ByteBuffer): void {
   if ($countdown !== undefined) {
     writeVarint32(bb, 13);
     writeFloat(bb, $countdown);
-  }
-
-  // optional string phrase = 2;
-  let $phrase = message.phrase;
-  if ($phrase !== undefined) {
-    writeVarint32(bb, 18);
-    writeString(bb, $phrase);
   }
 }
 
@@ -715,12 +707,6 @@ function _decodeGameStarting(bb: ByteBuffer): GameStarting {
       // optional float countdown = 1;
       case 1: {
         message.countdown = readFloat(bb);
-        break;
-      }
-
-      // optional string phrase = 2;
-      case 2: {
-        message.phrase = readString(bb, readVarint32(bb));
         break;
       }
 
@@ -1067,6 +1053,7 @@ function _decodeWordFinished(bb: ByteBuffer): WordFinished {
 export interface YouveBeenAddedToGame {
   game_id?: string;
   current_players?: Player[];
+  phrase?: string;
 }
 
 export function encodeYouveBeenAddedToGame(message: YouveBeenAddedToGame): Uint8Array {
@@ -1076,24 +1063,31 @@ export function encodeYouveBeenAddedToGame(message: YouveBeenAddedToGame): Uint8
 }
 
 function _encodeYouveBeenAddedToGame(message: YouveBeenAddedToGame, bb: ByteBuffer): void {
-  // optional string game_id = 2;
+  // optional string game_id = 1;
   let $game_id = message.game_id;
   if ($game_id !== undefined) {
-    writeVarint32(bb, 18);
+    writeVarint32(bb, 10);
     writeString(bb, $game_id);
   }
 
-  // repeated Player current_players = 3;
+  // repeated Player current_players = 2;
   let array$current_players = message.current_players;
   if (array$current_players !== undefined) {
     for (let value of array$current_players) {
-      writeVarint32(bb, 26);
+      writeVarint32(bb, 18);
       let nested = popByteBuffer();
       _encodePlayer(value, nested);
       writeVarint32(bb, nested.limit);
       writeByteBuffer(bb, nested);
       pushByteBuffer(nested);
     }
+  }
+
+  // optional string phrase = 3;
+  let $phrase = message.phrase;
+  if ($phrase !== undefined) {
+    writeVarint32(bb, 26);
+    writeString(bb, $phrase);
   }
 }
 
@@ -1111,18 +1105,24 @@ function _decodeYouveBeenAddedToGame(bb: ByteBuffer): YouveBeenAddedToGame {
       case 0:
         break end_of_message;
 
-      // optional string game_id = 2;
-      case 2: {
+      // optional string game_id = 1;
+      case 1: {
         message.game_id = readString(bb, readVarint32(bb));
         break;
       }
 
-      // repeated Player current_players = 3;
-      case 3: {
+      // repeated Player current_players = 2;
+      case 2: {
         let limit = pushTemporaryLength(bb);
         let values = message.current_players || (message.current_players = []);
         values.push(_decodePlayer(bb));
         bb.limit = limit;
+        break;
+      }
+
+      // optional string phrase = 3;
+      case 3: {
+        message.phrase = readString(bb, readVarint32(bb));
         break;
       }
 

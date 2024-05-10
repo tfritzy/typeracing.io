@@ -6,12 +6,12 @@ public class StatsTests
     [TestMethod]
     public void Stats_Wpm()
     {
-        AssertExtensions.IsApproximately(0, Stats.GetWpm(0, 1f, new List<float>()));
-        AssertExtensions.IsApproximately(0, Stats.GetWpm(0, 1f, new List<float> { 1 }));
-        AssertExtensions.IsApproximately(30, Stats.GetWpm(1, 1f, new List<float> { 1, 2 }));
-        AssertExtensions.IsApproximately(60, Stats.GetWpm(2, 1f, new List<float> { 1, 2 }));
-        AssertExtensions.IsApproximately(60, Stats.GetWpm(4, 1f, new List<float> { 1, 2, 3, 4 }));
-        AssertExtensions.IsApproximately(120, Stats.GetWpm(10, 1f, new List<float> { 1, 2, 3, 4, 5 }));
+        AssertExtensions.IsApproximately(0, Stats.GetWpm(new List<float>()));
+        AssertExtensions.IsApproximately(0, Stats.GetWpm(new List<float> { 1 }));
+        AssertExtensions.IsApproximately(30, Stats.GetWpm(new List<float> { 1, 2 }));
+        AssertExtensions.IsApproximately(60, Stats.GetWpm(new List<float> { 1, 2 }));
+        AssertExtensions.IsApproximately(60, Stats.GetWpm(new List<float> { 1, 2, 3, 4 }));
+        AssertExtensions.IsApproximately(120, Stats.GetWpm(new List<float> { 1, 2, 3, 4, 5 }));
     }
 
     [TestMethod]

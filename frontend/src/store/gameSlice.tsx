@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { PlayerData } from "../App";
 import {
   GameOver,
+  GameStarting,
   PlayerCompleted,
   PlayerDisconnected,
   PlayerJoinedGame,
@@ -45,19 +46,12 @@ export const gameSlice = createSlice({
   name: "game",
   initialState: initialGameState,
   reducers: {
-    setGameStarting: (
+    handleGameStarting: (
       state: GameState,
-      action: {
-        payload: {
-          phrase: string;
-          countdown: number;
-          stage: GameStage;
-        };
-      }
+      action: { payload: GameStarting }
     ) => {
       state.state = GameStage.Countdown;
-      state.phrase = action.payload.phrase;
-      state.start_time = Date.now() + action.payload.countdown * 1000;
+      state.start_time = Date.now() + (action.payload.countdown || 0) * 1000;
     },
     setYouveBeenAddedToGame: (
       state: GameState,
@@ -66,6 +60,7 @@ export const gameSlice = createSlice({
       }
     ) => {
       state.state = GameStage.WaitingForPlayers;
+      state.phrase = action.payload.phrase || "";
       state.players = action.payload.current_players!.map((player) => ({
         id: player.id || "",
         name: player.name || "",
@@ -184,7 +179,7 @@ export const gameSlice = createSlice({
 export const {
   updatePlayerWordProgress,
   playerDisconnected,
-  setGameStarting,
+  handleGameStarting,
   setYouveBeenAddedToGame,
   playerFinished,
   selfFinished,

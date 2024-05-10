@@ -69,7 +69,6 @@ message GameStarted {
 
 message GameStarting {
     float countdown = 1;
-    string phrase = 2;
 }
 
 message PlayerCompleted {
@@ -95,8 +94,9 @@ message WordFinished {
 }
 
 message YouveBeenAddedToGame {
-    string game_id = 2;
-    repeated Player current_players = 3;
+    string game_id = 1;
+    repeated Player current_players = 2;
+    string phrase = 3;
 }
 
 message PlayerDisconnected {

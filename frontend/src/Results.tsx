@@ -7,59 +7,76 @@ import { ActionBar } from "./ActionBar";
 import { HomeBreadcrumb } from "./HomeBreadcrumb";
 
 const placementColors = [
- ["#facc15", "#facc1533", "#fef3c7"],
- ["#71717a", "#71717a33", "#e5e5e5"],
- ["#854d0e", "#854d0e33", "#fef9c3"],
+  ["#facc15", "#facc1533", "#fef3c7"],
+  ["#71717a", "#71717a33", "#e5e5e5"],
+  ["#854d0e", "#854d0e33", "#fef9c3"],
 ];
 
 export const Results = () => {
- const [wpmData, setWpmData] = useState<Series[]>([]);
- const game = useSelector((state: RootState) => state.game);
+  const [wpmData, setWpmData] = useState<Series[]>([]);
+  const game = useSelector((state: RootState) => state.game);
+  const selfId = useSelector((state: RootState) => state.player.id);
 
- const finishedPlayers = useMemo(
-  () =>
-   game.placements
-    .map((placement) => {
-     return game.players.find(
-      (player) => player.id === placement.playerId
-     );
-    })
-    .filter((p) => p) as PlayerData[],
-  [game.placements]
- );
+  const finishedPlayers = useMemo(
+    () =>
+      game.placements
+        .map((placement) => {
+          return game.players.find(
+            (player) => player.id === placement.playerId
+          );
+        })
+        .filter((p) => p) as PlayerData[],
+    [game.placements]
+  );
 
- useEffect(() => {
-  const newWpmData: Series[] = [];
-  for (const player of finishedPlayers) {
-   if (
-    !player.wpm_by_second?.length ||
-    !player.raw_wpm_by_second?.length
-   ) {
-    continue;
-   }
+  const self = finishedPlayers.find((p) => p.id === selfId);
 
-   newWpmData.push({
-    name: "raw wpm",
-    data: player.raw_wpm_by_second,
-   });
+  useEffect(() => {
+    const newWpmData: Series[] = [];
+    if (
+      !self ||
+      !self.wpm_by_second?.length ||
+      !self.raw_wpm_by_second?.length
+    ) {
+      return;
+    }
 
-   newWpmData.push({
-    name: "wpm",
-    data: player.wpm_by_second,
-   });
+    newWpmData.push({
+      name: "raw wpm",
+      data: self.raw_wpm_by_second,
+    });
 
-   setWpmData(newWpmData);
+    newWpmData.push({
+      name: "wpm",
+      data: self.wpm_by_second,
+    });
+
+    setWpmData(newWpmData);
+  }, [self]);
+
+  if (!finishedPlayers.length) {
+    return null;
   }
- }, [finishedPlayers]);
 
- if (!finishedPlayers.length) {
-  return null;
- }
+  const wordsTyped = game.phrase.split(" ").length;
+  const charactersTyped = game.phrase.length;
+  const duration = finishedPlayers[0].wpm_by_second?.length || 0;
 
- return (
-  <LineChart
-   series={wpmData}
-   playerColor={finishedPlayers[0].themeColor}
-  />
- );
+  return (
+    <div>
+      <LineChart series={wpmData} playerColor={finishedPlayers[0].themeColor} />
+      <div>
+        <span>{game.phrase}</span>
+      </div>
+      <div>
+        <span>Words typed: {wordsTyped}</span>
+      </div>
+      <div>
+        <span>Characters typed: {charactersTyped}</span>
+      </div>
+      <div>
+        <span>Duration: {duration}s</span>
+      </div>
+    </div>
+  );
 };

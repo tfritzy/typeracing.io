@@ -11,7 +11,7 @@ public static class Phrases
         return mode switch
         {
             GameMode.MostCommon => RandomlyGrabFromList(new string[] { "the" }, 40, 60),
-            GameMode.HundredMostCommon => GetPhraseFromWordFile("HundredMostCommon.txt", 20, 40),
+            GameMode.HundredMostCommon => GetPhraseFromWordFile("ThousandMostCommon.txt", 20, 40),
             GameMode.Dictionary => GetPhraseFromWordFile("words.txt", 20, 40),
             GameMode.LeastCommonWords => GetPhraseFromWordFile("RareWords.txt", 20, 40),
             GameMode.CopyPastas => GetPhraseFromWordFile("CopyPastas.txt", 1, 1),

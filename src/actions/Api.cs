@@ -12,11 +12,11 @@ public static class Api
         enabledModes ??= new HashSet<GameMode> { GameMode.Dictionary };
         if (enabledModes.Count == 0)
             enabledModes.Add(GameMode.Dictionary);
-            
+
         var game = FindFirstMatchingGame(enabledModes, galaxy);
         if (game == null)
         {
-            GameMode mode =  enabledModes.ToArray()[new Random().Next(0, enabledModes.Count)];
+            GameMode mode = enabledModes.ToArray()[new Random().Next(0, enabledModes.Count)];
             game = new(galaxy, mode: mode);
             galaxy.OpenGames.Add(game);
         }
@@ -65,7 +65,11 @@ public static class Api
 
         if (player.BotConfig == null)
         {
-            var youveBeenAddedToGame = new YouveBeenAddedToGame() { GameId = game.Id, };
+            var youveBeenAddedToGame = new YouveBeenAddedToGame()
+            {
+                GameId = game.Id,
+                Phrase = game.Phrase
+            };
             foreach (var p in game.Players)
                 youveBeenAddedToGame.CurrentPlayers.Add(
                     new Player
@@ -107,7 +111,6 @@ public static class Api
                 GameStarting = new GameStarting
                 {
                     Countdown = Game.CountdownDuration,
-                    Phrase = openGame.Phrase
                 }
             });
         }
@@ -165,7 +168,7 @@ public static class Api
                         PercentComplete = (float)player.WordIndex / game.Words.Length,
                         VelocityKmS = velocity,
                         PositionKm = player.PositionKm,
-                        Wpm = Stats.GetWpm(game.Words.Length, percentComplete, player.CharCompletionTimes_s),
+                        Wpm = Stats.GetWpm(player.CharCompletionTimes_s),
                     }
                 });
             }
@@ -188,7 +191,7 @@ public static class Api
                 {
                     PlayerId = playerId,
                     Place = place,
-                    Wpm = Stats.GetWpm(game.Words.Length, 1f, player.CharCompletionTimes_s),
+                    Wpm = Stats.GetWpm(player.CharCompletionTimes_s),
                 };
                 playerCompleted.WpmBySecond.AddRange(Stats.GetAggWpmBySecond(game.Phrase, player.CharCompletionTimes_s));
                 playerCompleted.RawWpmBySecond.AddRange(Stats.GetRawWpmBySecond(game.Phrase, player.CharCompletionTimes_s));

@@ -130,7 +130,7 @@ public class Game
             }
 
             string currentWord = Words[player.WordIndex];
-            float timeToTypeWord_s = currentWord.Length / player.BotConfig.CharactersPerSecond;
+            float timeToTypeWord_s = (currentWord.Length + 1) / player.BotConfig.CharactersPerSecond;
             if (Galaxy.Time.Now - player.BotConfig.LastWordTime > timeToTypeWord_s)
             {
                 List<float> charCompletionTimes = new();
