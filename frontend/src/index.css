@@ -39,7 +39,7 @@ h2 {
 
 .center-column {
   width: 100%;               /* Takes full width of the container */
-  max-width: 800px;          /* Maximum width in pixels */
+  max-width: 1000px;          /* Maximum width in pixels */
   margin: 0 auto;            /* Centers the div in the container */
   box-sizing: border-box;    /* Includes padding and border in the width */
 }
@@ -51,8 +51,8 @@ h2 {
 
 /* Style focus ring */
 :focus-visible {
-  outline: 2px solid #999999; /* Change color and size as desired */
-  outline-offset: 2px; /* Adjust offset to prevent overlap with element */
+  outline: 1px solid #999999; /* Change color and size as desired */
+  outline-offset: 0px; /* Adjust offset to prevent overlap with element */
 }
 
 .flip-horizontal {

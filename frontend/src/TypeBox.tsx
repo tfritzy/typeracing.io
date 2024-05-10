@@ -4,9 +4,10 @@ import React, {
  useState,
 } from "react";
 import {
+ AccentColor,
  BrandColor,
  NeutralColor,
- TertiaryTextColor,
+ SecondaryTextColor,
  TextColor,
 } from "./constants";
 import { CursorPointer } from "iconoir-react";
@@ -55,7 +56,7 @@ export const TypeBox = (props: TypeBoxProps) => {
    const cursorRect =
     cursorRef.current.getBoundingClientRect();
    setTargetCursorXPos(cursorRect.left);
-   setTargetCursorYPos(cursorRect.top + 5);
+   setTargetCursorYPos(cursorRect.top + 7);
    setCursorXPos(cursorRect.left);
    setCursorYPos(cursorRect.top);
   }
@@ -115,7 +116,7 @@ export const TypeBox = (props: TypeBoxProps) => {
 
  useEffect(() => {
   handleWordUpdate();
- }, [currentWord]);
+ }, [currentWord, props.startTime]);
 
  useEffect(() => {
   let frameId: number;
@@ -195,14 +196,14 @@ export const TypeBox = (props: TypeBoxProps) => {
   props.lockedCharacterIndex + currentWord.length
  );
  text.push(
-  <span style={{ color: TertiaryTextColor }}>
+  <span style={{ color: SecondaryTextColor }}>
    {remainingText}
   </span>
  );
 
  return (
   <div className="relative">
-   <div className="text-2xl max-w-5xl font-thin type-box tracking-normal transition-all">
+   <div className="text-3xl font-thin type-box tracking-wide leading-10 transition-all">
     <div
      style={{
       whiteSpace: "pre-wrap",
@@ -246,12 +247,13 @@ export const TypeBox = (props: TypeBoxProps) => {
      onBlur={() => setFocused(false)}
     />
     <div
-     className={`bg-white h-[24px] w-[1px] fixed ${
+     className={`h-[30px] w-[2px] rounded-full fixed ${
       cursorPulsing ? "animate-pulse-full" : ""
      }`}
      style={{
       top: cursorYPos,
       left: cursorXPos,
+      backgroundColor: AccentColor,
      }}
      hidden={
       !focused ||

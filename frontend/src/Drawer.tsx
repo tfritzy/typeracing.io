@@ -1,90 +1,133 @@
+import React, { useEffect, useRef } from "react";
 import { Xmark } from "iconoir-react";
 import {
-  AccentColor,
-  BackgroundColor,
-  NeutralColor,
-  TertiaryTextColor,
-  TextColor,
+ AccentColor,
+ BackgroundColor,
+ NeutralColor,
+ TertiaryTextColor,
+ TextColor,
 } from "./constants";
-import React, { useEffect, useRef } from "react";
-import { Hotkey } from "./Hotkey";
 
 type DrawerProps = {
-  title: string;
-  open: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
+ title: string;
+ open: boolean;
+ onClose: () => void;
+ children: React.ReactNode;
 };
 
 export const Drawer = (props: DrawerProps) => {
-  const drawerRef = useRef<HTMLDivElement>(null);
+ const drawerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+ useEffect(() => {
+  const focusableElements =
+   'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+  let firstFocusableElement: HTMLElement | null = null;
+  let lastFocusableElement: HTMLElement | null = null;
+  console.log("Mount");
+
+  if (props.open) {
+   const focusableContent =
+    drawerRef.current?.querySelectorAll(focusableElements);
+   if (focusableContent) {
+    firstFocusableElement =
+     focusableContent[0] as HTMLElement;
+    lastFocusableElement = focusableContent[
+     focusableContent.length - 1
+    ] as HTMLElement;
+    firstFocusableElement?.focus();
+    console.log("Focus");
+   }
+
+   const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Tab") {
+     if (event.shiftKey) {
+      // Shift + Tab
       if (
-        drawerRef.current &&
-        !drawerRef.current.contains(event.target as Node)
+       document.activeElement === firstFocusableElement
       ) {
-        props.onClose();
+       lastFocusableElement?.focus();
+       event.preventDefault();
       }
-    };
-
-    const handleEscapePress = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        props.onClose();
+     } else {
+      // Tab
+      if (document.activeElement === lastFocusableElement) {
+       firstFocusableElement?.focus();
+       event.preventDefault();
       }
-    };
-
-    if (props.open) {
-      document.addEventListener("mousedown", handleClickOutside);
-      document.addEventListener("keydown", handleEscapePress);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscapePress);
+     }
+    } else if (event.key === "Escape") {
+     props.onClose();
     }
+   };
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscapePress);
-    };
-  }, [props.open, props.onClose]);
+   document.addEventListener("keydown", handleKeyDown);
 
-  return (
-    <div
-      className={`fixed flex flex-col shadow-lg h-screen bottom-0 right-0 transition-transform transform ${
-        props.open ? "" : "translate-x-full"
-      }`}
-      style={{ backgroundColor: NeutralColor }}
-      ref={drawerRef}
-    >
-      <div
-        className="flex flex-row justify-between w-full p-3 pl-4 font-semibold border-b"
-        style={{ borderColor: TertiaryTextColor }}
-      >
-        <div>{props.title}</div>
-        <button onClick={props.onClose} className="rounded-full">
-          <Xmark />
-        </button>
-      </div>
+   return () => {
+    document.removeEventListener("keydown", handleKeyDown);
+   };
+  }
+ }, [props.open]);
 
-      <div className="grow">{props.children}</div>
+ const handleClickOutside = (event: MouseEvent) => {
+  if (
+   drawerRef.current &&
+   !drawerRef.current.contains(event.target as Node)
+  ) {
+   props.onClose();
+  }
+ };
 
-      <div
-        className="flex flex-row justify-between w-full p-3 pl-4 font-semibold border-t"
-        style={{ borderColor: TertiaryTextColor }}
-      >
-        <button
-          onClick={props.onClose}
-          className="rounded-md border px-3 py-1 flex flex-row items-center space-x-2"
-          style={{
-            color: TextColor,
-            borderColor: TextColor,
-          }}
-        >
-          <div>Done</div>
-          <Hotkey code="Esc" />
-        </button>
-      </div>
-    </div>
+ useEffect(() => {
+  document.addEventListener(
+   "mousedown",
+   handleClickOutside
   );
+  return () => {
+   document.removeEventListener(
+    "mousedown",
+    handleClickOutside
+   );
+  };
+ }, [props.open]);
+
+ return (
+  <div
+   className={`fixed flex flex-col shadow-lg h-screen bottom-0 right-0 transition-transform transform ${
+    props.open ? "" : "translate-x-full"
+   }`}
+   style={{ backgroundColor: NeutralColor }}
+   ref={drawerRef}
+  >
+   <div
+    className="flex flex-row justify-between w-full p-3 pl-4 font-semibold border-b"
+    style={{ borderColor: TertiaryTextColor }}
+   >
+    <div>{props.title}</div>
+    <button
+     onClick={props.onClose}
+     className="rounded-full"
+    >
+     <Xmark />
+    </button>
+   </div>
+
+   <div className="grow">{props.children}</div>
+
+   <div
+    className="flex flex-row justify-between w-full p-3 pl-4 font-semibold border-t"
+    style={{ borderColor: TertiaryTextColor }}
+   >
+    <button
+     onClick={props.onClose}
+     className="rounded-md text-sm font-normal px-3 py-1 flex flex-row items-center space-x-2"
+     style={{
+      color: AccentColor,
+      backgroundColor: AccentColor + "30",
+     }}
+    >
+     Done
+    </button>
+   </div>
+  </div>
+ );
 };

@@ -8,7 +8,7 @@ public class BotConfig
 
     public BotConfig()
     {
-        Wpm = new Random().Next(50, 100);
+        Wpm = new Random().Next(35, 90);
         CharactersPerSecond = Wpm * 5 / 60;
     }
 }

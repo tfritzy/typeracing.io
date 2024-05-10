@@ -12,7 +12,7 @@ const initalState: PlayerState = {
  name: "",
  id: "",
  token: "",
- enabledModes: [GameMode.Dictionary],
+ enabledModes: [GameMode.HundredMostCommon],
 };
 
 export const playerSlice = createSlice({

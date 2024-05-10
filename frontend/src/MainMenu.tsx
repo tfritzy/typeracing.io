@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import { GameConfig } from "./GameConfig";
 import { TypeBoxButton } from "./TypeBoxButton";
+import { sendFindGameRequest } from "./helpers/functions";
 
 type MainMenuProps = {
  sendRequest: (request: ArrayBuffer) => void;
@@ -19,24 +20,8 @@ export const MainMenu = (props: MainMenuProps) => {
  );
 
  const findGame = React.useCallback(() => {
-  const findGame: FindGameRequest = {
-   player_name: player.name,
-   player_token: player.token,
-   game_modes: player.enabledModes,
-  };
-  const request: OneofRequest = {
-   sender_id: player.id,
-   find_game: findGame,
-  };
-
-  props.sendRequest(encodeOneofRequest(request));
- }, [
-  player.enabledModes,
-  player.id,
-  player.name,
-  player.token,
-  props,
- ]);
+  sendFindGameRequest(props.sendRequest, player);
+ }, [props.sendRequest, player]);
 
  return (
   <div>
