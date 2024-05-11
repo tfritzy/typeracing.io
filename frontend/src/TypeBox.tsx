@@ -145,8 +145,10 @@ export const TypeBox = (props: TypeBoxProps) => {
     </span>,
   ];
 
+  let hasError = false;
   for (let i = 0; i < currentWord.length; i++) {
     if (currentWord[i] !== props.phrase[props.lockedCharacterIndex + i]) {
+      hasError = true;
       text.push(
         <span className="text-red-500 underline">
           {props.phrase[props.lockedCharacterIndex + i]}
@@ -168,10 +170,12 @@ export const TypeBox = (props: TypeBoxProps) => {
     <div className="relative">
       <div className="text-2xl font-thin type-box transition-all">
         <div
+          className="rounded-lg transition-colors"
           style={{
             whiteSpace: "pre-wrap",
             filter: focused ? "blur(0)" : "blur(2px)",
             opacity: focused ? 1 : 0.5,
+            backgroundColor: hasError ? "#ff000010" : undefined,
           }}
           ref={phraseRef}
         >
@@ -210,7 +214,7 @@ export const TypeBox = (props: TypeBoxProps) => {
           onBlur={() => setFocused(false)}
         />
         <div
-          className={`h-[30px] w-[2px] rounded-full fixed ${
+          className={`h-[22px] w-[2px] rounded-full fixed ${
             cursorPulsing ? "animate-pulse-full" : ""
           }`}
           style={{
