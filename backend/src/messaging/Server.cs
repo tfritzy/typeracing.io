@@ -215,6 +215,7 @@ public class Server
                         request.SenderId,
                         request.FindGame.PlayerToken,
                         Galaxy,
+                        request.FindGame.PrivateGame,
                         new HashSet<GameMode>(request.FindGame.GameModes));
                 break;
             case OneofRequest.RequestOneofCase.TypeWord:

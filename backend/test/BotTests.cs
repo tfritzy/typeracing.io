@@ -13,7 +13,7 @@ public class BotTests
             Galaxy = new();
             Galaxy.Time.Update(10f);
             RealPlayer = new(name: $"Real player", id: IdGen.NewPlayerId(), token: IdGen.NewToken());
-            Api.FindGame(RealPlayer.Name, RealPlayer.Id, RealPlayer.Token, Galaxy);
+            Api.FindGame(RealPlayer.Name, RealPlayer.Id, RealPlayer.Token, Galaxy, false);
         }
     }
 

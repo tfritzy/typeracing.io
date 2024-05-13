@@ -3,127 +3,156 @@ import { decodeOneofUpdate } from "./compiled";
 import { InGame } from "./InGame";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  GameStage,
-  handleGameStarting,
-  setYouveBeenAddedToGame,
-  playerJoinedGame,
-  wordFinished,
-  setGameStarted,
-  playerFinished,
-  selfFinished,
-  setGameOver,
-  playerDisconnected,
+ GameStage,
+ handleGameStarting,
+ setYouveBeenAddedToGame,
+ playerJoinedGame,
+ wordFinished,
+ setGameStarted,
+ playerFinished,
+ selfFinished,
+ setGameOver,
+ playerDisconnected,
 } from "./store/gameSlice";
 import { generateRandomName } from "./generateRandomName";
 import { updatePlayer } from "./store/playerSlice";
 import { MainMenu } from "./MainMenu";
-import { TextColor } from "./constants";
 import { RootState } from "./store/store";
+import {
+ BrowserRouter,
+ Route,
+ Routes,
+ useNavigate,
+} from "react-router-dom";
 
 export type PlayerData = {
-  id: string;
-  name: string;
-  progress: number;
-  velocity_km_s: number;
-  position_km: number;
-  is_disconnected: boolean;
-  themeColor: string;
-  final_wpm?: number;
-  wpm_by_second?: number[];
-  raw_wpm_by_second?: number[];
-  most_recent_wpm: number;
-  is_bot: boolean;
+ id: string;
+ name: string;
+ progress: number;
+ velocity_km_s: number;
+ position_km: number;
+ is_disconnected: boolean;
+ themeColor: string;
+ final_wpm?: number;
+ wpm_by_second?: number[];
+ raw_wpm_by_second?: number[];
+ most_recent_wpm: number;
+ is_bot: boolean;
 };
 
 function App() {
-  const dispatch = useDispatch();
-  const [ws, setWs] = React.useState<WebSocket | null>(null);
-  const isInGame = useSelector(
-    (state: RootState) => state.game.state !== GameStage.Invalid
+ const navigate = useNavigate();
+ const dispatch = useDispatch();
+ const [ws, setWs] = React.useState<WebSocket | null>(null);
+ const isInGame = useSelector(
+  (state: RootState) =>
+   state.game.state !== GameStage.Invalid
+ );
+
+ React.useEffect(() => {
+  const token =
+   "tkn_" + Math.random().toString(36).substring(7);
+  const playerId =
+   "plyr_" + Math.random().toString(36).substring(7);
+
+  dispatch(
+   updatePlayer({
+    token: token,
+    name: generateRandomName(),
+    id: playerId,
+   })
   );
 
-  React.useEffect(() => {
-    const token = "tkn_" + Math.random().toString(36).substring(7);
-    const playerId = "plyr_" + Math.random().toString(36).substring(7);
+  var ws = new WebSocket(
+   `ws://localhost:5000/?id=${playerId}`
+  );
+  ws.onopen = () => {};
+  ws.onmessage = (event) => {
+   if (event.data === null) {
+   } else if (event.data instanceof Blob) {
+    const reader = new FileReader();
+    reader.onload = () => {
+     if (reader.result instanceof ArrayBuffer) {
+      const buffer = new Uint8Array(reader.result);
+      const update = decodeOneofUpdate(buffer);
 
-    dispatch(
-      updatePlayer({
-        token: token,
-        name: generateRandomName(),
-        id: playerId,
-      })
-    );
-
-    var ws = new WebSocket(`ws://localhost:5000/?id=${playerId}`);
-    ws.onopen = () => {};
-    ws.onmessage = (event) => {
-      if (event.data === null) {
-      } else if (event.data instanceof Blob) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          if (reader.result instanceof ArrayBuffer) {
-            const buffer = new Uint8Array(reader.result);
-            const update = decodeOneofUpdate(buffer);
-
-            if (update.game_starting) {
-              dispatch(handleGameStarting(update.game_starting));
-            } else if (update.youve_been_added_to_game != null) {
-              dispatch(
-                setYouveBeenAddedToGame(update.youve_been_added_to_game)
-              );
-            } else if (update.player_joined_game) {
-              dispatch(playerJoinedGame(update.player_joined_game));
-            } else if (update.game_started) {
-              dispatch(setGameStarted());
-            } else if (update.game_over) {
-              dispatch(setGameOver(update.game_over));
-            } else if (update.player_disconnected) {
-              dispatch(playerDisconnected(update.player_disconnected));
-            } else if (update.player_completed) {
-              dispatch(playerFinished(update.player_completed));
-              if (update.player_completed.player_id === playerId) {
-                dispatch(selfFinished());
-              }
-            } else if (update.word_finished) {
-              dispatch(wordFinished(update.word_finished));
-            }
-          }
-        };
-        reader.readAsArrayBuffer(event.data);
+      if (update.game_starting) {
+       dispatch(handleGameStarting(update.game_starting));
+      } else if (update.youve_been_added_to_game != null) {
+       dispatch(
+        setYouveBeenAddedToGame(
+         update.youve_been_added_to_game
+        )
+       );
+       navigate(
+        `/${update.youve_been_added_to_game.game_id}`
+       );
+      } else if (update.player_joined_game) {
+       dispatch(
+        playerJoinedGame(update.player_joined_game)
+       );
+      } else if (update.game_started) {
+       dispatch(setGameStarted());
+      } else if (update.game_over) {
+       dispatch(setGameOver(update.game_over));
+      } else if (update.player_disconnected) {
+       dispatch(
+        playerDisconnected(update.player_disconnected)
+       );
+      } else if (update.player_completed) {
+       dispatch(playerFinished(update.player_completed));
+       if (update.player_completed.player_id === playerId) {
+        dispatch(selfFinished());
+       }
+      } else if (update.word_finished) {
+       dispatch(wordFinished(update.word_finished));
       }
+     }
     };
-    ws.onclose = () => {
-      console.log("Disconnected");
-    };
-    setWs(ws);
-    return () => {
-      ws.close();
-    };
-  }, []);
+    reader.readAsArrayBuffer(event.data);
+   }
+  };
+  ws.onclose = () => {
+   console.log("Disconnected");
+  };
+  setWs(ws);
+  return () => {
+   ws.close();
+  };
+ }, []);
 
-  const sendRequest = React.useCallback(
-    (request: ArrayBuffer) => {
-      if (ws) {
-        ws.send(request);
-      }
-    },
-    [ws]
-  );
+ const sendRequest = React.useCallback(
+  (request: ArrayBuffer) => {
+   if (ws) {
+    ws.send(request);
+   }
+  },
+  [ws]
+ );
 
-  let content;
-  if (!isInGame) {
-    content = <MainMenu sendRequest={sendRequest} />;
-  } else {
-    content = <InGame sendRequest={sendRequest} />;
-  }
+ return (
+  <Routes>
+   <Route
+    path="/"
+    element={<MainMenu sendRequest={sendRequest} />}
+   />
+   <Route
+    path="/:gameId"
+    element={<InGame sendRequest={sendRequest} />}
+   />
+  </Routes>
+ );
 
-  return (
-    <div className="w-screen h-screen">
-      <div className="font-thin center-column" style={{ color: TextColor }}>
-        {content}
-      </div>
-    </div>
-  );
+ //  return (
+ //   <div className="w-screen h-screen">
+ //    <div
+ //     className="font-thin center-column"
+ //     style={{ color: TextColor }}
+ //    >
+ //     {content}
+ //    </div>
+ //   </div>
+ //  );
 }
 
 export default App;

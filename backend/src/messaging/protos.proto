@@ -39,6 +39,7 @@ message FindGameRequest {
     string player_name = 1;
     string player_token = 2;
     repeated GameMode game_modes = 3;
+    bool private_game = 4;
 }
 
 message TypeWordRequest {

@@ -1,9 +1,12 @@
+import { NavigateFunction } from "react-router-dom";
 import {
  FindGameRequest,
  OneofRequest,
  encodeOneofRequest,
 } from "../compiled";
 import { PlayerState } from "../store/playerSlice";
+import { Dispatch } from "redux";
+import { reset } from "../store/gameSlice";
 
 export const sendFindGameRequest = (
  sendRequest: (request: ArrayBuffer) => void,
@@ -13,6 +16,7 @@ export const sendFindGameRequest = (
   player_name: player.name,
   player_token: player.token,
   game_modes: player.enabledModes,
+  private_game: player.gameType === "Practice",
  };
  const request: OneofRequest = {
   sender_id: player.id,
@@ -20,4 +24,12 @@ export const sendFindGameRequest = (
  };
 
  sendRequest(encodeOneofRequest(request));
+};
+
+export const returnToMainMenu = (
+ navigate: NavigateFunction,
+ dispatch: Dispatch
+) => {
+ navigate("/");
+ dispatch(reset());
 };

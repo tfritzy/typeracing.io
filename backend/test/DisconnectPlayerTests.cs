@@ -15,8 +15,8 @@ public class DisconnectTests
             Galaxy.Time.Update(10f);
             Player1 = new(name: $"Player 1", id: IdGen.NewPlayerId(), token: IdGen.NewToken());
             Player2 = new(name: $"Player 2", id: IdGen.NewPlayerId(), token: IdGen.NewToken());
-            Api.FindGame(Player1.Name, Player1.Id, Player1.Token, Galaxy);
-            Api.FindGame(Player2.Name, Player2.Id, Player2.Token, Galaxy);
+            Api.FindGame(Player1.Name, Player1.Id, Player1.Token, Galaxy, false);
+            Api.FindGame(Player2.Name, Player2.Id, Player2.Token, Galaxy, false);
         }
     }
 
@@ -86,7 +86,7 @@ public class DisconnectTests
     {
         TestSetup test = new();
         InGamePlayer player3 = new($"Player 3", IdGen.NewPlayerId(), IdGen.NewToken());
-        Api.FindGame(player3.Name, player3.Id, player3.Token, test.Galaxy);
+        Api.FindGame(player3.Name, player3.Id, player3.Token, test.Galaxy, false);
         Game game = test.Galaxy.OpenGames[0];
 
         Api.StartGame(game, test.Galaxy);

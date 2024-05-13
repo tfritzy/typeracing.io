@@ -7,6 +7,7 @@ public static class Api
         string playerId,
         string playerToken,
         Galaxy galaxy,
+        bool practice,
         HashSet<GameMode>? enabledModes = null)
     {
         enabledModes ??= new HashSet<GameMode> { GameMode.Dictionary };
@@ -17,7 +18,7 @@ public static class Api
         if (game == null)
         {
             GameMode mode = enabledModes.ToArray()[new Random().Next(0, enabledModes.Count)];
-            game = new(galaxy, mode: mode);
+            game = new(galaxy, mode: mode, maxPlayers: practice ? 1 : 4);
             galaxy.OpenGames.Add(game);
         }
 
@@ -193,7 +194,7 @@ public static class Api
                     Place = place,
                     Wpm = Stats.GetWpm(player.CharCompletionTimes_s),
                 };
-                playerCompleted.WpmBySecond.AddRange(Stats.GetAggWpmBySecond(game.Phrase, player.CharCompletionTimes_s));
+                playerCompleted.WpmBySecond.AddRange(Stats.GetAggWpmBySecond(player.CharCompletionTimes_s));
                 playerCompleted.RawWpmBySecond.AddRange(Stats.GetRawWpmBySecond(player.CharCompletionTimes_s));
 
                 galaxy.SendUpdate(p, new OneofUpdate

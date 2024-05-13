@@ -10,9 +10,13 @@ import {
  NeutralColor,
  SecondaryTextColor,
 } from "./constants";
-import { sendFindGameRequest } from "./helpers/functions";
+import {
+ returnToMainMenu,
+ sendFindGameRequest,
+} from "./helpers/functions";
 import { RootState } from "./store/store";
 import { Hotkey } from "./Hotkey";
+import { useNavigate } from "react-router-dom";
 
 const TextButton = ({
  children,
@@ -36,6 +40,7 @@ type ActionBarProps = {
 };
 
 export const ActionBar = (props: ActionBarProps) => {
+ const navigate = useNavigate();
  const dispatch = useDispatch();
  const player = useSelector(
   (state: RootState) => state.player
@@ -47,7 +52,7 @@ export const ActionBar = (props: ActionBarProps) => {
  }, [props.sendRequest, player]);
 
  const mainMenu = React.useCallback(() => {
-  dispatch(reset());
+  returnToMainMenu(navigate, dispatch);
  }, [reset]);
 
  useEffect(() => {

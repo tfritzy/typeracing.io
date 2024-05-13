@@ -12,14 +12,14 @@ public class Test_GameStart
         {
             InGamePlayer player = new InGamePlayer($"Player {i}", IdGen.NewPlayerId(), IdGen.NewToken());
             players.Add(player);
-            Api.FindGame(player.Name, player.Id, player.Token, galaxy);
+            Api.FindGame(player.Name, player.Id, player.Token, galaxy, false);
         }
 
         galaxy.ClearOutbox();
         players.Add(new InGamePlayer(name: "Player 3", id: IdGen.NewPlayerId(), token: IdGen.NewToken()));
         Assert.AreEqual(1, galaxy.OpenGames.Count);
         Assert.AreEqual(0, galaxy.ActiveGames.Count);
-        Api.FindGame("Player 3", players[3].Id, players[3].Token, galaxy);
+        Api.FindGame("Player 3", players[3].Id, players[3].Token, galaxy, false);
         Assert.AreEqual(0, galaxy.OpenGames.Count);
         Assert.AreEqual(1, galaxy.ActiveGames.Count);
         OneofUpdate[] messages =
@@ -41,7 +41,7 @@ public class Test_GameStart
         {
             InGamePlayer player = new(name: $"Player {i}", id: IdGen.NewPlayerId(), token: IdGen.NewToken());
             players.Add(player);
-            Api.FindGame(player.Name, player.Id, player.Token, galaxy);
+            Api.FindGame(player.Name, player.Id, player.Token, galaxy, false);
         }
 
         galaxy.ClearOutbox();
@@ -67,7 +67,7 @@ public class Test_GameStart
         {
             InGamePlayer player = new(name: $"Player {i}", id: IdGen.NewPlayerId(), token: IdGen.NewToken());
             players.Add(player);
-            Api.FindGame(player.Name, player.Id, player.Token, galaxy);
+            Api.FindGame(player.Name, player.Id, player.Token, galaxy, false);
         }
 
         galaxy.ClearOutbox();

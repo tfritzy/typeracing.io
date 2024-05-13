@@ -16,7 +16,7 @@ public class GameTests
             {
                 InGamePlayer player = new(name: $"Player {i}", id: IdGen.NewPlayerId(), token: IdGen.NewToken());
                 Players.Add(player);
-                Api.FindGame(player.Name, player.Id, player.Token, Galaxy);
+                Api.FindGame(player.Name, player.Id, player.Token, Galaxy, false);
             }
         }
     }
@@ -224,13 +224,13 @@ public class GameTests
     public void Game_HasCorrectState()
     {
         Galaxy galaxy = new();
-        Api.FindGame("Alice", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy);
+        Api.FindGame("Alice", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false);
         Game game = galaxy.OpenGames[0];
         Assert.AreEqual(Game.GameState.Lobby, game.State);
-        Api.FindGame("Bob", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy);
-        Api.FindGame("Akshay", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy);
+        Api.FindGame("Bob", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false);
+        Api.FindGame("Akshay", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false);
         Assert.AreEqual(Game.GameState.Lobby, game.State);
-        Api.FindGame("Petunia", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy);
+        Api.FindGame("Petunia", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false);
         Assert.AreEqual(Game.GameState.Countdown, game.State);
         galaxy.Time.Update(Game.CountdownDuration - .1f);
         galaxy.Update();
@@ -297,7 +297,7 @@ public class GameTests
     public void Game_HasReasonablePhrase()
     {
         Galaxy galaxy = new();
-        Api.FindGame("Alice", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy);
+        Api.FindGame("Alice", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false);
         Game game = galaxy.OpenGames[0];
         Assert.IsTrue(game.Words.Length > 20);
         Assert.IsTrue(game.Words.Length < 40);

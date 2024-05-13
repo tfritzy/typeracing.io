@@ -9,7 +9,7 @@ export const AnimatedDots = () => {
     if (dots.length === 3) {
      return ".";
     } else {
-     return dots + ".";
+     return dots + "";
     }
    });
   }, 800);

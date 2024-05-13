@@ -221,6 +221,7 @@ export interface FindGameRequest {
   player_name?: string;
   player_token?: string;
   game_modes?: GameMode[];
+  private_game?: boolean;
 }
 
 export function encodeFindGameRequest(message: FindGameRequest): Uint8Array {
@@ -255,6 +256,13 @@ function _encodeFindGameRequest(message: FindGameRequest, bb: ByteBuffer): void 
     writeVarint32(bb, packed.offset);
     writeByteBuffer(bb, packed);
     pushByteBuffer(packed);
+  }
+
+  // optional bool private_game = 4;
+  let $private_game = message.private_game;
+  if ($private_game !== undefined) {
+    writeVarint32(bb, 32);
+    writeByte(bb, $private_game ? 1 : 0);
   }
 }
 
@@ -296,6 +304,12 @@ function _decodeFindGameRequest(bb: ByteBuffer): FindGameRequest {
         } else {
           values.push(decodeGameMode[readVarint32(bb)]);
         }
+        break;
+      }
+
+      // optional bool private_game = 4;
+      case 4: {
+        message.private_game = !!readByte(bb);
         break;
       }
 

@@ -1,4 +1,4 @@
-TS_OUT_DIR="../../frontend/src"
+TS_OUT_DIR="../../../frontend/src"
 
 echo "Generating c#"
 npx protoc -I=. --csharp_out="." protos.proto
