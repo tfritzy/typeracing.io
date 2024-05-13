@@ -50,25 +50,6 @@ export const InGame = (props: InGameProps) => {
   [lockCharIndex, phrase, player.id, sendRequest]
  );
 
- let centerMessage: JSX.Element | string = "";
- if (state === GameStage.WaitingForPlayers) {
-  centerMessage = (
-   <div>
-    <span>Waiting for players</span>
-    <AnimatedDots />
-   </div>
-  );
- } else if (state === GameStage.Countdown) {
-  centerMessage = (
-   <div>
-    <span>Starting in </span>
-    <Countdown endTime={gameState.start_time} />
-   </div>
-  );
- } else {
-  centerMessage = " ";
- }
-
  const isGameOver =
   state === GameStage.Finished ||
   state === GameStage.ViewingResults;

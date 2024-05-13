@@ -8,6 +8,7 @@ import {
  BrandColor,
  NeutralColor,
  SecondaryTextColor,
+ TertiaryTextColor,
  TextColor,
 } from "./constants";
 import { CursorPointer } from "iconoir-react";
@@ -228,21 +229,20 @@ export const TypeBox = (props: TypeBoxProps) => {
   props.lockedCharacterIndex + currentWord.length
  );
  text.push(
-  <span style={{ color: SecondaryTextColor }}>
+  <span style={{ color: TertiaryTextColor }}>
    {remainingText}
   </span>
  );
 
  return (
   <div className="relative">
-   <div className="text-2xl font-thin type-box transition-all">
+   <div className="text-2xl type-box transition-all">
     <div
      className="rounded-lg transition-colors"
      style={{
       whiteSpace: "pre-wrap",
       filter: focused ? "blur(0)" : "blur(2px)",
       opacity: focused ? 1 : 0.5,
-      backgroundColor: hasError ? "#ff000009" : undefined,
      }}
      ref={phraseRef}
     >
@@ -257,6 +257,18 @@ export const TypeBox = (props: TypeBoxProps) => {
      >
       <CursorPointer />
      </div>
+    }
+    {
+     <div
+      style={{
+       opacity: hasError ? 1 : 0,
+       width: "calc(100% + 20px)",
+       height: "calc(100% + 10px)",
+       left: -10,
+       top: -5,
+      }}
+      className="absolute bg-[#ff000006] border border-red-800 rounded-lg z-[-1] transition-opacity"
+     />
     }
     <input
      value={currentWord}
@@ -281,7 +293,7 @@ export const TypeBox = (props: TypeBoxProps) => {
      onBlur={() => setFocused(false)}
     />
     <div
-     className={`h-[22px] w-[2px] rounded-full fixed ${
+     className={`h-[22px] w-[1px] fixed ${
       cursorPulsing ? "animate-pulse-full" : ""
      }`}
      style={{
@@ -301,7 +313,7 @@ export const TypeBox = (props: TypeBoxProps) => {
      className="absolute left-[50%] top-[50%] transform translate-x-[-50%] translate-y-[-50%] text-lg text-gray-400 rounded-full p-3"
      style={{ backgroundColor: NeutralColor }}
     >
-     <div className="flex flex-row space-x-2">
+     <div className="flex flex-row space-x-2 relative">
       <div
        style={{ opacity: timeTillStart < 4.5 ? 1 : 0.1 }}
        className="bg-neutral-300 w-5 h-5 rounded-full"
@@ -313,6 +325,13 @@ export const TypeBox = (props: TypeBoxProps) => {
       <div
        style={{ opacity: timeTillStart < 1.5 ? 1 : 0.1 }}
        className="bg-green-400 w-5 h-5 rounded-full"
+      />
+      <div
+       className="absoulte top-0 left-0 h-full rounded-full"
+       style={{
+        width: `${(1 - timeTillStart / 5) * 100}%`,
+        backgroundColor: BrandColor,
+       }}
       />
      </div>
     </div>

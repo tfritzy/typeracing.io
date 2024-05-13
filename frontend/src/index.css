@@ -29,12 +29,10 @@ h2 {
 }
 
 .type-box {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-  sans-serif;
+  font-family: 'Open Sans';
   font-weight: 200;
   font-size: 1.5rem;
-  line-height: 2;
+  line-height: 40px;
   letter-spacing: 0.04em;
   word-spacing: 0.08em;
 }
