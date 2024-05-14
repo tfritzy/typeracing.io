@@ -1,18 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
  Arc3d,
  BookmarkBook,
  Brain,
  Copy,
  Cube,
- GraduationCap,
  Home,
- Lock,
  MathBook,
  Message,
  MessageAlert,
  MouseButtonLeft,
- NetworkRight,
  OpenSelectHandGesture,
  Running,
  Settings,
@@ -32,7 +29,6 @@ import {
  BorderColor,
  NeutralColor,
  SecondaryTextColor,
- TertiaryTextColor,
  TextColor,
 } from "./constants";
 import { Drawer } from "./Drawer";

@@ -53,9 +53,9 @@ export const TypeBox = (props: TypeBoxProps) => {
    const cursorRect =
     cursorRef.current.getBoundingClientRect();
    setTargetCursorXPos(cursorRect.left);
-   setTargetCursorYPos(cursorRect.top + 7);
+   setTargetCursorYPos(cursorRect.top + 6);
    setCursorXPos(cursorRect.left);
-   setCursorYPos(cursorRect.top + 7);
+   setCursorYPos(cursorRect.top + 6);
   }
  }, []);
 

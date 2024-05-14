@@ -6,6 +6,7 @@ import {
  NeutralColor,
  TertiaryTextColor,
  TextColor,
+ VeryChillBorder,
 } from "./constants";
 
 type DrawerProps = {
@@ -25,9 +26,19 @@ export const Drawer = (props: DrawerProps) => {
   let lastFocusableElement: HTMLElement | null = null;
   console.log("Mount");
 
+  const focusableContent =
+   drawerRef.current?.querySelectorAll(focusableElements);
+
+  if (focusableContent) {
+   for (let i = 0; i < focusableContent.length; i++) {
+    focusableContent[i].setAttribute(
+     "tabIndex",
+     props.open ? "" : "-1"
+    );
+   }
+  }
+
   if (props.open) {
-   const focusableContent =
-    drawerRef.current?.querySelectorAll(focusableElements);
    if (focusableContent) {
     firstFocusableElement =
      focusableContent[0] as HTMLElement;
@@ -35,7 +46,6 @@ export const Drawer = (props: DrawerProps) => {
      focusableContent.length - 1
     ] as HTMLElement;
     firstFocusableElement?.focus();
-    console.log("Focus");
    }
 
    const handleKeyDown = (event: KeyboardEvent) => {
@@ -100,7 +110,7 @@ export const Drawer = (props: DrawerProps) => {
   >
    <div
     className="flex flex-row justify-between w-full p-3 pl-4 font-semibold border-b"
-    style={{ borderColor: TertiaryTextColor }}
+    style={{ borderColor: VeryChillBorder }}
    >
     <div>{props.title}</div>
     <button
@@ -115,7 +125,7 @@ export const Drawer = (props: DrawerProps) => {
 
    <div
     className="flex flex-row justify-between w-full p-3 pl-4 font-semibold border-t"
-    style={{ borderColor: TertiaryTextColor }}
+    style={{ borderColor: VeryChillBorder }}
    >
     <button
      onClick={props.onClose}

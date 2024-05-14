@@ -1,14 +1,10 @@
 import React from "react";
-import {
- FindGameRequest,
- OneofRequest,
- encodeOneofRequest,
-} from "./compiled";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import { GameConfig } from "./GameConfig";
 import { TypeBoxButton } from "./TypeBoxButton";
 import { sendFindGameRequest } from "./helpers/functions";
+import { Profile } from "./Profile";
 
 type MainMenuProps = {
  sendRequest: (request: ArrayBuffer) => void;
@@ -25,7 +21,10 @@ export const MainMenu = (props: MainMenuProps) => {
 
  return (
   <div>
-   <div className="fixed left-0 top-0 w-screen h-screen flex flex-col space-y-24 items-center justify-center">
+   <div className="absolute left-0 top-0 w-screen h-screen flex flex-col space-y-24 items-center justify-center point">
+    <div className="absolute right-0 top-0">
+     <Profile />
+    </div>
     <TypeBoxButton
      phrase="Find game"
      onPhraseComplete={findGame}

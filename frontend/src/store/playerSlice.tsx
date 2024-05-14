@@ -23,15 +23,28 @@ export const playerSlice = createSlice({
  name: "player",
  initialState: initalState,
  reducers: {
-  updatePlayer: (state: PlayerState, action) => {
-   state.name = action.payload.name;
-   state.id = action.payload.id;
-   state.token = action.payload.token;
-  },
-  updatePlayerName: (state: PlayerState, action) => {
+  updatePlayerName: (
+   state: PlayerState,
+   action: { payload: string }
+  ) => {
    state.name = action.payload;
   },
-  setGameType: (state: PlayerState, action) => {
+  updatePlayerId: (
+   state: PlayerState,
+   action: { payload: string }
+  ) => {
+   state.id = action.payload;
+  },
+  updateToken: (
+   state: PlayerState,
+   action: { payload: string }
+  ) => {
+   state.token = action.payload;
+  },
+  setGameType: (
+   state: PlayerState,
+   action: { payload: GameType }
+  ) => {
    state.gameType = action.payload;
   },
   setModeEnabled: (
@@ -50,7 +63,8 @@ export const playerSlice = createSlice({
 });
 
 export const {
- updatePlayer,
+ updatePlayerId,
+ updateToken,
  updatePlayerName,
  setGameType,
  setModeEnabled,

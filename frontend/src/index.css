@@ -56,7 +56,7 @@ h2 {
 
 /* Style focus ring */
 :focus-visible {
-  outline: 1px solid #999999; /* Change color and size as desired */
+  outline: 1px solid #ffffff55; /* Change color and size as desired */
   outline-offset: 0px; /* Adjust offset to prevent overlap with element */
 }
 

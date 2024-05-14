@@ -59,7 +59,7 @@ export const InGame = (props: InGameProps) => {
    <div className="absolute top-5">
     <HomeBreadcrumb />
    </div>
-   <div className="flex flex-col space-y-12 justify-center font-thin h-screen px-36">
+   <div className="flex flex-col space-y-12 justify-center font-thin h-screen px-12">
     <div
      className="relative flex flex-col justify-end"
      style={{ flexGrow: !isGameOver ? "1" : undefined }}

@@ -15,6 +15,7 @@
   "dotnet": "^1.1.4",
   "google-protobuf": "^3.21.2",
   "iconoir-react": "^7.6.0",
+  "js-cookie": "^3.0.5",
   "react": "^18.2.0",
   "react-apexcharts": "^1.4.1",
   "react-dom": "^18.2.0",
@@ -51,6 +52,7 @@
   ]
  },
  "devDependencies": {
+  "@types/js-cookie": "^3.0.6",
   "@types/three": "^0.163.0",
   "tailwindcss": "^3.4.3"
  }

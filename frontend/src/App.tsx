@@ -1,9 +1,8 @@
 import React from "react";
 import { decodeOneofUpdate } from "./compiled";
 import { InGame } from "./InGame";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
- GameStage,
  handleGameStarting,
  setYouveBeenAddedToGame,
  playerJoinedGame,
@@ -15,15 +14,18 @@ import {
  playerDisconnected,
 } from "./store/gameSlice";
 import { generateRandomName } from "./generateRandomName";
-import { updatePlayer } from "./store/playerSlice";
-import { MainMenu } from "./MainMenu";
-import { RootState } from "./store/store";
 import {
- BrowserRouter,
+ updatePlayerId,
+ updatePlayerName,
+ updateToken,
+} from "./store/playerSlice";
+import { MainMenu } from "./MainMenu";
+import {
  Route,
  Routes,
  useNavigate,
 } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export type PlayerData = {
  id: string;
@@ -44,24 +46,30 @@ function App() {
  const navigate = useNavigate();
  const dispatch = useDispatch();
  const [ws, setWs] = React.useState<WebSocket | null>(null);
- const isInGame = useSelector(
-  (state: RootState) =>
-   state.game.state !== GameStage.Invalid
- );
 
  React.useEffect(() => {
-  const token =
-   "tkn_" + Math.random().toString(36).substring(7);
-  const playerId =
-   "plyr_" + Math.random().toString(36).substring(7);
+  let name = Cookies.get("name");
+  if (!name) {
+   name = generateRandomName();
+   Cookies.set("name", name);
+  }
 
-  dispatch(
-   updatePlayer({
-    token: token,
-    name: generateRandomName(),
-    id: playerId,
-   })
-  );
+  let playerId = Cookies.get("playerId");
+  if (!playerId) {
+   playerId =
+    "plyr_" + Math.random().toString(36).substring(7);
+   Cookies.set("playerId", playerId);
+  }
+
+  let token = Cookies.get("token");
+  if (!token) {
+   token = "tkn_" + Math.random().toString(36).substring(7);
+   Cookies.set("token", token);
+  }
+
+  dispatch(updatePlayerName(name));
+  dispatch(updatePlayerId(playerId));
+  dispatch(updateToken(token));
 
   var ws = new WebSocket(
    `ws://localhost:5000/?id=${playerId}`
