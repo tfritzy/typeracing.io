@@ -37,7 +37,7 @@ const initialGameState: GameState = {
   state: GameStage.Invalid,
   players: [],
   phrase: "",
-  start_time: -1,
+  start_time: 0,
   end_time: -1,
   placements: [],
 };

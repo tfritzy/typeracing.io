@@ -1,9 +1,6 @@
 import React from "react";
 import { TypeBox } from "./TypeBox";
-import {
- OneofRequest,
- encodeOneofRequest,
-} from "./compiled";
+import { OneofRequest, encodeOneofRequest } from "./compiled";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import { GameStage, GameState } from "./store/gameSlice";
@@ -15,71 +12,63 @@ import { ActionBar } from "./ActionBar";
 import { HomeBreadcrumb } from "./HomeBreadcrumb";
 
 type InGameProps = {
- sendRequest: (request: ArrayBuffer) => void;
+  sendRequest: (request: ArrayBuffer) => void;
 };
 
 export const InGame = (props: InGameProps) => {
- const { sendRequest } = props;
- const gameState: GameState = useSelector(
-  (state: RootState) => state.game
- );
- const player = useSelector(
-  (state: RootState) => state.player
- );
- const [lockCharIndex, setLockCharIndex] =
-  React.useState(0);
- const { phrase, state } = gameState;
+  const { sendRequest } = props;
+  const gameState: GameState = useSelector((state: RootState) => state.game);
+  const player = useSelector((state: RootState) => state.player);
+  const [lockCharIndex, setLockCharIndex] = React.useState(0);
+  const { phrase, state } = gameState;
 
- const handleWordComplete = React.useCallback(
-  (newLockIndex: number, characterTimes: number[]) => {
-   const word = phrase
-    .slice(lockCharIndex, newLockIndex)
-    .trim();
+  const handleWordComplete = React.useCallback(
+    (newLockIndex: number, characterTimes: number[]) => {
+      const word = phrase.slice(lockCharIndex, newLockIndex).trim();
 
-   const finishedWordRequest: OneofRequest = {
-    sender_id: player.id,
-    type_word: {
-     word: word,
-     char_completion_times: characterTimes,
+      const finishedWordRequest: OneofRequest = {
+        sender_id: player.id,
+        type_word: {
+          word: word,
+          char_completion_times: characterTimes,
+        },
+      };
+
+      setLockCharIndex(newLockIndex);
+      sendRequest(encodeOneofRequest(finishedWordRequest));
     },
-   };
+    [lockCharIndex, phrase, player.id, sendRequest]
+  );
 
-   setLockCharIndex(newLockIndex);
-   sendRequest(encodeOneofRequest(finishedWordRequest));
-  },
-  [lockCharIndex, phrase, player.id, sendRequest]
- );
+  const isGameOver =
+    state === GameStage.Finished || state === GameStage.ViewingResults;
 
- const isGameOver =
-  state === GameStage.Finished ||
-  state === GameStage.ViewingResults;
+  return (
+    <div>
+      <div className="absolute top-5">
+        <HomeBreadcrumb />
+      </div>
+      <div className="flex flex-col space-y-12 justify-center font-thin h-screen px-12">
+        <div
+          className="relative flex flex-col justify-end"
+          style={{ flexGrow: !isGameOver ? "1" : undefined }}
+        >
+          <Players />
+        </div>
 
- return (
-  <div>
-   <div className="absolute top-5">
-    <HomeBreadcrumb />
-   </div>
-   <div className="flex flex-col space-y-12 justify-center font-thin h-screen px-12">
-    <div
-     className="relative flex flex-col justify-end"
-     style={{ flexGrow: !isGameOver ? "1" : undefined }}
-    >
-     <Players />
+        {!isGameOver && (
+          <div className="grow-[2]">
+            <TypeBox
+              phrase={phrase}
+              lockedCharacterIndex={lockCharIndex}
+              onWordComplete={handleWordComplete}
+              startTime={gameState.start_time || Date.now() + 1000000}
+            />
+          </div>
+        )}
+        {isGameOver && <Results />}
+        {isGameOver && <ActionBar sendRequest={sendRequest} />}
+      </div>
     </div>
-
-    {!isGameOver && (
-     <div className="grow-[2]">
-      <TypeBox
-       phrase={phrase}
-       lockedCharacterIndex={lockCharIndex}
-       onWordComplete={handleWordComplete}
-       startTime={gameState.start_time}
-      />
-     </div>
-    )}
-    {isGameOver && <Results />}
-    {isGameOver && <ActionBar sendRequest={sendRequest} />}
-   </div>
-  </div>
- );
+  );
 };

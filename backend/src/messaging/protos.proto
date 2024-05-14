@@ -78,6 +78,8 @@ message PlayerCompleted {
     repeated float raw_wpm_by_second = 3;
     repeated float wpm_by_second = 4;
     float wpm = 5;
+    float accuracy = 6;
+    GameMode mode = 7;
 }
 
 message PlayerJoinedGame {

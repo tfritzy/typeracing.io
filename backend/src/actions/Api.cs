@@ -193,6 +193,8 @@ public static class Api
                     PlayerId = playerId,
                     Place = place,
                     Wpm = Stats.GetWpm(player.CharCompletionTimes_s),
+                    Accuracy = 69,
+                    Mode = game.Mode,
                 };
                 playerCompleted.WpmBySecond.AddRange(Stats.GetAggWpmBySecond(player.CharCompletionTimes_s));
                 playerCompleted.RawWpmBySecond.AddRange(Stats.GetRawWpmBySecond(player.CharCompletionTimes_s));

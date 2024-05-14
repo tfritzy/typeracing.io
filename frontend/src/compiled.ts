@@ -738,6 +738,8 @@ export interface PlayerCompleted {
   raw_wpm_by_second?: number[];
   wpm_by_second?: number[];
   wpm?: number;
+  accuracy?: number;
+  mode?: GameMode;
 }
 
 export function encodePlayerCompleted(message: PlayerCompleted): Uint8Array {
@@ -792,6 +794,20 @@ function _encodePlayerCompleted(message: PlayerCompleted, bb: ByteBuffer): void 
   if ($wpm !== undefined) {
     writeVarint32(bb, 45);
     writeFloat(bb, $wpm);
+  }
+
+  // optional float accuracy = 6;
+  let $accuracy = message.accuracy;
+  if ($accuracy !== undefined) {
+    writeVarint32(bb, 53);
+    writeFloat(bb, $accuracy);
+  }
+
+  // optional GameMode mode = 7;
+  let $mode = message.mode;
+  if ($mode !== undefined) {
+    writeVarint32(bb, 56);
+    writeVarint32(bb, encodeGameMode[$mode]);
   }
 }
 
@@ -854,6 +870,18 @@ function _decodePlayerCompleted(bb: ByteBuffer): PlayerCompleted {
       // optional float wpm = 5;
       case 5: {
         message.wpm = readFloat(bb);
+        break;
+      }
+
+      // optional float accuracy = 6;
+      case 6: {
+        message.accuracy = readFloat(bb);
+        break;
+      }
+
+      // optional GameMode mode = 7;
+      case 7: {
+        message.mode = decodeGameMode[readVarint32(bb)];
         break;
       }
 

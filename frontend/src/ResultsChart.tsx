@@ -1,7 +1,7 @@
 import React from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import { VeryChillBorder } from "./constants";
+import { AccentColor, VeryChillBorder } from "./constants";
 
 const secondaryColor = "#555555";
 const areaColor = "#00000022";
@@ -14,7 +14,6 @@ export type Series = {
 
 type LineChartProps = {
   series: Series[];
-  playerColor: string;
 };
 
 export const LineChart = (props: LineChartProps) => {
@@ -33,14 +32,14 @@ export const LineChart = (props: LineChartProps) => {
     stroke: {
       curve: "monotoneCubic",
       width: 2,
-      colors: [secondaryColor, props.playerColor],
+      colors: [secondaryColor, AccentColor],
       lineCap: "square",
     },
-    // markers: {
-    //   colors: [secondaryColor, primaryColor],
-    //   size: 0,
-    //   strokeWidth: 0,
-    // },
+    markers: {
+      colors: [secondaryColor, AccentColor],
+      size: 0,
+      strokeWidth: 0,
+    },
     dataLabels: {
       enabled: false,
     },
