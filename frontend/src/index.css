@@ -3,6 +3,14 @@
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Vazirmatn:wght@100..900&display=swap');
 
+:root {
+  --accent: #a7f3d0;
+  --accent-tertiary: #a7f3d022;
+  --text-primary: "#dfe3e8";
+  --chill-border: "#dfe3e811";
+
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -29,9 +37,9 @@ h2 {
 }
 
 .type-box {
-  font-family: 'Open Sans';
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 200;
-  font-size: 1.7rem;
+  font-size: 2rem;
   line-height: 40px;
   letter-spacing: 0.04em;
   word-spacing: 0.08em;
@@ -67,4 +75,8 @@ h2 {
   transform: scaleX(-1);
   -ms-filter: fliph; /*IE*/
   filter: fliph; /*IE*/
+}
+
+.logo {
+  font-family: 'Open Sans';
 }

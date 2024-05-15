@@ -49,15 +49,16 @@ message TypeWordRequest {
 
 message OneofUpdate {
     string recipient_id = 1;
+    string game_id = 2;
     oneof update {
-        GameOver game_over = 2;
-        GameStarted game_started = 3;
-        GameStarting game_starting = 4;
-        PlayerCompleted player_completed = 5;
-        PlayerJoinedGame player_joined_game = 6;
-        WordFinished word_finished = 7;
-        YouveBeenAddedToGame youve_been_added_to_game = 8;
-        PlayerDisconnected player_disconnected = 9;
+        GameOver game_over = 3;
+        GameStarted game_started = 4;
+        GameStarting game_starting = 5;
+        PlayerCompleted player_completed = 6;
+        PlayerJoinedGame player_joined_game = 7;
+        WordFinished word_finished = 8;
+        YouveBeenAddedToGame youve_been_added_to_game = 9;
+        PlayerDisconnected player_disconnected = 10;
     }
 }
 

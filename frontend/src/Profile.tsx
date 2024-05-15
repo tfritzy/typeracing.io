@@ -28,7 +28,7 @@ export const Profile = () => {
   };
 
   return (
-    <div className="flex flex-row p-4 rounded-lg space-x-2">
+    <div className="flex flex-row rounded-lg space-x-2">
       <div className=" flex flex-row items-center space-x-1">
         <EditInput value={player.name} onChange={updateName} />
       </div>

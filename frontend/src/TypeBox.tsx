@@ -212,9 +212,10 @@ export const TypeBox = (props: TypeBoxProps) => {
         </div>
         {
           <div
-            className="absolute top-1/2 left-1/2 transform -translate-x-[30%] -translate-y-[10%] cursor-pointer text-neutral-400 transition-transform pointer-events-none"
+            className="absolute top-1/2 left-1/2 transform -translate-x-[30%] -translate-y-[10%] cursor-pointer transition-transform pointer-events-none text-sm"
             style={{
               opacity: !focused ? 1 : 0,
+              color: SecondaryTextColor,
             }}
           >
             <CursorPointer />

@@ -10,6 +10,7 @@ import { Players } from "./Players";
 import { AnimatedDots } from "./AnimatedDots";
 import { ActionBar } from "./ActionBar";
 import { HomeBreadcrumb } from "./HomeBreadcrumb";
+import { Logo } from "./Logo";
 
 type InGameProps = {
   sendRequest: (request: ArrayBuffer) => void;
@@ -45,10 +46,10 @@ export const InGame = (props: InGameProps) => {
 
   return (
     <div>
-      <div className="absolute top-5">
-        <HomeBreadcrumb />
-      </div>
-      <div className="flex flex-col space-y-12 justify-center font-thin h-screen px-12">
+      <div className="relative flex flex-col space-y-12 justify-center font-thin h-screen px-12">
+        <div className="absolute left-0 top-0 w-screen flex flex-row justify-between p-2">
+          <Logo />
+        </div>
         <div
           className="relative flex flex-col justify-end"
           style={{ flexGrow: !isGameOver ? "1" : undefined }}
