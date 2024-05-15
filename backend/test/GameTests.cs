@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Tests;
 
 [TestClass]
@@ -301,5 +303,42 @@ public class GameTests
         Game game = galaxy.OpenGames[0];
         Assert.IsTrue(game.Words.Length > 20);
         Assert.IsTrue(game.Words.Length < 40);
+    }
+
+    [TestMethod]
+    public void Game_SendsGameIdInMessages()
+    {
+        Galaxy galaxy = new();
+        Api.FindGame("Alice", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false);
+        Api.FindGame("George", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false);
+        Game game = galaxy.OpenGames[0];
+        InGamePlayer alice = game.Players[0];
+        Assert.AreEqual(2, galaxy.OutboxMessages().Count(m => m.RecipientId == alice.Id));
+        Assert.AreEqual(3, galaxy.OutboxMessages().Count(m => m.GameId == game.Id));
+        Api.DisconnectPlayer(alice.Id, galaxy);
+        galaxy.ClearOutbox();
+
+        Api.FindGame(alice.Name, alice.Id, alice.Token, galaxy, false, new HashSet<GameMode> { GameMode.HomeRow });
+        Game newGame = galaxy.OpenGames[^1];
+        Assert.AreEqual(1, galaxy.OutboxMessages().Count(m => m.GameId == newGame.Id));
+        Assert.AreEqual(1, galaxy.OutboxMessages().Count(m => m.RecipientId == alice.Id));
+    }
+
+    [TestMethod]
+    public void Game_DoesntSendMessagesToPlayersNotInGame()
+    {
+        Galaxy galaxy = new();
+        Api.FindGame("Alice", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false);
+        Api.FindGame("George", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false);
+        Api.FindGame("Alex", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false);
+        Api.FindGame("Ava", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false);
+        Game game = galaxy.ActiveGames.Values.First();
+        InGamePlayer alice = game.Players[0];
+        Api.FindGame(alice.Name, alice.Id, alice.Token, galaxy, false, new HashSet<GameMode> { GameMode.HomeRow });
+        galaxy.ClearOutbox();
+
+        galaxy.Time.Update(Game.CountdownDuration + .1f);
+        galaxy.Update();
+        Assert.AreEqual(0, galaxy.OutboxMessages().Count(m => m.RecipientId == alice.Id));
     }
 }

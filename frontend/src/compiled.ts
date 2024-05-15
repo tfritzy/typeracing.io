@@ -399,6 +399,7 @@ function _decodeTypeWordRequest(bb: ByteBuffer): TypeWordRequest {
 
 export interface OneofUpdate {
   recipient_id?: string;
+  game_id?: string;
   game_over?: GameOver;
   game_started?: GameStarted;
   game_starting?: GameStarting;
@@ -423,10 +424,17 @@ function _encodeOneofUpdate(message: OneofUpdate, bb: ByteBuffer): void {
     writeString(bb, $recipient_id);
   }
 
-  // optional GameOver game_over = 2;
+  // optional string game_id = 2;
+  let $game_id = message.game_id;
+  if ($game_id !== undefined) {
+    writeVarint32(bb, 18);
+    writeString(bb, $game_id);
+  }
+
+  // optional GameOver game_over = 3;
   let $game_over = message.game_over;
   if ($game_over !== undefined) {
-    writeVarint32(bb, 18);
+    writeVarint32(bb, 26);
     let nested = popByteBuffer();
     _encodeGameOver($game_over, nested);
     writeVarint32(bb, nested.limit);
@@ -434,10 +442,10 @@ function _encodeOneofUpdate(message: OneofUpdate, bb: ByteBuffer): void {
     pushByteBuffer(nested);
   }
 
-  // optional GameStarted game_started = 3;
+  // optional GameStarted game_started = 4;
   let $game_started = message.game_started;
   if ($game_started !== undefined) {
-    writeVarint32(bb, 26);
+    writeVarint32(bb, 34);
     let nested = popByteBuffer();
     _encodeGameStarted($game_started, nested);
     writeVarint32(bb, nested.limit);
@@ -445,10 +453,10 @@ function _encodeOneofUpdate(message: OneofUpdate, bb: ByteBuffer): void {
     pushByteBuffer(nested);
   }
 
-  // optional GameStarting game_starting = 4;
+  // optional GameStarting game_starting = 5;
   let $game_starting = message.game_starting;
   if ($game_starting !== undefined) {
-    writeVarint32(bb, 34);
+    writeVarint32(bb, 42);
     let nested = popByteBuffer();
     _encodeGameStarting($game_starting, nested);
     writeVarint32(bb, nested.limit);
@@ -456,10 +464,10 @@ function _encodeOneofUpdate(message: OneofUpdate, bb: ByteBuffer): void {
     pushByteBuffer(nested);
   }
 
-  // optional PlayerCompleted player_completed = 5;
+  // optional PlayerCompleted player_completed = 6;
   let $player_completed = message.player_completed;
   if ($player_completed !== undefined) {
-    writeVarint32(bb, 42);
+    writeVarint32(bb, 50);
     let nested = popByteBuffer();
     _encodePlayerCompleted($player_completed, nested);
     writeVarint32(bb, nested.limit);
@@ -467,10 +475,10 @@ function _encodeOneofUpdate(message: OneofUpdate, bb: ByteBuffer): void {
     pushByteBuffer(nested);
   }
 
-  // optional PlayerJoinedGame player_joined_game = 6;
+  // optional PlayerJoinedGame player_joined_game = 7;
   let $player_joined_game = message.player_joined_game;
   if ($player_joined_game !== undefined) {
-    writeVarint32(bb, 50);
+    writeVarint32(bb, 58);
     let nested = popByteBuffer();
     _encodePlayerJoinedGame($player_joined_game, nested);
     writeVarint32(bb, nested.limit);
@@ -478,10 +486,10 @@ function _encodeOneofUpdate(message: OneofUpdate, bb: ByteBuffer): void {
     pushByteBuffer(nested);
   }
 
-  // optional WordFinished word_finished = 7;
+  // optional WordFinished word_finished = 8;
   let $word_finished = message.word_finished;
   if ($word_finished !== undefined) {
-    writeVarint32(bb, 58);
+    writeVarint32(bb, 66);
     let nested = popByteBuffer();
     _encodeWordFinished($word_finished, nested);
     writeVarint32(bb, nested.limit);
@@ -489,10 +497,10 @@ function _encodeOneofUpdate(message: OneofUpdate, bb: ByteBuffer): void {
     pushByteBuffer(nested);
   }
 
-  // optional YouveBeenAddedToGame youve_been_added_to_game = 8;
+  // optional YouveBeenAddedToGame youve_been_added_to_game = 9;
   let $youve_been_added_to_game = message.youve_been_added_to_game;
   if ($youve_been_added_to_game !== undefined) {
-    writeVarint32(bb, 66);
+    writeVarint32(bb, 74);
     let nested = popByteBuffer();
     _encodeYouveBeenAddedToGame($youve_been_added_to_game, nested);
     writeVarint32(bb, nested.limit);
@@ -500,10 +508,10 @@ function _encodeOneofUpdate(message: OneofUpdate, bb: ByteBuffer): void {
     pushByteBuffer(nested);
   }
 
-  // optional PlayerDisconnected player_disconnected = 9;
+  // optional PlayerDisconnected player_disconnected = 10;
   let $player_disconnected = message.player_disconnected;
   if ($player_disconnected !== undefined) {
-    writeVarint32(bb, 74);
+    writeVarint32(bb, 82);
     let nested = popByteBuffer();
     _encodePlayerDisconnected($player_disconnected, nested);
     writeVarint32(bb, nested.limit);
@@ -532,64 +540,70 @@ function _decodeOneofUpdate(bb: ByteBuffer): OneofUpdate {
         break;
       }
 
-      // optional GameOver game_over = 2;
+      // optional string game_id = 2;
       case 2: {
+        message.game_id = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // optional GameOver game_over = 3;
+      case 3: {
         let limit = pushTemporaryLength(bb);
         message.game_over = _decodeGameOver(bb);
         bb.limit = limit;
         break;
       }
 
-      // optional GameStarted game_started = 3;
-      case 3: {
+      // optional GameStarted game_started = 4;
+      case 4: {
         let limit = pushTemporaryLength(bb);
         message.game_started = _decodeGameStarted(bb);
         bb.limit = limit;
         break;
       }
 
-      // optional GameStarting game_starting = 4;
-      case 4: {
+      // optional GameStarting game_starting = 5;
+      case 5: {
         let limit = pushTemporaryLength(bb);
         message.game_starting = _decodeGameStarting(bb);
         bb.limit = limit;
         break;
       }
 
-      // optional PlayerCompleted player_completed = 5;
-      case 5: {
+      // optional PlayerCompleted player_completed = 6;
+      case 6: {
         let limit = pushTemporaryLength(bb);
         message.player_completed = _decodePlayerCompleted(bb);
         bb.limit = limit;
         break;
       }
 
-      // optional PlayerJoinedGame player_joined_game = 6;
-      case 6: {
+      // optional PlayerJoinedGame player_joined_game = 7;
+      case 7: {
         let limit = pushTemporaryLength(bb);
         message.player_joined_game = _decodePlayerJoinedGame(bb);
         bb.limit = limit;
         break;
       }
 
-      // optional WordFinished word_finished = 7;
-      case 7: {
+      // optional WordFinished word_finished = 8;
+      case 8: {
         let limit = pushTemporaryLength(bb);
         message.word_finished = _decodeWordFinished(bb);
         bb.limit = limit;
         break;
       }
 
-      // optional YouveBeenAddedToGame youve_been_added_to_game = 8;
-      case 8: {
+      // optional YouveBeenAddedToGame youve_been_added_to_game = 9;
+      case 9: {
         let limit = pushTemporaryLength(bb);
         message.youve_been_added_to_game = _decodeYouveBeenAddedToGame(bb);
         bb.limit = limit;
         break;
       }
 
-      // optional PlayerDisconnected player_disconnected = 9;
-      case 9: {
+      // optional PlayerDisconnected player_disconnected = 10;
+      case 10: {
         let limit = pushTemporaryLength(bb);
         message.player_disconnected = _decodePlayerDisconnected(bb);
         bb.limit = limit;

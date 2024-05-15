@@ -9,7 +9,7 @@ export const Logo = () => {
     >
       <span className="">Type</span>
       <span className="">Racing</span>
-      <span className="text-accent opacity-50">.io</span>
+      <span className="text-accent">.io</span>
     </a>
   );
 };

@@ -21,12 +21,20 @@ public class Galaxy
         Time = new Time();
     }
 
-    public void SendUpdate(InGamePlayer player, OneofUpdate message)
+    public void SendUpdate(InGamePlayer player, string gameId, OneofUpdate message)
     {
         if (player.IsDisconnected)
         {
             return;
         }
+
+        if (!PlayerGameMap.ContainsKey(player.Id) || PlayerGameMap[player.Id] != gameId)
+        {
+            return;
+        }
+
+        message.RecipientId = player.Id;
+        message.GameId = gameId;
 
         Outbox.Enqueue(message);
     }

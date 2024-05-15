@@ -45,9 +45,8 @@ public static class Api
     {
         foreach (InGamePlayer p in game.Players)
         {
-            galaxy.SendUpdate(p, new OneofUpdate
+            galaxy.SendUpdate(p, game.Id, new OneofUpdate
             {
-                RecipientId = p.Id,
                 PlayerJoinedGame = new PlayerJoinedGame()
                 {
                     GameId = game.Id,
@@ -81,9 +80,9 @@ public static class Api
                     });
             galaxy.SendUpdate(
                 player,
+                game.Id,
                 new OneofUpdate
                 {
-                    RecipientId = player.Id,
                     YouveBeenAddedToGame = youveBeenAddedToGame
                 });
         }
@@ -106,9 +105,8 @@ public static class Api
 
         foreach (InGamePlayer player in openGame.Players)
         {
-            galaxy.SendUpdate(player, new OneofUpdate
+            galaxy.SendUpdate(player, openGame.Id, new OneofUpdate
             {
-                RecipientId = player.Id,
                 GameStarting = new GameStarting
                 {
                     Countdown = Game.CountdownDuration,
@@ -134,14 +132,12 @@ public static class Api
 
         if (game.State != Game.GameState.Running)
         {
-            Console.WriteLine($"Game {gameId} not running yet");
             return;
         }
 
         InGamePlayer? player = game.Players.FirstOrDefault(p => p.Id == playerId);
         if (player == null)
         {
-            Console.WriteLine($"Player {playerId} not found in game {gameId}");
             return;
         }
 
@@ -160,9 +156,8 @@ public static class Api
             foreach (InGamePlayer p in game.Players)
             {
                 float percentComplete = (float)player.WordIndex / game.Words.Length;
-                galaxy.SendUpdate(p, new OneofUpdate
+                galaxy.SendUpdate(p, gameId, new OneofUpdate
                 {
-                    RecipientId = p.Id,
                     WordFinished = new WordFinished
                     {
                         PlayerId = playerId,
@@ -178,8 +173,6 @@ public static class Api
         {
             Console.WriteLine($"Player {playerId} typed wrong word {word} instead of {game.Words[player.WordIndex]}");
         }
-
-        Console.WriteLine($"Player {playerId} is {player.WordIndex}/{game.Words.Length} complete");
 
         if (player.WordIndex >= game.Words.Length)
         {
@@ -199,9 +192,8 @@ public static class Api
                 playerCompleted.WpmBySecond.AddRange(Stats.GetAggWpmBySecond(player.CharCompletionTimes_s));
                 playerCompleted.RawWpmBySecond.AddRange(Stats.GetRawWpmBySecond(player.CharCompletionTimes_s));
 
-                galaxy.SendUpdate(p, new OneofUpdate
+                galaxy.SendUpdate(p, game.Id, new OneofUpdate
                 {
-                    RecipientId = p.Id,
                     PlayerCompleted = playerCompleted
                 });
             }
@@ -213,9 +205,8 @@ public static class Api
 
             foreach (InGamePlayer p in game.Players)
             {
-                galaxy.SendUpdate(p, new OneofUpdate
+                galaxy.SendUpdate(p, game.Id, new OneofUpdate
                 {
-                    RecipientId = p.Id,
                     GameOver = new GameOver()
                     {
                         EndTimeS = galaxy.Time.Now - game.StartTime,
@@ -266,9 +257,8 @@ public static class Api
 
         foreach (InGamePlayer p in game.Players)
         {
-            galaxy.SendUpdate(p, new OneofUpdate
+            galaxy.SendUpdate(p, game.Id, new OneofUpdate
             {
-                RecipientId = p.Id,
                 PlayerDisconnected = new PlayerDisconnected
                 {
                     PlayerId = playerId,

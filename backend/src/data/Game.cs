@@ -66,7 +66,7 @@ public class Game
             State = GameState.Running;
             foreach (InGamePlayer player in Players)
             {
-                Galaxy.SendUpdate(player, new OneofUpdate
+                Galaxy.SendUpdate(player, Id, new OneofUpdate
                 {
                     RecipientId = player.Id,
                     GameStarted = new GameStarted { },
