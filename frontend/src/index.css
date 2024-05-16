@@ -20,6 +20,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: #24292e;
   font-weight: 200;
+
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 15px; /* Optional: adds some padding to the sides */
 }
 
 h1 {

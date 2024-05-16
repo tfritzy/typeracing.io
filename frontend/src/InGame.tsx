@@ -47,7 +47,7 @@ export const InGame = (props: InGameProps) => {
   return (
     <div>
       <div className="relative flex flex-col space-y-12 justify-center font-thin h-screen px-12">
-        <div className="absolute left-0 top-0 w-screen flex flex-row justify-between p-2">
+        <div className="absolute left-0 top-0 flex flex-row justify-between p-2">
           <Logo />
         </div>
         <div

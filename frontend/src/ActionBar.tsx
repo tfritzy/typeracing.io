@@ -35,12 +35,13 @@ export const ActionBar = (props: ActionBarProps) => {
 
   const findGame = React.useCallback(() => {
     dispatch(reset());
+    navigate("/");
     sendFindGameRequest(props.sendRequest, player);
-  }, [props.sendRequest, player]);
+  }, [dispatch, navigate, props.sendRequest, player]);
 
   const mainMenu = React.useCallback(() => {
     returnToMainMenu(navigate, dispatch);
-  }, [reset]);
+  }, [dispatch, navigate]);
 
   useEffect(() => {
     const handleHotkeys = (event: KeyboardEvent) => {
@@ -50,6 +51,7 @@ export const ActionBar = (props: ActionBarProps) => {
         alert("Share");
       } else if (event.key === "m") {
         mainMenu();
+        event.preventDefault();
       }
     };
 

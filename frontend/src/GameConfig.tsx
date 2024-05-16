@@ -24,13 +24,18 @@ import {
   AccentColor,
   BackgroundColor,
   BorderColor,
+  ChillBorder,
   NeutralColor,
   SecondaryTextColor,
+  TertiaryTextColor,
   TextColor,
+  VeryChillBorder,
 } from "./constants";
 import { Drawer } from "./Drawer";
 import { Hotkey } from "./Hotkey";
 import Cookies from "js-cookie";
+import { parse } from "path";
+import { Dispatch } from "redux";
 
 type ValidGameMode = Exclude<GameMode, GameMode.Invalid>;
 
@@ -151,9 +156,9 @@ const ModeButton = (props: ModeButtonProps) => {
       style={
         props.selected
           ? {
-              backgroundColor: AccentColor + "20",
+              backgroundColor: AccentColor + "30",
               color: AccentColor,
-              borderColor: AccentColor + "40",
+              borderColor: AccentColor + "50",
               borderWidth: "1px",
             }
           : {
@@ -173,6 +178,15 @@ const ModeButton = (props: ModeButtonProps) => {
   );
 };
 
+const selectGameMode = (mode: GameMode, dispatch: Dispatch) => {
+  const modeNum = encodeGameMode[mode];
+  dispatch(setMode(mode));
+  Cookies.set("gameMode", modeNum.toString(), {
+    sameSite: "strict",
+    expires: 365,
+  });
+};
+
 const ModeCheckboxes = () => {
   const dispatch = useDispatch();
   const player = useSelector((state: RootState) => state.player);
@@ -182,27 +196,17 @@ const ModeCheckboxes = () => {
     const gameMode = Cookies.get("gameMode");
     if (gameMode) {
       const parsedMode = decodeGameMode[parseInt(gameMode)];
-      setModes = true;
-      dispatch(setMode(parsedMode));
+
+      if (parsedMode !== GameMode.Invalid) {
+        setModes = true;
+        dispatch(setMode(parsedMode));
+      }
     }
 
     if (!setModes) {
       dispatch(setMode(GameMode.Common));
     }
   }, [dispatch]);
-
-  const enableMode = React.useCallback(
-    (mode: GameMode) => {
-      dispatch(setMode(mode));
-
-      const modeNum = encodeGameMode[mode];
-      Cookies.set("gameMode", modeNum.toString(), {
-        sameSite: "strict",
-        expires: 3650,
-      });
-    },
-    [dispatch]
-  );
 
   const checkboxes = [];
   for (const [key, value] of Object.entries(modes) as [
@@ -216,13 +220,13 @@ const ModeCheckboxes = () => {
         key={key}
         className="flex flex-row items-center space-x-2 border rounded-md p-2"
         style={{
-          backgroundColor: isEnabled ? AccentColor + "20" : "transparent",
-          borderColor: isEnabled ? AccentColor + "40" : TextColor + "20",
+          backgroundColor: isEnabled ? AccentColor + "30" : "transparent",
+          borderColor: isEnabled ? AccentColor + "50" : ChillBorder,
           color: isEnabled ? AccentColor : SecondaryTextColor,
         }}
-        onClick={() => enableMode(key)}
+        onClick={() => selectGameMode(key, dispatch)}
       >
-        <div className="">{value.icon}</div>
+        {/* <div className="">{value.icon}</div> */}
         <div className="">{value.name}</div>
         <div className="grow" />
         <Hotkey code={value.hotkey} accent={isEnabled} />
@@ -232,10 +236,10 @@ const ModeCheckboxes = () => {
 
   return (
     <div>
-      <div className="font-normal mb-1">Game modes</div>
-      <div className="mb-4" style={{ color: SecondaryTextColor }}>
-        You'll be randomly placed in a games of one of the enabled modes.
-      </div>
+      <div className="font-normal mb-4 ">Game modes</div>
+      {/* <div className="mb-4" style={{ color: SecondaryTextColor }}>
+        You'll be placed in a game with the selected mode.
+      </div> */}
       <div className="grid grid-cols-2 gap-x-2 gap-y-2">{checkboxes}</div>
     </div>
   );
@@ -252,10 +256,10 @@ const Content = () => {
     }
   }, [dispatch]);
 
-  const selectGameMode = React.useCallback(
-    (mode: GameType) => {
-      dispatch(setGameType(mode));
-      Cookies.set("gameType", mode, { sameSite: "strict", expires: 365 });
+  const selectGameType = React.useCallback(
+    (type: GameType) => {
+      dispatch(setGameType(type));
+      Cookies.set("gameType", type, { sameSite: "strict", expires: 365 });
     },
     [dispatch]
   );
@@ -268,10 +272,10 @@ const Content = () => {
       }}
     >
       <div>
-        <div className="font-normal mb-1">Multiplayer settings</div>
-        <div className="mb-4" style={{ color: SecondaryTextColor }}>
+        <div className="font-normal mb-4">Multiplayer settings</div>
+        {/* <div className="mb-4" style={{ color: SecondaryTextColor }}>
           Choose whether you want to play with others.
-        </div>
+        </div> */}
         <div
           className="flex flex-row items-stretch w-full rounded-md"
           style={{
@@ -281,12 +285,12 @@ const Content = () => {
         >
           <ModeButton
             text="Multiplayer"
-            onClick={() => selectGameMode("Multiplayer")}
+            onClick={() => selectGameType("Multiplayer")}
             selected={gameType === "Multiplayer"}
           />
           <ModeButton
             text="Practice"
-            onClick={() => selectGameMode("Practice")}
+            onClick={() => selectGameType("Practice")}
             selected={gameType === "Practice"}
           />
         </div>
@@ -308,7 +312,7 @@ export const GameConfig = (props: GameConfigProps) => {
     ) as ValidGameMode | undefined;
 
     if (mode) {
-      dispatch(setMode(mode));
+      selectGameMode(mode, dispatch);
     }
   };
 
@@ -317,7 +321,7 @@ export const GameConfig = (props: GameConfigProps) => {
   return (
     <>
       <button
-        className="flex flex-row items-center space-x-2 rounded-full p-2 px-4 text-tertiary focus:text-main"
+        className="flex flex-row items-center space-x-2 rounded-full p-2 px-4 text-secondary focus:text-main"
         onClick={() => setOpen(true)}
         style={{
           backgroundColor: NeutralColor,

@@ -2,5 +2,5 @@ namespace LightspeedTyperacing;
 
 public static class Constants
 {
-    public const float TimeBeforeFillingBots = 15f;
+    public const float TimeBeforeFillingBots = 5f;
 }

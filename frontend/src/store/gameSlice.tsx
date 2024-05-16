@@ -26,6 +26,7 @@ type PlacementData = {
 
 export type GameState = {
   state: GameStage;
+  id: string;
   players: PlayerData[];
   phrase: string;
   start_time: number;
@@ -37,6 +38,7 @@ const initialGameState: GameState = {
   state: GameStage.Invalid,
   players: [],
   phrase: "",
+  id: "",
   start_time: 0,
   end_time: -1,
   placements: [],
@@ -59,6 +61,7 @@ export const gameSlice = createSlice({
         payload: YouveBeenAddedToGame;
       }
     ) => {
+      state.id = action.payload.game_id || "";
       state.state = GameStage.WaitingForPlayers;
       state.phrase = action.payload.phrase || "";
       state.players = action.payload.current_players!.map((player) => ({

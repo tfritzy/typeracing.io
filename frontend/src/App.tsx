@@ -1,7 +1,7 @@
 import React from "react";
 import { GameMode, decodeOneofUpdate } from "./compiled";
 import { InGame } from "./InGame";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   handleGameStarting,
   setYouveBeenAddedToGame,
@@ -22,9 +22,11 @@ import {
   updateToken,
 } from "./store/playerSlice";
 import { MainMenu } from "./MainMenu";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { NavigateFunction, Route, Routes, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { storeRaceResultInCookies } from "./helpers/raceResults";
+import { RootState } from "./store/store";
+import { Dispatch } from "redux";
 
 export type PlayerData = {
   id: string;
@@ -41,7 +43,66 @@ export type PlayerData = {
   is_bot: boolean;
 };
 
+const handleMessage = (
+  event: MessageEvent<any>,
+  dispatch: Dispatch,
+  navigate: NavigateFunction,
+  playerId: string,
+  gameId: string
+) => {
+  if (event.data === null) {
+  } else if (event.data instanceof Blob) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.result instanceof ArrayBuffer) {
+        const buffer = new Uint8Array(reader.result);
+        const update = decodeOneofUpdate(buffer);
+
+        if (update.youve_been_added_to_game != null) {
+          dispatch(setYouveBeenAddedToGame(update.youve_been_added_to_game));
+          navigate(`/${update.youve_been_added_to_game.game_id}`);
+        }
+
+        if (update.game_id !== gameId) {
+          console.log("#notmygame", update.game_id, gameId);
+          return;
+        }
+
+        if (update.game_starting) {
+          dispatch(handleGameStarting(update.game_starting));
+        } else if (update.player_joined_game) {
+          dispatch(playerJoinedGame(update.player_joined_game));
+        } else if (update.game_started) {
+          dispatch(setGameStarted());
+        } else if (update.game_over) {
+          dispatch(setGameOver(update.game_over));
+        } else if (update.player_disconnected) {
+          dispatch(playerDisconnected(update.player_disconnected));
+        } else if (update.player_completed) {
+          dispatch(playerFinished(update.player_completed));
+          if (update.player_completed.player_id === playerId) {
+            dispatch(selfFinished());
+            const raceResult = {
+              accuracy: update.player_completed.accuracy || 0,
+              mode: update.player_completed.mode || GameMode.Invalid,
+              time: Date.now(),
+              wpm: update.player_completed.wpm || 0,
+            };
+            storeRaceResultInCookies(raceResult);
+            dispatch(addRaceResult(raceResult));
+          }
+        } else if (update.word_finished) {
+          dispatch(wordFinished(update.word_finished));
+        }
+      }
+    };
+    reader.readAsArrayBuffer(event.data);
+  }
+};
+
 function App() {
+  const playerId = useSelector((state: RootState) => state.player.id);
+  const gameId = useSelector((state: RootState) => state.game.id);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [ws, setWs] = React.useState<WebSocket | null>(null);
@@ -85,51 +146,8 @@ function App() {
 
     var ws = new WebSocket(`ws://localhost:5000/?id=${playerId}`);
     ws.onopen = () => {};
-    ws.onmessage = (event) => {
-      if (event.data === null) {
-      } else if (event.data instanceof Blob) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          if (reader.result instanceof ArrayBuffer) {
-            const buffer = new Uint8Array(reader.result);
-            const update = decodeOneofUpdate(buffer);
-
-            if (update.game_starting) {
-              dispatch(handleGameStarting(update.game_starting));
-            } else if (update.youve_been_added_to_game != null) {
-              dispatch(
-                setYouveBeenAddedToGame(update.youve_been_added_to_game)
-              );
-              navigate(`/${update.youve_been_added_to_game.game_id}`);
-            } else if (update.player_joined_game) {
-              dispatch(playerJoinedGame(update.player_joined_game));
-            } else if (update.game_started) {
-              dispatch(setGameStarted());
-            } else if (update.game_over) {
-              dispatch(setGameOver(update.game_over));
-            } else if (update.player_disconnected) {
-              dispatch(playerDisconnected(update.player_disconnected));
-            } else if (update.player_completed) {
-              dispatch(playerFinished(update.player_completed));
-              if (update.player_completed.player_id === playerId) {
-                dispatch(selfFinished());
-                const raceResult = {
-                  accuracy: update.player_completed.accuracy || 0,
-                  mode: update.player_completed.mode || GameMode.Invalid,
-                  time: Date.now(),
-                  wpm: update.player_completed.wpm || 0,
-                };
-                storeRaceResultInCookies(raceResult);
-                dispatch(addRaceResult(raceResult));
-              }
-            } else if (update.word_finished) {
-              dispatch(wordFinished(update.word_finished));
-            }
-          }
-        };
-        reader.readAsArrayBuffer(event.data);
-      }
-    };
+    ws.onmessage = (event) =>
+      handleMessage(event, dispatch, navigate, playerId || "", gameId);
     ws.onclose = () => {
       console.log("Disconnected");
     };
@@ -138,6 +156,15 @@ function App() {
       ws.close();
     };
   }, []);
+
+  React.useEffect(() => {
+    if (!ws) {
+      return;
+    }
+
+    ws.onmessage = (event) =>
+      handleMessage(event, dispatch, navigate, playerId, gameId);
+  }, [dispatch, gameId, navigate, playerId, ws]);
 
   const sendRequest = React.useCallback(
     (request: ArrayBuffer) => {
@@ -148,23 +175,31 @@ function App() {
     [ws]
   );
 
+  // Global hotkeys
+  React.useEffect(() => {
+    const handleHotkeys = (event: KeyboardEvent) => {
+      if (event.key === "t") {
+        const element = document.getElementById("type-box");
+        if (document.activeElement !== element) {
+          element?.focus();
+          event.preventDefault();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleHotkeys);
+
+    return () => {
+      document.removeEventListener("keydown", handleHotkeys);
+    };
+  }, [navigate]);
+
   return (
     <Routes>
       <Route path="/" element={<MainMenu sendRequest={sendRequest} />} />
       <Route path="/:gameId" element={<InGame sendRequest={sendRequest} />} />
     </Routes>
   );
-
-  //  return (
-  //   <div className="w-screen h-screen">
-  //    <div
-  //     className="font-thin center-column"
-  //     style={{ color: TextColor }}
-  //    >
-  //     {content}
-  //    </div>
-  //   </div>
-  //  );
 }
 
 export default App;

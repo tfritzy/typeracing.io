@@ -212,13 +212,13 @@ export const TypeBox = (props: TypeBoxProps) => {
         </div>
         {
           <div
-            className="absolute top-1/2 left-1/2 transform -translate-x-[30%] -translate-y-[10%] cursor-pointer transition-transform pointer-events-none text-sm"
+            className="absolute top-1/2 left-1/2 transform -translate-x-[50%] -translate-y-[50%] cursor-pointer transition-opacity pointer-events-none text-base w-max"
             style={{
               opacity: !focused ? 1 : 0,
               color: SecondaryTextColor,
             }}
           >
-            <CursorPointer />
+            Click or press 't' to focus
           </div>
         }
         {
@@ -256,7 +256,7 @@ export const TypeBox = (props: TypeBoxProps) => {
           onBlur={() => setFocused(false)}
         />
         <div
-          className={`h-[28px] w-[1px] fixed ${
+          className={`h-[32px] w-[1px] fixed ${
             cursorPulsing ? "animate-pulse-full" : ""
           }`}
           style={{
