@@ -5,16 +5,40 @@ import { GameConfig } from "./GameConfig";
 import { TypeBoxButton } from "./TypeBoxButton";
 import { sendFindGameRequest } from "./helpers/functions";
 import { Profile } from "./Profile";
-import { Hotkey } from "./Hotkey";
-import { NeutralColor } from "./constants";
 import { Logo } from "./Logo";
-import { Countdown } from "./Countdown";
+
+const phrases = [
+ "Warp One. Engage!",
+ "glhf",
+ "glgl",
+ "Ready for dust-off.",
+ "In the pipe, five by five.",
+ "Let's go.",
+ "Commencing bombardment.",
+ "Engage.",
+ "Ready to plunder.",
+ "Fortune favors the bold.",
+ "Let's get into the fight.",
+ "Systems primed.",
+ "Booyah!",
+ "Hit it!",
+ "Bring it!",
+ "Oh, it's on!",
+ "Believe it!",
+ "Let's do this.",
+ "It's go time!",
+ "It's about to get heavy.",
+ "They'll never know what hit 'em.",
+];
 
 type MainMenuProps = {
  sendRequest: (request: ArrayBuffer) => void;
 };
 
 export const MainMenu = (props: MainMenuProps) => {
+ const [phrase] = React.useState(
+  phrases[Math.floor(Math.random() * phrases.length)]
+ );
  const player = useSelector(
   (state: RootState) => state.player
  );
@@ -31,7 +55,7 @@ export const MainMenu = (props: MainMenuProps) => {
      <Profile />
     </div>
     <TypeBoxButton
-     phrase="Find game"
+     phrase={phrase}
      onPhraseComplete={findGame}
     />
     <GameConfig

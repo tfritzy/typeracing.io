@@ -15,7 +15,7 @@ public class Game
     public float RaceStartTime => StartTime + CountdownDuration;
     private Galaxy Galaxy { get; set; }
 
-    public const float CountdownDuration = 5;
+    public const float CountdownDuration = 10;
     public const int NetworkTickRate = 10;
     public const float NetworkTickDuration = 1 / NetworkTickRate;
 

@@ -83,3 +83,9 @@ h2 {
 .logo {
   font-family: 'Open Sans';
 }
+
+.rainbow { 
+  background: linear-gradient(124deg,#99f6e4, #a7f3d0);
+  background-size: 1800px 1800px;
+  background-position:0% 100%;
+}
