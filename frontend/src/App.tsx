@@ -34,7 +34,9 @@ import { RootState } from "./store/store";
 import { Dispatch } from "redux";
 import { DisconnectedModal } from "./DisconnectedModal";
 
-const serverUrl = process.env.REACT_APP_BACKEND_URL;
+const serverUrl = process.env.REACT_APP_SERVER_ADDRESS;
+console.log("Environment:", process.env);
+console.log("Server URL:", serverUrl);
 
 export type PlayerData = {
  id: string;
