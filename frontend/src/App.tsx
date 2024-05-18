@@ -171,7 +171,7 @@ function App() {
   dispatch(updateToken(token));
 
   var ws = new WebSocket(
-   `ws://localhost:5000/?id=${playerId}`
+   `ws://${serverUrl}/?id=${playerId}`
   );
   ws.onopen = () => {
    setWsState(WebSocket.OPEN);
@@ -247,6 +247,10 @@ function App() {
     <div className="w-12 h-12 border-l border-white rounded-full animate-spin" />
    </div>
   );
+ }
+
+ if (wsState === WebSocket.CLOSED) {
+  return <DisconnectedModal reconnect={connect} />;
  }
 
  return (

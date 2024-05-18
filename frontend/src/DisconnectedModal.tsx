@@ -13,7 +13,7 @@ export const DisconnectedModal = (
    className="z-50 rounded-lg flex flex-col shadow-md min-w-96 min-h-64 border fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
    style={{
     borderColor: ChillBorder,
-    backgroundImage: `linear-gradient(#24292eee, #24292eee), url(${process.env.PUBLIC_URL}/bleh.avif)`,
+    backgroundImage: `linear-gradient(#24292ef7, #24292ef7), url(${process.env.PUBLIC_URL}/bleh.avif)`,
     backgroundSize: "cover",
    }}
   >
