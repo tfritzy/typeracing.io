@@ -29,7 +29,7 @@ export const Countdown = (props: CountdownProps) => {
  if (timeTillStart > 10) {
   string = "Waiting for opponents";
  } else if (timeTillStart > 0) {
-  string = `starting in: 0:${Math.ceil(timeTillStart)
+  string = `Starting: 0:${Math.ceil(timeTillStart)
    .toFixed(0)
    .padStart(2, "0")}`;
  } else {
@@ -74,7 +74,7 @@ export const Countdown = (props: CountdownProps) => {
     />
    </div>
    <div
-    className="relative font-mono p-1 px-3 text-lg font-bold flex flex-col items-center rounded-full border overflow-hidden min-w-64"
+    className="relative font-mono p-1 px-3 text-lg font-bold flex flex-col items-center rounded-full border overflow-hidden min-w-52"
     style={{
      backgroundColor: NeutralColor,
      borderColor: BorderColor,

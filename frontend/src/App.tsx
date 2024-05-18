@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GameMode, decodeOneofUpdate } from "./compiled";
 import { InGame } from "./InGame";
 import { useDispatch, useSelector } from "react-redux";
@@ -78,7 +78,6 @@ const handleMessage = (
     }
 
     if (update.game_id !== gameId) {
-     console.log("#notmygame", update.game_id, gameId);
      return;
     }
 
@@ -118,6 +117,7 @@ const handleMessage = (
 };
 
 function App() {
+ const gameRef = React.useRef<string>("");
  const playerId = useSelector(
   (state: RootState) => state.player.id
  );
@@ -130,6 +130,12 @@ function App() {
  const [wsState, setWsState] = React.useState<
   WebSocket["readyState"]
  >(WebSocket.CONNECTING);
+
+ useEffect(() => {
+  if (gameId) {
+   gameRef.current = gameId;
+  }
+ }, [gameId]);
 
  const connect = React.useCallback(() => {
   setWsState(WebSocket.CONNECTING);
@@ -170,9 +176,8 @@ function App() {
   dispatch(updatePlayerId(playerId));
   dispatch(updateToken(token));
 
-  var ws = new WebSocket(
-   `wss://${serverUrl}/?id=${playerId}`
-  );
+  console.log("url", `${serverUrl}/?id=${playerId}`);
+  var ws = new WebSocket(`${serverUrl}/?id=${playerId}`);
   ws.onopen = () => {
    setWsState(WebSocket.OPEN);
   };
@@ -182,7 +187,7 @@ function App() {
     dispatch,
     navigate,
     playerId || "",
-    gameId
+    gameRef.current
    );
   ws.onclose = () => {
    setWsState(WebSocket.CLOSED);
@@ -191,9 +196,9 @@ function App() {
   return () => {
    ws.close();
   };
- }, [dispatch, gameId, navigate]);
+ }, [dispatch, navigate]);
 
- React.useEffect(() => connect(), [connect]);
+ React.useEffect(() => connect(), []);
 
  React.useEffect(() => {
   if (!ws) {
@@ -206,9 +211,9 @@ function App() {
     dispatch,
     navigate,
     playerId,
-    gameId
+    gameRef.current
    );
- }, [dispatch, gameId, navigate, playerId, ws]);
+ }, [dispatch, navigate, playerId, ws]);
 
  const sendRequest = React.useCallback(
   (request: ArrayBuffer) => {
@@ -238,8 +243,6 @@ function App() {
   };
  }, [navigate]);
 
- console.log(wsState);
-
  if (wsState === WebSocket.CONNECTING) {
   return (
    <div className="flex flex-col space-y-4 items-center fixed left-[50%] top-[50%] transform-gpu -translate-x-1/2 -translate-y-1/2">
@@ -254,21 +257,16 @@ function App() {
  }
 
  return (
-  <>
-   {wsState === WebSocket.CLOSED && (
-    <DisconnectedModal reconnect={connect} />
-   )}
-   <Routes>
-    <Route
-     path="/"
-     element={<MainMenu sendRequest={sendRequest} />}
-    />
-    <Route
-     path="/:gameId"
-     element={<InGame sendRequest={sendRequest} />}
-    />
-   </Routes>
-  </>
+  <Routes>
+   <Route
+    path="/"
+    element={<MainMenu sendRequest={sendRequest} />}
+   />
+   <Route
+    path="/:gameId"
+    element={<InGame sendRequest={sendRequest} />}
+   />
+  </Routes>
  );
 }
 

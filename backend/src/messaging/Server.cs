@@ -81,7 +81,7 @@ public class Server
     public async void StartAcceptingConnections()
     {
         HttpListener httpListener = new();
-        httpListener.Prefixes.Add("https://localhost:5000/");
+        httpListener.Prefixes.Add("http://localhost:5000/");
         httpListener.Start();
         Console.WriteLine("Listening...");
 

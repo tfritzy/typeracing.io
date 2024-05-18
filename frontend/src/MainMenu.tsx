@@ -8,7 +8,7 @@ import { Profile } from "./Profile";
 import { Logo } from "./Logo";
 
 const phrases = [
- "Helm, warp One. Engage",
+ "Helm, warp one. Engage",
  "glhf",
  "glgl",
  "Ready for dust-off",

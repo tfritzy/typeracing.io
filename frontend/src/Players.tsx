@@ -105,9 +105,10 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
     }}
    >
     <div
-     className="h-full rainbow transition-all duration-350 ease-in-out rounded-full"
+     className="h-full transition-all duration-350 ease-in-out rounded-full"
      style={{
       width: `${(player?.progress || 0) * 100}%`,
+      backgroundColor: player?.themeColor,
      }}
     />
    </div>

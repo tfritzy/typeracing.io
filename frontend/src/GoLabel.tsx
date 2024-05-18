@@ -10,11 +10,13 @@ export const GoLabel = (props: GoLabelProps) => {
  }
 
  return (
-  <div
-   className="bg-accent rounded font-semibold border border-green-500 py-1 px-2"
-   style={{ color: NeutralColor }}
-  >
-   Type!
-  </div>
+  <img
+   src="/bufo-lets-goo.gif"
+   className="w-10 h-10 inline"
+   aria-label="Go!"
+   style={{
+    transform: "scaleX(-1)",
+   }}
+  />
  );
 };

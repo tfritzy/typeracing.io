@@ -5,19 +5,17 @@ import React, {
 } from "react";
 import {
  AccentColor,
- BrandColor,
- NeutralColor,
  SecondaryTextColor,
  TertiaryTextColor,
  TextColor,
 } from "./constants";
-import { CursorPointer } from "iconoir-react";
-import { Countdown } from "./Countdown";
 import { GoLabel } from "./GoLabel";
 
 function lerp(start: number, end: number, alpha: number) {
  return start + (end - start) * alpha;
 }
+
+const cursorYOffset = 2;
 
 type TypeBoxProps = {
  phrase: string;
@@ -52,9 +50,9 @@ export const TypeBox = (props: TypeBoxProps) => {
    const cursorRect =
     cursorRef.current.getBoundingClientRect();
    setTargetCursorXPos(cursorRect.left);
-   setTargetCursorYPos(cursorRect.top + 6);
+   setTargetCursorYPos(cursorRect.top + cursorYOffset);
    setCursorXPos(cursorRect.left);
-   setCursorYPos(cursorRect.top + 6);
+   setCursorYPos(cursorRect.top + cursorYOffset);
   }
  }, []);
 
@@ -169,7 +167,7 @@ export const TypeBox = (props: TypeBoxProps) => {
    const cursorRect =
     cursorRef.current.getBoundingClientRect();
    setTargetCursorXPos(cursorRect.left);
-   setTargetCursorYPos(cursorRect.top + 5);
+   setTargetCursorYPos(cursorRect.top + cursorYOffset);
   }
  }, [currentWord]);
 
@@ -193,7 +191,10 @@ export const TypeBox = (props: TypeBoxProps) => {
    );
   } else {
    text.push(
-    <span style={{ color: TextColor }}>
+    <span
+     className="underline"
+     style={{ color: TextColor }}
+    >
      {currentWord[i]}
     </span>
    );
@@ -202,14 +203,35 @@ export const TypeBox = (props: TypeBoxProps) => {
 
  text.push(<span ref={cursorRef} key="cursor" />);
 
- let remainingText = props.phrase.slice(
+ let nextSpaceIndex = props.phrase.indexOf(
+  " ",
   props.lockedCharacterIndex + currentWord.length
  );
+ nextSpaceIndex =
+  nextSpaceIndex === -1
+   ? props.phrase.length
+   : nextSpaceIndex;
+ const remainderOfWord = props.phrase.slice(
+  props.lockedCharacterIndex + currentWord.length,
+  nextSpaceIndex
+ );
  text.push(
-  <span style={{ color: TertiaryTextColor }}>
-   {remainingText}
+  <span
+   className="underline"
+   style={{ color: TertiaryTextColor }}
+  >
+   {remainderOfWord}
   </span>
  );
+
+ if (nextSpaceIndex !== -1) {
+  let remainingText = props.phrase.slice(nextSpaceIndex);
+  text.push(
+   <span style={{ color: TertiaryTextColor }}>
+    {remainingText}
+   </span>
+  );
+ }
 
  return (
   <div className="relative">
@@ -274,7 +296,7 @@ export const TypeBox = (props: TypeBoxProps) => {
      onBlur={() => setFocused(false)}
     />
     <div
-     className={`h-[32px] w-[1px] fixed ${
+     className={`h-[26px] w-[1px] fixed ${
       cursorPulsing ? "animate-pulse-full" : ""
      }`}
      style={{
@@ -289,12 +311,6 @@ export const TypeBox = (props: TypeBoxProps) => {
      }
     />
    </div>
-
-   {Date.now() < props.startTime + 1500 && (
-    <div className="absolute left-[50%] top-[50%] transform translate-x-[-50%] translate-y-[-50%]">
-     <Countdown startTime={props.startTime} />
-    </div>
-   )}
 
    {Date.now() < props.startTime + 1500 && (
     <div className="absolute -left-16 top-2">
