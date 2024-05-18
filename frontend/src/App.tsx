@@ -35,8 +35,6 @@ import { Dispatch } from "redux";
 import { DisconnectedModal } from "./DisconnectedModal";
 
 const serverUrl = process.env.REACT_APP_SERVER_ADDRESS;
-console.log("Environment:", process.env);
-console.log("Server URL:", serverUrl);
 
 export type PlayerData = {
  id: string;
@@ -173,7 +171,7 @@ function App() {
   dispatch(updateToken(token));
 
   var ws = new WebSocket(
-   `ws://${serverUrl}/?id=${playerId}`
+   `wss://${serverUrl}/?id=${playerId}`
   );
   ws.onopen = () => {
    setWsState(WebSocket.OPEN);
