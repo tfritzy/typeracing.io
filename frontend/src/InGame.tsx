@@ -1,6 +1,7 @@
 import React from "react";
 import { TypeBox } from "./TypeBox";
 import {
+ KeyStroke,
  OneofRequest,
  encodeOneofRequest,
 } from "./compiled";
@@ -30,16 +31,30 @@ export const InGame = (props: InGameProps) => {
  const { phrase, state } = gameState;
 
  const handleWordComplete = React.useCallback(
-  (newLockIndex: number, characterTimes: number[]) => {
+  (
+   newLockIndex: number,
+   keyStrokes: KeyStroke[],
+   errors: number
+  ) => {
    const word = phrase
     .slice(lockCharIndex, newLockIndex)
     .trim();
+
+   console.log(
+    "word",
+    word,
+    "charTimes",
+    keyStrokes,
+    "errors",
+    errors
+   );
 
    const finishedWordRequest: OneofRequest = {
     sender_id: player.id,
     type_word: {
      word: word,
-     char_completion_times: characterTimes,
+     key_strokes: keyStrokes,
+     num_errors: errors,
     },
    };
 

@@ -13,7 +13,7 @@ export const TypeBoxButton = (
   React.useState<number>(0);
 
  const handleWordComplete = React.useCallback(
-  (charIndex: number, charCompletionTimes: number[]) => {
+  (charIndex: number) => {
    setLockedCharIndex(charIndex);
 
    if (charIndex >= props.phrase.length) {

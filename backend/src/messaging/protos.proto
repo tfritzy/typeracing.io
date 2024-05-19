@@ -42,9 +42,14 @@ message FindGameRequest {
     bool private_game = 4;
 }
 
+message KeyStroke {
+    string character = 1;
+    float time = 2;
+}
+
 message TypeWordRequest {
     string word = 1;
-    repeated float char_completion_times = 2;
+    repeated KeyStroke key_strokes = 2;
     int32 num_errors = 3;
 }
 

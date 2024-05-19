@@ -63,6 +63,7 @@ export const Results = () => {
   .toISOString()
   .substr(15, 4);
  const finalWpm = self?.final_wpm || 0;
+ console.log("Accuracy: ", self?.accuracy);
 
  return (
   <div>
@@ -76,7 +77,9 @@ export const Results = () => {
 
     <div className="p-3 px-6">
      <div className="text-sm text-secondary">Accuracy</div>
-     <div className="text-5xl text-accent">3%</div>
+     <div className="text-5xl text-accent">
+      {(self?.accuracy || 0) * 100}%
+     </div>
     </div>
 
     <div className="p-3 px-6">

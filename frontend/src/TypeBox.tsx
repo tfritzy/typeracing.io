@@ -10,6 +10,7 @@ import {
  TextColor,
 } from "./constants";
 import { GoLabel } from "./GoLabel";
+import { KeyStroke } from "./compiled";
 
 function lerp(start: number, end: number, alpha: number) {
  return start + (end - start) * alpha;
@@ -22,18 +23,29 @@ type TypeBoxProps = {
  lockedCharacterIndex: number;
  onWordComplete: (
   charIndex: number,
-  charCompletionTimes: number[]
+  keyStrokes: KeyStroke[],
+  errorCount: number
  ) => void;
  startTime: number;
 };
 
 export const TypeBox = (props: TypeBoxProps) => {
+ const {
+  phrase,
+  lockedCharacterIndex,
+  onWordComplete,
+  startTime,
+ } = props;
  const [focused, setFocused] = useState(true);
  const [currentWord, setCurrentWord] = useState("");
  const [inputWidth, setInputWidth] = useState(0);
  const phraseRef = React.useRef<HTMLDivElement>(null);
  const cursorRef = React.useRef<HTMLSpanElement>(null);
- const charTimes = React.useRef<number[]>([]);
+ const keyStrokes = React.useRef<{
+  length: number;
+  strokes: KeyStroke[];
+ }>({ length: 0, strokes: [] });
+ const wordErrorsCount = React.useRef<number>(0);
  const inputRef = React.useRef<HTMLInputElement>(null);
  const [cursorXPos, setCursorXPos] = useState(0);
  const [cursorYPos, setCursorYPos] = useState(0);
@@ -62,21 +74,30 @@ export const TypeBox = (props: TypeBoxProps) => {
   }
 
   resetPos();
- }, [props.phrase, phraseRef.current?.clientWidth]);
+ }, [phrase, phraseRef.current?.clientWidth, resetPos]);
 
  const handleInput = React.useCallback(
   (event: React.ChangeEvent<HTMLInputElement>) => {
-   if (Date.now() - props.startTime < 0) {
+   if (Date.now() - startTime < 0) {
     return;
+   }
+
+   if (currentWord.length < event.target.value.length) {
+    const gotCharCorrect = event.target.value.endsWith(
+     event.target.value.slice(-1)
+    );
+    if (!gotCharCorrect) {
+     wordErrorsCount.current++;
+    }
    }
 
    setCurrentWord(event.target.value);
   },
-  [props.startTime]
+  [currentWord.length, startTime]
  );
 
- const handleWordUpdate = () => {
-  if (props.lockedCharacterIndex >= props.phrase.length) {
+ const handleWordUpdate = React.useCallback(() => {
+  if (lockedCharacterIndex >= phrase.length) {
    return;
   }
 
@@ -88,37 +109,51 @@ export const TypeBox = (props: TypeBoxProps) => {
    setCursorPinging(true);
   }, 1000);
 
-  while (charTimes.current.length < currentWord.length) {
-   charTimes.current.push(
-    (Date.now() - props.startTime) / 1000
-   );
+  while (keyStrokes.current.length < currentWord.length) {
+   keyStrokes.current.strokes.push({
+    character: currentWord[currentWord.length - 1],
+    time: Date.now(),
+   });
+   keyStrokes.current.length++;
   }
-  while (charTimes.current.length > currentWord.length) {
-   charTimes.current.pop();
+
+  while (keyStrokes.current.length > currentWord.length) {
+   keyStrokes.current.strokes.push({
+    character: "backspace",
+    time: Date.now(),
+   });
+   keyStrokes.current.length--;
   }
 
   if (
    currentWord.endsWith(" ") ||
-   props.lockedCharacterIndex + currentWord.length ===
-    props.phrase.length
+   lockedCharacterIndex + currentWord.length ===
+    phrase.length
   ) {
-   const word = props.phrase
-    .slice(props.lockedCharacterIndex)
+   const word = phrase
+    .slice(lockedCharacterIndex)
     .split(" ")[0];
    if (word === currentWord.trim()) {
-    props.onWordComplete(
-     props.lockedCharacterIndex + currentWord.length,
-     charTimes.current
+    onWordComplete(
+     lockedCharacterIndex + currentWord.length,
+     keyStrokes.current.strokes,
+     wordErrorsCount.current
     );
     setCurrentWord("");
-    charTimes.current = [];
+    wordErrorsCount.current = 0;
+    keyStrokes.current.strokes = [];
    }
   }
- };
+ }, [
+  currentWord,
+  lockedCharacterIndex,
+  onWordComplete,
+  phrase,
+ ]);
 
  useEffect(() => {
   handleWordUpdate();
- }, [currentWord, props.startTime]);
+ }, [currentWord, handleWordUpdate, startTime]);
 
  useEffect(() => {
   let frameId: number;
@@ -151,7 +186,7 @@ export const TypeBox = (props: TypeBoxProps) => {
 
   return () =>
    window.removeEventListener("resize", handleResize);
- }, []);
+ }, [resetPos]);
 
  useEffect(() => {
   if (cursorRef.current) {
@@ -171,67 +206,68 @@ export const TypeBox = (props: TypeBoxProps) => {
   }
  }, [currentWord]);
 
- let text = [
-  <span style={{ color: TextColor }}>
-   {props.phrase.slice(0, props.lockedCharacterIndex)}
-  </span>,
- ];
+ const { text, hasError } = React.useMemo(() => {
+  let text = [
+   <span style={{ color: TextColor }}>
+    {phrase.slice(0, lockedCharacterIndex)}
+   </span>,
+  ];
 
- let hasError = false;
- for (let i = 0; i < currentWord.length; i++) {
-  if (
-   currentWord[i] !==
-   props.phrase[props.lockedCharacterIndex + i]
-  ) {
-   hasError = true;
+  let hasError = false;
+  for (let i = 0; i < currentWord.length; i++) {
+   if (
+    currentWord[i] !== phrase[lockedCharacterIndex + i]
+   ) {
+    hasError = true;
+    text.push(
+     <span className="text-red-500 underline">
+      {phrase[lockedCharacterIndex + i]}
+     </span>
+    );
+   } else {
+    text.push(
+     <span
+      className="underline"
+      style={{ color: TextColor }}
+     >
+      {currentWord[i]}
+     </span>
+    );
+   }
+  }
+
+  text.push(<span ref={cursorRef} key="cursor" />);
+
+  let nextSpaceIndex = phrase.indexOf(
+   " ",
+   lockedCharacterIndex + currentWord.length
+  );
+  nextSpaceIndex =
+   nextSpaceIndex === -1 ? phrase.length : nextSpaceIndex;
+  const remainderOfWord = phrase.slice(
+   lockedCharacterIndex + currentWord.length,
+   nextSpaceIndex
+  );
+  text.push(
+   <span
+    className="underline"
+    style={{ color: TertiaryTextColor }}
+   >
+    {remainderOfWord}
+   </span>
+  );
+
+  if (nextSpaceIndex !== -1) {
+   let remainingText = phrase.slice(nextSpaceIndex);
    text.push(
-    <span className="text-red-500 underline">
-     {props.phrase[props.lockedCharacterIndex + i]}
-    </span>
-   );
-  } else {
-   text.push(
-    <span
-     className="underline"
-     style={{ color: TextColor }}
-    >
-     {currentWord[i]}
+    <span style={{ color: TertiaryTextColor }}>
+     {remainingText}
     </span>
    );
   }
- }
 
- text.push(<span ref={cursorRef} key="cursor" />);
-
- let nextSpaceIndex = props.phrase.indexOf(
-  " ",
-  props.lockedCharacterIndex + currentWord.length
- );
- nextSpaceIndex =
-  nextSpaceIndex === -1
-   ? props.phrase.length
-   : nextSpaceIndex;
- const remainderOfWord = props.phrase.slice(
-  props.lockedCharacterIndex + currentWord.length,
-  nextSpaceIndex
- );
- text.push(
-  <span
-   className="underline"
-   style={{ color: TertiaryTextColor }}
-  >
-   {remainderOfWord}
-  </span>
- );
-
- if (nextSpaceIndex !== -1) {
-  let remainingText = props.phrase.slice(nextSpaceIndex);
-  text.push(
-   <span style={{ color: TertiaryTextColor }}>
-    {remainingText}
-   </span>
-  );
- }
+  return { text, hasError };
+ }, [currentWord, lockedCharacterIndex, phrase]);
 
  return (
   <div className="relative">
@@ -242,9 +278,7 @@ export const TypeBox = (props: TypeBoxProps) => {
       whiteSpace: "pre-wrap",
       filter: focused ? "blur(0)" : "blur(2px)",
       opacity:
-       focused && Date.now() - props.startTime > 0
-        ? 1
-        : 0.5,
+       focused && Date.now() - startTime > 0 ? 1 : 0.5,
      }}
      ref={phraseRef}
     >
@@ -306,15 +340,15 @@ export const TypeBox = (props: TypeBoxProps) => {
      }}
      hidden={
       !focused ||
-      props.lockedCharacterIndex >= props.phrase.length ||
-      Date.now() - props.startTime < 0
+      lockedCharacterIndex >= phrase.length ||
+      Date.now() - startTime < 0
      }
     />
    </div>
 
-   {Date.now() < props.startTime + 1500 && (
+   {Date.now() < startTime + 1500 && (
     <div className="absolute -left-16 top-2">
-     <GoLabel startTime={props.startTime} />
+     <GoLabel startTime={startTime} />
     </div>
    )}
   </div>
