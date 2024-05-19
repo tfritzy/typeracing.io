@@ -32,49 +32,50 @@ namespace LightspeedTyperacing {
             "Zy5UeXBlV29yZFJlcXVlc3RIAEIJCgdyZXF1ZXN0IoYBCg9GaW5kR2FtZVJl",
             "cXVlc3QSEwoLcGxheWVyX25hbWUYASABKAkSFAoMcGxheWVyX3Rva2VuGAIg",
             "ASgJEjIKCmdhbWVfbW9kZXMYAyADKA4yHi5MaWdodHNwZWVkVHlwZXJhY2lu",
-            "Zy5HYW1lTW9kZRIUCgxwcml2YXRlX2dhbWUYBCABKAgiPgoPVHlwZVdvcmRS",
+            "Zy5HYW1lTW9kZRIUCgxwcml2YXRlX2dhbWUYBCABKAgiUgoPVHlwZVdvcmRS",
             "ZXF1ZXN0EgwKBHdvcmQYASABKAkSHQoVY2hhcl9jb21wbGV0aW9uX3RpbWVz",
-            "GAIgAygCIsoECgtPbmVvZlVwZGF0ZRIUCgxyZWNpcGllbnRfaWQYASABKAkS",
-            "DwoHZ2FtZV9pZBgCIAEoCRIzCglnYW1lX292ZXIYAyABKAsyHi5MaWdodHNw",
-            "ZWVkVHlwZXJhY2luZy5HYW1lT3ZlckgAEjkKDGdhbWVfc3RhcnRlZBgEIAEo",
-            "CzIhLkxpZ2h0c3BlZWRUeXBlcmFjaW5nLkdhbWVTdGFydGVkSAASOwoNZ2Ft",
-            "ZV9zdGFydGluZxgFIAEoCzIiLkxpZ2h0c3BlZWRUeXBlcmFjaW5nLkdhbWVT",
-            "dGFydGluZ0gAEkEKEHBsYXllcl9jb21wbGV0ZWQYBiABKAsyJS5MaWdodHNw",
-            "ZWVkVHlwZXJhY2luZy5QbGF5ZXJDb21wbGV0ZWRIABJEChJwbGF5ZXJfam9p",
-            "bmVkX2dhbWUYByABKAsyJi5MaWdodHNwZWVkVHlwZXJhY2luZy5QbGF5ZXJK",
-            "b2luZWRHYW1lSAASOwoNd29yZF9maW5pc2hlZBgIIAEoCzIiLkxpZ2h0c3Bl",
-            "ZWRUeXBlcmFjaW5nLldvcmRGaW5pc2hlZEgAEk4KGHlvdXZlX2JlZW5fYWRk",
-            "ZWRfdG9fZ2FtZRgJIAEoCzIqLkxpZ2h0c3BlZWRUeXBlcmFjaW5nLllvdXZl",
-            "QmVlbkFkZGVkVG9HYW1lSAASRwoTcGxheWVyX2Rpc2Nvbm5lY3RlZBgKIAEo",
-            "CzIoLkxpZ2h0c3BlZWRUeXBlcmFjaW5nLlBsYXllckRpc2Nvbm5lY3RlZEgA",
-            "QggKBnVwZGF0ZSIeCghHYW1lT3ZlchISCgplbmRfdGltZV9zGAEgASgCIg0K",
-            "C0dhbWVTdGFydGVkIiEKDEdhbWVTdGFydGluZxIRCgljb3VudGRvd24YASAB",
-            "KAIisgEKD1BsYXllckNvbXBsZXRlZBIRCglwbGF5ZXJfaWQYASABKAkSDQoF",
-            "cGxhY2UYAiABKAUSGQoRcmF3X3dwbV9ieV9zZWNvbmQYAyADKAISFQoNd3Bt",
-            "X2J5X3NlY29uZBgEIAMoAhILCgN3cG0YBSABKAISEAoIYWNjdXJhY3kYBiAB",
-            "KAISLAoEbW9kZRgHIAEoDjIeLkxpZ2h0c3BlZWRUeXBlcmFjaW5nLkdhbWVN",
-            "b2RlIlEKEFBsYXllckpvaW5lZEdhbWUSLAoGcGxheWVyGAEgASgLMhwuTGln",
-            "aHRzcGVlZFR5cGVyYWNpbmcuUGxheWVyEg8KB2dhbWVfaWQYAiABKAkikwEK",
-            "DFdvcmRGaW5pc2hlZBIRCglwbGF5ZXJfaWQYASABKAkSGAoQcGVyY2VudF9j",
-            "b21wbGV0ZRgCIAEoAhIVCg12ZWxvY2l0eV9rbV9zGAMgASgCEhMKC3Bvc2l0",
-            "aW9uX2ttGAQgASgCEh0KFWNoYXJfY29tcGxldGlvbl90aW1lcxgFIAMoAhIL",
-            "CgN3cG0YBiABKAIibgoUWW91dmVCZWVuQWRkZWRUb0dhbWUSDwoHZ2FtZV9p",
-            "ZBgBIAEoCRI1Cg9jdXJyZW50X3BsYXllcnMYAiADKAsyHC5MaWdodHNwZWVk",
-            "VHlwZXJhY2luZy5QbGF5ZXISDgoGcGhyYXNlGAMgASgJIjgKElBsYXllckRp",
-            "c2Nvbm5lY3RlZBIRCglwbGF5ZXJfaWQYASABKAkSDwoHcmVtb3ZlZBgCIAEo",
-            "CCr8AQoIR2FtZU1vZGUSCwoHSW52YWxpZBAAEg4KCk1vc3RDb21tb24QARIK",
-            "CgZDb21tb24QAhIOCgpEaWN0aW9uYXJ5EAMSDwoLTGVhc3RDb21tb24QBBIO",
-            "CgpDb3B5UGFzdGFzEAUSCwoHU3BhbVRhcBAGEgsKB051bWJlcnMQBxIMCghN",
-            "YXJhdGhvbhAIEgsKB0hvbWVSb3cQCRIMCghVcHBlclJvdxAKEg0KCVJpZ2h0",
-            "SGFuZBALEgwKCExlZnRIYW5kEAwSEwoPQWx0ZXJuYXRpbmdIYW5kEA0SDQoJ",
-            "RmFrZVdvcmRzEA4SEgoOTG9uZ2VzdEh1bmRyZWQQD2IGcHJvdG8z"));
+            "GAIgAygCEhIKCm51bV9lcnJvcnMYAyABKAUiygQKC09uZW9mVXBkYXRlEhQK",
+            "DHJlY2lwaWVudF9pZBgBIAEoCRIPCgdnYW1lX2lkGAIgASgJEjMKCWdhbWVf",
+            "b3ZlchgDIAEoCzIeLkxpZ2h0c3BlZWRUeXBlcmFjaW5nLkdhbWVPdmVySAAS",
+            "OQoMZ2FtZV9zdGFydGVkGAQgASgLMiEuTGlnaHRzcGVlZFR5cGVyYWNpbmcu",
+            "R2FtZVN0YXJ0ZWRIABI7Cg1nYW1lX3N0YXJ0aW5nGAUgASgLMiIuTGlnaHRz",
+            "cGVlZFR5cGVyYWNpbmcuR2FtZVN0YXJ0aW5nSAASQQoQcGxheWVyX2NvbXBs",
+            "ZXRlZBgGIAEoCzIlLkxpZ2h0c3BlZWRUeXBlcmFjaW5nLlBsYXllckNvbXBs",
+            "ZXRlZEgAEkQKEnBsYXllcl9qb2luZWRfZ2FtZRgHIAEoCzImLkxpZ2h0c3Bl",
+            "ZWRUeXBlcmFjaW5nLlBsYXllckpvaW5lZEdhbWVIABI7Cg13b3JkX2Zpbmlz",
+            "aGVkGAggASgLMiIuTGlnaHRzcGVlZFR5cGVyYWNpbmcuV29yZEZpbmlzaGVk",
+            "SAASTgoYeW91dmVfYmVlbl9hZGRlZF90b19nYW1lGAkgASgLMiouTGlnaHRz",
+            "cGVlZFR5cGVyYWNpbmcuWW91dmVCZWVuQWRkZWRUb0dhbWVIABJHChNwbGF5",
+            "ZXJfZGlzY29ubmVjdGVkGAogASgLMiguTGlnaHRzcGVlZFR5cGVyYWNpbmcu",
+            "UGxheWVyRGlzY29ubmVjdGVkSABCCAoGdXBkYXRlIh4KCEdhbWVPdmVyEhIK",
+            "CmVuZF90aW1lX3MYASABKAIiDQoLR2FtZVN0YXJ0ZWQiIQoMR2FtZVN0YXJ0",
+            "aW5nEhEKCWNvdW50ZG93bhgBIAEoAiKyAQoPUGxheWVyQ29tcGxldGVkEhEK",
+            "CXBsYXllcl9pZBgBIAEoCRINCgVwbGFjZRgCIAEoBRIZChFyYXdfd3BtX2J5",
+            "X3NlY29uZBgDIAMoAhIVCg13cG1fYnlfc2Vjb25kGAQgAygCEgsKA3dwbRgF",
+            "IAEoAhIQCghhY2N1cmFjeRgGIAEoAhIsCgRtb2RlGAcgASgOMh4uTGlnaHRz",
+            "cGVlZFR5cGVyYWNpbmcuR2FtZU1vZGUiUQoQUGxheWVySm9pbmVkR2FtZRIs",
+            "CgZwbGF5ZXIYASABKAsyHC5MaWdodHNwZWVkVHlwZXJhY2luZy5QbGF5ZXIS",
+            "DwoHZ2FtZV9pZBgCIAEoCSKTAQoMV29yZEZpbmlzaGVkEhEKCXBsYXllcl9p",
+            "ZBgBIAEoCRIYChBwZXJjZW50X2NvbXBsZXRlGAIgASgCEhUKDXZlbG9jaXR5",
+            "X2ttX3MYAyABKAISEwoLcG9zaXRpb25fa20YBCABKAISHQoVY2hhcl9jb21w",
+            "bGV0aW9uX3RpbWVzGAUgAygCEgsKA3dwbRgGIAEoAiJuChRZb3V2ZUJlZW5B",
+            "ZGRlZFRvR2FtZRIPCgdnYW1lX2lkGAEgASgJEjUKD2N1cnJlbnRfcGxheWVy",
+            "cxgCIAMoCzIcLkxpZ2h0c3BlZWRUeXBlcmFjaW5nLlBsYXllchIOCgZwaHJh",
+            "c2UYAyABKAkiOAoSUGxheWVyRGlzY29ubmVjdGVkEhEKCXBsYXllcl9pZBgB",
+            "IAEoCRIPCgdyZW1vdmVkGAIgASgIKvwBCghHYW1lTW9kZRILCgdJbnZhbGlk",
+            "EAASDgoKTW9zdENvbW1vbhABEgoKBkNvbW1vbhACEg4KCkRpY3Rpb25hcnkQ",
+            "AxIPCgtMZWFzdENvbW1vbhAEEg4KCkNvcHlQYXN0YXMQBRILCgdTcGFtVGFw",
+            "EAYSCwoHTnVtYmVycxAHEgwKCE1hcmF0aG9uEAgSCwoHSG9tZVJvdxAJEgwK",
+            "CFVwcGVyUm93EAoSDQoJUmlnaHRIYW5kEAsSDAoITGVmdEhhbmQQDBITCg9B",
+            "bHRlcm5hdGluZ0hhbmQQDRINCglGYWtlV29yZHMQDhISCg5Mb25nZXN0SHVu",
+            "ZHJlZBAPYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::LightspeedTyperacing.GameMode), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.Player), global::LightspeedTyperacing.Player.Parser, new[]{ "Name", "Id", "IsBot" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.OneofRequest), global::LightspeedTyperacing.OneofRequest.Parser, new[]{ "SenderId", "FindGame", "TypeWord" }, new[]{ "Request" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.FindGameRequest), global::LightspeedTyperacing.FindGameRequest.Parser, new[]{ "PlayerName", "PlayerToken", "GameModes", "PrivateGame" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.TypeWordRequest), global::LightspeedTyperacing.TypeWordRequest.Parser, new[]{ "Word", "CharCompletionTimes" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.TypeWordRequest), global::LightspeedTyperacing.TypeWordRequest.Parser, new[]{ "Word", "CharCompletionTimes", "NumErrors" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.OneofUpdate), global::LightspeedTyperacing.OneofUpdate.Parser, new[]{ "RecipientId", "GameId", "GameOver", "GameStarted", "GameStarting", "PlayerCompleted", "PlayerJoinedGame", "WordFinished", "YouveBeenAddedToGame", "PlayerDisconnected" }, new[]{ "Update" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.GameOver), global::LightspeedTyperacing.GameOver.Parser, new[]{ "EndTimeS" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.GameStarted), global::LightspeedTyperacing.GameStarted.Parser, null, null, null, null, null),
@@ -1024,6 +1025,7 @@ namespace LightspeedTyperacing {
     public TypeWordRequest(TypeWordRequest other) : this() {
       word_ = other.word_;
       charCompletionTimes_ = other.charCompletionTimes_.Clone();
+      numErrors_ = other.numErrors_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1056,6 +1058,18 @@ namespace LightspeedTyperacing {
       get { return charCompletionTimes_; }
     }
 
+    /// <summary>Field number for the "num_errors" field.</summary>
+    public const int NumErrorsFieldNumber = 3;
+    private int numErrors_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int NumErrors {
+      get { return numErrors_; }
+      set {
+        numErrors_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -1073,6 +1087,7 @@ namespace LightspeedTyperacing {
       }
       if (Word != other.Word) return false;
       if(!charCompletionTimes_.Equals(other.charCompletionTimes_)) return false;
+      if (NumErrors != other.NumErrors) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1082,6 +1097,7 @@ namespace LightspeedTyperacing {
       int hash = 1;
       if (Word.Length != 0) hash ^= Word.GetHashCode();
       hash ^= charCompletionTimes_.GetHashCode();
+      if (NumErrors != 0) hash ^= NumErrors.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1105,6 +1121,10 @@ namespace LightspeedTyperacing {
         output.WriteString(Word);
       }
       charCompletionTimes_.WriteTo(output, _repeated_charCompletionTimes_codec);
+      if (NumErrors != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(NumErrors);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1120,6 +1140,10 @@ namespace LightspeedTyperacing {
         output.WriteString(Word);
       }
       charCompletionTimes_.WriteTo(ref output, _repeated_charCompletionTimes_codec);
+      if (NumErrors != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(NumErrors);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1134,6 +1158,9 @@ namespace LightspeedTyperacing {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Word);
       }
       size += charCompletionTimes_.CalculateSize(_repeated_charCompletionTimes_codec);
+      if (NumErrors != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(NumErrors);
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -1150,6 +1177,9 @@ namespace LightspeedTyperacing {
         Word = other.Word;
       }
       charCompletionTimes_.Add(other.charCompletionTimes_);
+      if (other.NumErrors != 0) {
+        NumErrors = other.NumErrors;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -1174,6 +1204,10 @@ namespace LightspeedTyperacing {
             charCompletionTimes_.AddEntriesFrom(input, _repeated_charCompletionTimes_codec);
             break;
           }
+          case 24: {
+            NumErrors = input.ReadInt32();
+            break;
+          }
         }
       }
     #endif
@@ -1196,6 +1230,10 @@ namespace LightspeedTyperacing {
           case 18:
           case 21: {
             charCompletionTimes_.AddEntriesFrom(ref input, _repeated_charCompletionTimes_codec);
+            break;
+          }
+          case 24: {
+            NumErrors = input.ReadInt32();
             break;
           }
         }

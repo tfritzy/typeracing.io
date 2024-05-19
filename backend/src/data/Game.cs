@@ -141,6 +141,7 @@ public class Game
                 Api.TypeWord(
                     word: Words[player.WordIndex],
                     charCompletionTimes: charCompletionTimes,
+                    0,
                     playerId: player.Id,
                     Galaxy
                 );

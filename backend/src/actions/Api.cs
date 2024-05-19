@@ -115,7 +115,7 @@ public static class Api
         }
     }
 
-    public static void TypeWord(string word, List<float> charCompletionTimes, string playerId, Galaxy galaxy)
+    public static void TypeWord(string word, List<float> charCompletionTimes, int errorCount, string playerId, Galaxy galaxy)
     {
         if (!galaxy.PlayerGameMap.ContainsKey(playerId))
         {
@@ -152,6 +152,7 @@ public static class Api
             float velocity = Game.CalculateVelocity_km_s((float)player.WordIndex / game.Words.Length);
             player.Velocity_km_s = velocity;
             player.CharCompletionTimes_s.AddRange(charCompletionTimes);
+            // player.Errors += errorCount;
 
             foreach (InGamePlayer p in game.Players)
             {

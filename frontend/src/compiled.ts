@@ -324,6 +324,7 @@ function _decodeFindGameRequest(bb: ByteBuffer): FindGameRequest {
 export interface TypeWordRequest {
   word?: string;
   char_completion_times?: number[];
+  num_errors?: number;
 }
 
 export function encodeTypeWordRequest(message: TypeWordRequest): Uint8Array {
@@ -351,6 +352,13 @@ function _encodeTypeWordRequest(message: TypeWordRequest, bb: ByteBuffer): void 
     writeVarint32(bb, packed.offset);
     writeByteBuffer(bb, packed);
     pushByteBuffer(packed);
+  }
+
+  // optional int32 num_errors = 3;
+  let $num_errors = message.num_errors;
+  if ($num_errors !== undefined) {
+    writeVarint32(bb, 24);
+    writeVarint64(bb, intToLong($num_errors));
   }
 }
 
@@ -386,6 +394,12 @@ function _decodeTypeWordRequest(bb: ByteBuffer): TypeWordRequest {
         } else {
           values.push(readFloat(bb));
         }
+        break;
+      }
+
+      // optional int32 num_errors = 3;
+      case 3: {
+        message.num_errors = readVarint32(bb);
         break;
       }
 

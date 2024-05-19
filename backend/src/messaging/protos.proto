@@ -45,6 +45,7 @@ message FindGameRequest {
 message TypeWordRequest {
     string word = 1;
     repeated float char_completion_times = 2;
+    int32 num_errors = 3;
 }
 
 message OneofUpdate {

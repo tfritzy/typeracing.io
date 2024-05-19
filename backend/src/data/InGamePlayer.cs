@@ -11,6 +11,7 @@ public class InGamePlayer
     public List<float> CharCompletionTimes_s { get; set; }
     public BotConfig? BotConfig { get; set; }
     public bool IsDisconnected { get; set; }
+    public int Errors { get; set; }
 
     public InGamePlayer(string name, string id, string token, bool isBot = false)
     {

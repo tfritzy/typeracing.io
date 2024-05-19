@@ -222,6 +222,7 @@ public class Server
                 Api.TypeWord(
                     request.TypeWord.Word,
                     request.TypeWord.CharCompletionTimes.ToList(),
+                    0,
                     request.SenderId,
                     Galaxy);
                 break;
