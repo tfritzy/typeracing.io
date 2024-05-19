@@ -321,9 +321,70 @@ function _decodeFindGameRequest(bb: ByteBuffer): FindGameRequest {
   return message;
 }
 
+export interface KeyStroke {
+  character?: string;
+  time?: number;
+}
+
+export function encodeKeyStroke(message: KeyStroke): Uint8Array {
+  let bb = popByteBuffer();
+  _encodeKeyStroke(message, bb);
+  return toUint8Array(bb);
+}
+
+function _encodeKeyStroke(message: KeyStroke, bb: ByteBuffer): void {
+  // optional string character = 1;
+  let $character = message.character;
+  if ($character !== undefined) {
+    writeVarint32(bb, 10);
+    writeString(bb, $character);
+  }
+
+  // optional float time = 2;
+  let $time = message.time;
+  if ($time !== undefined) {
+    writeVarint32(bb, 21);
+    writeFloat(bb, $time);
+  }
+}
+
+export function decodeKeyStroke(binary: Uint8Array): KeyStroke {
+  return _decodeKeyStroke(wrapByteBuffer(binary));
+}
+
+function _decodeKeyStroke(bb: ByteBuffer): KeyStroke {
+  let message: KeyStroke = {} as any;
+
+  end_of_message: while (!isAtEnd(bb)) {
+    let tag = readVarint32(bb);
+
+    switch (tag >>> 3) {
+      case 0:
+        break end_of_message;
+
+      // optional string character = 1;
+      case 1: {
+        message.character = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // optional float time = 2;
+      case 2: {
+        message.time = readFloat(bb);
+        break;
+      }
+
+      default:
+        skipUnknownField(bb, tag & 7);
+    }
+  }
+
+  return message;
+}
+
 export interface TypeWordRequest {
   word?: string;
-  char_completion_times?: number[];
+  key_strokes?: KeyStroke[];
   num_errors?: number;
 }
 
@@ -341,17 +402,17 @@ function _encodeTypeWordRequest(message: TypeWordRequest, bb: ByteBuffer): void 
     writeString(bb, $word);
   }
 
-  // repeated float char_completion_times = 2;
-  let array$char_completion_times = message.char_completion_times;
-  if (array$char_completion_times !== undefined) {
-    let packed = popByteBuffer();
-    for (let value of array$char_completion_times) {
-      writeFloat(packed, value);
+  // repeated KeyStroke key_strokes = 2;
+  let array$key_strokes = message.key_strokes;
+  if (array$key_strokes !== undefined) {
+    for (let value of array$key_strokes) {
+      writeVarint32(bb, 18);
+      let nested = popByteBuffer();
+      _encodeKeyStroke(value, nested);
+      writeVarint32(bb, nested.limit);
+      writeByteBuffer(bb, nested);
+      pushByteBuffer(nested);
     }
-    writeVarint32(bb, 18);
-    writeVarint32(bb, packed.offset);
-    writeByteBuffer(bb, packed);
-    pushByteBuffer(packed);
   }
 
   // optional int32 num_errors = 3;
@@ -382,18 +443,12 @@ function _decodeTypeWordRequest(bb: ByteBuffer): TypeWordRequest {
         break;
       }
 
-      // repeated float char_completion_times = 2;
+      // repeated KeyStroke key_strokes = 2;
       case 2: {
-        let values = message.char_completion_times || (message.char_completion_times = []);
-        if ((tag & 7) === 2) {
-          let outerLimit = pushTemporaryLength(bb);
-          while (!isAtEnd(bb)) {
-            values.push(readFloat(bb));
-          }
-          bb.limit = outerLimit;
-        } else {
-          values.push(readFloat(bb));
-        }
+        let limit = pushTemporaryLength(bb);
+        let values = message.key_strokes || (message.key_strokes = []);
+        values.push(_decodeKeyStroke(bb));
+        bb.limit = limit;
         break;
       }
 

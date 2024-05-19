@@ -1,194 +1,208 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PlayerData } from "../App";
 import {
-  GameOver,
-  GameStarting,
-  PlayerCompleted,
-  PlayerDisconnected,
-  PlayerJoinedGame,
-  WordFinished,
-  YouveBeenAddedToGame,
+ GameOver,
+ GameStarting,
+ PlayerCompleted,
+ PlayerDisconnected,
+ PlayerJoinedGame,
+ WordFinished,
+ YouveBeenAddedToGame,
 } from "../compiled";
 import { getColorForPlayer } from "../helpers/getColor";
 
 export enum GameStage {
-  Invalid,
-  WaitingForPlayers,
-  Countdown,
-  Racing,
-  ViewingResults,
-  Finished,
+ Invalid,
+ WaitingForPlayers,
+ Countdown,
+ Racing,
+ ViewingResults,
+ Finished,
 }
 
 type PlacementData = {
-  playerId: string;
+ playerId: string;
 };
 
 export type GameState = {
-  state: GameStage;
-  id: string;
-  players: PlayerData[];
-  phrase: string;
-  start_time: number;
-  end_time: number;
-  placements: PlacementData[];
+ state: GameStage;
+ id: string;
+ players: PlayerData[];
+ phrase: string;
+ start_time: number;
+ end_time: number;
+ placements: PlacementData[];
 };
 
 const initialGameState: GameState = {
-  state: GameStage.Invalid,
-  players: [],
-  phrase: "",
-  id: "",
-  start_time: 0,
-  end_time: -1,
-  placements: [],
+ state: GameStage.Invalid,
+ players: [],
+ phrase: "",
+ id: "",
+ start_time: 0,
+ end_time: -1,
+ placements: [],
 };
 
 export const gameSlice = createSlice({
-  name: "game",
-  initialState: initialGameState,
-  reducers: {
-    handleGameStarting: (
-      state: GameState,
-      action: { payload: GameStarting }
-    ) => {
-      state.state = GameStage.Countdown;
-      state.start_time = Date.now() + (action.payload.countdown || 0) * 1000;
-    },
-    setYouveBeenAddedToGame: (
-      state: GameState,
-      action: {
-        payload: YouveBeenAddedToGame;
-      }
-    ) => {
-      state.id = action.payload.game_id || "";
-      state.state = GameStage.WaitingForPlayers;
-      state.phrase = action.payload.phrase || "";
-      state.players = action.payload.current_players!.map((player) => ({
-        id: player.id || "",
-        name: player.name || "",
-        progress: 0,
-        velocity_km_s: 0,
-        position_km: 0,
-        is_disconnected: false,
-        themeColor: getColorForPlayer(player.id || ""),
-        is_bot: player.is_bot || false,
-        most_recent_wpm: 0,
-      }));
-    },
-    updatePlayerWordProgress: (
-      state: GameState,
-      action: { payload: { id: string; progress: number } }
-    ) => {
-      const player = state.players.find(
-        (player) => player.id === action.payload.id
-      );
-      if (player) {
-        player.progress = action.payload.progress;
-      }
-    },
-    playerJoinedGame: (
-      state: GameState,
-      action: { payload: PlayerJoinedGame }
-    ) => {
-      const player: PlayerData = {
-        id: action.payload.player?.id || "",
-        name: action.payload.player?.name || "",
-        progress: 0,
-        velocity_km_s: 0,
-        position_km: 0,
-        is_disconnected: false,
-        themeColor: getColorForPlayer(action.payload.player?.id || ""),
-        is_bot: action.payload.player?.is_bot || false,
-        most_recent_wpm: 0,
-      };
-      state.players.push(player);
-    },
-    playerFinished: (
-      state: GameState,
-      action: { payload: PlayerCompleted }
-    ) => {
-      const player = state.players.find(
-        (p) => p.id === action.payload.player_id
-      );
-
-      if (!player) {
-        return;
-      }
-
-      player.velocity_km_s = 0;
-      player.final_wpm = action.payload.wpm || 0;
-      player.wpm_by_second = action.payload.wpm_by_second || [];
-      player.raw_wpm_by_second = action.payload.raw_wpm_by_second || [];
-
-      console.log("Player finished", player);
-
-      if (action.payload.player_id) {
-        state.placements[action.payload.place || 0] = {
-          playerId: action.payload.player_id,
-        };
-      }
-    },
-    playerDisconnected: (
-      state: GameState,
-      action: { payload: PlayerDisconnected }
-    ) => {
-      if (action.payload.removed) {
-        state.players = state.players.filter(
-          (player) => player.id !== action.payload.player_id
-        );
-      } else {
-        const player = state.players.find(
-          (player) => player.id === action.payload.player_id
-        );
-        if (player) {
-          player.is_disconnected = true;
-        }
-      }
-    },
-    selfFinished: (state: GameState) => {
-      state.state = GameStage.ViewingResults;
-    },
-    setGameStarted: (state: GameState) => {
-      state.state = GameStage.Racing;
-      state.start_time = Date.now();
-    },
-    setGameOver: (state: GameState, action: { payload: GameOver }) => {
-      state.state = GameStage.Finished;
-      state.end_time = action.payload.end_time_s || 0;
-    },
-    reset: (state: GameState) => {
-      Object.assign(state, initialGameState);
-    },
-    wordFinished: (
-      state: GameState,
-      action: {
-        payload: WordFinished;
-      }
-    ) => {
-      const player = state.players.find(
-        (player) => player.id === action.payload.player_id
-      );
-      if (player) {
-        player.progress = action.payload.percent_complete || 0;
-        player.velocity_km_s = action.payload.velocity_km_s || 0;
-        player.position_km = action.payload.position_km || 0;
-        player.most_recent_wpm = action.payload.wpm || 0;
-      }
-    },
+ name: "game",
+ initialState: initialGameState,
+ reducers: {
+  handleGameStarting: (
+   state: GameState,
+   action: { payload: GameStarting }
+  ) => {
+   state.state = GameStage.Countdown;
+   state.start_time =
+    Date.now() + (action.payload.countdown || 0) * 1000;
   },
+  setYouveBeenAddedToGame: (
+   state: GameState,
+   action: {
+    payload: YouveBeenAddedToGame;
+   }
+  ) => {
+   state.id = action.payload.game_id || "";
+   state.state = GameStage.WaitingForPlayers;
+   state.phrase = action.payload.phrase || "";
+   state.players = action.payload.current_players!.map(
+    (player) => ({
+     id: player.id || "",
+     name: player.name || "",
+     progress: 0,
+     velocity_km_s: 0,
+     position_km: 0,
+     is_disconnected: false,
+     themeColor: getColorForPlayer(player.id || ""),
+     is_bot: player.is_bot || false,
+     most_recent_wpm: 0,
+     accuracy: 0,
+    })
+   );
+  },
+  updatePlayerWordProgress: (
+   state: GameState,
+   action: { payload: { id: string; progress: number } }
+  ) => {
+   const player = state.players.find(
+    (player) => player.id === action.payload.id
+   );
+   if (player) {
+    player.progress = action.payload.progress;
+   }
+  },
+  playerJoinedGame: (
+   state: GameState,
+   action: { payload: PlayerJoinedGame }
+  ) => {
+   const player: PlayerData = {
+    id: action.payload.player?.id || "",
+    name: action.payload.player?.name || "",
+    progress: 0,
+    velocity_km_s: 0,
+    position_km: 0,
+    is_disconnected: false,
+    themeColor: getColorForPlayer(
+     action.payload.player?.id || ""
+    ),
+    is_bot: action.payload.player?.is_bot || false,
+    most_recent_wpm: 0,
+    accuracy: 0,
+   };
+   state.players.push(player);
+  },
+  playerFinished: (
+   state: GameState,
+   action: { payload: PlayerCompleted }
+  ) => {
+   const player = state.players.find(
+    (p) => p.id === action.payload.player_id
+   );
+
+   if (!player) {
+    return;
+   }
+
+   player.velocity_km_s = 0;
+   player.final_wpm = action.payload.wpm || 0;
+   player.wpm_by_second =
+    action.payload.wpm_by_second || [];
+   player.raw_wpm_by_second =
+    action.payload.raw_wpm_by_second || [];
+   player.accuracy = action.payload.accuracy || 0;
+
+   console.log("Player finished", player);
+
+   if (action.payload.player_id) {
+    state.placements[action.payload.place || 0] = {
+     playerId: action.payload.player_id,
+    };
+   }
+  },
+  playerDisconnected: (
+   state: GameState,
+   action: { payload: PlayerDisconnected }
+  ) => {
+   if (action.payload.removed) {
+    state.players = state.players.filter(
+     (player) => player.id !== action.payload.player_id
+    );
+   } else {
+    const player = state.players.find(
+     (player) => player.id === action.payload.player_id
+    );
+    if (player) {
+     player.is_disconnected = true;
+    }
+   }
+  },
+  selfFinished: (state: GameState) => {
+   state.state = GameStage.ViewingResults;
+  },
+  setGameStarted: (state: GameState) => {
+   state.state = GameStage.Racing;
+   state.start_time = Date.now();
+  },
+  setGameOver: (
+   state: GameState,
+   action: { payload: GameOver }
+  ) => {
+   state.state = GameStage.Finished;
+   state.end_time = action.payload.end_time_s || 0;
+  },
+  reset: (state: GameState) => {
+   Object.assign(state, initialGameState);
+  },
+  wordFinished: (
+   state: GameState,
+   action: {
+    payload: WordFinished;
+   }
+  ) => {
+   const player = state.players.find(
+    (player) => player.id === action.payload.player_id
+   );
+   if (player) {
+    player.progress = action.payload.percent_complete || 0;
+    player.velocity_km_s =
+     action.payload.velocity_km_s || 0;
+    player.position_km = action.payload.position_km || 0;
+    player.most_recent_wpm = action.payload.wpm || 0;
+   }
+  },
+ },
 });
 
 export const {
-  updatePlayerWordProgress,
-  playerDisconnected,
-  handleGameStarting,
-  setYouveBeenAddedToGame,
-  playerFinished,
-  selfFinished,
-  setGameStarted,
-  playerJoinedGame,
-  wordFinished,
-  setGameOver,
-  reset,
+ updatePlayerWordProgress,
+ playerDisconnected,
+ handleGameStarting,
+ setYouveBeenAddedToGame,
+ playerFinished,
+ selfFinished,
+ setGameStarted,
+ playerJoinedGame,
+ wordFinished,
+ setGameOver,
+ reset,
 } = gameSlice.actions;

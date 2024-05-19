@@ -49,6 +49,7 @@ export type PlayerData = {
  raw_wpm_by_second?: number[];
  most_recent_wpm: number;
  is_bot: boolean;
+ accuracy: number;
 };
 
 const handleMessage = (
