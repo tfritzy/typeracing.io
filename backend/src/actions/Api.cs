@@ -152,7 +152,7 @@ public static class Api
             float velocity = Game.CalculateVelocity_km_s((float)player.WordIndex / game.Words.Length);
             player.Velocity_km_s = velocity;
             player.CharCompletionTimes_s.AddRange(charCompletionTimes);
-            // player.Errors += errorCount;
+            player.Errors += errorCount;
 
             foreach (InGamePlayer p in game.Players)
             {
@@ -187,7 +187,7 @@ public static class Api
                     PlayerId = playerId,
                     Place = place,
                     Wpm = Stats.GetWpm(player.CharCompletionTimes_s),
-                    Accuracy = 69,
+                    Accuracy = (game.Phrase.Length - player.Errors) / (float)game.Phrase.Length,
                     Mode = game.Mode,
                 };
                 playerCompleted.WpmBySecond.AddRange(Stats.GetAggWpmBySecond(player.CharCompletionTimes_s));
