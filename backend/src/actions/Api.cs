@@ -115,7 +115,44 @@ public static class Api
         }
     }
 
-    public static void TypeWord(string word, List<float> charCompletionTimes, int errorCount, string playerId, Galaxy galaxy)
+    public struct ParsedKeystrokes
+    {
+        public string word;
+        public int numErrors;
+    }
+    public static ParsedKeystrokes ParseKeystrokes(List<KeyStroke> keyStrokes, string word)
+    {
+        Stack<char> wordStack = new();
+        int numErrors = 0;
+        foreach (KeyStroke keyStroke in keyStrokes)
+        {
+            if (keyStroke.Character == "backspace")
+            {
+                if (wordStack.Count > 0)
+                {
+                    wordStack.Pop();
+                }
+            }
+            else
+            {
+                wordStack.Push(keyStroke.Character[0]);
+
+                if (keyStroke.Character[0] != word[wordStack.Count - 1])
+                {
+                    numErrors++;
+                }
+            }
+        }
+
+        string typedWord = new(wordStack.Reverse().ToArray());
+        return new ParsedKeystrokes
+        {
+            word = typedWord,
+            numErrors = numErrors
+        };
+    }
+
+    public static void TypeWord(string word, List<KeyStroke> keyStrokes, string playerId, Galaxy galaxy)
     {
         if (!galaxy.PlayerGameMap.ContainsKey(playerId))
         {
@@ -151,8 +188,15 @@ public static class Api
             player.WordIndex++;
             float velocity = Game.CalculateVelocity_km_s((float)player.WordIndex / game.Words.Length);
             player.Velocity_km_s = velocity;
-            player.CharCompletionTimes_s.AddRange(charCompletionTimes);
-            player.Errors += errorCount;
+            player.keyStrokes.AddRange(keyStrokes);
+
+            ParsedKeystrokes parsed = ParseKeystrokes(keyStrokes, game.Phrase);
+            player.Errors += parsed.numErrors;
+
+            if (parsed.word != game.Words[player.WordIndex - 1])
+            {
+                Console.WriteLine($"Keystrokes - Player {playerId} typed wrong word {parsed.word} instead of {game.Words[player.WordIndex - 1]}");
+            }
 
             foreach (InGamePlayer p in game.Players)
             {
@@ -165,7 +209,7 @@ public static class Api
                         PercentComplete = (float)player.WordIndex / game.Words.Length,
                         VelocityKmS = velocity,
                         PositionKm = player.PositionKm,
-                        Wpm = Stats.GetWpm(player.CharCompletionTimes_s),
+                        Wpm = Stats.GetWpm(player.keyStrokes),
                     }
                 });
             }
@@ -186,12 +230,12 @@ public static class Api
                 {
                     PlayerId = playerId,
                     Place = place,
-                    Wpm = Stats.GetWpm(player.CharCompletionTimes_s),
+                    Wpm = Stats.GetWpm(player.keyStrokes),
                     Accuracy = (game.Phrase.Length - player.Errors) / (float)game.Phrase.Length,
                     Mode = game.Mode,
                 };
-                playerCompleted.WpmBySecond.AddRange(Stats.GetAggWpmBySecond(player.CharCompletionTimes_s));
-                playerCompleted.RawWpmBySecond.AddRange(Stats.GetRawWpmBySecond(player.CharCompletionTimes_s));
+                playerCompleted.WpmBySecond.AddRange(Stats.GetAggWpmBySecond(player.keyStrokes));
+                playerCompleted.RawWpmBySecond.AddRange(Stats.GetRawWpmBySecond(player.keyStrokes));
 
                 galaxy.SendUpdate(p, game.Id, new OneofUpdate
                 {

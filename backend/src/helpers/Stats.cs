@@ -6,18 +6,18 @@ public static class Stats
     /// Returns the WPM at each second, based on the percent of the phrase 
     /// that was completed within that second.
     /// </summary>
-    public static List<float> GetRawWpmBySecond(List<float> charCompletionTimes_s)
+    public static List<float> GetRawWpmBySecond(List<KeyStroke> keystrokes)
     {
-        if (charCompletionTimes_s.Count == 0)
+        if (keystrokes.Count == 0)
         {
             return new List<float>();
         }
 
         List<float> wpmBySecond = new();
         List<int> charCountBySecond = new();
-        for (int i = 0; i < charCompletionTimes_s.Count; i++)
+        for (int i = 0; i < keystrokes.Count; i++)
         {
-            int second = (int)Math.Floor(charCompletionTimes_s[i]);
+            int second = (int)Math.Floor(keystrokes[i].Time);
             while (charCountBySecond.Count <= second)
                 charCountBySecond.Add(0);
             while (wpmBySecond.Count <= second)
@@ -49,24 +49,37 @@ public static class Stats
     /// Returns the running WPM at each second, based on what percent of the
     /// phrase they had completed by that point.
     /// </summary>
-    public static List<float> GetAggWpmBySecond(List<float> charCompletionTimes_s)
+    public static List<float> GetAggWpmBySecond(List<KeyStroke> keyStrokes)
     {
-        if (charCompletionTimes_s.Count == 0)
+        if (keyStrokes.Count == 0)
         {
             return new List<float>();
         }
 
-        List<float> aggWpmByCharacter = new();
-        for (int i = 0; i < charCompletionTimes_s.Count; i++)
+        List<float> progressionStack = new();
+        for (int i = 0; i < keyStrokes.Count; i++)
         {
-            aggWpmByCharacter.Add(GetWpm(i + 1, charCompletionTimes_s[i]));
+            if (keyStrokes[i].Character == "backspace")
+            {
+                progressionStack.RemoveAt(progressionStack.Count - 1);
+            }
+            else
+            {
+                progressionStack.Add(keyStrokes[i].Time);
+            }
+        }
+
+        List<float> aggWpmByCharacter = new();
+        for (int i = 0; i < keyStrokes.Count; i++)
+        {
+            aggWpmByCharacter.Add(GetWpm(i + 1, progressionStack[i]));
         }
 
         int target = 1;
         List<int> nearestIndexPriorWpmToSecondBounds = new();
         for (int i = 0; i < aggWpmByCharacter.Count; i++)
         {
-            while (charCompletionTimes_s[i] > target)
+            while (progressionStack[i] > target)
             {
                 target += 1;
                 nearestIndexPriorWpmToSecondBounds.Add(Math.Max(i - 1, 0));
@@ -80,8 +93,8 @@ public static class Stats
             int priorI = nearestIndexPriorWpmToSecondBounds[i];
             float prevVal = aggWpmByCharacter[priorI];
             float nextVal = aggWpmByCharacter[priorI + 1];
-            float priorTime = charCompletionTimes_s[priorI];
-            float nextTime = charCompletionTimes_s[priorI + 1];
+            float priorTime = progressionStack[priorI];
+            float nextTime = progressionStack[priorI + 1];
             float timespan = nextTime - priorTime;
             float percentAlongTimespan = (second - priorTime) / timespan;
             float lerpedWpm = prevVal + (nextVal - prevVal) * percentAlongTimespan;
@@ -95,15 +108,14 @@ public static class Stats
         return wpmBySecond;
     }
 
-    public static float GetWpm(List<float> charCompletionTimes_s)
+    public static float GetWpm(List<KeyStroke> keyStrokes)
     {
-        if (charCompletionTimes_s.Count == 0)
+        if (keyStrokes.Count == 0)
         {
             return 0;
         }
 
-        float end_time_s = charCompletionTimes_s[^1];
-        return GetWpm(charCompletionTimes_s.Count, charCompletionTimes_s[^1]);
+        return GetWpm(keyStrokes.Count, keyStrokes[^1].Time);
     }
 
     public static float GetWpm(int charCount, float time_s)

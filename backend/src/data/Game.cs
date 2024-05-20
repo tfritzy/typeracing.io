@@ -133,15 +133,20 @@ public class Game
             float timeToTypeWord_s = (currentWord.Length + 1) / player.BotConfig.CharactersPerSecond;
             if (Galaxy.Time.Now - player.BotConfig.LastWordTime > timeToTypeWord_s)
             {
-                List<float> charCompletionTimes = new();
+                List<KeyStroke> keyStrokes = new();
                 for (int i = 0; i < currentWord.Length; i++)
-                    charCompletionTimes.Add(Galaxy.Time.Now - RaceStartTime);
+                {
+                    keyStrokes.Add(new KeyStroke
+                    {
+                        Character = currentWord[i].ToString(),
+                        Time = Galaxy.Time.Now - RaceStartTime
+                    });
+                }
 
                 player.BotConfig.LastWordTime = Galaxy.Time.Now;
                 Api.TypeWord(
                     word: Words[player.WordIndex],
-                    charCompletionTimes: charCompletionTimes,
-                    0,
+                    keyStrokes: keyStrokes,
                     playerId: player.Id,
                     Galaxy
                 );

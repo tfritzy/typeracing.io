@@ -8,7 +8,7 @@ public class InGamePlayer
     public int WordIndex { get; set; }
     public float Velocity_km_s { get; set; }
     public float PositionKm { get; set; }
-    public List<float> CharCompletionTimes_s { get; set; }
+    public List<KeyStroke> keyStrokes { get; set; }
     public BotConfig? BotConfig { get; set; }
     public bool IsDisconnected { get; set; }
     public int Errors { get; set; }
@@ -21,7 +21,7 @@ public class InGamePlayer
         WordIndex = 0;
         Velocity_km_s = 0;
         PositionKm = 0;
-        CharCompletionTimes_s = new List<float>();
+        keyStrokes = new List<KeyStroke>();
         IsDisconnected = false;
 
         if (isBot)

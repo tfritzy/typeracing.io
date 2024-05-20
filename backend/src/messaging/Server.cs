@@ -221,8 +221,7 @@ public class Server
             case OneofRequest.RequestOneofCase.TypeWord:
                 Api.TypeWord(
                     request.TypeWord.Word,
-                    request.TypeWord.CharCompletionTimes.ToList(),
-                    0,
+                    request.TypeWord.KeyStrokes.ToList(),
                     request.SenderId,
                     Galaxy);
                 break;
