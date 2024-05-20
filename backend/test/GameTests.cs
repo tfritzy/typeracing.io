@@ -366,25 +366,6 @@ public class GameTests
     }
 
     [TestMethod]
-    public void Game_CountsErrors()
-    {
-        TestSetup test = new();
-        var game = test.Galaxy.ActiveGames[test.Galaxy.PlayerGameMap[test.Players[0].Id]];
-        test.Galaxy.Time.Update(Game.CountdownDuration + .1f);
-        test.Galaxy.Update();
-
-        Assert.AreEqual(0, game.Players[0].Errors);
-        Api.TypeWord(game.Words[0], new List<KeyStroke>(), test.Players[0].Id, test.Galaxy);
-        Assert.AreEqual(0, game.Players[0].Errors);
-
-        Api.TypeWord(game.Words[1], new List<KeyStroke>(), test.Players[0].Id, test.Galaxy);
-        Assert.AreEqual(2, game.Players[0].Errors);
-
-        Api.TypeWord(game.Words[2], new List<KeyStroke>(), test.Players[0].Id, test.Galaxy);
-        Assert.AreEqual(3, game.Players[0].Errors);
-    }
-
-    [TestMethod]
     public void Game_Accuracy()
     {
         TestSetup test = new();
@@ -392,40 +373,20 @@ public class GameTests
         test.Galaxy.Time.Update(Game.CountdownDuration + .1f);
         test.Galaxy.Update();
 
-        Assert.AreEqual(0, game.Players[0].Errors);
-        var keyStrokes = new List<KeyStroke>() {
-            new() { Character = game.Phrase[0].ToString(), Time = 0 },
-            new() { Character = game.Phrase[1].ToString(), Time = .1f },
-            new() { Character = game.Phrase[2].ToString(), Time = .2f }
-        };
-        Api.TypeWord(game.Words[0], keyStrokes, test.Players[0].Id, test.Galaxy);
-        Assert.AreEqual(0, game.Players[0].Errors);
+        var keystrokes = StatsTests.GetKeyStrokesToCompletePhrase(game.Words[0] + " ");
+        keystrokes.Insert(keystrokes.Count / 2, new KeyStroke { Character = "f", Time = 0.2f });
+        keystrokes.Insert(keystrokes.Count / 2, new KeyStroke { Character = "\b", Time = 0.3f });
 
-        keyStrokes = new List<KeyStroke>() {
-            new() { Character = (game.Phrase[3] + 1).ToString(), Time = 0 },
-            new() { Character = (game.Phrase[4] + 1).ToString(), Time = .1f },
-            new() { Character = game.Phrase[5].ToString(), Time = .2f }
-        };
-        Api.TypeWord(game.Words[1], keyStrokes, test.Players[0].Id, test.Galaxy);
-        Assert.AreEqual(2, game.Players[0].Errors);
+        Api.TypeWord(game.Words[0], keystrokes, test.Players[0].Id, test.Galaxy);
+        Assert.AreEqual(1, game.Players[0].WordIndex);
+        Assert.AreEqual(1, game.Players[0].Errors);
 
-        keyStrokes = new List<KeyStroke>() {
-            new() { Character = "backspace".ToString(), Time = 0 },
-            new() { Character = "backspace".ToString(), Time = 0 },
-            new() { Character = "backspace".ToString(), Time = 0 },
-            new() { Character = (game.Phrase[2] + 1).ToString(), Time = .1f },
-            new() { Character = game.Phrase[3].ToString(), Time = .2f }
-        };
-        Api.TypeWord(game.Words[2], new List<KeyStroke>(), test.Players[0].Id, test.Galaxy);
-        Assert.AreEqual(3, game.Players[0].Errors);
-
-        for (int i = 3; i < game.Words.Length; i++)
+        for (int i = 1; i < game.Words.Length; i++)
         {
             Api.TypeWord(game.Words[i], new List<KeyStroke>(), test.Players[0].Id, test.Galaxy);
         }
 
-        Assert.AreEqual(3, game.Players[0].Errors);
-        PlayerCompleted pc = test.Galaxy.OutboxMessages().First(m => m.PlayerCompleted != null).PlayerCompleted;
-        Assert.AreEqual(1 - 3 / (float)game.Phrase.Length, pc.Accuracy);
+        var playerCompletedMessage = test.Galaxy.OutboxMessages().First(m => m.PlayerCompleted != null).PlayerCompleted;
+        Assert.AreEqual(game.Phrase.Length / ((float)game.Phrase.Length + 1), playerCompletedMessage.Accuracy);
     }
 }

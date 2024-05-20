@@ -126,7 +126,7 @@ public static class Api
         int numErrors = 0;
         foreach (KeyStroke keyStroke in keyStrokes)
         {
-            if (keyStroke.Character == "backspace")
+            if (keyStroke.Character == "\b")
             {
                 if (wordStack.Count > 0)
                 {
@@ -137,7 +137,7 @@ public static class Api
             {
                 wordStack.Push(keyStroke.Character[0]);
 
-                if (keyStroke.Character[0] != word[wordStack.Count - 1])
+                if (wordStack.Count >= word.Length || keyStroke.Character[0] != word[wordStack.Count - 1])
                 {
                     numErrors++;
                 }
@@ -231,7 +231,7 @@ public static class Api
                     PlayerId = playerId,
                     Place = place,
                     Wpm = Stats.GetWpm(player.keyStrokes),
-                    Accuracy = (game.Phrase.Length - player.Errors) / (float)game.Phrase.Length,
+                    Accuracy = game.Phrase.Length / ((float)game.Phrase.Length + player.Errors),
                     Mode = game.Mode,
                 };
                 playerCompleted.WpmBySecond.AddRange(Stats.GetAggWpmBySecond(player.keyStrokes));

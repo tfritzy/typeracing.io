@@ -59,7 +59,7 @@ public static class Stats
         List<float> progressionStack = new();
         for (int i = 0; i < keyStrokes.Count; i++)
         {
-            if (keyStrokes[i].Character == "backspace")
+            if (keyStrokes[i].Character == "\b")
             {
                 progressionStack.RemoveAt(progressionStack.Count - 1);
             }
@@ -70,7 +70,7 @@ public static class Stats
         }
 
         List<float> aggWpmByCharacter = new();
-        for (int i = 0; i < keyStrokes.Count; i++)
+        for (int i = 0; i < progressionStack.Count; i++)
         {
             aggWpmByCharacter.Add(GetWpm(i + 1, progressionStack[i]));
         }
@@ -115,7 +115,8 @@ public static class Stats
             return 0;
         }
 
-        return GetWpm(keyStrokes.Count, keyStrokes[^1].Time);
+        var parsed = Api.ParseKeystrokes(keyStrokes, "");
+        return GetWpm(parsed.word.Length, keyStrokes[^1].Time);
     }
 
     public static float GetWpm(int charCount, float time_s)

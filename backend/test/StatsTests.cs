@@ -1,0 +1,57 @@
+namespace Tests;
+
+[TestClass]
+public class StatsTests
+{
+    class TestSetup
+    {
+        public Galaxy Galaxy;
+        public List<InGamePlayer> Players;
+
+        public TestSetup()
+        {
+            Galaxy = new();
+            Players = new();
+            for (int i = 0; i < 4; i++)
+            {
+                InGamePlayer player = new(name: $"Player {i}", id: IdGen.NewPlayerId(), token: IdGen.NewToken());
+                Players.Add(player);
+                Api.FindGame(player.Name, player.Id, player.Token, Galaxy, false);
+            }
+        }
+    }
+
+    public static List<KeyStroke> GetKeyStrokesToCompletePhrase(string phrase)
+    {
+        List<KeyStroke> keyStrokes = new();
+        for (int i = 0; i < phrase.Length; i++)
+        {
+            keyStrokes.Add(new KeyStroke
+            {
+                Character = phrase[i].ToString(),
+                Time = (i + 1) / 10f
+            });
+        }
+        return keyStrokes;
+    }
+
+    [TestMethod]
+    public void Stats_ReturnsWpm()
+    {
+        var strokes = GetKeyStrokesToCompletePhrase("hello world");
+
+        Assert.AreEqual(120, Stats.GetWpm(strokes));
+
+        strokes.Insert(0, new KeyStroke { Character = "h", Time = 0f });
+        strokes.Insert(0, new KeyStroke { Character = "j", Time = 0f });
+        strokes.Insert(2, new KeyStroke { Character = "\b", Time = 0f });
+        strokes.Insert(2, new KeyStroke { Character = "\b", Time = 0f });
+
+        Assert.AreEqual(120, Stats.GetWpm(strokes));
+
+        strokes.Insert(0, new KeyStroke { Character = "h", Time = 0f });
+        strokes.Insert(0, new KeyStroke { Character = "j", Time = 0f });
+
+        Assert.AreEqual(141.81819, Stats.GetWpm(strokes));
+    }
+}
