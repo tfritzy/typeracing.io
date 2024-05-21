@@ -220,7 +220,6 @@ public class Server
                 break;
             case OneofRequest.RequestOneofCase.TypeWord:
                 Api.TypeWord(
-                    request.TypeWord.Word,
                     request.TypeWord.KeyStrokes.ToList(),
                     request.SenderId,
                     Galaxy);

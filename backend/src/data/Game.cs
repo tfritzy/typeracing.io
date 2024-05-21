@@ -8,7 +8,6 @@ public class Game
     public int MaxPlayers { get; set; }
     public GameState State { get; set; }
     public string Phrase { get; private set; }
-    public string[] Words { get; private set; }
     public float CreationTime { get; private set; }
     public GameMode Mode { get; private set; }
     public float StartTime;
@@ -35,7 +34,6 @@ public class Game
         MaxPlayers = maxPlayers;
         Galaxy = galaxy;
         Phrase = Phrases.GetPhraseForGameMode(mode);
-        Words = Phrases.GetWords(Phrase);
         CreationTime = Galaxy.Time.Now;
         Mode = mode;
     }
@@ -48,7 +46,6 @@ public class Game
         }
         else if (State == GameState.Running || State == GameState.Countdown)
         {
-            UpdatePlayerPositions();
             CheckStartGame();
             UpdateBotProgress();
         }
@@ -72,14 +69,6 @@ public class Game
                     GameStarted = new GameStarted { },
                 });
             }
-        }
-    }
-
-    private void UpdatePlayerPositions()
-    {
-        foreach (InGamePlayer player in Players)
-        {
-            player.PositionKm += player.Velocity_km_s * Galaxy.Time.DeltaTime;
         }
     }
 
@@ -124,12 +113,12 @@ public class Game
                 continue;
             }
 
-            if (player.WordIndex >= Words.Length)
+            if (player.PhraseIndex >= Phrase.Length)
             {
                 continue;
             }
 
-            string currentWord = Words[player.WordIndex];
+            string currentWord = Phrase.Substring(player.PhraseIndex).Split(' ')[0];
             float timeToTypeWord_s = (currentWord.Length + 1) / player.BotConfig.CharactersPerSecond;
             if (Galaxy.Time.Now - player.BotConfig.LastWordTime > timeToTypeWord_s)
             {
@@ -145,7 +134,6 @@ public class Game
 
                 player.BotConfig.LastWordTime = Galaxy.Time.Now;
                 Api.TypeWord(
-                    word: Words[player.WordIndex],
                     keyStrokes: keyStrokes,
                     playerId: player.Id,
                     Galaxy
@@ -153,15 +141,5 @@ public class Game
             }
 
         }
-    }
-
-    public static float CalculateVelocity_km_s(float percentComplete)
-    {
-        if (percentComplete > 1)
-        {
-            throw new ArgumentException("percentComplete must be between 0 and 1");
-        }
-
-        return 299_792f * percentComplete * percentComplete;
     }
 }

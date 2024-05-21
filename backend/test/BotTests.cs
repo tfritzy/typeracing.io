@@ -58,16 +58,16 @@ public class BotTests
         test.Galaxy.Time.Update(time);
         test.Galaxy.Update();
         Assert.AreEqual(Game.GameState.Running, game.State);
-        Assert.IsTrue(bots.All(b => b.WordIndex == 0));
+        Assert.IsTrue(bots.All(b => b.PhraseIndex == 0));
 
         time += 20f;
         test.Galaxy.Time.Update(time);
         test.Galaxy.Update();
-        Assert.IsTrue(bots.All(b => b.WordIndex == 1));
+        Assert.IsTrue(bots.All(b => b.PhraseIndex == 1));
 
         time += 20f;
         test.Galaxy.Time.Update(time);
         test.Galaxy.Update();
-        Assert.IsTrue(bots.All(b => b.WordIndex == 2));
+        Assert.IsTrue(bots.All(b => b.PhraseIndex == 2));
     }
 }

@@ -115,8 +115,8 @@ public static class Stats
             return 0;
         }
 
-        var parsed = Api.ParseKeystrokes(keyStrokes, "");
-        return GetWpm(parsed.word.Length, keyStrokes[^1].Time);
+        string parsed = Api.ParseKeystrokes(keyStrokes);
+        return GetWpm(parsed.Length, keyStrokes[^1].Time);
     }
 
     public static float GetWpm(int charCount, float time_s)

@@ -33,15 +33,15 @@ public class GameTests
         var game = test.Galaxy.ActiveGames[test.Galaxy.PlayerGameMap[test.Players[0].Id]];
 
         // Ignored before game starts
-        Api.TypeWord(game.Words[0], new List<KeyStroke>(), test.Players[0].Id, test.Galaxy);
-        Assert.AreEqual(0, game.Players[0].WordIndex);
+        Api.TypeWord(TH.KeystrokesForWord(game.Phrase, 0), test.Players[0].Id, test.Galaxy);
+        Assert.AreEqual(0, game.Players[0].PhraseIndex);
 
         test.Galaxy.Time.Update(Game.CountdownDuration + .1f);
         test.Galaxy.Update();
 
         // Works now
-        Api.TypeWord(game.Words[0], new List<KeyStroke>(), test.Players[0].Id, test.Galaxy);
-        Assert.AreEqual(1, game.Players[0].WordIndex);
+        Api.TypeWord(TH.KeystrokesForWord(game.Phrase, 0), test.Players[0].Id, test.Galaxy);
+        Assert.AreEqual(1, game.Players[0].PhraseIndex);
     }
 
     [TestMethod]
@@ -52,21 +52,16 @@ public class GameTests
         test.Galaxy.Time.Update(Game.CountdownDuration + .1f);
         test.Galaxy.Update();
 
-        foreach (string word in game.Words)
-        {
-            Api.TypeWord(word, new List<KeyStroke>(), test.Players[0].Id, test.Galaxy);
-            Api.TypeWord(word, new List<KeyStroke>(), test.Players[1].Id, test.Galaxy);
-            Api.TypeWord(word, new List<KeyStroke>(), test.Players[2].Id, test.Galaxy);
-        }
+        TH.TypeWholePhrase(test.Galaxy, game, test.Players[0]);
+        TH.TypeWholePhrase(test.Galaxy, game, test.Players[1]);
+        TH.TypeWholePhrase(test.Galaxy, game, test.Players[2]);
 
         Assert.AreEqual(Game.GameState.Running, game.State);
 
-        for (int i = 0; i < game.Words.Length - 1; i++)
-        {
-            Api.TypeWord(game.Words[i], new List<KeyStroke>(), test.Players[3].Id, test.Galaxy);
-        }
+        var ks = TH.Keystrokes(game.Phrase);
+        Api.TypeWord(ks.GetRange(0, ks.Count - 1), test.Players[3].Id, test.Galaxy);
         Assert.AreEqual(Game.GameState.Running, game.State);
-        Api.TypeWord(game.Words[^1], new List<KeyStroke>(), test.Players[3].Id, test.Galaxy);
+        Api.TypeWord(ks.GetRange(ks.Count - 1, 1), test.Players[3].Id, test.Galaxy);
         Assert.AreEqual(Game.GameState.Complete, game.State);
     }
 
@@ -79,14 +74,11 @@ public class GameTests
         test.Galaxy.Time.Update(Game.CountdownDuration + .1f);
         test.Galaxy.Update();
 
-        for (int i = 0; i < game.Words.Length - 1; i++)
-        {
-            string word = game.Words[i];
-            Api.TypeWord(word, new List<KeyStroke>(), test.Players[0].Id, test.Galaxy);
-        }
-
+        var ks = TH.Keystrokes(game.Phrase);
+        Api.TypeWord(ks.GetRange(0, ks.Count - 1), test.Players[0].Id, test.Galaxy);
         test.Galaxy.ClearOutbox();
-        Api.TypeWord(game.Words[^1], new List<KeyStroke>(), test.Players[0].Id, test.Galaxy);
+        Api.TypeWord(ks.GetRange(ks.Count - 1, 1), test.Players[0].Id, test.Galaxy);
+
         Assert.AreEqual(8, test.Galaxy.OutboxCount());
         Assert.AreEqual(4, test.Galaxy.OutboxMessages().Where((m) => m.PlayerCompleted != null).Count());
         PlayerCompleted[] playerCompletedMessages =
@@ -101,7 +93,7 @@ public class GameTests
     }
 
     [TestMethod]
-    public void Game_AggregatesCharCompletionTimes()
+    public void Game_AggregatesKeyStrokes()
     {
         TestSetup test = new();
 
@@ -111,83 +103,35 @@ public class GameTests
         test.Galaxy.Update();
 
         InGamePlayer player = test.Galaxy.ActiveGames.Values.First().Players.Find(p => p.Id == test.Players[0].Id)!;
-        Api.TypeWord(
-            game.Words[0],
-            new List<KeyStroke>() {
-                new() {Time= .1f, Character=game.Phrase[0].ToString()},
-                new() {Time= .4f, Character=game.Phrase[1].ToString()},
-                new() {Time= 1.2f, Character=game.Phrase[2].ToString()},
-            },
+        string word1 = game.Phrase.Split(' ')[0];
+        var keystrokes = TH.KeystrokesForWord(game.Phrase, 0, 30);
+        Api.TypeWord(keystrokes, test.Players[0].Id, test.Galaxy);
+        TH.AssertKeystrokesMatchStr(player.KeyStrokes, word1);
 
-            test.Players[0].Id,
-            test.Galaxy);
-        CollectionAssert.AreEqual(
-            new float[] { .1f, .4f, 1.2f },
-            player.keyStrokes.Select(ks => ks.Time).ToArray()
-        );
-        CollectionAssert.AreEqual(
-            game.Phrase.Substring(0, 3).ToCharArray(),
-            String.Join("", player.keyStrokes.Select(ks => ks.Character)).ToCharArray()
-        );
-
-        Api.TypeWord(
-            game.Words[1],
-            new List<KeyStroke>() {
-                new() {Time= 1.5f, Character=game.Phrase[3].ToString()},
-                new() {Time= 1.8f, Character=game.Phrase[4].ToString()},
-                new() {Time= 1.9f, Character=game.Phrase[5].ToString()},
-            },
-
-            test.Players[0].Id,
-            test.Galaxy);
-        CollectionAssert.AreEqual(
-            new float[] { .1f, .4f, 1.2f, 1.5f, 1.8f, 1.9f },
-            player.keyStrokes.Select(ks => ks.Time).ToArray()
-        );
-        CollectionAssert.AreEqual(
-            game.Phrase.Substring(0, 6).ToCharArray(),
-            String.Join("", player.keyStrokes.Select(ks => ks.Character)).ToCharArray()
-        );
+        string word2 = game.Phrase.Split(' ')[1];
+        keystrokes = TH.KeystrokesForWord(game.Phrase, 1, 30);
+        Api.TypeWord(keystrokes, test.Players[0].Id, test.Galaxy);
+        TH.AssertKeystrokesMatchStr(player.KeyStrokes, word1 + " " + word2);
     }
 
     [TestMethod]
     public void Game_SendsWpmStatsAboutPlayersWhenTheyFinish()
     {
         TestSetup test = new();
+        var game = TH.FindGameOfPlayer(test.Galaxy, test.Players[0]);
+        TH.AdvancePastCooldown(test.Galaxy, game);
+        TH.TypeWholePhrase(test.Galaxy, game, test.Players[0], 42);
 
-        var game = test.Galaxy.ActiveGames[test.Galaxy.PlayerGameMap[test.Players[0].Id]];
-        float time = Game.CountdownDuration + .1f;
-        test.Galaxy.Time.Update(time);
-        test.Galaxy.Update();
-        List<KeyStroke> keystrokes = game.Phrase.Select((c, i) => new KeyStroke
-        {
-            Character = game.Phrase[i].ToString(),
-            Time = i / 100f
-        }).ToList();
-        int charIndex = 0;
-        for (int i = 0; i < game.Words.Length; i++)
-        {
-            int count = game.Words[i].Length + (i == game.Words.Length - 1 ? 0 : 1);
-            Api.TypeWord(
-                game.Words[i],
-                keystrokes.GetRange(charIndex, count),
-
-                test.Players[0].Id,
-                test.Galaxy);
-            charIndex += game.Words[i].Length;
-        }
-
-        InGamePlayer player = test.Galaxy.ActiveGames.Values.First().Players.Find(p => p.Id == test.Players[0].Id)!;
-        PlayerCompleted[] playerCompleteds = test.Galaxy.OutboxMessages().Where((m) => m.PlayerCompleted != null).Select((m) => m.PlayerCompleted).ToArray();
+        List<PlayerCompleted> playerCompleteds = TH.GetUpdatesOfType<PlayerCompleted>(test.Galaxy);
         Assert.AreEqual(4, playerCompleteds.Length);
-        Assert.AreEqual(Stats.GetWpm(player.keyStrokes), playerCompleteds[0].Wpm);
+        Assert.AreEqual(Stats.GetWpm(player.KeyStrokes), playerCompleteds[0].Wpm);
         Assert.IsTrue(playerCompleteds[0].RawWpmBySecond.Count > 0);
         Assert.IsTrue(playerCompleteds[0].WpmBySecond.Count > 0);
         CollectionAssert.AreEqual(
-            Stats.GetRawWpmBySecond(player.keyStrokes),
+            Stats.GetRawWpmBySecond(player.KeyStrokes),
             playerCompleteds[0].RawWpmBySecond);
         CollectionAssert.AreEqual(
-            Stats.GetAggWpmBySecond(player.keyStrokes),
+            Stats.GetAggWpmBySecond(player.KeyStrokes),
             playerCompleteds[0].WpmBySecond);
     }
 
@@ -378,7 +322,7 @@ public class GameTests
         keystrokes.Insert(keystrokes.Count / 2, new KeyStroke { Character = "\b", Time = 0.3f });
 
         Api.TypeWord(game.Words[0], keystrokes, test.Players[0].Id, test.Galaxy);
-        Assert.AreEqual(1, game.Players[0].WordIndex);
+        Assert.AreEqual(1, game.Players[0].PhraseIndex);
         Assert.AreEqual(1, game.Players[0].Errors);
 
         for (int i = 1; i < game.Words.Length; i++)

@@ -21,24 +21,10 @@ public class StatsTests
         }
     }
 
-    public static List<KeyStroke> GetKeyStrokesToCompletePhrase(string phrase)
-    {
-        List<KeyStroke> keyStrokes = new();
-        for (int i = 0; i < phrase.Length; i++)
-        {
-            keyStrokes.Add(new KeyStroke
-            {
-                Character = phrase[i].ToString(),
-                Time = (i + 1) / 10f
-            });
-        }
-        return keyStrokes;
-    }
-
     [TestMethod]
     public void Stats_ReturnsWpm()
     {
-        var strokes = GetKeyStrokesToCompletePhrase("hello world");
+        var strokes = TH.Keystrokes("hello world");
 
         Assert.AreEqual(120, Stats.GetWpm(strokes));
 

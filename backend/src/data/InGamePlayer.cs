@@ -5,10 +5,8 @@ public class InGamePlayer
     public string Name { get; set; }
     public string Id { get; set; }
     public string Token { get; set; }
-    public int WordIndex { get; set; }
-    public float Velocity_km_s { get; set; }
-    public float PositionKm { get; set; }
-    public List<KeyStroke> keyStrokes { get; set; }
+    public int PhraseIndex { get; set; }
+    public List<KeyStroke> KeyStrokes { get; set; }
     public BotConfig? BotConfig { get; set; }
     public bool IsDisconnected { get; set; }
     public int Errors { get; set; }
@@ -18,10 +16,8 @@ public class InGamePlayer
         Name = name;
         Id = id;
         Token = token;
-        WordIndex = 0;
-        Velocity_km_s = 0;
-        PositionKm = 0;
-        keyStrokes = new List<KeyStroke>();
+        PhraseIndex = 0;
+        KeyStrokes = new List<KeyStroke>();
         IsDisconnected = false;
 
         if (isBot)

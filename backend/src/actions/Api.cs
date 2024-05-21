@@ -115,15 +115,9 @@ public static class Api
         }
     }
 
-    public struct ParsedKeystrokes
-    {
-        public string word;
-        public int numErrors;
-    }
-    public static ParsedKeystrokes ParseKeystrokes(List<KeyStroke> keyStrokes, string word)
+    public static string ParseKeystrokes(List<KeyStroke> keyStrokes)
     {
         Stack<char> wordStack = new();
-        int numErrors = 0;
         foreach (KeyStroke keyStroke in keyStrokes)
         {
             if (keyStroke.Character == "\b")
@@ -136,23 +130,59 @@ public static class Api
             else
             {
                 wordStack.Push(keyStroke.Character[0]);
-
-                if (wordStack.Count >= word.Length || keyStroke.Character[0] != word[wordStack.Count - 1])
-                {
-                    numErrors++;
-                }
             }
         }
 
         string typedWord = new(wordStack.Reverse().ToArray());
-        return new ParsedKeystrokes
-        {
-            word = typedWord,
-            numErrors = numErrors
-        };
+        return typedWord;
     }
 
-    public static void TypeWord(string word, List<KeyStroke> keyStrokes, string playerId, Galaxy galaxy)
+    public static bool IsTypedCorrect(string typed, string phrase, int startIndex)
+    {
+        if (typed.Length + startIndex > phrase.Length)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < typed.Length; i++)
+        {
+            if (typed[i] != phrase[i + startIndex])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static int CountErrors(List<KeyStroke> keyStrokes, string phrase, int startIndex)
+    {
+        int errors = 0;
+        int phraseIndex = startIndex;
+        foreach (KeyStroke keyStroke in keyStrokes)
+        {
+            if (keyStroke.Character == "\b")
+            {
+                if (phraseIndex > 0)
+                {
+                    phraseIndex--;
+                }
+            }
+            else
+            {
+                if (keyStroke.Character[0] != phrase[phraseIndex])
+                {
+                    errors++;
+                }
+                phraseIndex++;
+            }
+        }
+
+        return errors;
+    }
+
+
+    public static void TypeWord(List<KeyStroke> keyStrokes, string playerId, Galaxy galaxy)
     {
         if (!galaxy.PlayerGameMap.ContainsKey(playerId))
         {
@@ -178,49 +208,39 @@ public static class Api
             return;
         }
 
-        if (player.WordIndex >= game.Words.Length)
+        if (player.PhraseIndex >= game.Phrase.Length)
         {
             return;
         }
 
-        if (game.Words[player.WordIndex] == word)
+        string typed = ParseKeystrokes(keyStrokes);
+
+        if (IsTypedCorrect(typed, game.Phrase, player.PhraseIndex))
         {
-            player.WordIndex++;
-            float velocity = Game.CalculateVelocity_km_s((float)player.WordIndex / game.Words.Length);
-            player.Velocity_km_s = velocity;
-            player.keyStrokes.AddRange(keyStrokes);
-
-            ParsedKeystrokes parsed = ParseKeystrokes(keyStrokes, word);
-            player.Errors += parsed.numErrors;
-            Console.WriteLine($"Keystrokes - Player {playerId} typed word {parsed.word} with {parsed.numErrors} errors");
-
-            if (parsed.word != game.Words[player.WordIndex - 1])
-            {
-                Console.WriteLine($"Keystrokes - Player {playerId} typed wrong word {parsed.word} instead of {game.Words[player.WordIndex - 1]}");
-            }
+            player.Errors += CountErrors(keyStrokes, game.Phrase, player.PhraseIndex);
+            player.KeyStrokes.AddRange(keyStrokes);
+            player.PhraseIndex += typed.Length;
 
             foreach (InGamePlayer p in game.Players)
             {
-                float percentComplete = (float)player.WordIndex / game.Words.Length;
+                float percentComplete = (float)player.PhraseIndex / game.Phrase.Length;
                 galaxy.SendUpdate(p, gameId, new OneofUpdate
                 {
                     WordFinished = new WordFinished
                     {
                         PlayerId = playerId,
-                        PercentComplete = (float)player.WordIndex / game.Words.Length,
-                        VelocityKmS = velocity,
-                        PositionKm = player.PositionKm,
-                        Wpm = Stats.GetWpm(player.keyStrokes),
+                        PercentComplete = (float)player.PhraseIndex / game.Phrase.Length,
+                        Wpm = Stats.GetWpm(player.KeyStrokes),
                     }
                 });
             }
         }
         else
         {
-            Console.WriteLine($"Player {playerId} typed wrong word {word} instead of {game.Words[player.WordIndex]}");
+            Console.WriteLine($"Player {player.Name} typed wrong word {typed}");
         }
 
-        if (player.WordIndex >= game.Words.Length)
+        if (player.PhraseIndex >= game.Phrase.Length)
         {
             Console.WriteLine($"Player {playerId} finished phrase.");
             game.Placements.Add(playerId);
@@ -231,12 +251,12 @@ public static class Api
                 {
                     PlayerId = playerId,
                     Place = place,
-                    Wpm = Stats.GetWpm(player.keyStrokes),
+                    Wpm = Stats.GetWpm(player.KeyStrokes),
                     Accuracy = game.Phrase.Length / ((float)game.Phrase.Length + player.Errors),
                     Mode = game.Mode,
                 };
-                playerCompleted.WpmBySecond.AddRange(Stats.GetAggWpmBySecond(player.keyStrokes));
-                playerCompleted.RawWpmBySecond.AddRange(Stats.GetRawWpmBySecond(player.keyStrokes));
+                playerCompleted.WpmBySecond.AddRange(Stats.GetAggWpmBySecond(player.KeyStrokes));
+                playerCompleted.RawWpmBySecond.AddRange(Stats.GetRawWpmBySecond(player.KeyStrokes));
 
                 galaxy.SendUpdate(p, game.Id, new OneofUpdate
                 {
@@ -245,7 +265,7 @@ public static class Api
             }
         }
 
-        if (game.Players.All((p) => p.WordIndex >= game.Words.Length))
+        if (game.Players.All((p) => p.PhraseIndex >= game.Phrase.Length))
         {
             game.State = Game.GameState.Complete;
 
