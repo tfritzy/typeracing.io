@@ -99,15 +99,15 @@ export const TypeBox = (props: TypeBoxProps) => {
     while (keyStrokes.current.length < currentWord.length) {
       keyStrokes.current.strokes.push({
         character: currentWord[currentWord.length - 1],
-        time: Date.now(),
+        time: (Date.now() - props.startTime) / 1000,
       });
       keyStrokes.current.length++;
     }
 
     while (keyStrokes.current.length > currentWord.length) {
       keyStrokes.current.strokes.push({
-        character: "backspace",
-        time: Date.now(),
+        character: "\b",
+        time: (Date.now() - props.startTime) / 1000,
       });
       keyStrokes.current.length--;
     }
@@ -126,6 +126,7 @@ export const TypeBox = (props: TypeBoxProps) => {
         setCurrentWord("");
         wordErrorsCount.current = 0;
         keyStrokes.current.strokes = [];
+        keyStrokes.current.length = 0;
       }
     }
   }, [currentWord, lockedCharacterIndex, onWordComplete, phrase]);

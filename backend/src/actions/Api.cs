@@ -190,8 +190,9 @@ public static class Api
             player.Velocity_km_s = velocity;
             player.keyStrokes.AddRange(keyStrokes);
 
-            ParsedKeystrokes parsed = ParseKeystrokes(keyStrokes, game.Phrase);
+            ParsedKeystrokes parsed = ParseKeystrokes(keyStrokes, word);
             player.Errors += parsed.numErrors;
+            Console.WriteLine($"Keystrokes - Player {playerId} typed word {parsed.word} with {parsed.numErrors} errors");
 
             if (parsed.word != game.Words[player.WordIndex - 1])
             {
