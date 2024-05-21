@@ -118,16 +118,18 @@ public class Game
                 continue;
             }
 
-            string currentWord = Phrase.Substring(player.PhraseIndex).Split(' ')[0];
-            float timeToTypeWord_s = (currentWord.Length + 1) / player.BotConfig.CharactersPerSecond;
+            int nextIndex = Phrase.IndexOf(' ', player.PhraseIndex);
+            nextIndex = nextIndex == -1 ? Phrase.Length : nextIndex + 1;
+            string toType = Phrase.Substring(player.PhraseIndex, nextIndex - player.PhraseIndex);
+            float timeToTypeWord_s = toType.Length / player.BotConfig.CharactersPerSecond;
             if (Galaxy.Time.Now - player.BotConfig.LastWordTime > timeToTypeWord_s)
             {
                 List<KeyStroke> keyStrokes = new();
-                for (int i = 0; i < currentWord.Length; i++)
+                for (int i = 0; i < toType.Length; i++)
                 {
                     keyStrokes.Add(new KeyStroke
                     {
-                        Character = currentWord[i].ToString(),
+                        Character = toType[i].ToString(),
                         Time = Galaxy.Time.Now - RaceStartTime
                     });
                 }

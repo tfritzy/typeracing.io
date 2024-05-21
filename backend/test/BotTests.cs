@@ -63,11 +63,19 @@ public class BotTests
         time += 20f;
         test.Galaxy.Time.Update(time);
         test.Galaxy.Update();
-        Assert.IsTrue(bots.All(b => b.PhraseIndex == 1));
+        int phraseIndex = TH.KeystrokesForWord(game.Phrase, 0).Count;
+        Assert.IsTrue(bots.All(b => b.PhraseIndex == phraseIndex));
 
         time += 20f;
         test.Galaxy.Time.Update(time);
         test.Galaxy.Update();
-        Assert.IsTrue(bots.All(b => b.PhraseIndex == 2));
+        phraseIndex += TH.KeystrokesForWord(game.Phrase, 1).Count;
+        Assert.IsTrue(bots.All(b => b.PhraseIndex == phraseIndex));
+    }
+
+    [TestMethod]
+    public void Bots_ShouldHaveCorrectWpmAtEnd()
+    {
+
     }
 }

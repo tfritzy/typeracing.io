@@ -237,7 +237,7 @@ public static class Api
         }
         else
         {
-            Console.WriteLine($"Player {player.Name} typed wrong word {typed}");
+            Console.WriteLine($"Player {player.Name} typed wrong word '{typed}' in phrase '{game.Phrase}' at index {player.PhraseIndex}.");
         }
 
         if (player.PhraseIndex >= game.Phrase.Length)

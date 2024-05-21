@@ -5,8 +5,8 @@ public static class TH
     public static List<KeyStroke> Keystrokes(string str, int wpm = 60)
     {
         List<KeyStroke> keystrokes = new();
-        float time = 0;
-        float timePerChar = 60f / wpm;
+        float timePerChar = 60f / wpm / 5f;
+        float time = timePerChar;
         foreach (char c in str)
         {
             keystrokes.Add(new KeyStroke { Character = c.ToString(), Time = time });
@@ -20,12 +20,22 @@ public static class TH
     {
         string[] words = phrase.Split(' ');
         string word = words[wordIndex];
+        if (wordIndex != words.Length - 1)
+        {
+            word += " ";
+        }
         return Keystrokes(word, wpm);
     }
 
     public static void TypeWholePhrase(Galaxy galaxy, Game game, InGamePlayer player, int wpm = 60)
     {
         var keystrokes = Keystrokes(game.Phrase, wpm);
+        Api.TypeWord(keystrokes, player.Id, galaxy);
+    }
+
+    public static void TypeRemainderOfPhrase(Galaxy galaxy, Game game, InGamePlayer player, int wpm = 60)
+    {
+        var keystrokes = Keystrokes(game.Phrase.Substring(player.PhraseIndex), wpm);
         Api.TypeWord(keystrokes, player.Id, galaxy);
     }
 
@@ -50,8 +60,13 @@ public static class TH
         return galaxy.ActiveGames[galaxy.PlayerGameMap[player.Id]];
     }
 
-    public static List<T> GetUpdatesOfType<T>(Galaxy galaxy)
+    public static List<OneofUpdate> GetUpdatesOfType(Galaxy galaxy, OneofUpdate.UpdateOneofCase type)
     {
-        return galaxy.OutboxMessages().Where(m => m is T) as List<T> ?? new List<T>();
+        return galaxy.OutboxMessages().Where(m => m.UpdateCase == type).ToList();
+    }
+
+    public static void IsApproximately(float expected, float actual, float tolerance = 0.001f)
+    {
+        Assert.IsTrue(Math.Abs(expected - actual) < tolerance);
     }
 }

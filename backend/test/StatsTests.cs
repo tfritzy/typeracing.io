@@ -24,20 +24,20 @@ public class StatsTests
     [TestMethod]
     public void Stats_ReturnsWpm()
     {
-        var strokes = TH.Keystrokes("hello world");
+        var strokes = TH.Keystrokes("hello world", 120);
 
-        Assert.AreEqual(120, Stats.GetWpm(strokes));
+        TH.IsApproximately(120, Stats.GetWpm(strokes));
 
         strokes.Insert(0, new KeyStroke { Character = "h", Time = 0f });
         strokes.Insert(0, new KeyStroke { Character = "j", Time = 0f });
         strokes.Insert(2, new KeyStroke { Character = "\b", Time = 0f });
         strokes.Insert(2, new KeyStroke { Character = "\b", Time = 0f });
 
-        Assert.AreEqual(120, Stats.GetWpm(strokes));
+        TH.IsApproximately(120, Stats.GetWpm(strokes));
 
         strokes.Insert(0, new KeyStroke { Character = "h", Time = 0f });
         strokes.Insert(0, new KeyStroke { Character = "j", Time = 0f });
 
-        Assert.AreEqual(141.81819, Stats.GetWpm(strokes));
+        TH.IsApproximately(141.81819f, Stats.GetWpm(strokes));
     }
 }
