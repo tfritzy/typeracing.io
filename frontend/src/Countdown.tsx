@@ -1,6 +1,6 @@
 import React from "react";
 import {
- BorderColor,
+ ChillBorder,
  NeutralColor,
  TextColor,
 } from "./constants";
@@ -47,28 +47,28 @@ export const Countdown = (props: CountdownProps) => {
     className="absolute flex flex-row space-x-2 border-l border-r border-b pt-2 rounded-b-lg p-2 transition-transform duration-500"
     style={{
      backgroundColor: NeutralColor,
-     borderColor: BorderColor,
+     borderColor: ChillBorder,
      transform: `translateY(${
       timeTillStart > 6 ? 0 : 45
      }px)`,
     }}
    >
     <div
-     className={`w-6 h-6 rounded-full ${
+     className={`w-6 h-6 rounded-full transition-colors duration-300 ${
       timeTillStart >= 3 && timeTillStart <= 6
        ? "bg-red-400"
        : "bg-neutral-700"
      }`}
     />
     <div
-     className={`w-6 h-6 rounded-full ${
+     className={`w-6 h-6 rounded-full transition-colors duration-300 ${
       timeTillStart > 0 && timeTillStart <= 3
        ? "bg-yellow-400"
        : "bg-neutral-700"
      }`}
     />
     <div
-     className={`w-6 h-6 rounded-full ${
+     className={`w-6 h-6 rounded-full transition-colors duration-300 ${
       timeTillStart <= 0 ? "bg-green-400" : "bg-neutral-700"
      }`}
     />
@@ -77,7 +77,7 @@ export const Countdown = (props: CountdownProps) => {
     className="relative font-mono p-1 px-3 text-lg font-bold flex flex-col items-center rounded-full border overflow-hidden min-w-52"
     style={{
      backgroundColor: NeutralColor,
-     borderColor: BorderColor,
+     borderColor: ChillBorder,
     }}
    >
     <div

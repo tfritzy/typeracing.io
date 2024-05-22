@@ -3,9 +3,6 @@ import { RootState } from "./store/store";
 import { LineChart, Series } from "./ResultsChart";
 import { useEffect, useMemo, useState } from "react";
 import { PlayerData } from "./App";
-import { ActionBar } from "./ActionBar";
-import { HomeBreadcrumb } from "./HomeBreadcrumb";
-import { VeryChillBorder } from "./constants";
 
 export const Results = () => {
  const [wpmData, setWpmData] = useState<Series[]>([]);
@@ -55,8 +52,11 @@ export const Results = () => {
   return null;
  }
 
- const wordsTyped = game.phrase.split(" ").length;
+ const numWords = game.phrase.split(" ").length;
  const charactersTyped = game.phrase.length;
+ const numErrors = Math.round(
+  (1 - (self?.accuracy || 0)) * charactersTyped
+ );
  const duration =
   finishedPlayers[0].wpm_by_second?.length || 0;
  const durationFormatted = new Date(duration * 1000)
@@ -69,24 +69,39 @@ export const Results = () => {
   <div>
    <div className="flex flex-row">
     <div className="p-3 px-6">
-     <div className="text-sm text-secondary">Final wpm</div>
-     <div className="text-5xl text-accent">
+     <div className="text-sm text-tertiary">Final wpm</div>
+     <div
+      className={`text-4xl ${
+       finalWpm > 90 ? "gradient-text" : "text-primary"
+      }`}
+     >
       {finalWpm.toFixed(0)}
      </div>
     </div>
 
     <div className="p-3 px-6">
-     <div className="text-sm text-secondary">Accuracy</div>
-     <div className="text-5xl text-accent">
-      {(self?.accuracy || 0) * 100}%
+     <div className="text-sm text-tertiary">Accuracy</div>
+     <div
+      className={`text-4xl ${
+       self?.accuracy === 1
+        ? "gradient-text"
+        : "text-primary"
+      }`}
+     >
+      {((self?.accuracy || 0) * 100).toFixed(1)}%
      </div>
     </div>
 
     <div className="p-3 px-6">
-     <div className="text-sm text-secondary">Duration</div>
-     <div className="text-5xl text-accent">
+     <div className="text-sm text-tertiary">Time</div>
+     <div className="text-4xl text-primary">
       {durationFormatted}
      </div>
+    </div>
+
+    <div className="p-3 px-6">
+     <div className="text-sm text-tertiary">Words</div>
+     <div className="text-4xl">{numWords}</div>
     </div>
    </div>
 

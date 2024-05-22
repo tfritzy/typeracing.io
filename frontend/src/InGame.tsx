@@ -97,7 +97,7 @@ export const InGame = (props: InGameProps) => {
     {isGameOver && <ActionBar sendRequest={sendRequest} />}
    </div>
    {Date.now() < startTime + 1500 && (
-    <div className="absolute left-[50%] top-[40%] transform translate-x-[-50%] translate-y-[-50%]">
+    <div className="absolute left-[50%] top-[15%] transform translate-x-[-50%] translate-y-[-50%]">
      <Countdown startTime={startTime} />
     </div>
    )}

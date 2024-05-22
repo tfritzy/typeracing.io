@@ -29,7 +29,7 @@ import {
  useNavigate,
 } from "react-router-dom";
 import Cookies from "js-cookie";
-import { storeRaceResultInCookies } from "./helpers/raceResults";
+import { saveRaceResult } from "./helpers/raceResults";
 import { RootState } from "./store/store";
 import { Dispatch } from "redux";
 import { DisconnectedModal } from "./DisconnectedModal";
@@ -105,7 +105,7 @@ const handleMessage = (
        time: Date.now(),
        wpm: update.player_completed.wpm || 0,
       };
-      storeRaceResultInCookies(raceResult);
+      saveRaceResult(raceResult);
       dispatch(addRaceResult(raceResult));
      }
     } else if (update.word_finished) {
@@ -168,7 +168,7 @@ function App() {
    });
   }
 
-  let raceResults = Cookies.get("raceResults");
+  let raceResults = localStorage.getItem("raceResults");
   if (raceResults) {
    dispatch(setRaceResults(JSON.parse(raceResults)));
   }
@@ -230,7 +230,10 @@ function App() {
   const handleHotkeys = (event: KeyboardEvent) => {
    if (event.key === "t") {
     const element = document.getElementById("type-box");
-    if (document.activeElement !== element) {
+    if (
+     document.activeElement !== element &&
+     document.activeElement?.tagName !== "INPUT"
+    ) {
      element?.focus();
      event.preventDefault();
     }
