@@ -108,6 +108,55 @@ public static class Stats
         return wpmBySecond;
     }
 
+    public static List<ErrorsAtTime> GetErrorCountByTime(List<KeyStroke> keyStrokes, string phrase)
+    {
+        if (keyStrokes.Count == 0)
+        {
+            return new List<ErrorsAtTime>();
+        }
+
+        List<ErrorsAtTime> errorCountByTime = new() { new ErrorsAtTime { Time = 0, ErrorCount = 0 } };
+        Stack<char> typedStack = new();
+        int errorCount = 0;
+
+        foreach (KeyStroke stroke in keyStrokes)
+        {
+            if (stroke.Character == "\b")
+            {
+                if (typedStack.Count > 0)
+                {
+                    if (typedStack.Peek() != phrase[typedStack.Count - 1])
+                    {
+                        errorCount--;
+                        errorCountByTime.Add(new ErrorsAtTime
+                        {
+                            Time = stroke.Time,
+                            ErrorCount = errorCount
+                        });
+                    }
+
+                    typedStack.Pop();
+                }
+            }
+            else
+            {
+                typedStack.Push(stroke.Character[0]);
+
+                if (typedStack.Peek() != phrase[typedStack.Count - 1])
+                {
+                    errorCount++;
+                    errorCountByTime.Add(new ErrorsAtTime
+                    {
+                        Time = stroke.Time,
+                        ErrorCount = errorCount
+                    });
+                }
+            }
+        }
+
+        return errorCountByTime;
+    }
+
     public static float GetWpm(List<KeyStroke> keyStrokes)
     {
         if (keyStrokes.Count == 0)

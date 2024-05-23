@@ -815,6 +815,67 @@ function _decodeGameStarting(bb: ByteBuffer): GameStarting {
   return message;
 }
 
+export interface ErrorsAtTime {
+  time?: number;
+  error_count?: number;
+}
+
+export function encodeErrorsAtTime(message: ErrorsAtTime): Uint8Array {
+  let bb = popByteBuffer();
+  _encodeErrorsAtTime(message, bb);
+  return toUint8Array(bb);
+}
+
+function _encodeErrorsAtTime(message: ErrorsAtTime, bb: ByteBuffer): void {
+  // optional float time = 1;
+  let $time = message.time;
+  if ($time !== undefined) {
+    writeVarint32(bb, 13);
+    writeFloat(bb, $time);
+  }
+
+  // optional int32 error_count = 2;
+  let $error_count = message.error_count;
+  if ($error_count !== undefined) {
+    writeVarint32(bb, 16);
+    writeVarint64(bb, intToLong($error_count));
+  }
+}
+
+export function decodeErrorsAtTime(binary: Uint8Array): ErrorsAtTime {
+  return _decodeErrorsAtTime(wrapByteBuffer(binary));
+}
+
+function _decodeErrorsAtTime(bb: ByteBuffer): ErrorsAtTime {
+  let message: ErrorsAtTime = {} as any;
+
+  end_of_message: while (!isAtEnd(bb)) {
+    let tag = readVarint32(bb);
+
+    switch (tag >>> 3) {
+      case 0:
+        break end_of_message;
+
+      // optional float time = 1;
+      case 1: {
+        message.time = readFloat(bb);
+        break;
+      }
+
+      // optional int32 error_count = 2;
+      case 2: {
+        message.error_count = readVarint32(bb);
+        break;
+      }
+
+      default:
+        skipUnknownField(bb, tag & 7);
+    }
+  }
+
+  return message;
+}
+
 export interface PlayerCompleted {
   player_id?: string;
   place?: number;

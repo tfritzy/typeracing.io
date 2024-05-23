@@ -79,6 +79,11 @@ message GameStarting {
     float countdown = 1;
 }
 
+message ErrorsAtTime {
+    float time = 1;
+    int32 error_count = 2;
+}
+
 message PlayerCompleted {
     string player_id = 1;
     int32 place = 2;

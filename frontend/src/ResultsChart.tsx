@@ -70,6 +70,26 @@ export const LineChart = (props: LineChartProps) => {
         },
       },
     },
+    annotations: {
+      xaxis: [
+        {
+          x: "1",
+          x2: "3",
+          fillColor: "red",
+          // label: {
+          //   text: "Recession",
+          // },
+        },
+        {
+          x: "5",
+          x2: "8",
+          fillColor: "red",
+          // label: {
+          //   text: "Recession",
+          // },
+        },
+      ],
+    },
     yaxis: {
       title: {
         // text: "",
