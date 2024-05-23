@@ -4,6 +4,13 @@ import { LineChart, Series } from "./ResultsChart";
 import { useEffect, useMemo, useState } from "react";
 import { PlayerData } from "./store/gameSlice";
 import { ErrorsAtTime } from "./compiled";
+import {
+  BorderColor,
+  ChillBorder,
+  NeutralColor,
+  TertiaryTextColor,
+  VeryChillBorder,
+} from "./constants";
 
 export const Results = () => {
   const [wpmData, setWpmData] = useState<{
@@ -50,11 +57,37 @@ export const Results = () => {
     setWpmData({ series: newWpmData, errors: self.errors_at_time || [] });
   }, [self]);
 
+  const getClassForWpm = (wpm: number) => {
+    if (wpm >= 100) {
+      return "gradient-text";
+    } else if (wpm >= 80) {
+      return "text-accent";
+    } else if (wpm >= 60) {
+      return "text-neutral-300";
+    } else {
+      return "text-secondary";
+    }
+  };
+
+  const getClassForAccuracy = (accuracy: number) => {
+    if (accuracy >= 1) {
+      return "gradient-text";
+    } else if (accuracy >= 0.97) {
+      return "text-accent";
+    } else if (accuracy >= 0.95) {
+      return "text-neutral-300";
+    } else {
+      return "text-secondary";
+    }
+  };
+
   if (!finishedPlayers.length) {
     return null;
   }
 
   const numWords = game.phrase.split(" ").length;
+  const numErrors = self?.num_errors || 0;
+  const numCharacters = game.phrase.length;
   const duration = finishedPlayers[0].wpm_by_second?.length || 0;
   const durationFormatted = new Date(duration * 1000)
     .toISOString()
@@ -63,26 +96,64 @@ export const Results = () => {
 
   return (
     <div>
-      <div className="flex flex-row">
-        <div className="p-3 px-6">
-          <div className="text-sm text-tertiary">Final wpm</div>
+      <div className="flex flex-row space-x-4">
+        <div
+          className={`p-3 py-2 min-w-24 rounded-lg ${getClassForWpm(finalWpm)}`}
+          // style={{ borderColor: "#FFFFFF55" }}
+        >
+          <div className="text-sm text-tertiary">WPM</div>
           <div
-            className={`text-4xl ${
-              finalWpm >= 100 ? "gradient-text" : "text-primary"
-            }`}
+            className={`text-3xl border-none font-mono mx-auto ${getClassForWpm(
+              finalWpm
+            )}`}
           >
-            {finalWpm.toFixed(0)}
+            {finalWpm.toFixed(1)}
+          </div>
+        </div>
+
+        <div
+          className={`p-3 py-2 min-w-24 rounded-lg ${getClassForAccuracy(
+            self?.accuracy || 0
+          )}`}
+          // style={{ borderColor: "#FFFFFF55" }}
+        >
+          <div className="text-sm text-tertiary">Accuracy</div>
+          <div className={"text-3xl border-none font-mono"}>
+            {((self?.accuracy || 0) * 100).toFixed(0)}%
+          </div>
+        </div>
+
+        <div
+          className="h-12 w-1 border-r my-auto"
+          style={{ borderColor: VeryChillBorder }}
+        />
+
+        <div className="p-3 px-6 h-full">
+          <div className="text-sm text-tertiary">Time</div>
+          <div className="text-xl font-mono text-primary">
+            {durationFormatted}
           </div>
         </div>
 
         <div className="p-3 px-6">
-          <div className="text-sm text-tertiary">Accuracy</div>
-          <div
-            className={`text-4xl ${
-              self?.accuracy === 1 ? "gradient-text" : "text-primary"
-            }`}
-          >
-            {((self?.accuracy || 0) * 100).toFixed(1)}%
+          <div className="text-sm text-tertiary">Words</div>
+          <div className="text-xl font-mono text-primary">{numWords}</div>
+        </div>
+
+        <div className="p-3 px-6">
+          <div className="text-sm text-tertiary">Mistakes</div>
+          <div className="text-xl font-mono text-primary">{numErrors}</div>
+        </div>
+
+        <div className="p-3 px-6">
+          <div className="text-sm text-tertiary">Characters</div>
+          <div className="text-xl font-mono text-primary">{numCharacters}</div>
+        </div>
+
+        <div className="p-3 px-6">
+          <div className="text-sm text-tertiary">Characters/s</div>
+          <div className="text-xl font-mono text-primary">
+            {(numCharacters / duration).toFixed(1)}
           </div>
         </div>
       </div>
@@ -91,33 +162,6 @@ export const Results = () => {
         series={wpmData?.series || []}
         errors={wpmData?.errors || []}
       />
-
-      <div className="flex flex-row">
-        <div className="p-3 px-6">
-          <div className="text-sm text-tertiary">Time</div>
-          <div className="text-xl text-secondary">{durationFormatted}</div>
-        </div>
-
-        <div className="p-3 px-6">
-          <div className="text-sm text-tertiary">Words</div>
-          <div className="text-xl text-secondary">{numWords}</div>
-        </div>
-
-        <div className="p-3 px-6">
-          <div className="text-sm text-tertiary">Errors</div>
-          <div className="text-xl text-secondary">{numWords}</div>
-        </div>
-
-        <div className="p-3 px-6">
-          <div className="text-sm text-tertiary">Characters</div>
-          <div className="text-xl text-secondary">{numWords}</div>
-        </div>
-
-        <div className="p-3 px-6">
-          <div className="text-sm text-tertiary">Characters/m</div>
-          <div className="text-xl text-secondary">{numWords}</div>
-        </div>
-      </div>
     </div>
   );
 };

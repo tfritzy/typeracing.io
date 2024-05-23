@@ -93,6 +93,7 @@ message PlayerCompleted {
     float accuracy = 6;
     GameMode mode = 7;
     repeated ErrorsAtTime errors_at_time = 8;
+    int32 num_errors = 9;
 }
 
 message PlayerJoinedGame {

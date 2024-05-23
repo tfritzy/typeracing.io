@@ -97,4 +97,7 @@ h2 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradientAnimation 8s ease infinite;
+  border-color: radial-gradient(circle, #fef08a, #a7f3d0);
+  border-width: 1px;
+  border-style: dashed;
 }

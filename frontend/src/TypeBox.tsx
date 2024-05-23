@@ -198,7 +198,7 @@ export const TypeBox = (props: TypeBoxProps) => {
       } else {
         text.push(
           <span
-            className="underline"
+            className=""
             style={{
               color: TextColor,
               textDecorationColor: AccentColor,
@@ -223,7 +223,7 @@ export const TypeBox = (props: TypeBoxProps) => {
     );
     text.push(
       <span
-        className="underline"
+        className=""
         style={{
           color: TertiaryTextColor,
           textDecorationColor: AccentColor + "70",
@@ -286,6 +286,10 @@ export const TypeBox = (props: TypeBoxProps) => {
           id="type-box"
           className="w-full outline-none typebox rounded-lg"
           ref={inputRef}
+          autoCorrect="off"
+          autoCapitalize="none"
+          autoComplete="off"
+          spellCheck={false}
           style={{
             position: "absolute",
             top: 0,
@@ -312,9 +316,8 @@ export const TypeBox = (props: TypeBoxProps) => {
             backgroundColor: AccentColor,
           }}
           hidden={
-            !focused ||
-            lockedCharacterIndex >= phrase.length ||
-            Date.now() - startTime < 0
+            !focused || lockedCharacterIndex >= phrase.length
+            //  || Date.now() - startTime < 0
           }
         />
       </div>

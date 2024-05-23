@@ -39,6 +39,7 @@ export type PlayerData = {
   is_bot: boolean;
   accuracy: number;
   errors_at_time: ErrorsAtTime[];
+  num_errors: number;
 };
 
 export type GameState = {
@@ -93,6 +94,7 @@ export const gameSlice = createSlice({
         most_recent_wpm: 0,
         accuracy: 0,
         errors_at_time: [],
+        num_errors: 0,
       }));
     },
     updatePlayerWordProgress: (
@@ -122,6 +124,7 @@ export const gameSlice = createSlice({
         most_recent_wpm: 0,
         accuracy: 0,
         errors_at_time: [],
+        num_errors: 0,
       };
       state.players.push(player);
     },
@@ -143,6 +146,7 @@ export const gameSlice = createSlice({
       player.raw_wpm_by_second = action.payload.raw_wpm_by_second || [];
       player.errors_at_time = action.payload.errors_at_time || [];
       player.accuracy = action.payload.accuracy || 0;
+      player.num_errors = action.payload.num_errors || 0;
 
       if (action.payload.player_id) {
         state.placements[action.payload.place || 0] = {

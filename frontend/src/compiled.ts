@@ -889,6 +889,7 @@ export interface PlayerCompleted {
   accuracy?: number;
   mode?: GameMode;
   errors_at_time?: ErrorsAtTime[];
+  num_errors?: number;
 }
 
 export function encodePlayerCompleted(message: PlayerCompleted): Uint8Array {
@@ -974,6 +975,13 @@ function _encodePlayerCompleted(
       pushByteBuffer(nested);
     }
   }
+
+  // optional int32 num_errors = 9;
+  let $num_errors = message.num_errors;
+  if ($num_errors !== undefined) {
+    writeVarint32(bb, 72);
+    writeVarint64(bb, intToLong($num_errors));
+  }
 }
 
 export function decodePlayerCompleted(binary: Uint8Array): PlayerCompleted {
@@ -1057,6 +1065,12 @@ function _decodePlayerCompleted(bb: ByteBuffer): PlayerCompleted {
         let values = message.errors_at_time || (message.errors_at_time = []);
         values.push(_decodeErrorsAtTime(bb));
         bb.limit = limit;
+        break;
+      }
+
+      // optional int32 num_errors = 9;
+      case 9: {
+        message.num_errors = readVarint32(bb);
         break;
       }
 

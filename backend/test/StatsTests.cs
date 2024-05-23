@@ -66,5 +66,7 @@ public class StatsTests
                 new ErrorsAtTime { Time = .3f, ErrorCount = 0 },
             },
             Stats.GetErrorCountByTime(strokes, "hello world"));
+
+        Assert.Fail("Can't go beyond bounds")
     }
 }

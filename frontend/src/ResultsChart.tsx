@@ -1,7 +1,7 @@
 import React from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import { AccentColor, VeryChillBorder } from "./constants";
+import { AccentColor, BorderColor, VeryChillBorder } from "./constants";
 import { ErrorsAtTime } from "./compiled";
 
 const secondaryColor = "#555555";
@@ -38,9 +38,11 @@ export const LineChart = (props: LineChartProps) => {
           xAxis.push({
             x: errors_at_time[i].time,
             x2: errors_at_time[indexBackToZero].time,
-            fillColor: "#e11d48",
-            opacity: 0.15,
-            borderColor: "transparent",
+            fillColor: "#dc2626",
+            opacity: 0.12,
+            borderColor: BorderColor,
+            strokeDashArray: 0,
+            borderWidth: 100,
           });
 
           i = indexBackToZero;
