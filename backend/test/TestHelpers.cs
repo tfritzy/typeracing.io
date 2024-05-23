@@ -72,7 +72,7 @@ public static class TH
 
     public static void AssertErrorCountsEqual(List<ErrorsAtTime> expected, List<ErrorsAtTime> actual)
     {
-        Assert.AreEqual(expected.Count, actual.Count, $"Expected {expected.Count} errors, but got {actual.Count}");
+        Assert.AreEqual(expected.Count, actual.Count, $"Expected {expected.Count} value(s), but got {actual.Count}");
 
         for (int i = 0; i < expected.Count; i++)
         {

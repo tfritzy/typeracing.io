@@ -2,10 +2,14 @@ import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import { LineChart, Series } from "./ResultsChart";
 import { useEffect, useMemo, useState } from "react";
-import { PlayerData } from "./App";
+import { PlayerData } from "./store/gameSlice";
+import { ErrorsAtTime } from "./compiled";
 
 export const Results = () => {
-  const [wpmData, setWpmData] = useState<Series[]>([]);
+  const [wpmData, setWpmData] = useState<{
+    series: Series[];
+    errors: ErrorsAtTime[];
+  } | null>(null);
   const game = useSelector((state: RootState) => state.game);
   const selfId = useSelector((state: RootState) => state.player.id);
 
@@ -43,7 +47,7 @@ export const Results = () => {
       data: self.wpm_by_second,
     });
 
-    setWpmData(newWpmData);
+    setWpmData({ series: newWpmData, errors: self.errors_at_time || [] });
   }, [self]);
 
   if (!finishedPlayers.length) {
@@ -51,14 +55,11 @@ export const Results = () => {
   }
 
   const numWords = game.phrase.split(" ").length;
-  const charactersTyped = game.phrase.length;
-  const numErrors = Math.round((1 - (self?.accuracy || 0)) * charactersTyped);
   const duration = finishedPlayers[0].wpm_by_second?.length || 0;
   const durationFormatted = new Date(duration * 1000)
     .toISOString()
     .substr(15, 4);
   const finalWpm = self?.final_wpm || 0;
-  console.log("Accuracy: ", self?.accuracy);
 
   return (
     <div>
@@ -86,7 +87,10 @@ export const Results = () => {
         </div>
       </div>
 
-      <LineChart series={wpmData} />
+      <LineChart
+        series={wpmData?.series || []}
+        errors={wpmData?.errors || []}
+      />
 
       <div className="flex flex-row">
         <div className="p-3 px-6">

@@ -92,6 +92,7 @@ message PlayerCompleted {
     float wpm = 5;
     float accuracy = 6;
     GameMode mode = 7;
+    repeated ErrorsAtTime errors_at_time = 8;
 }
 
 message PlayerJoinedGame {

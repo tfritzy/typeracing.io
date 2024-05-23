@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
-import { PlayerData } from "./App";
 import { StarSolid } from "iconoir-react";
 import { AnimatedDots } from "./AnimatedDots";
 import { SecondaryTextColor, TertiaryTextColor, TextColor } from "./constants";
+import { PlayerData } from "./store/gameSlice";
 
 const placementColors = [
   [TextColor, TextColor],
@@ -109,7 +109,7 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
 export const Players = () => {
   const player = useSelector((state: RootState) => state.player);
   const players = useSelector((state: RootState) => state.game.players);
-  const selfIndex = players.findIndex((player) => player.id === player.id);
+  const selfIndex = players.findIndex((p) => p.id === player.id);
   const positionRefs = useRef<number[]>([]);
 
   useEffect(() => {

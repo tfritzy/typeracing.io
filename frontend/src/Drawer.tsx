@@ -24,7 +24,6 @@ export const Drawer = (props: DrawerProps) => {
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
     let firstFocusableElement: HTMLElement | null = null;
     let lastFocusableElement: HTMLElement | null = null;
-    console.log("Mount");
 
     const focusableContent =
       drawerRef.current?.querySelectorAll(focusableElements);

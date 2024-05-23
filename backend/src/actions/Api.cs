@@ -257,6 +257,7 @@ public static class Api
                 };
                 playerCompleted.WpmBySecond.AddRange(Stats.GetAggWpmBySecond(player.KeyStrokes));
                 playerCompleted.RawWpmBySecond.AddRange(Stats.GetRawWpmBySecond(player.KeyStrokes));
+                playerCompleted.ErrorsAtTime.AddRange(Stats.GetErrorCountByTime(player.KeyStrokes, game.Phrase));
 
                 galaxy.SendUpdate(p, game.Id, new OneofUpdate
                 {
