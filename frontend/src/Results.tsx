@@ -59,9 +59,9 @@ export const Results = () => {
 
   const getClassForWpm = (wpm: number) => {
     if (wpm >= 100) {
-      return "gradient-text";
+      return " pulsing-gradient-text  ";
     } else if (wpm >= 80) {
-      return "text-accent";
+      return "accent-gradient-text";
     } else if (wpm >= 60) {
       return "text-neutral-300";
     } else {
@@ -71,9 +71,9 @@ export const Results = () => {
 
   const getClassForAccuracy = (accuracy: number) => {
     if (accuracy >= 1) {
-      return "gradient-text";
+      return " pulsing-gradient-text ";
     } else if (accuracy >= 0.97) {
-      return "text-accent";
+      return "accent-gradient-text";
     } else if (accuracy >= 0.95) {
       return "text-neutral-300";
     } else {
@@ -99,7 +99,6 @@ export const Results = () => {
       <div className="flex flex-row space-x-4">
         <div
           className={`p-3 py-2 min-w-24 rounded-lg ${getClassForWpm(finalWpm)}`}
-          // style={{ borderColor: "#FFFFFF55" }}
         >
           <div className="text-sm text-tertiary">WPM</div>
           <div
@@ -115,7 +114,6 @@ export const Results = () => {
           className={`p-3 py-2 min-w-24 rounded-lg ${getClassForAccuracy(
             self?.accuracy || 0
           )}`}
-          // style={{ borderColor: "#FFFFFF55" }}
         >
           <div className="text-sm text-tertiary">Accuracy</div>
           <div className={"text-3xl border-none font-mono"}>

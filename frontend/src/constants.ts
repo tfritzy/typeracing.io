@@ -8,4 +8,4 @@ export const TertiaryTextColor = TextColor + "55";
 export const BorderColor = TextColor + "55";
 export const ChillBorder = TextColor + "22";
 export const VeryChillBorder = TextColor + "11";
-export const AccentColor = "#a7f3d0";
+export const AccentColor = "#bfdbfe";

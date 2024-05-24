@@ -53,14 +53,14 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
   let playerName;
   if (player?.is_disconnected) {
     playerName = (
-      <div className="text-white text-lg flex flex-row space-x-1 items-center">
-        <span className="line-through">{player.name}</span>
+      <div className="text-lg flex flex-row space-x-1 items-center">
+        <span className="text-secondary line-through">{player.name}</span>
         <span className="text-sm"> (Disconnected)</span>
       </div>
     );
   } else {
     playerName = (
-      <div className="text-white text-lg font-thin">
+      <div className="text-lg font-thin">
         <span>
           {player?.name || (
             <div>
@@ -70,7 +70,7 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
               </span>
             </div>
           )}
-          {isSelf && <span className="text-secondary"> (You)</span>}
+          {isSelf && <span className="text-tertiary"> (You)</span>}
         </span>
       </div>
     );
@@ -79,7 +79,7 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
   return (
     <div className="h-md relative">
       <div className="flex flex-row items-center justify-between space-x-2 w-full">
-        <div className="flex flex-row space-x-2 items-center">
+        <div className="flex text-secondary flex-row space-x-2 items-center">
           <span>{playerName}</span>
           <span>{place !== -1 ? placementText[place] : ""} </span>
         </div>

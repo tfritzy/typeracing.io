@@ -1,4 +1,4 @@
-export const playerColors = ["#e0f2fe"];
+export const playerColors = ["#e0f2fe88"];
 
 export const getColorForPlayer = (playerId: string) => {
   const playerHash = playerId
