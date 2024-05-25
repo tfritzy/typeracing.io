@@ -40,4 +40,33 @@ public class StatsTests
 
         TH.IsApproximately(141.81819f, Stats.GetWpm(strokes));
     }
+
+    [TestMethod]
+    public void Stats_ErrorCount()
+    {
+        var strokes = TH.Keystrokes("hello world", 120);
+        CollectionAssert.AreEqual(
+            new List<ErrorsAtTime>
+            {
+                new ErrorsAtTime { Time = 0f, ErrorCount = 0 },
+            },
+            Stats.GetErrorCountByTime(strokes, "hello world"));
+
+        strokes.Insert(1, new KeyStroke { Character = "h", Time = .15f });
+        strokes.Insert(2, new KeyStroke { Character = "j", Time = .2f });
+        strokes.Insert(3, new KeyStroke { Character = "\b", Time = .25f });
+        strokes.Insert(4, new KeyStroke { Character = "\b", Time = .3f });
+        TH.AssertErrorCountsEqual(
+            new List<ErrorsAtTime>
+            {
+                new ErrorsAtTime { Time = 0f, ErrorCount = 0 },
+                new ErrorsAtTime { Time = .15f, ErrorCount = 1 },
+                new ErrorsAtTime { Time = .2f, ErrorCount = 2 },
+                new ErrorsAtTime { Time = .25f, ErrorCount = 1 },
+                new ErrorsAtTime { Time = .3f, ErrorCount = 0 },
+            },
+            Stats.GetErrorCountByTime(strokes, "hello world"));
+
+        Assert.Fail("Can't go beyond bounds")
+    }
 }

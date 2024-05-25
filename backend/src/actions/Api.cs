@@ -170,7 +170,7 @@ public static class Api
             }
             else
             {
-                if (keyStroke.Character[0] != phrase[phraseIndex])
+                if (phraseIndex > phrase.Length || keyStroke.Character[0] != phrase[phraseIndex])
                 {
                     errors++;
                 }
@@ -254,9 +254,11 @@ public static class Api
                     Wpm = Stats.GetWpm(player.KeyStrokes),
                     Accuracy = game.Phrase.Length / ((float)game.Phrase.Length + player.Errors),
                     Mode = game.Mode,
+                    NumErrors = player.Errors,
                 };
                 playerCompleted.WpmBySecond.AddRange(Stats.GetAggWpmBySecond(player.KeyStrokes));
                 playerCompleted.RawWpmBySecond.AddRange(Stats.GetRawWpmBySecond(player.KeyStrokes));
+                playerCompleted.ErrorsAtTime.AddRange(Stats.GetErrorCountByTime(player.KeyStrokes, game.Phrase));
 
                 galaxy.SendUpdate(p, game.Id, new OneofUpdate
                 {

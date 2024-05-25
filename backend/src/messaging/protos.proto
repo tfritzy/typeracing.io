@@ -79,6 +79,11 @@ message GameStarting {
     float countdown = 1;
 }
 
+message ErrorsAtTime {
+    float time = 1;
+    int32 error_count = 2;
+}
+
 message PlayerCompleted {
     string player_id = 1;
     int32 place = 2;
@@ -87,6 +92,8 @@ message PlayerCompleted {
     float wpm = 5;
     float accuracy = 6;
     GameMode mode = 7;
+    repeated ErrorsAtTime errors_at_time = 8;
+    int32 num_errors = 9;
 }
 
 message PlayerJoinedGame {

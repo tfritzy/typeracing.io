@@ -114,7 +114,7 @@ public class GameTests
     }
 
     [TestMethod]
-    public void Game_SendsWpmStatsAboutPlayersWhenTheyFinish()
+    public void Game_SendsStatsAboutPlayersWhenTheyFinish()
     {
         TestSetup test = new();
         var game = TH.FindGameOfPlayer(test.Galaxy, test.Players[0]);
@@ -132,6 +132,10 @@ public class GameTests
         CollectionAssert.AreEqual(
             Stats.GetAggWpmBySecond(test.Players[0].KeyStrokes),
             playerCompleteds[0].PlayerCompleted.WpmBySecond);
+        TH.AssertErrorCountsEqual(
+            Stats.GetErrorCountByTime(test.Players[0].KeyStrokes, game.Phrase),
+            playerCompleteds[0].PlayerCompleted.ErrorsAtTime.ToList()
+        );
     }
 
     [TestMethod]

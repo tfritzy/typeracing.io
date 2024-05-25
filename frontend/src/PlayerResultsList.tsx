@@ -1,19 +1,15 @@
 import React from "react";
-import { PlayerData } from "./App";
+import { PlayerData } from "./store/gameSlice";
 
-export const PlayerResultsList = ({
- players,
-}: {
- players: PlayerData[];
-}) => {
- return (
-  <div>
-   {players.map((p, i) => (
+export const PlayerResultsList = ({ players }: { players: PlayerData[] }) => {
+  return (
     <div>
-     <span>{i + 1}.</span>
-     <span>{p.name}</span>
+      {players.map((p, i) => (
+        <div>
+          <span>{i + 1}.</span>
+          <span>{p.name}</span>
+        </div>
+      ))}
     </div>
-   ))}
-  </div>
- );
+  );
 };

@@ -68,4 +68,21 @@ public static class TH
     {
         Assert.IsTrue(Math.Abs(expected - actual) < tolerance);
     }
+
+    public static void AssertErrorCountsEqual(List<ErrorsAtTime> expected, List<ErrorsAtTime> actual)
+    {
+        Assert.AreEqual(expected.Count, actual.Count, $"Expected {expected.Count} value(s), but got {actual.Count}");
+
+        for (int i = 0; i < expected.Count; i++)
+        {
+            Assert.AreEqual(
+                expected[i].Time,
+                actual[i].Time,
+                $"Time at {i} not equal. Expected {expected[i].Time}, but got {actual[i].Time}");
+            Assert.AreEqual(
+                expected[i].ErrorCount,
+                actual[i].ErrorCount,
+                $"Error count at {i} not equal. Expected {expected[i].ErrorCount}, but got {actual[i].ErrorCount}");
+        }
+    }
 }
