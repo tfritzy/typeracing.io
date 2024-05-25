@@ -10,6 +10,7 @@ public class InGamePlayer
     public BotConfig? BotConfig { get; set; }
     public bool IsDisconnected { get; set; }
     public int Errors { get; set; }
+    public float LastSeen { get; set; }
 
     public InGamePlayer(string name, string id, string token, bool isBot = false)
     {

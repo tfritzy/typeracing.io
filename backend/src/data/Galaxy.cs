@@ -39,6 +39,50 @@ public class Galaxy
         Outbox.Enqueue(message);
     }
 
+    private InGamePlayer? FindPlayer(string id)
+    {
+        if (!PlayerGameMap.ContainsKey(id))
+        {
+            return null;
+        }
+
+        string gameId = PlayerGameMap[id];
+        if (!ActiveGames.ContainsKey(gameId))
+        {
+            return null;
+        }
+
+        Game game = ActiveGames[gameId];
+        return game.Players.Find(player => player.Id == id);
+    }
+
+    public void AddToInbox(OneofRequest message)
+    {
+        InGamePlayer? player = FindPlayer(message.SenderId);
+        if (player != null)
+        {
+            player.LastSeen = Time.Now;
+        }
+
+        Inbox.Enqueue(message);
+    }
+
+    private void ProcessInbox()
+    {
+        while (Inbox.Count > 0)
+        {
+            OneofRequest message = Inbox.Dequeue();
+            try
+            {
+                HandleRequest(message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error handling request: {e.Message}");
+            }
+        }
+    }
+
     public OneofUpdate? GetUpdate()
     {
         if (Outbox.Count == 0)
@@ -84,6 +128,34 @@ public class Galaxy
             {
                 i--;
             }
+        }
+
+        ProcessInbox();
+    }
+
+    private void HandleRequest(OneofRequest request)
+    {
+        Console.WriteLine($"Received request of type {request.RequestCase} from {request.SenderId}");
+
+        switch (request.RequestCase)
+        {
+            case OneofRequest.RequestOneofCase.FindGame:
+                Api.FindGame(
+                    request.FindGame.PlayerName,
+                    request.SenderId,
+                    request.FindGame.PlayerToken,
+                    this,
+                    request.FindGame.PrivateGame,
+                    new HashSet<GameMode>(request.FindGame.GameModes));
+                break;
+            case OneofRequest.RequestOneofCase.TypeWord:
+                Api.TypeWord(
+                    request.TypeWord.KeyStrokes.ToList(),
+                    request.SenderId,
+                    this);
+                break;
+            default:
+                throw new Exception("Unknown request type");
         }
     }
 }

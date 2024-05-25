@@ -150,19 +150,11 @@ public class Server
 
             if (receiveResult.MessageType == WebSocketMessageType.Binary)
             {
-                // try
-                // {
                 using (var ms = new MemoryStream(receiveBuffer, 0, messageLength))
                 {
                     OneofRequest request = OneofRequest.Parser.ParseFrom(ms);
-                    HandleRequest(request);
+                    Galaxy.AddToInbox(request);
                 }
-                // }
-                // catch (Exception e)
-                // {
-                //     Console.WriteLine("Failed to parse request: " + e.Message);
-                //     continue;
-                // }
             }
             else if (receiveResult.MessageType == WebSocketMessageType.Close)
             {
@@ -200,32 +192,6 @@ public class Server
             }
 
             update = Galaxy.GetUpdate();
-        }
-    }
-
-    public void HandleRequest(OneofRequest request)
-    {
-        Console.WriteLine($"Received request of type {request.RequestCase} from {request.SenderId}");
-
-        switch (request.RequestCase)
-        {
-            case OneofRequest.RequestOneofCase.FindGame:
-                Api.FindGame(
-                        request.FindGame.PlayerName,
-                        request.SenderId,
-                        request.FindGame.PlayerToken,
-                        Galaxy,
-                        request.FindGame.PrivateGame,
-                        new HashSet<GameMode>(request.FindGame.GameModes));
-                break;
-            case OneofRequest.RequestOneofCase.TypeWord:
-                Api.TypeWord(
-                    request.TypeWord.KeyStrokes.ToList(),
-                    request.SenderId,
-                    Galaxy);
-                break;
-            default:
-                throw new Exception("Unknown request type");
         }
     }
 }

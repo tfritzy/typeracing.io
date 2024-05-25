@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+
 namespace LightspeedTyperacing;
 
 public class Game
@@ -40,6 +42,8 @@ public class Game
 
     public void Update()
     {
+        RemoveInactivePlayers();
+
         if (State == GameState.Lobby)
         {
             AddBotsIfNeeded();
@@ -101,6 +105,22 @@ public class Game
             );
             bot.BotConfig!.LastWordTime = Galaxy.Time.Now + CountdownDuration;
             Api.AddPlayerToGame(Galaxy, this, bot);
+        }
+    }
+
+    private void RemoveInactivePlayers()
+    {
+        foreach (InGamePlayer player in Players)
+        {
+            if (player.BotConfig != null)
+            {
+                continue;
+            }
+
+            if (Galaxy.Time.Now - player.LastSeen > Constants.InactiveTimeBeforeKicking)
+            {
+                Api.DisconnectPlayer(player.Id, Galaxy);
+            }
         }
     }
 

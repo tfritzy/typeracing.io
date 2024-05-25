@@ -50,8 +50,7 @@ public static class TH
 
     public static void AdvancePastCooldown(Galaxy galaxy, Game game)
     {
-        float time = Game.CountdownDuration + .1f;
-        galaxy.Time.Update(time);
+        galaxy.Time.Add(Game.CountdownDuration + .1f);
         galaxy.Update();
     }
 

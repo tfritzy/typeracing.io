@@ -265,7 +265,12 @@ public static class Api
             }
         }
 
-        if (game.Players.All((p) => p.PhraseIndex >= game.Phrase.Length))
+        CheckGameOver(galaxy, game);
+    }
+
+    private static void CheckGameOver(Galaxy galaxy, Game game)
+    {
+        if (game.Players.All((p) => p.PhraseIndex >= game.Phrase.Length || p.IsDisconnected))
         {
             game.State = Game.GameState.Complete;
 
@@ -311,10 +316,16 @@ public static class Api
             return;
         }
 
+        if (player.BotConfig != null)
+        {
+            return;
+        }
+
+        galaxy.PlayerGameMap.Remove(playerId);
+
         if (game.State == Game.GameState.Lobby)
         {
             game.Players.Remove(player);
-            galaxy.PlayerGameMap.Remove(playerId);
         }
         else
         {
@@ -332,6 +343,8 @@ public static class Api
                 }
             });
         }
+
+        CheckGameOver(galaxy, game);
 
         if (game.Players.Count == 0)
         {
