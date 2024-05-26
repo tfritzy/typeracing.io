@@ -370,4 +370,10 @@ public class GameTests
         Assert.AreEqual(3, game.Players.FindAll(p => p.IsDisconnected).Count);
         Assert.AreEqual(3, test.Galaxy.OutboxMessages().Count(m => m.PlayerDisconnected != null));
     }
+
+    [TestMethod]
+    public void Game_DoesntAutoBootIfTimeLarge()
+    {
+        Assert.Fail();
+    }
 }

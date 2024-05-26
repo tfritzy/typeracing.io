@@ -20,6 +20,7 @@ public static class Api
             GameMode mode = enabledModes.ToArray()[new Random().Next(0, enabledModes.Count)];
             game = new(galaxy, mode: mode, maxPlayers: practice ? 1 : 4);
             galaxy.OpenGames.Add(game);
+            Console.WriteLine($"Created new game {game.Id} with mode {mode}.");
         }
 
         AddPlayerToGame(galaxy, game, new InGamePlayer(playerName, playerId, playerToken));
@@ -62,6 +63,7 @@ public static class Api
 
         game.Players.Add(player);
         galaxy.PlayerGameMap[player.Id] = game.Id;
+        player.LastSeen = galaxy.Time.Now;
 
         if (player.BotConfig == null)
         {
@@ -274,6 +276,7 @@ public static class Api
     {
         if (game.Players.All((p) => p.PhraseIndex >= game.Phrase.Length || p.IsDisconnected))
         {
+            Console.WriteLine($"Game {game.Id} is over.");
             game.State = Game.GameState.Complete;
 
             foreach (InGamePlayer p in game.Players)
@@ -291,6 +294,7 @@ public static class Api
 
     public static void DisconnectPlayer(string playerId, Galaxy galaxy)
     {
+        Console.WriteLine($"Disconnecting {playerId}.");
         if (!galaxy.PlayerGameMap.ContainsKey(playerId))
         {
             return;
@@ -323,17 +327,6 @@ public static class Api
             return;
         }
 
-        galaxy.PlayerGameMap.Remove(playerId);
-
-        if (game.State == Game.GameState.Lobby)
-        {
-            game.Players.Remove(player);
-        }
-        else
-        {
-            player.IsDisconnected = true;
-        }
-
         foreach (InGamePlayer p in game.Players)
         {
             galaxy.SendUpdate(p, game.Id, new OneofUpdate
@@ -342,14 +335,28 @@ public static class Api
                 {
                     PlayerId = playerId,
                     Removed = game.State == Game.GameState.Lobby,
+                    IsYou = p.Id == playerId,
                 }
             });
+        }
+
+        galaxy.PlayerGameMap.Remove(playerId);
+
+        if (game.State == Game.GameState.Lobby)
+        {
+            Console.WriteLine($"Removing player {playerId} from game {gameId}.");
+            game.Players.Remove(player);
+        }
+        else
+        {
+            player.IsDisconnected = true;
         }
 
         CheckGameOver(galaxy, game);
 
         if (game.Players.Count == 0)
         {
+            Console.WriteLine($"Removing game {gameId}.");
             galaxy.OpenGames.Remove(game);
         }
     }

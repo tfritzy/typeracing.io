@@ -25,6 +25,10 @@ export const InGame = (props: InGameProps) => {
     (newLockIndex: number, keyStrokes: KeyStroke[], errors: number) => {
       const word = phrase.slice(lockCharIndex, newLockIndex).trim();
 
+      console.log(
+        "Sending key strokes: " + keyStrokes.map((k) => k.character).join("")
+      );
+
       const finishedWordRequest: OneofRequest = {
         sender_id: player.id,
         type_word: {

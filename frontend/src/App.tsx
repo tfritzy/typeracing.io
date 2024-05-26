@@ -12,6 +12,7 @@ import {
   selfFinished,
   setGameOver,
   playerDisconnected,
+  reset,
 } from "./store/gameSlice";
 import { generateRandomName } from "./generateRandomName";
 import {
@@ -64,7 +65,12 @@ const handleMessage = (
         } else if (update.game_over) {
           dispatch(setGameOver(update.game_over));
         } else if (update.player_disconnected) {
-          dispatch(playerDisconnected(update.player_disconnected));
+          if (!update.player_disconnected.is_you) {
+            dispatch(playerDisconnected(update.player_disconnected));
+          } else {
+            dispatch(reset());
+            navigate("/");
+          }
         } else if (update.player_completed) {
           dispatch(playerFinished(update.player_completed));
           if (update.player_completed.player_id === playerId) {

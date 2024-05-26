@@ -33,9 +33,15 @@ public class Galaxy
             return;
         }
 
+        if (player.BotConfig != null)
+        {
+            return;
+        }
+
         message.RecipientId = player.Id;
         message.GameId = gameId;
 
+        Console.WriteLine($"Enqueued update of type {message.UpdateCase} to {player.Id}");
         Outbox.Enqueue(message);
     }
 

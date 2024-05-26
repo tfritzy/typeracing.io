@@ -13,64 +13,24 @@ public class Server
     public Galaxy Galaxy { get; set; }
     private const int interval = 1000 / 15;
     private bool running = false;
-    private Thread updateThread;
     private DateTime start = DateTime.Now;
 
     public Server()
     {
         Connections = new Dictionary<string, WebSocket>();
         Galaxy = new Galaxy();
-        updateThread = new Thread(new ThreadStart(Run));
     }
 
-    private void Run()
+    public async void Update()
     {
-        while (running)
-        {
-            Tick();
-            var nextTick = DateTime.Now.AddMilliseconds(interval);
+        Tick();
+        await ProcessOutbox();
 
-            int delay = (int)(nextTick - DateTime.Now).TotalMilliseconds;
-            if (delay > 0)
-                Thread.Sleep(delay);
-        }
-    }
+        var nextTick = DateTime.Now.AddMilliseconds(interval);
 
-    public void Start()
-    {
-        running = true;
-        updateThread.Start();
-    }
-
-    public void Stop()
-    {
-        running = false;
-    }
-
-    public void StartProcessOutboxTask()
-    {
-        _ = Task.Run(async () =>
-        {
-            while (true)
-            {
-                try
-                {
-                    await ProcessOutbox();
-                    await Task.Delay(66);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Failed to process outbox: " + ex.Message);
-                }
-            }
-        }).ContinueWith(t =>
-        {
-            if (t.IsFaulted)
-            {
-                Console.WriteLine("Restarting ProcessOutbox task...");
-                StartProcessOutboxTask();
-            }
-        }, TaskContinuationOptions.OnlyOnFaulted);
+        int delay = (int)(nextTick - DateTime.Now).TotalMilliseconds;
+        if (delay > 0)
+            Thread.Sleep(delay);
     }
 
     public void Tick()

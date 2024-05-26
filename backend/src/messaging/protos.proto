@@ -119,4 +119,5 @@ message YouveBeenAddedToGame {
 message PlayerDisconnected {
     string player_id = 1;
     bool removed = 2;
+    bool is_you = 3;
 }

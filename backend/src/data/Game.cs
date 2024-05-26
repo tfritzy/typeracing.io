@@ -112,8 +112,10 @@ public class Game
     {
         lock (Players)
         {
-            foreach (InGamePlayer player in Players)
+            for (int i = 0; i < Players.Count; i++)
             {
+                InGamePlayer player = Players[i];
+
                 if (player.IsDisconnected)
                 {
                     continue;

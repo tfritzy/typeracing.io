@@ -65,14 +65,15 @@ namespace LightspeedTyperacing {
             "bRgEIAEoAhIdChVjaGFyX2NvbXBsZXRpb25fdGltZXMYBSADKAISCwoDd3Bt",
             "GAYgASgCIm4KFFlvdXZlQmVlbkFkZGVkVG9HYW1lEg8KB2dhbWVfaWQYASAB",
             "KAkSNQoPY3VycmVudF9wbGF5ZXJzGAIgAygLMhwuTGlnaHRzcGVlZFR5cGVy",
-            "YWNpbmcuUGxheWVyEg4KBnBocmFzZRgDIAEoCSI4ChJQbGF5ZXJEaXNjb25u",
-            "ZWN0ZWQSEQoJcGxheWVyX2lkGAEgASgJEg8KB3JlbW92ZWQYAiABKAgq/AEK",
-            "CEdhbWVNb2RlEgsKB0ludmFsaWQQABIOCgpNb3N0Q29tbW9uEAESCgoGQ29t",
-            "bW9uEAISDgoKRGljdGlvbmFyeRADEg8KC0xlYXN0Q29tbW9uEAQSDgoKQ29w",
-            "eVBhc3RhcxAFEgsKB1NwYW1UYXAQBhILCgdOdW1iZXJzEAcSDAoITWFyYXRo",
-            "b24QCBILCgdIb21lUm93EAkSDAoIVXBwZXJSb3cQChINCglSaWdodEhhbmQQ",
-            "CxIMCghMZWZ0SGFuZBAMEhMKD0FsdGVybmF0aW5nSGFuZBANEg0KCUZha2VX",
-            "b3JkcxAOEhIKDkxvbmdlc3RIdW5kcmVkEA9iBnByb3RvMw=="));
+            "YWNpbmcuUGxheWVyEg4KBnBocmFzZRgDIAEoCSJIChJQbGF5ZXJEaXNjb25u",
+            "ZWN0ZWQSEQoJcGxheWVyX2lkGAEgASgJEg8KB3JlbW92ZWQYAiABKAgSDgoG",
+            "aXNfeW91GAMgASgIKvwBCghHYW1lTW9kZRILCgdJbnZhbGlkEAASDgoKTW9z",
+            "dENvbW1vbhABEgoKBkNvbW1vbhACEg4KCkRpY3Rpb25hcnkQAxIPCgtMZWFz",
+            "dENvbW1vbhAEEg4KCkNvcHlQYXN0YXMQBRILCgdTcGFtVGFwEAYSCwoHTnVt",
+            "YmVycxAHEgwKCE1hcmF0aG9uEAgSCwoHSG9tZVJvdxAJEgwKCFVwcGVyUm93",
+            "EAoSDQoJUmlnaHRIYW5kEAsSDAoITGVmdEhhbmQQDBITCg9BbHRlcm5hdGlu",
+            "Z0hhbmQQDRINCglGYWtlV29yZHMQDhISCg5Mb25nZXN0SHVuZHJlZBAPYgZw",
+            "cm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::LightspeedTyperacing.GameMode), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -90,7 +91,7 @@ namespace LightspeedTyperacing {
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.PlayerJoinedGame), global::LightspeedTyperacing.PlayerJoinedGame.Parser, new[]{ "Player", "GameId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.WordFinished), global::LightspeedTyperacing.WordFinished.Parser, new[]{ "PlayerId", "PercentComplete", "VelocityKmS", "PositionKm", "CharCompletionTimes", "Wpm" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.YouveBeenAddedToGame), global::LightspeedTyperacing.YouveBeenAddedToGame.Parser, new[]{ "GameId", "CurrentPlayers", "Phrase" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.PlayerDisconnected), global::LightspeedTyperacing.PlayerDisconnected.Parser, new[]{ "PlayerId", "Removed" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::LightspeedTyperacing.PlayerDisconnected), global::LightspeedTyperacing.PlayerDisconnected.Parser, new[]{ "PlayerId", "Removed", "IsYou" }, null, null, null, null)
           }));
     }
     #endregion
@@ -4250,6 +4251,7 @@ namespace LightspeedTyperacing {
     public PlayerDisconnected(PlayerDisconnected other) : this() {
       playerId_ = other.playerId_;
       removed_ = other.removed_;
+      isYou_ = other.isYou_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -4283,6 +4285,18 @@ namespace LightspeedTyperacing {
       }
     }
 
+    /// <summary>Field number for the "is_you" field.</summary>
+    public const int IsYouFieldNumber = 3;
+    private bool isYou_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool IsYou {
+      get { return isYou_; }
+      set {
+        isYou_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -4300,6 +4314,7 @@ namespace LightspeedTyperacing {
       }
       if (PlayerId != other.PlayerId) return false;
       if (Removed != other.Removed) return false;
+      if (IsYou != other.IsYou) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -4309,6 +4324,7 @@ namespace LightspeedTyperacing {
       int hash = 1;
       if (PlayerId.Length != 0) hash ^= PlayerId.GetHashCode();
       if (Removed != false) hash ^= Removed.GetHashCode();
+      if (IsYou != false) hash ^= IsYou.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -4335,6 +4351,10 @@ namespace LightspeedTyperacing {
         output.WriteRawTag(16);
         output.WriteBool(Removed);
       }
+      if (IsYou != false) {
+        output.WriteRawTag(24);
+        output.WriteBool(IsYou);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -4353,6 +4373,10 @@ namespace LightspeedTyperacing {
         output.WriteRawTag(16);
         output.WriteBool(Removed);
       }
+      if (IsYou != false) {
+        output.WriteRawTag(24);
+        output.WriteBool(IsYou);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -4367,6 +4391,9 @@ namespace LightspeedTyperacing {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(PlayerId);
       }
       if (Removed != false) {
+        size += 1 + 1;
+      }
+      if (IsYou != false) {
         size += 1 + 1;
       }
       if (_unknownFields != null) {
@@ -4386,6 +4413,9 @@ namespace LightspeedTyperacing {
       }
       if (other.Removed != false) {
         Removed = other.Removed;
+      }
+      if (other.IsYou != false) {
+        IsYou = other.IsYou;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -4410,6 +4440,10 @@ namespace LightspeedTyperacing {
             Removed = input.ReadBool();
             break;
           }
+          case 24: {
+            IsYou = input.ReadBool();
+            break;
+          }
         }
       }
     #endif
@@ -4431,6 +4465,10 @@ namespace LightspeedTyperacing {
           }
           case 16: {
             Removed = input.ReadBool();
+            break;
+          }
+          case 24: {
+            IsYou = input.ReadBool();
             break;
           }
         }
