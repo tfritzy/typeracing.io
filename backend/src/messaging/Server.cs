@@ -1,7 +1,9 @@
 using System.Diagnostics;
 using System.Net;
 using System.Net.WebSockets;
+using System.Security.Cryptography.X509Certificates;
 using Google.Protobuf;
+using DotNetEnv;
 
 namespace LightspeedTyperacing;
 
@@ -81,9 +83,14 @@ public class Server
     public async void StartAcceptingConnections()
     {
         HttpListener httpListener = new();
-        httpListener.Prefixes.Add("http://localhost:5000/");
+        string environment = Environment.GetEnvironmentVariable("ENVIRONMENT") ?? "Development";
+        string envFile = environment == "Production" ? ".env.production" : ".env";
+        Env.Load(envFile);
+
+        string url = Environment.GetEnvironmentVariable("HOSTED_ADDRESS")!;
+        httpListener.Prefixes.Add(url);
         httpListener.Start();
-        Console.WriteLine("Listening...");
+        Console.WriteLine("Listening on " + url);
 
         try
         {
