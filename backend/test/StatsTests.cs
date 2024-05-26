@@ -59,11 +59,11 @@ public class StatsTests
         TH.AssertErrorCountsEqual(
             new List<ErrorsAtTime>
             {
-                new ErrorsAtTime { Time = 0f, ErrorCount = 0 },
-                new ErrorsAtTime { Time = .15f, ErrorCount = 1 },
-                new ErrorsAtTime { Time = .2f, ErrorCount = 2 },
-                new ErrorsAtTime { Time = .25f, ErrorCount = 1 },
-                new ErrorsAtTime { Time = .3f, ErrorCount = 0 },
+                new() { Time = 0f, ErrorCount = 0 },
+                new() { Time = .15f, ErrorCount = 1 },
+                new() { Time = .2f, ErrorCount = 2 },
+                new() { Time = .25f, ErrorCount = 1 },
+                new() { Time = .3f, ErrorCount = 0 },
             },
             Stats.GetErrorCountByTime(strokes, "hello world"));
 

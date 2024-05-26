@@ -112,6 +112,11 @@ public class Game
     {
         foreach (InGamePlayer player in Players)
         {
+            if (player.IsDisconnected)
+            {
+                continue;
+            }
+
             if (player.BotConfig != null)
             {
                 continue;
