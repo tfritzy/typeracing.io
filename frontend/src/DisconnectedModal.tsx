@@ -27,7 +27,7 @@ export const DisconnectedModal = (
    <div className="p-4 flex flex-col space-y-3 grow justify-center items-center">
     <div>Lost connection with server.</div>
     <button
-     className="bg-green-700 rounded-md border border-green-600 px-2 py-1 font-semibold"
+     className="bg-emerald-700 rounded-md border border-emerald-600 px-2 py-1 font-semibold"
      onClick={props.reconnect}
      autoFocus
     >

@@ -110,21 +110,24 @@ public class Game
 
     private void RemoveInactivePlayers()
     {
-        foreach (InGamePlayer player in Players)
+        lock (Players)
         {
-            if (player.IsDisconnected)
+            foreach (InGamePlayer player in Players)
             {
-                continue;
-            }
+                if (player.IsDisconnected)
+                {
+                    continue;
+                }
 
-            if (player.BotConfig != null)
-            {
-                continue;
-            }
+                if (player.BotConfig != null)
+                {
+                    continue;
+                }
 
-            if (Galaxy.Time.Now - player.LastSeen > Constants.InactiveTimeBeforeKicking)
-            {
-                Api.DisconnectPlayer(player.Id, Galaxy);
+                if (Galaxy.Time.Now - player.LastSeen > Constants.InactiveTimeBeforeKicking)
+                {
+                    Api.DisconnectPlayer(player.Id, Galaxy);
+                }
             }
         }
     }

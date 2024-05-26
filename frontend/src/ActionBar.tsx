@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { SyntheticEvent, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { reset } from "./store/gameSlice";
 import { NeutralColor, VeryChillBorder } from "./constants";
@@ -15,11 +15,11 @@ const TextButton = ({
  onClick,
 }: {
  children: React.ReactNode;
- onClick?: () => void;
+ onClick?: (event: Event) => void;
 }) => {
  return (
   <button
-   onClick={onClick}
+   onClick={onClick as any}
    className="flex flex-row space-x-2 items-center rounded-full p-2 hover:text-accent outline-none"
   >
    {children}
@@ -38,11 +38,15 @@ export const ActionBar = (props: ActionBarProps) => {
   (state: RootState) => state.player
  );
 
- const findGame = React.useCallback(() => {
-  dispatch(reset());
-  navigate("/");
-  sendFindGameRequest(props.sendRequest, player);
- }, [dispatch, navigate, props.sendRequest, player]);
+ const findGame = React.useCallback(
+  (event: Event) => {
+   event.preventDefault();
+   dispatch(reset());
+   navigate("/");
+   sendFindGameRequest(props.sendRequest, player);
+  },
+  [dispatch, navigate, props.sendRequest, player]
+ );
 
  const mainMenu = React.useCallback(() => {
   returnToMainMenu(navigate, dispatch);
@@ -51,7 +55,7 @@ export const ActionBar = (props: ActionBarProps) => {
  useEffect(() => {
   const handleHotkeys = (event: KeyboardEvent) => {
    if (event.key === "p") {
-    findGame();
+    findGame(event as Event);
    } else if (event.key === "s") {
     alert("Share");
    } else if (event.key === "m") {
