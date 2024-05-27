@@ -20,7 +20,7 @@ public static class Api
             GameMode mode = enabledModes.ToArray()[new Random().Next(0, enabledModes.Count)];
             game = new(galaxy, mode: mode, maxPlayers: practice ? 1 : 4);
             galaxy.OpenGames.Add(game);
-            Console.WriteLine($"Created new game {game.Id} with mode {mode}.");
+            Logger.Log($"Created new game {game.Id} with mode {mode}.");
         }
 
         AddPlayerToGame(galaxy, game, new InGamePlayer(playerName, playerId, playerToken));
@@ -239,12 +239,12 @@ public static class Api
         }
         else
         {
-            Console.WriteLine($"Player {player.Name} typed wrong word '{typed}' in phrase '{game.Phrase}' at index {player.PhraseIndex}.");
+            Logger.Log($"Player {player.Name} typed wrong word '{typed}' in phrase '{game.Phrase}' at index {player.PhraseIndex}.");
         }
 
         if (player.PhraseIndex >= game.Phrase.Length)
         {
-            Console.WriteLine($"Player {playerId} finished phrase.");
+            Logger.Log($"Player {playerId} finished phrase.");
             game.Placements.Add(playerId);
             int place = game.Placements.Count - 1;
             foreach (InGamePlayer p in game.Players)
@@ -276,7 +276,7 @@ public static class Api
     {
         if (game.Players.All((p) => p.PhraseIndex >= game.Phrase.Length || p.IsDisconnected))
         {
-            Console.WriteLine($"Game {game.Id} is over.");
+            Logger.Log($"Game {game.Id} is over.");
             game.State = Game.GameState.Complete;
 
             foreach (InGamePlayer p in game.Players)
@@ -294,7 +294,6 @@ public static class Api
 
     public static void DisconnectPlayer(string playerId, Galaxy galaxy)
     {
-        Console.WriteLine($"Disconnecting {playerId}.");
         if (!galaxy.PlayerGameMap.ContainsKey(playerId))
         {
             return;
@@ -327,6 +326,8 @@ public static class Api
             return;
         }
 
+        Logger.Log($"Disconnecting {playerId}.");
+
         foreach (InGamePlayer p in game.Players)
         {
             galaxy.SendUpdate(p, game.Id, new OneofUpdate
@@ -344,7 +345,7 @@ public static class Api
 
         if (game.State == Game.GameState.Lobby)
         {
-            Console.WriteLine($"Removing player {playerId} from game {gameId}.");
+            Logger.Log($"Removing player {playerId} from game {gameId}.");
             game.Players.Remove(player);
         }
         else
@@ -356,7 +357,7 @@ public static class Api
 
         if (game.Players.Count == 0)
         {
-            Console.WriteLine($"Removing game {gameId}.");
+            Logger.Log($"Removing game {gameId}.");
             galaxy.OpenGames.Remove(game);
         }
     }

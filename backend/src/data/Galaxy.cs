@@ -41,7 +41,7 @@ public class Galaxy
         message.RecipientId = player.Id;
         message.GameId = gameId;
 
-        Console.WriteLine($"Enqueued update of type {message.UpdateCase} to {player.Id}");
+        Logger.Log($"Enqueued update of type {message.UpdateCase} to {player.Id}");
         Outbox.Enqueue(message);
     }
 
@@ -84,7 +84,7 @@ public class Galaxy
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error handling request: {e.Message}");
+                Logger.Log($"Error handling request: {e.Message}");
             }
         }
     }
@@ -141,7 +141,7 @@ public class Galaxy
 
     private void HandleRequest(OneofRequest request)
     {
-        Console.WriteLine($"Received request of type {request.RequestCase} from {request.SenderId}");
+        Logger.Log($"Received request of type {request.RequestCase} from {request.SenderId}");
 
         switch (request.RequestCase)
         {

@@ -110,26 +110,23 @@ public class Game
 
     private void RemoveInactivePlayers()
     {
-        lock (Players)
+        for (int i = 0; i < Players.Count; i++)
         {
-            for (int i = 0; i < Players.Count; i++)
+            InGamePlayer player = Players[i];
+
+            if (player.IsDisconnected)
             {
-                InGamePlayer player = Players[i];
+                continue;
+            }
 
-                if (player.IsDisconnected)
-                {
-                    continue;
-                }
+            if (player.BotConfig != null)
+            {
+                continue;
+            }
 
-                if (player.BotConfig != null)
-                {
-                    continue;
-                }
-
-                if (Galaxy.Time.Now - player.LastSeen > Constants.InactiveTimeBeforeKicking)
-                {
-                    Api.DisconnectPlayer(player.Id, Galaxy);
-                }
+            if (Galaxy.Time.Now - player.LastSeen > Constants.InactiveTimeBeforeKicking)
+            {
+                Api.DisconnectPlayer(player.Id, Galaxy);
             }
         }
     }

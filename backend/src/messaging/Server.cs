@@ -50,7 +50,7 @@ public class Server
         string url = Environment.GetEnvironmentVariable("HOSTED_ADDRESS")!;
         httpListener.Prefixes.Add(url);
         httpListener.Start();
-        Console.WriteLine("Listening on " + url);
+        Logger.Log("Listening on " + url);
 
         try
         {
@@ -70,7 +70,7 @@ public class Server
         }
         catch (Exception e)
         {
-            Console.WriteLine("Failed to accept connection: " + e.Message);
+            Logger.Log("Failed to accept connection: " + e.Message);
 
             _ = Task.Run(() => StartAcceptingConnections());
         }
@@ -91,13 +91,13 @@ public class Server
         {
             webSocketContext = await context.AcceptWebSocketAsync(subProtocol: null);
             Connections[id] = webSocketContext.WebSocket;
-            Console.WriteLine($"WebSocket connection established at {context.Request.Url}");
+            Logger.Log($"WebSocket connection established at {context.Request.Url}");
         }
         catch (Exception e)
         {
             context.Response.StatusCode = 500;
             context.Response.Close();
-            Console.WriteLine("Exception: " + e.Message);
+            Logger.Log("Exception: " + e.Message);
             return;
         }
 
@@ -126,7 +126,7 @@ public class Server
             else if (receiveResult.MessageType == WebSocketMessageType.Close)
             {
                 Api.DisconnectPlayer(token, Galaxy);
-                Console.WriteLine("WebSocket connection closed by client.");
+                Logger.Log("WebSocket connection closed by client.");
                 Connections.Remove(token);
                 await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
             }
@@ -149,7 +149,7 @@ public class Server
                 Connections[update.RecipientId].State == WebSocketState.Open)
             {
                 WebSocket webSocket = Connections[update.RecipientId];
-                Console.WriteLine($"Sending update to {update.RecipientId} of type {update.UpdateCase}");
+                Logger.Log($"Sending update to {update.RecipientId} of type {update.UpdateCase}");
                 byte[] data = update.ToByteArray();
                 await webSocket.SendAsync(
                     new ArraySegment<byte>(data, 0, data.Length),
