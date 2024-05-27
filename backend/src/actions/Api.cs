@@ -61,9 +61,9 @@ public static class Api
             });
         }
 
+        player.LastSeen = galaxy.Time.Now;
         game.Players.Add(player);
         galaxy.PlayerGameMap[player.Id] = game.Id;
-        player.LastSeen = galaxy.Time.Now;
 
         if (player.BotConfig == null)
         {
@@ -148,7 +148,7 @@ public static class Api
 
         for (int i = 0; i < typed.Length; i++)
         {
-            if (typed[i] != phrase[i + startIndex])
+            if (i + startIndex >= phrase.Length || typed[i] != phrase[i + startIndex])
             {
                 return false;
             }

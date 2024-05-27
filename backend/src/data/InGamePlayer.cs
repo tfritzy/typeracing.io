@@ -12,7 +12,7 @@ public class InGamePlayer
     public int Errors { get; set; }
     public float LastSeen { get; set; }
 
-    public InGamePlayer(string name, string id, string token, bool isBot = false)
+    public InGamePlayer(string name, string id, string token, BotConfig? botConfig = null)
     {
         Name = name;
         Id = id;
@@ -20,10 +20,6 @@ public class InGamePlayer
         PhraseIndex = 0;
         KeyStrokes = new List<KeyStroke>();
         IsDisconnected = false;
-
-        if (isBot)
-        {
-            BotConfig = new BotConfig();
-        }
+        BotConfig = botConfig;
     }
 }

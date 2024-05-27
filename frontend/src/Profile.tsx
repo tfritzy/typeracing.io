@@ -6,6 +6,7 @@ import { updatePlayerName } from "./store/playerSlice";
 import EditInput from "./EditInput";
 import Cookies from "js-cookie";
 import { calculateWpm } from "./helpers/raceResults";
+import Tooltip from "./Tooltip";
 
 export const Profile = () => {
   const dispatch = useDispatch();
@@ -32,15 +33,17 @@ export const Profile = () => {
       <div className=" flex flex-row items-center space-x-1">
         <EditInput value={player.name} onChange={updateName} />
       </div>
-      <div
-        className="rounded-lg px-3 space-x-1 padding-auto flex flex-row items-center justify-center"
-        style={{ backgroundColor: NeutralColor }}
-      >
-        <span style={{ color: AccentColor }}>{wpm || "—"}</span>
-        <span className="text-sm" style={{ color: TertiaryTextColor }}>
-          wpm
-        </span>
-      </div>
+      <Tooltip content="The average wpm of your past 10 games in the current mode.">
+        <div
+          className="rounded-lg py-2 px-3 space-x-1 padding-auto flex flex-row items-center justify-center"
+          style={{ backgroundColor: NeutralColor }}
+        >
+          <span style={{ color: AccentColor }}>{wpm || "—"}</span>
+          <span className="text-sm" style={{ color: TertiaryTextColor }}>
+            wpm
+          </span>
+        </div>
+      </Tooltip>
     </div>
   );
 };

@@ -37,7 +37,7 @@ already
 also
 although
 always
-American
+american
 among
 amount
 analysis
@@ -175,7 +175,7 @@ computer
 concern
 condition
 conference
-Congress
+congress
 consider
 consumer
 contain
@@ -210,7 +210,7 @@ decision
 deep
 defense
 degree
-Democrat
+democrat
 democratic
 describe
 design
@@ -398,7 +398,6 @@ huge
 human
 hundred
 husband
-I
 idea
 identify
 if
@@ -533,8 +532,8 @@ mouth
 move
 movement
 movie
-Mr
-Mrs
+mr
+mrs
 much
 music
 must
@@ -634,7 +633,7 @@ plan
 plant
 play
 player
-PM
+pm
 point
 police
 policy
@@ -710,7 +709,7 @@ remember
 remove
 report
 represent
-Republican
+republican
 require
 research
 resource
@@ -917,7 +916,7 @@ true
 truth
 try
 turn
-TV
+tv
 two
 type
 under

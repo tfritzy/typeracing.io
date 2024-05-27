@@ -117,3 +117,25 @@ h2 {
 .cursor {
   animation: fadeBlink 1s linear infinite;
 }
+
+.tooltip-wrapper {
+  position: relative;
+  cursor: help;
+}
+
+.tooltip-content {
+  position: fixed;
+  background-color: black;
+  color: #dfe3e8;
+  padding: 5px;
+  border-radius: 3px;
+  white-space: normal; /* Allow text to wrap */
+  max-width: 300px; /* Set a reasonable max width */
+  width: max-content; /* Tooltip will take only the necessary width */
+  z-index: 1000; /* Ensure it stays above other content */
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.3s;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add a slight shadow */
+  font-size: 1rem;
+}

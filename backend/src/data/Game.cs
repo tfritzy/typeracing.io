@@ -96,12 +96,13 @@ public class Game
         int botsToAdd = MaxPlayers - Players.Count;
         for (int i = 0; i < botsToAdd; i++)
         {
+            BotConfig botConfig = new();
             InGamePlayer bot = new
             (
-                name: BotNames.GenerateName(),
+                name: BotNames.GenerateName(botConfig.Wpm),
                 id: IdGen.NewPlayerId(),
                 token: IdGen.NewToken(),
-                isBot: true
+                botConfig: botConfig
             );
             bot.BotConfig!.LastWordTime = Galaxy.Time.Now + CountdownDuration;
             Api.AddPlayerToGame(Galaxy, this, bot);
