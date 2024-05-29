@@ -107,29 +107,36 @@ public class Server
 
     private async void ListenLoop(WebSocket webSocket, string token)
     {
-        byte[] receiveBuffer = new byte[1024];
-        while (webSocket.State == WebSocketState.Open)
+        try
         {
-            var receiveResult = await webSocket.ReceiveAsync(
-                new ArraySegment<byte>(receiveBuffer), CancellationToken.None);
-
-            int messageLength = receiveResult.Count;
-
-            if (receiveResult.MessageType == WebSocketMessageType.Binary)
+            byte[] receiveBuffer = new byte[1024];
+            while (webSocket.State == WebSocketState.Open)
             {
-                using (var ms = new MemoryStream(receiveBuffer, 0, messageLength))
+                var receiveResult = await webSocket.ReceiveAsync(
+                    new ArraySegment<byte>(receiveBuffer), CancellationToken.None);
+
+                int messageLength = receiveResult.Count;
+
+                if (receiveResult.MessageType == WebSocketMessageType.Binary)
                 {
-                    OneofRequest request = OneofRequest.Parser.ParseFrom(ms);
-                    Galaxy.AddToInbox(request);
+                    using (var ms = new MemoryStream(receiveBuffer, 0, messageLength))
+                    {
+                        OneofRequest request = OneofRequest.Parser.ParseFrom(ms);
+                        Galaxy.AddToInbox(request);
+                    }
+                }
+                else if (receiveResult.MessageType == WebSocketMessageType.Close)
+                {
+                    Api.DisconnectPlayer(token, Galaxy);
+                    Logger.Log("WebSocket connection closed by client.");
+                    Connections.Remove(token);
+                    await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
                 }
             }
-            else if (receiveResult.MessageType == WebSocketMessageType.Close)
-            {
-                Api.DisconnectPlayer(token, Galaxy);
-                Logger.Log("WebSocket connection closed by client.");
-                Connections.Remove(token);
-                await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
-            }
+        }
+        catch (Exception e)
+        {
+            Logger.Log("Exception in listen loop: " + e.Message);
         }
     }
 

@@ -43,6 +43,7 @@ public class Game
     public void Update()
     {
         RemoveInactivePlayers();
+        CheckGameEnd();
 
         if (State == GameState.Lobby)
         {
@@ -73,6 +74,22 @@ public class Game
                     GameStarted = new GameStarted { },
                 });
             }
+        }
+    }
+
+    private void CheckGameEnd()
+    {
+        bool allRealPlayersGone = Players.All(player => player.BotConfig != null || player.IsDisconnected);
+        if (allRealPlayersGone)
+        {
+            Logger.Log("All real players gone, closing game");
+            Api.CloseGame(Galaxy, this);
+        }
+
+        if (Galaxy.Time.Now - CreationTime > Constants.MaxTimeBeforeForceClosingGame)
+        {
+            Logger.Log("Game has been open too long, closing game");
+            Api.CloseGame(Galaxy, this);
         }
     }
 

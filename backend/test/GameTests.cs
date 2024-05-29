@@ -285,13 +285,13 @@ public class GameTests
         var game = TH.FindGameOfPlayer(test.Galaxy, test.Players[0]);
         TH.AdvancePastCooldown(test.Galaxy, game);
 
-        Assert.AreEqual(0, test.Players[0].LastSeen);
+        Assert.AreEqual(42, test.Players[0].LastSeen);
         test.Galaxy.Time.Add(1);
-        Assert.AreEqual(0, test.Players[0].LastSeen);
+        Assert.AreEqual(42, test.Players[0].LastSeen);
         Api.TypeWord(TH.KeystrokesForWord(game.Phrase, 0), test.Players[0].Id, test.Galaxy);
         test.Galaxy.AddToInbox(new OneofRequest { SenderId = test.Players[0].Id });
         Assert.AreEqual(test.Galaxy.Time.Now, test.Players[0].LastSeen);
-        Assert.AreEqual(0, test.Players[1].LastSeen);
+        Assert.AreEqual(42, test.Players[1].LastSeen);
 
         // Doesn't blow up on unknown player
         test.Galaxy.AddToInbox(new OneofRequest { SenderId = "unknown" });
@@ -369,6 +369,40 @@ public class GameTests
 
         Assert.AreEqual(3, game.Players.FindAll(p => p.IsDisconnected).Count);
         Assert.AreEqual(3, test.Galaxy.OutboxMessages().Count(m => m.PlayerDisconnected != null));
+    }
+
+    [TestMethod]
+    public void Game_RemovedAfterPlayersGone()
+    {
+        TestSetup test = new();
+        var game = TH.FindGameOfPlayer(test.Galaxy, test.Players[0]);
+        test.Galaxy.Time.Add(Constants.InactiveTimeBeforeKicking + 1);
+        test.Galaxy.Update();
+        Assert.IsFalse(test.Galaxy.ActiveGames.ContainsKey(game.Id));
+        Assert.IsFalse(test.Galaxy.PlayerGameMap.ContainsKey(test.Players[0].Id));
+        Assert.IsFalse(test.Galaxy.PlayerGameMap.ContainsKey(test.Players[1].Id));
+        Assert.IsFalse(test.Galaxy.PlayerGameMap.ContainsKey(test.Players[2].Id));
+        Assert.IsFalse(test.Galaxy.PlayerGameMap.ContainsKey(test.Players[3].Id));
+    }
+
+    [TestMethod]
+    public void Game_RemovedIfLastsTooLong()
+    {
+        TestSetup test = new();
+        var game = TH.FindGameOfPlayer(test.Galaxy, test.Players[0]);
+
+        for (int i = 0; i < 10; i++)
+        {
+            test.Galaxy.Time.Add(Constants.InactiveTimeBeforeKicking - 1);
+            test.Galaxy.AddToInbox(new OneofRequest { SenderId = test.Players[0].Id });
+            test.Galaxy.Update();
+        }
+
+        Assert.IsFalse(test.Galaxy.ActiveGames.ContainsKey(game.Id));
+        Assert.IsFalse(test.Galaxy.PlayerGameMap.ContainsKey(test.Players[0].Id));
+        Assert.IsFalse(test.Galaxy.PlayerGameMap.ContainsKey(test.Players[1].Id));
+        Assert.IsFalse(test.Galaxy.PlayerGameMap.ContainsKey(test.Players[2].Id));
+        Assert.IsFalse(test.Galaxy.PlayerGameMap.ContainsKey(test.Players[3].Id));
     }
 
     [TestMethod]

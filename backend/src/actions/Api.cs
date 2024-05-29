@@ -361,4 +361,19 @@ public static class Api
             galaxy.OpenGames.Remove(game);
         }
     }
+
+    public static void CloseGame(Galaxy galaxy, Game game)
+    {
+        Logger.Log($"Closing game {game.Id}.");
+        foreach (InGamePlayer player in new List<InGamePlayer>(game.Players))
+        {
+            if (!player.IsDisconnected)
+            {
+                DisconnectPlayer(player.Id, galaxy);
+            }
+            galaxy.PlayerGameMap.Remove(player.Id);
+        }
+
+        galaxy.ActiveGames.Remove(game.Id);
+    }
 }
