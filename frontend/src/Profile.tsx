@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store/store";
-import { AccentColor, TertiaryTextColor } from "./constants";
+import { TertiaryTextColor } from "./constants";
 import React from "react";
 import { updatePlayerName } from "./store/playerSlice";
 import EditInput from "./EditInput";
@@ -9,38 +9,47 @@ import { calculateWpm } from "./helpers/raceResults";
 import Tooltip from "./Tooltip";
 
 export const Profile = () => {
-  const dispatch = useDispatch();
-  const player = useSelector((state: RootState) => state.player);
-  const raceResults = useSelector(
-    (state: RootState) => state.player.raceResults
-  );
-  const currentMode = useSelector((state: RootState) => state.player.gameMode);
+ const dispatch = useDispatch();
+ const player = useSelector(
+  (state: RootState) => state.player
+ );
+ const raceResults = useSelector(
+  (state: RootState) => state.player.raceResults
+ );
+ const currentMode = useSelector(
+  (state: RootState) => state.player.gameMode
+ );
 
-  const wpm = React.useMemo(() => {
-    return calculateWpm(raceResults, currentMode);
-  }, [currentMode, raceResults]);
+ const wpm = React.useMemo(() => {
+  return calculateWpm(raceResults, currentMode);
+ }, [currentMode, raceResults]);
 
-  const updateName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(updatePlayerName(e.target.value));
-    Cookies.set("name", e.target.value, {
-      sameSite: "strict",
-      expires: 3650,
-    });
-  };
+ const updateName = (
+  e: React.ChangeEvent<HTMLInputElement>
+ ) => {
+  dispatch(updatePlayerName(e.target.value));
+  Cookies.set("name", e.target.value, {
+   sameSite: "strict",
+   expires: 3650,
+  });
+ };
 
-  return (
-    <div className="flex flex-row rounded-lg space-x-2">
-      <div className=" flex flex-row items-center space-x-1">
-        <EditInput value={player.name} onChange={updateName} />
-      </div>
-      <Tooltip content="The average wpm of your past 10 games in the current mode.">
-        <div className="rounded-lg py-2 px-3 space-x-1 padding-auto flex flex-row items-center justify-center bg-neutral-color">
-          <span style={{ color: AccentColor }}>{wpm || "—"}</span>
-          <span className="text-sm" style={{ color: TertiaryTextColor }}>
-            wpm
-          </span>
-        </div>
-      </Tooltip>
+ return (
+  <div className="flex flex-row rounded-lg space-x-2">
+   <div className=" flex flex-row items-center space-x-1">
+    <EditInput value={player.name} onChange={updateName} />
+   </div>
+   <Tooltip content="The average wpm of your past 10 games in the current mode.">
+    <div className="rounded-lg py-2 px-3 space-x-1 padding-auto flex flex-row items-center justify-center bg-neutral-color">
+     <span className="text-accent">{wpm || "—"}</span>
+     <span
+      className="text-sm"
+      style={{ color: TertiaryTextColor }}
+     >
+      wpm
+     </span>
     </div>
-  );
+   </Tooltip>
+  </div>
+ );
 };

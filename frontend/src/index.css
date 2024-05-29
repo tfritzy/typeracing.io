@@ -5,12 +5,14 @@
 
 :root {
   --accent: #bfdbfe;
-  --accent-tertiary: #a7f3d022;
+  --accent-100: #bfdbfe50;
+  --accent-200: #bfdbfe10;
   --text-primary: "#dfe3e8";
   --background-color: #22272e;
   --neutral-color: #1c2128;
   --border-color: #3a414a;
 }
+
 
 body {
   margin: 0;
@@ -23,7 +25,7 @@ body {
 
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 15px; /* Optional: adds some padding to the sides */
+  padding: 0 5px;
 }
 
 h1 {

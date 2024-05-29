@@ -1,6 +1,5 @@
 import React from "react";
 import {
- AccentColor,
  SecondaryTextColor,
  TextColor,
  VeryChillBorder,
@@ -22,12 +21,14 @@ export const Hotkey = (props: HotkeyProps) => {
    } uppercase font-mono rounded w-min translate-y-[1px]`}
    style={{
     backgroundColor: props.accent
-     ? AccentColor + "11"
+     ? "var(--accent-200)"
      : VeryChillBorder,
     borderColor: props.accent
-     ? AccentColor + "20"
+     ? "var(--accent-200)"
      : TextColor + "20",
-    color: props.accent ? AccentColor : SecondaryTextColor,
+    color: props.accent
+     ? "var(--accent)"
+     : SecondaryTextColor,
    }}
   >
    {props.code}

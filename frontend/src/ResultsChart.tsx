@@ -1,11 +1,7 @@
 import React from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import {
- AccentColor,
- BorderColor,
- VeryChillBorder,
-} from "./constants";
+import { BorderColor, VeryChillBorder } from "./constants";
 import { ErrorsAtTime } from "./compiled";
 
 const secondaryColor = "#555555";
@@ -71,11 +67,11 @@ export const LineChart = (props: LineChartProps) => {
    stroke: {
     curve: "monotoneCubic",
     width: 2,
-    colors: [secondaryColor, AccentColor],
+    colors: [secondaryColor, "var(--accent)"],
     lineCap: "square",
    },
    markers: {
-    colors: [secondaryColor, AccentColor],
+    colors: [secondaryColor, "var(--accent)"],
     size: 0,
     strokeWidth: 0,
    },
