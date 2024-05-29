@@ -92,12 +92,7 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
           <span style={{ color: SecondaryTextColor }}>WPM</span>
         </div>
       </div>
-      <div
-        className="w-full h-[2px] mt-2 relative rounded-full"
-        style={{
-          backgroundColor: "#00000022",
-        }}
-      >
+      <div className="w-full h-[2px] mt-2 relative rounded-full bg-border-color">
         <div
           className="h-full transition-all duration-350 ease-in-out rounded-full"
           style={{

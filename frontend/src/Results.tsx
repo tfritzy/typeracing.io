@@ -4,13 +4,7 @@ import { LineChart, Series } from "./ResultsChart";
 import { useEffect, useMemo, useState } from "react";
 import { PlayerData } from "./store/gameSlice";
 import { ErrorsAtTime } from "./compiled";
-import {
-  BorderColor,
-  ChillBorder,
-  NeutralColor,
-  TertiaryTextColor,
-  VeryChillBorder,
-} from "./constants";
+import { VeryChillBorder } from "./constants";
 
 export const Results = () => {
   const [wpmData, setWpmData] = useState<{

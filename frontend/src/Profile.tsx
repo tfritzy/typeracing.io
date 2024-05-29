@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store/store";
-import { AccentColor, NeutralColor, TertiaryTextColor } from "./constants";
+import { AccentColor, TertiaryTextColor } from "./constants";
 import React from "react";
 import { updatePlayerName } from "./store/playerSlice";
 import EditInput from "./EditInput";
@@ -34,10 +34,7 @@ export const Profile = () => {
         <EditInput value={player.name} onChange={updateName} />
       </div>
       <Tooltip content="The average wpm of your past 10 games in the current mode.">
-        <div
-          className="rounded-lg py-2 px-3 space-x-1 padding-auto flex flex-row items-center justify-center"
-          style={{ backgroundColor: NeutralColor }}
-        >
+        <div className="rounded-lg py-2 px-3 space-x-1 padding-auto flex flex-row items-center justify-center bg-neutral-color">
           <span style={{ color: AccentColor }}>{wpm || "—"}</span>
           <span className="text-sm" style={{ color: TertiaryTextColor }}>
             wpm

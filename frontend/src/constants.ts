@@ -1,7 +1,5 @@
 export const BrandColor = "#fde68a";
 export const SpeedOfLightKmS = 299_792.458;
-export const BackgroundColor = "#24292e";
-export const NeutralColor = "#1f2428";
 export const TextColor = "#dfe3e8";
 export const SecondaryTextColor = TextColor + "aa";
 export const TertiaryTextColor = TextColor + "55";

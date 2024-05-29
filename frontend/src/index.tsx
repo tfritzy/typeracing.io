@@ -5,7 +5,7 @@ import App from "./App";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import { BrowserRouter } from "react-router-dom";
-import { AccentColor, NeutralColor, TextColor } from "./constants";
+import { AccentColor, TextColor } from "./constants";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -17,10 +17,9 @@ root.render(
       style={{
         textAlign: "center",
         backgroundColor: AccentColor,
-        color: NeutralColor,
         fontWeight: "normal",
       }}
-      className="fixed bottom-0 left-0 w-full"
+      className="fixed bottom-0 left-0 w-full bg-neutral-color"
     >
       Extremely alpha version. Expect frequent outages and broken stuff.
     </div>

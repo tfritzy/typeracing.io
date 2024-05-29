@@ -1,11 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Xmark } from "iconoir-react";
-import {
-  BackgroundColor,
-  NeutralColor,
-  TertiaryTextColor,
-  TextColor,
-} from "./constants";
+import { TertiaryTextColor } from "./constants";
 
 type ModalProps = {
   children: React.ReactNode;
@@ -45,9 +40,8 @@ export const Modal = (props: ModalProps) => {
       ref={dialogRef}
       id="modal"
       open={props.open}
-      className="rounded-lg shadow-lg text-main transition-all shadow-[#00000055]"
+      className="rounded-lg shadow-lg text-main transition-all shadow-[#00000055] bg-neutral-color"
       style={{
-        backgroundColor: NeutralColor + "aa",
         backdropFilter: "blur(5px)",
       }}
     >

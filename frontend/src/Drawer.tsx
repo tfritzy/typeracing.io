@@ -1,13 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Xmark } from "iconoir-react";
-import {
-  AccentColor,
-  BackgroundColor,
-  NeutralColor,
-  TertiaryTextColor,
-  TextColor,
-  VeryChillBorder,
-} from "./constants";
+import { VeryChillBorder } from "./constants";
 
 type DrawerProps = {
   title: string;
@@ -89,10 +82,9 @@ export const Drawer = (props: DrawerProps) => {
 
   return (
     <div
-      className={`fixed flex flex-col shadow-lg h-screen bottom-0 right-0 transition-transform transform ${
+      className={`fixed flex bg-neutral-color flex-col shadow-lg h-screen bottom-0 right-0 transition-transform transform ${
         props.open ? "" : "translate-x-full"
       }`}
-      style={{ backgroundColor: NeutralColor }}
       ref={drawerRef}
     >
       <div

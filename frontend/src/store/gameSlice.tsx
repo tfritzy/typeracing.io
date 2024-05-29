@@ -9,8 +9,7 @@ import {
   WordFinished,
   YouveBeenAddedToGame,
 } from "../compiled";
-import { getColorForPlayer } from "../helpers/getColor";
-import { AccentColor, SecondaryTextColor } from "../constants";
+import { AccentColor } from "../constants";
 
 export enum GameStage {
   Invalid,
@@ -120,7 +119,7 @@ export const gameSlice = createSlice({
         velocity_km_s: 0,
         position_km: 0,
         is_disconnected: false,
-        themeColor: SecondaryTextColor,
+        themeColor: "var(--border-color)",
         is_bot: action.payload.player?.is_bot || false,
         most_recent_wpm: 0,
         accuracy: 0,
