@@ -79,7 +79,10 @@ public class Game
 
     private void CheckGameEnd()
     {
-        bool allRealPlayersGone = Players.All(player => player.BotConfig != null || player.IsDisconnected);
+        bool allRealPlayersGone = Players.All(player =>
+            player.BotConfig != null ||
+            player.IsDisconnected ||
+            Galaxy.PlayerGameMap.ContainsKey(player.Id) && Galaxy.PlayerGameMap[player.Id] != Id);
         if (allRealPlayersGone)
         {
             Logger.Log("All real players gone, closing game");
@@ -138,6 +141,11 @@ public class Game
             }
 
             if (player.BotConfig != null)
+            {
+                continue;
+            }
+
+            if (Galaxy.PlayerGameMap.ContainsKey(player.Id) && Galaxy.PlayerGameMap[player.Id] != Id)
             {
                 continue;
             }
