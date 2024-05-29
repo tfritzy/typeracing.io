@@ -127,8 +127,8 @@ public class Server
                 }
                 else if (receiveResult.MessageType == WebSocketMessageType.Close)
                 {
-                    Api.DisconnectPlayer(token, Galaxy);
                     Logger.Log("WebSocket connection closed by client.");
+                    Api.DisconnectPlayer(token, Galaxy);
                     Connections.Remove(token);
                     await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
                 }

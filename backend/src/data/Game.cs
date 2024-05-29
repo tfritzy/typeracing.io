@@ -144,6 +144,7 @@ public class Game
 
             if (Galaxy.Time.Now - player.LastSeen > Constants.InactiveTimeBeforeKicking)
             {
+                Logger.Log($"Kicking player {player.Name} for inactivity. Now: {Galaxy.Time.Now}, LastSeen: {player.LastSeen}");
                 Api.DisconnectPlayer(player.Id, Galaxy);
             }
         }
