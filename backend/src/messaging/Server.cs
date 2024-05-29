@@ -47,7 +47,12 @@ public class Server
         string envFile = environment == "Production" ? ".env.production" : ".env";
         Env.Load(envFile);
 
-        string url = Environment.GetEnvironmentVariable("HOSTED_ADDRESS")!;
+        string? url = Environment.GetEnvironmentVariable("HOSTED_ADDRESS");
+        if (String.IsNullOrEmpty(url))
+        {
+            throw new Exception("HOSTED_ADDRESS environment variable not set.");
+        }
+
         httpListener.Prefixes.Add(url);
         httpListener.Start();
         Logger.Log("Listening on " + url);
