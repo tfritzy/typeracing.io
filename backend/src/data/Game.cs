@@ -56,6 +56,14 @@ public class Game
         }
     }
 
+    public bool HasPlayerLeft(InGamePlayer player)
+    {
+        return
+            player.IsDisconnected ||
+            Galaxy.PlayerGameMap.ContainsKey(player.Id) && Galaxy.PlayerGameMap[player.Id] != Id ||
+            !Galaxy.PlayerGameMap.ContainsKey(player.Id);
+    }
+
     private void CheckStartGame()
     {
         if (State != GameState.Countdown)
@@ -135,17 +143,12 @@ public class Game
         {
             InGamePlayer player = Players[i];
 
-            if (player.IsDisconnected)
+            if (HasPlayerLeft(player))
             {
                 continue;
             }
 
             if (player.BotConfig != null)
-            {
-                continue;
-            }
-
-            if (Galaxy.PlayerGameMap.ContainsKey(player.Id) && Galaxy.PlayerGameMap[player.Id] != Id)
             {
                 continue;
             }

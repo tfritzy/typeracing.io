@@ -274,7 +274,7 @@ public static class Api
 
     private static void CheckGameOver(Galaxy galaxy, Game game)
     {
-        if (game.Players.All((p) => p.PhraseIndex >= game.Phrase.Length || p.IsDisconnected))
+        if (game.Players.All((p) => p.PhraseIndex >= game.Phrase.Length || game.HasPlayerLeft(p)))
         {
             Logger.Log($"Game {game.Id} is over.");
             game.State = Game.GameState.Complete;
@@ -367,7 +367,7 @@ public static class Api
         Logger.Log($"Closing game {game.Id}.");
         foreach (InGamePlayer player in new List<InGamePlayer>(game.Players))
         {
-            if (!player.IsDisconnected)
+            if (!game.HasPlayerLeft(player))
             {
                 DisconnectPlayer(player.Id, galaxy);
             }
