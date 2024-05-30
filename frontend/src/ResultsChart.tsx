@@ -3,9 +3,9 @@ import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import { ErrorsAtTime } from "./compiled";
 
-const secondaryColor = "#555555";
-const areaColor = "#00000022";
-const textColor = "#888888";
+const secondaryColor = "var(--text-tertiary)";
+const areaColor = "#00000033";
+const textColor = "var(--text-secondary)";
 
 export type Series = {
   name: string;

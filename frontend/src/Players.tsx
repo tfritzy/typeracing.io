@@ -34,7 +34,7 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
     );
   } else {
     playerName = (
-      <div className="text-lg font-thin font-mono">
+      <div className="font-normal">
         <div className="flex flex-row space-x-1 items-center">
           <div>{player?.name || <Spinner />}</div>
           {isSelf && <div className="text-text-tertiary"> (You)</div>}
