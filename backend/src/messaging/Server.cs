@@ -4,6 +4,7 @@ using System.Net.WebSockets;
 using System.Security.Cryptography.X509Certificates;
 using Google.Protobuf;
 using DotNetEnv;
+using Schema;
 
 namespace LightspeedTyperacing;
 
@@ -12,7 +13,6 @@ public class Server
     public Dictionary<string, WebSocket> Connections { get; set; }
     public Galaxy Galaxy { get; set; }
     private const int interval = 1000 / 15;
-    private bool running = false;
     private DateTime start = DateTime.Now;
 
     public Server()
@@ -83,7 +83,7 @@ public class Server
 
     public async Task AcceptConnection(HttpListenerContext context)
     {
-        WebSocketContext webSocketContext = null;
+        WebSocketContext? webSocketContext = null;
         var id = context.Request.QueryString["id"];
         if (id == null)
         {

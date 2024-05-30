@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
+using Schema;
 
 namespace LightspeedTyperacing;
 
@@ -25,6 +26,8 @@ public static class Phrases
             GameMode.Marathon => GetPhraseFromWordFile("CommonWords.txt", 80, 115),
             GameMode.FakeWords => GetRandomLetterPhrase(20, 25),
             GameMode.LongestHundred => GetPhraseFromWordFile("LongestHundred.txt", 10, 15),
+            Schema.GameMode.Invalid => throw new InvalidOperationException("Invalid game mode."),
+            _ => throw new InvalidOperationException("Invalid game mode."),
         };
     }
 
@@ -77,8 +80,8 @@ public static class Phrases
             int lineNumber = 0;
             while (!sr.EndOfStream)
             {
-                string line = sr.ReadLine();
-                if (lineNumbersToInclude.Contains(lineNumber))
+                string? line = sr.ReadLine();
+                if (line != null && lineNumbersToInclude.Contains(lineNumber))
                 {
                     words[lineNumbersToInclude.IndexOf(lineNumber)] = line;
                 }

@@ -1,3 +1,5 @@
+using Schema;
+
 namespace LightspeedTyperacing;
 
 public static class Stats

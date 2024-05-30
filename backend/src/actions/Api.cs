@@ -1,3 +1,5 @@
+using Schema;
+
 namespace LightspeedTyperacing;
 
 public static class Api
@@ -26,7 +28,7 @@ public static class Api
         AddPlayerToGame(galaxy, game, new InGamePlayer(playerName, playerId, playerToken));
     }
 
-    public static Game FindFirstMatchingGame(HashSet<GameMode> enabledModes, Galaxy galaxy)
+    public static Game? FindFirstMatchingGame(HashSet<GameMode> enabledModes, Galaxy galaxy)
     {
         lock (galaxy.OpenGames)
         {
