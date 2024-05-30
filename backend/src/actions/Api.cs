@@ -292,15 +292,15 @@ public static class Api
         }
     }
 
-    public static void DisconnectPlayer(string playerId, Galaxy galaxy)
+    public static void DisconnectPlayer(string playerId, Galaxy galaxy, string? gameId = null)
     {
         if (!galaxy.PlayerGameMap.ContainsKey(playerId))
         {
             return;
         }
 
-        string gameId = galaxy.PlayerGameMap[playerId];
         Game? game = null;
+        gameId ??= galaxy.PlayerGameMap[playerId];
         if (galaxy.ActiveGames.ContainsKey(gameId))
         {
             game = galaxy.ActiveGames[gameId];
@@ -341,7 +341,10 @@ public static class Api
             });
         }
 
-        galaxy.PlayerGameMap.Remove(playerId);
+        if (galaxy.PlayerGameMap[playerId] == game.Id)
+        {
+            galaxy.PlayerGameMap.Remove(playerId);
+        }
 
         if (game.State == Game.GameState.Lobby)
         {
@@ -369,9 +372,13 @@ public static class Api
         {
             if (!game.HasPlayerLeft(player))
             {
-                DisconnectPlayer(player.Id, galaxy);
+                DisconnectPlayer(player.Id, galaxy, game.Id);
             }
-            galaxy.PlayerGameMap.Remove(player.Id);
+
+            if (galaxy.PlayerGameMap.ContainsKey(player.Id) && galaxy.PlayerGameMap[player.Id] == game.Id)
+            {
+                galaxy.PlayerGameMap.Remove(player.Id);
+            }
         }
 
         galaxy.ActiveGames.Remove(game.Id);

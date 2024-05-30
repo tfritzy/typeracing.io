@@ -72,13 +72,20 @@ public class DisconnectTests
         test.Galaxy.ClearOutbox();
 
         Api.DisconnectPlayer(test.Player1.Id, test.Galaxy);
-        Assert.AreEqual(1, test.Galaxy.OutboxCount());
-        OneofUpdate? update = test.Galaxy.GetUpdate();
-        Assert.IsNotNull(update);
-        Assert.AreEqual(test.Player2.Id, update.RecipientId);
-        PlayerDisconnected disconnected = update.PlayerDisconnected;
+        Assert.AreEqual(2, test.Galaxy.OutboxCount());
+        OneofUpdate? update1 = test.Galaxy.GetUpdate();
+        Assert.IsNotNull(update1);
+        Assert.AreEqual(test.Player1.Id, update1.RecipientId);
+        PlayerDisconnected disconnected = update1.PlayerDisconnected;
         Assert.AreEqual(test.Player1.Id, disconnected.PlayerId);
+        Assert.IsTrue(disconnected.IsYou);
 
+        OneofUpdate? update2 = test.Galaxy.GetUpdate();
+        Assert.IsNotNull(update2);
+        Assert.AreEqual(test.Player2.Id, update2.RecipientId);
+        disconnected = update2.PlayerDisconnected;
+        Assert.AreEqual(test.Player1.Id, disconnected.PlayerId);
+        Assert.IsFalse(disconnected.IsYou);
     }
 
     [TestMethod]
@@ -93,7 +100,7 @@ public class DisconnectTests
         test.Galaxy.ClearOutbox();
         Api.DisconnectPlayer(test.Player1.Id, test.Galaxy);
 
-        Assert.AreEqual(2, test.Galaxy.OutboxCount()); // player 2 and player 3
+        Assert.AreEqual(3, test.Galaxy.OutboxCount()); // player 1, 2 and 3
         Assert.AreEqual(1, test.Galaxy.OutboxMessages().Count(u => u.RecipientId == test.Player2.Id));
         Assert.AreEqual(1, test.Galaxy.OutboxMessages().Count(u => u.RecipientId == player3.Id));
 

@@ -53,12 +53,21 @@ public class Galaxy
         }
 
         string gameId = PlayerGameMap[id];
-        if (!ActiveGames.ContainsKey(gameId))
+        Game? game;
+        if (ActiveGames.ContainsKey(gameId))
+        {
+            game = ActiveGames[gameId];
+        }
+        else
+        {
+            game = OpenGames.Find(game => game.Id == gameId);
+        }
+
+        if (game == null)
         {
             return null;
         }
 
-        Game game = ActiveGames[gameId];
         return game.Players.Find(player => player.Id == id);
     }
 

@@ -56,7 +56,14 @@ public static class TH
 
     public static Game FindGameOfPlayer(Galaxy galaxy, InGamePlayer player)
     {
-        return galaxy.ActiveGames[galaxy.PlayerGameMap[player.Id]];
+        string gameId = galaxy.PlayerGameMap[player.Id];
+
+        if (galaxy.ActiveGames.ContainsKey(gameId))
+        {
+            return galaxy.ActiveGames[gameId];
+        }
+
+        return galaxy.OpenGames.First(g => g.Id == gameId);
     }
 
     public static List<OneofUpdate> GetUpdatesOfType(Galaxy galaxy, OneofUpdate.UpdateOneofCase type)

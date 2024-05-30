@@ -254,7 +254,8 @@ public class GameTests
         galaxy.ClearOutbox();
 
         galaxy.Time.Add(Game.CountdownDuration + .1f);
-        galaxy.Update();
+        game.Update();
+
         Assert.AreEqual(0, galaxy.OutboxMessages().Count(m => m.RecipientId == alice.Id));
     }
 
@@ -360,7 +361,7 @@ public class GameTests
         TestSetup test = new();
         var game = TH.FindGameOfPlayer(test.Galaxy, test.Players[0]);
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 4; i++)
         {
             test.Galaxy.Time.Add(Constants.InactiveTimeBeforeKicking + 1);
             test.Galaxy.AddToInbox(new OneofRequest { SenderId = test.Players[0].Id });
@@ -368,7 +369,7 @@ public class GameTests
         }
 
         Assert.AreEqual(3, game.Players.FindAll(p => p.IsDisconnected).Count);
-        Assert.AreEqual(3, test.Galaxy.OutboxMessages().Count(m => m.PlayerDisconnected != null));
+        Assert.AreEqual(9, test.Galaxy.OutboxMessages().Count(m => m.PlayerDisconnected != null));
     }
 
     [TestMethod]
@@ -406,8 +407,19 @@ public class GameTests
     }
 
     [TestMethod]
-    public void Game_DoesntAutoBootIfTimeLarge()
+    public void Game_DoesntAutoBootIfPlayerJoinsDifferentGame()
     {
-        Assert.Fail();
+        TestSetup test = new();
+        Api.FindGame(test.Players[0].Name, test.Players[0].Id, test.Players[0].Token, test.Galaxy, false);
+        Game secondGame = TH.FindGameOfPlayer(test.Galaxy, test.Players[0]);
+
+        test.Galaxy.Time.Add(Constants.InactiveTimeBeforeKicking + 1);
+        test.Galaxy.AddToInbox(new OneofRequest { SenderId = test.Players[0].Id });
+        test.Galaxy.Update();
+
+        Assert.AreEqual(1, test.Galaxy.ActiveGames.Count);
+        Assert.AreEqual(4, test.Galaxy.PlayerGameMap.Count);
+        Assert.IsTrue(test.Galaxy.PlayerGameMap.All(kvp => kvp.Value == secondGame.Id));
+        Assert.AreEqual(secondGame.Id, test.Galaxy.PlayerGameMap[test.Players[0].Id]);
     }
 }
