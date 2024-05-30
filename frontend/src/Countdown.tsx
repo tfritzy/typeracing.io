@@ -1,5 +1,4 @@
 import React from "react";
-import { ChillBorder, TextColor } from "./constants";
 
 type CountdownProps = {
   startTime: number;
@@ -39,9 +38,8 @@ export const Countdown = (props: CountdownProps) => {
       }}
     >
       <div
-        className="absolute flex flex-row space-x-2 border-l border-r border-b pt-3 rounded-b-sm p-2 transition-transform duration-500 bg-neutral-color"
+        className="absolute flex flex-row space-x-2 border-l border-r border-b pt-3 rounded-b-sm p-2 transition-transform duration-500 bg-neutral-color border-border-color"
         style={{
-          borderColor: ChillBorder,
           transform: `translateY(${timeTillStart > 6 ? 0 : 45}px)`,
         }}
       >
@@ -65,20 +63,8 @@ export const Countdown = (props: CountdownProps) => {
           }`}
         />
       </div>
-      <div
-        className="relative font-mono p-1 px-3 text-lg font-bold flex flex-col items-center rounded-sm border overflow-hidden min-w-52 bg-neutral-color"
-        style={{
-          borderColor: ChillBorder,
-        }}
-      >
-        <div
-          className="p-1"
-          style={{
-            color: TextColor,
-          }}
-        >
-          {string}
-        </div>
+      <div className="relative font-mono p-1 px-3 text-lg font-bold flex flex-col items-center rounded-sm border overflow-hidden min-w-52 bg-neutral-color border-border-color">
+        <div className="p-1 text-text-primary">{string}</div>
       </div>
     </div>
   );

@@ -4,7 +4,6 @@ import { LineChart, Series } from "./ResultsChart";
 import { useEffect, useMemo, useState } from "react";
 import { PlayerData } from "./store/gameSlice";
 import { ErrorsAtTime } from "./compiled";
-import { VeryChillBorder } from "./constants";
 
 export const Results = () => {
   const [wpmData, setWpmData] = useState<{
@@ -59,7 +58,7 @@ export const Results = () => {
     } else if (wpm >= 60) {
       return "text-neutral-300";
     } else {
-      return "text-secondary";
+      return "text-text-secondary";
     }
   };
 
@@ -71,7 +70,7 @@ export const Results = () => {
     } else if (accuracy >= 0.95) {
       return "text-neutral-300";
     } else {
-      return "text-secondary";
+      return "text-text-secondary";
     }
   };
 
@@ -94,7 +93,7 @@ export const Results = () => {
         <div
           className={`p-3 py-2 min-w-24 rounded-lg ${getClassForWpm(finalWpm)}`}
         >
-          <div className="text-sm text-tertiary">WPM</div>
+          <div className="text-sm text-text-tertiary">WPM</div>
           <div
             className={`text-3xl border-none font-mono mx-auto ${getClassForWpm(
               finalWpm
@@ -109,41 +108,38 @@ export const Results = () => {
             self?.accuracy || 0
           )}`}
         >
-          <div className="text-sm text-tertiary">Accuracy</div>
+          <div className="text-sm text-text-tertiary">Accuracy</div>
           <div className={"text-3xl border-none font-mono"}>
             {((self?.accuracy || 0) * 100).toFixed(0)}%
           </div>
         </div>
 
-        <div
-          className="h-12 w-1 border-r my-auto"
-          style={{ borderColor: VeryChillBorder }}
-        />
+        <div className="h-12 w-1 border-r my-auto border-border-color" />
 
         <div className="p-3 px-6 h-full">
-          <div className="text-sm text-tertiary">Time</div>
+          <div className="text-sm text-text-tertiary">Time</div>
           <div className="text-xl font-mono text-primary">
             {durationFormatted}
           </div>
         </div>
 
         <div className="p-3 px-6">
-          <div className="text-sm text-tertiary">Words</div>
+          <div className="text-sm text-text-tertiary">Words</div>
           <div className="text-xl font-mono text-primary">{numWords}</div>
         </div>
 
         <div className="p-3 px-6">
-          <div className="text-sm text-tertiary">Mistakes</div>
+          <div className="text-sm text-text-tertiary">Mistakes</div>
           <div className="text-xl font-mono text-primary">{numErrors}</div>
         </div>
 
         <div className="p-3 px-6">
-          <div className="text-sm text-tertiary">Characters</div>
+          <div className="text-sm text-text-tertiary">Characters</div>
           <div className="text-xl font-mono text-primary">{numCharacters}</div>
         </div>
 
         <div className="p-3 px-6">
-          <div className="text-sm text-tertiary">Characters/s</div>
+          <div className="text-sm text-text-tertiary">Characters/s</div>
           <div className="text-xl font-mono text-primary">
             {(numCharacters / duration).toFixed(1)}
           </div>

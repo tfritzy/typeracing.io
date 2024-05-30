@@ -8,7 +8,7 @@ type InputWithIconProps = {
 
 export const EditInput = ({ value, onChange }: InputWithIconProps) => {
   return (
-    <div className="relative w-full text-secondary">
+    <div className="relative w-full text-text-secondary">
       <input
         type="text"
         value={value}

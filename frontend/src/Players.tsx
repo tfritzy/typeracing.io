@@ -2,45 +2,18 @@ import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import { Settings, StarSolid } from "iconoir-react";
-import { SecondaryTextColor, TertiaryTextColor, TextColor } from "./constants";
 import { PlayerData } from "./store/gameSlice";
 import { Spinner } from "./Spinner";
 import Tooltip from "./Tooltip";
 
-const placementColors = [
-  [TextColor, TextColor],
-  [SecondaryTextColor, SecondaryTextColor],
-  [TertiaryTextColor, TertiaryTextColor],
-  [TertiaryTextColor, TertiaryTextColor],
-  [TertiaryTextColor, TertiaryTextColor],
-];
-
 const placementText = [
-  <span
-    style={{ color: placementColors[0][1] }}
-    className="font-semibold flex flex-row items-center space-x-1"
-  >
+  <span className="font-semibold flex flex-row items-center space-x-1 pulsing-gradient-text">
     <span>1st</span>
     <StarSolid width={16} height={16} />
   </span>,
-  <span
-    style={{ color: placementColors[1][1] }}
-    className="text-neutral-200 font-semibold"
-  >
-    2nd
-  </span>,
-  <span
-    style={{ color: placementColors[2][1] }}
-    className="text-amber-600 font-semibold"
-  >
-    3rd
-  </span>,
-  <span
-    style={{ color: placementColors[3][1] }}
-    className="text-amber-600 font-semibold"
-  >
-    4th
-  </span>,
+  <span className="font-semibold text-text-primary">2nd</span>,
+  <span className="font-semibold text-text-secondary">3rd</span>,
+  <span className="font-semibold text-text-tertiary">4th</span>,
 ];
 
 const PlayerRow = ({ player }: { player?: PlayerData }) => {
@@ -55,7 +28,7 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
   if (player?.is_disconnected) {
     playerName = (
       <div className="text-lg flex flex-row space-x-1 items-center">
-        <span className="text-secondary line-through">{player.name}</span>
+        <span className="text-text-secondary line-through">{player.name}</span>
         <span className="text-sm"> (Disconnected)</span>
       </div>
     );
@@ -64,12 +37,12 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
       <div className="text-lg font-thin font-mono">
         <div className="flex flex-row space-x-1 items-center">
           <div>{player?.name || <Spinner />}</div>
-          {isSelf && <div className="text-tertiary"> (You)</div>}
+          {isSelf && <div className="text-text-tertiary"> (You)</div>}
           {player?.is_bot && (
             <Tooltip content="This player is a bot. Bots are needed before/if ever this game gets a large enough playerbase. Share this game with your friends to help remove them.">
               <div
                 key="gear"
-                className="text-tertiary animate-spin ease-linear"
+                className="text-text-tertiary animate-spin ease-linear"
               >
                 <Settings width={16} height={16} />
               </div>
@@ -83,16 +56,16 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
   return (
     <div className="h-md relative">
       <div className="flex flex-row items-center justify-between space-x-2 w-full">
-        <div className="flex text-secondary flex-row space-x-2 items-center">
+        <div className="flex text-text-secondary flex-row space-x-2 items-center">
           <span>{playerName}</span>
           <span>{place !== -1 ? placementText[place] : ""} </span>
         </div>
         <div>
           {player?.most_recent_wpm.toFixed(0)}{" "}
-          <span style={{ color: SecondaryTextColor }}>WPM</span>
+          <span className="text-text-secondary">WPM</span>
         </div>
       </div>
-      <div className="w-full h-[2px] mt-2 relative rounded-full bg-neutral-color">
+      <div className="w-full h-[5px] rounded-full mt-2 relative bg-neutral-color">
         <div
           className="h-full transition-all duration-350 ease-in-out rounded-full"
           style={{

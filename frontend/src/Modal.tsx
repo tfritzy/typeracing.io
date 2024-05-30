@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import { Xmark } from "iconoir-react";
-import { TertiaryTextColor } from "./constants";
 
 type ModalProps = {
   children: React.ReactNode;
@@ -40,15 +39,12 @@ export const Modal = (props: ModalProps) => {
       ref={dialogRef}
       id="modal"
       open={props.open}
-      className="rounded-lg shadow-lg text-main transition-all shadow-[#00000055] bg-neutral-color"
+      className="rounded-lg shadow-lg text-text-primary transition-all shadow-[#00000055] bg-neutral-color"
       style={{
         backdropFilter: "blur(5px)",
       }}
     >
-      <div
-        className="flex flex-row justify-between w-full p-3 pl-4 font-semibold border-b"
-        style={{ borderColor: TertiaryTextColor }}
-      >
+      <div className="flex flex-row justify-between w-full p-3 pl-4 font-semibold border-b border-text-tertiary">
         <div>{props.title}</div>
         <button onClick={props.onClose} className="rounded-full">
           <Xmark />
