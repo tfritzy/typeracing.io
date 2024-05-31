@@ -70,7 +70,7 @@ const Cursor = (props: CursorProps) => {
 
   return (
     <span
-      className={`h-[26px] w-[2px] rounded-full bg-accent fixed ${
+      className={`h-[26px] w-[2px] rounded-full bg-text-primary fixed ${
         props.pulsing ? "cursor" : ""
       }`}
       style={{
