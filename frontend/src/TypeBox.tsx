@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { RefObject, useEffect, useState } from "react";
 import { GoLabel } from "./GoLabel";
 import { KeyStroke } from "./compiled";
 
@@ -8,6 +8,79 @@ function lerp(start: number, end: number, alpha: number) {
 
 const cursorYOffset = 2;
 const cursorXOffset = -1;
+
+type CursorProps = {
+  targetObject: RefObject<HTMLSpanElement>;
+  pulsing: boolean;
+  disabled: boolean;
+  currentWord: string;
+};
+
+const Cursor = (props: CursorProps) => {
+  const [cursorXPos, setCursorXPos] = useState(0);
+  const [cursorYPos, setCursorYPos] = useState(0);
+  const [targetCursorXPos, setTargetCursorXPos] = useState(0);
+  const [targetCursorYPos, setTargetCursorYPos] = useState(0);
+
+  const resetPos = React.useCallback(() => {
+    if (props.targetObject.current) {
+      const cursorRect = props.targetObject.current.getBoundingClientRect();
+      setTargetCursorXPos(cursorRect.left + cursorXOffset);
+      setTargetCursorYPos(cursorRect.top + cursorYOffset);
+      setCursorXPos(cursorRect.left + cursorXOffset);
+      setCursorYPos(cursorRect.top + cursorYOffset);
+    }
+  }, [props.targetObject]);
+
+  useEffect(() => {
+    let frameId: number;
+
+    const animate = () => {
+      setCursorXPos((prevX) => lerp(prevX, targetCursorXPos, 0.4));
+      setCursorYPos((prevY) => lerp(prevY, targetCursorYPos, 0.4));
+
+      frameId = requestAnimationFrame(animate);
+    };
+
+    frameId = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+    };
+  }, [targetCursorXPos, targetCursorYPos]);
+
+  useEffect(() => {
+    function handleResize() {
+      resetPos();
+    }
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, [resetPos]);
+
+  useEffect(() => {
+    if (props.targetObject.current) {
+      const cursorRect = props.targetObject.current.getBoundingClientRect();
+      setTargetCursorXPos(cursorRect.left + cursorXOffset);
+      setTargetCursorYPos(cursorRect.top + cursorYOffset);
+    }
+  }, [props.currentWord]);
+
+  return (
+    <span
+      className={`h-[26px] w-[2px] rounded-full bg-accent fixed ${
+        props.pulsing ? "cursor" : ""
+      }`}
+      style={{
+        top: cursorYPos,
+        left: cursorXPos,
+      }}
+      hidden={props.disabled}
+    />
+  );
+};
 
 type TypeBoxProps = {
   phrase: string;
@@ -33,30 +106,14 @@ export const TypeBox = (props: TypeBoxProps) => {
   }>({ length: 0, strokes: [] });
   const wordErrorsCount = React.useRef<number>(0);
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const [cursorXPos, setCursorXPos] = useState(0);
-  const [cursorYPos, setCursorYPos] = useState(0);
-  const [targetCursorXPos, setTargetCursorXPos] = useState(0);
-  const [targetCursorYPos, setTargetCursorYPos] = useState(0);
   const [cursorPulsing, setCursorPinging] = useState(true);
   const setPingingRef = React.useRef<NodeJS.Timeout | null>();
-
-  const resetPos = React.useCallback(() => {
-    if (cursorRef.current) {
-      const cursorRect = cursorRef.current.getBoundingClientRect();
-      setTargetCursorXPos(cursorRect.left + cursorXOffset);
-      setTargetCursorYPos(cursorRect.top + cursorYOffset);
-      setCursorXPos(cursorRect.left + cursorXOffset);
-      setCursorYPos(cursorRect.top + cursorYOffset);
-    }
-  }, []);
 
   useEffect(() => {
     if (phraseRef.current) {
       setInputWidth(phraseRef.current.clientWidth);
     }
-
-    resetPos();
-  }, [phrase, phraseRef.current?.clientWidth, resetPos]);
+  }, [phrase, phraseRef.current?.clientWidth]);
 
   const handleInput = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,55 +181,17 @@ export const TypeBox = (props: TypeBoxProps) => {
         keyStrokes.current.length = 0;
       }
     }
-  }, [currentWord, lockedCharacterIndex, onWordComplete, phrase]);
+  }, [
+    currentWord,
+    lockedCharacterIndex,
+    onWordComplete,
+    phrase,
+    props.startTime,
+  ]);
 
   useEffect(() => {
     handleWordUpdate();
   }, [currentWord, handleWordUpdate, startTime]);
-
-  useEffect(() => {
-    let frameId: number;
-
-    const animate = () => {
-      setCursorXPos((prevX) => lerp(prevX, targetCursorXPos, 0.5));
-      setCursorYPos((prevY) => lerp(prevY, targetCursorYPos, 0.5));
-
-      frameId = requestAnimationFrame(animate);
-    };
-
-    frameId = requestAnimationFrame(animate);
-
-    return () => {
-      cancelAnimationFrame(frameId);
-    };
-  }, [targetCursorXPos, targetCursorYPos]);
-
-  useEffect(() => {
-    function handleResize() {
-      resetPos();
-    }
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, [resetPos]);
-
-  useEffect(() => {
-    if (cursorRef.current) {
-      const cursorRect = cursorRef.current.getBoundingClientRect();
-      setCursorXPos(cursorRect.left + cursorXOffset);
-      setCursorYPos(cursorRect.top + cursorYOffset);
-    }
-  }, []);
-
-  useLayoutEffect(() => {
-    if (cursorRef.current) {
-      const cursorRect = cursorRef.current.getBoundingClientRect();
-      setTargetCursorXPos(cursorRect.left + cursorXOffset);
-      setTargetCursorYPos(cursorRect.top + cursorYOffset);
-    }
-  }, [currentWord]);
 
   const { text, hasError } = React.useMemo(() => {
     let text = [
@@ -220,13 +239,40 @@ export const TypeBox = (props: TypeBoxProps) => {
     return { text, hasError };
   }, [currentWord, lockedCharacterIndex, phrase]);
 
+  const refocusMessage = React.useMemo(() => {
+    return (
+      <div
+        className="absolute top-1/2 left-1/2 transform -translate-x-[50%] -translate-y-[50%] cursor-pointer transition-opacity pointer-events-none text-base w-max text-text-secondary"
+        style={{
+          opacity: !focused ? 1 : 0,
+        }}
+      >
+        Click or press 't' to focus
+      </div>
+    );
+  }, [focused]);
+
+  const errorBorder = React.useMemo(() => {
+    return (
+      <div
+        style={{
+          opacity: hasError ? 1 : 0,
+          width: "calc(100% + 20px)",
+          height: "calc(100% + 10px)",
+          left: -10,
+          top: -5,
+        }}
+        className="absolute border border-error-color rounded-lg z-[-1] transition-opacity"
+      />
+    );
+  }, [hasError]);
+
   return (
     <div className="relative">
       <div className="text-2xl type-box">
         <div
-          className="rounded-lg transition-colors"
+          className="rounded-lg transition-colors whitespace-pre-wrap"
           style={{
-            whiteSpace: "pre-wrap",
             filter: focused ? "blur(0)" : "blur(2px)",
             opacity: focused && Date.now() - startTime > 0 ? 1 : 0.5,
           }}
@@ -234,47 +280,20 @@ export const TypeBox = (props: TypeBoxProps) => {
         >
           {text}
         </div>
-        {
-          <div
-            className="absolute top-1/2 left-1/2 transform -translate-x-[50%] -translate-y-[50%] cursor-pointer transition-opacity pointer-events-none text-base w-max text-text-secondary"
-            style={{
-              opacity: !focused ? 1 : 0,
-            }}
-          >
-            Click or press 't' to focus
-          </div>
-        }
-        {
-          <div
-            style={{
-              opacity: hasError ? 1 : 0,
-              width: "calc(100% + 20px)",
-              height: "calc(100% + 10px)",
-              left: -10,
-              top: -5,
-            }}
-            className="absolute border border-error-color rounded-lg z-[-1] transition-opacity"
-          />
-        }
+        {refocusMessage}
+        {errorBorder}
         <input
           value={currentWord}
           onChange={handleInput}
           id="type-box"
-          className="w-full outline-none typebox rounded-lg"
+          className="w-full outline-none typebox rounded-lg absolute top-0 left-0 bg-transparent text-transparent max-w-full max-h-full h-full"
           ref={inputRef}
           autoCorrect="off"
           autoCapitalize="none"
           autoComplete="off"
           spellCheck={false}
           style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
             width: `${inputWidth}px`,
-            maxWidth: "100%",
-            height: "100%",
-            background: "transparent",
-            color: "transparent",
             cursor: !focused ? "pointer" : "auto",
             outline: "none",
           }}
@@ -282,18 +301,11 @@ export const TypeBox = (props: TypeBoxProps) => {
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
         />
-        <div
-          className={`h-[26px] w-[1px] bg-accent fixed ${
-            cursorPulsing ? "cursor" : ""
-          }`}
-          style={{
-            top: cursorYPos,
-            left: cursorXPos,
-          }}
-          hidden={
-            !focused || lockedCharacterIndex >= phrase.length
-            //  || Date.now() - startTime < 0
-          }
+        <Cursor
+          disabled={!focused || lockedCharacterIndex >= phrase.length}
+          pulsing={cursorPulsing}
+          targetObject={cursorRef}
+          currentWord={currentWord}
         />
       </div>
 

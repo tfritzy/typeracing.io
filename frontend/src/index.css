@@ -4,7 +4,7 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Vazirmatn:wght@100..900&display=swap'); */
 
 :root {
-  --accent: #bfdbfe;
+  --accent: #86efac;
   --accent-100: #bfdbfe50;
   --accent-200: #bfdbfe10;
   --text-primary: #e6ede6;
@@ -13,7 +13,7 @@
   --background-color: #22272e;
   --neutral-color: #1c2128;
   --border-color: #3a414a;
-  --error-color: #ff7b72;
+  --error-color: #f43f5e;
 }
 
 
@@ -99,7 +99,7 @@ h2 {
 }
 
 .accent-gradient-text {
-  background: linear-gradient(0deg, #93c5fd, var(--accent));
+  background: linear-gradient(0deg, var(--accent), white);
   background-size: 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
