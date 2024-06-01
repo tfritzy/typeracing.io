@@ -127,7 +127,7 @@ public static class Stats
             {
                 if (typedStack.Count > 0)
                 {
-                    if (typedStack.Peek() != phrase[typedStack.Count - 1])
+                    if (typedStack.Count > phrase.Length || typedStack.Peek() != phrase[typedStack.Count - 1])
                     {
                         errorCount--;
                         errorCountByTime.Add(new ErrorsAtTime
@@ -144,7 +144,7 @@ public static class Stats
             {
                 typedStack.Push(stroke.Character[0]);
 
-                if (typedStack.Peek() != phrase[typedStack.Count - 1])
+                if (typedStack.Count > phrase.Length || typedStack.Peek() != phrase[typedStack.Count - 1])
                 {
                     errorCount++;
                     errorCountByTime.Add(new ErrorsAtTime

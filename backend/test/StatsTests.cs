@@ -1,3 +1,6 @@
+using System.Runtime.ExceptionServices;
+using Schema;
+
 namespace Tests;
 
 [TestClass]
@@ -44,29 +47,45 @@ public class StatsTests
     [TestMethod]
     public void Stats_ErrorCount()
     {
-        var strokes = TH.Keystrokes("hello world", 120);
+        var strokes = TH.Keystrokes("hello", 120);
         CollectionAssert.AreEqual(
             new List<ErrorsAtTime>
             {
                 new ErrorsAtTime { Time = 0f, ErrorCount = 0 },
             },
-            Stats.GetErrorCountByTime(strokes, "hello world"));
+            Stats.GetErrorCountByTime(strokes, "hello"));
 
-        strokes.Insert(1, new KeyStroke { Character = "h", Time = .15f });
-        strokes.Insert(2, new KeyStroke { Character = "j", Time = .2f });
-        strokes.Insert(3, new KeyStroke { Character = "\b", Time = .25f });
-        strokes.Insert(4, new KeyStroke { Character = "\b", Time = .3f });
+        int i;
+        for (i = 1; i < 8; i++)
+        {
+            strokes.Insert(i, new KeyStroke { Character = "h", Time = .15f + .01f * i });
+        }
+
+        for (; i < 15; i++)
+        {
+            strokes.Insert(i, new KeyStroke { Character = "\b", Time = .15f + .01f * i });
+        }
+
         TH.AssertErrorCountsEqual(
             new List<ErrorsAtTime>
             {
                 new() { Time = 0f, ErrorCount = 0 },
-                new() { Time = .15f, ErrorCount = 1 },
-                new() { Time = .2f, ErrorCount = 2 },
-                new() { Time = .25f, ErrorCount = 1 },
-                new() { Time = .3f, ErrorCount = 0 },
-            },
-            Stats.GetErrorCountByTime(strokes, "hello world"));
+                new() { Time = .16f, ErrorCount = 1 },
+                new() { Time = .17f, ErrorCount = 2 },
+                new() { Time = .18f, ErrorCount = 3 },
+                new() { Time = .19f, ErrorCount = 4 },
+                new() { Time = .20f, ErrorCount = 5 },
+                new() { Time = .21f, ErrorCount = 6 },
+                new() { Time = .22f, ErrorCount = 7 },
+                new() { Time = .23f, ErrorCount = 6 },
+                new() { Time = .24f, ErrorCount = 5 },
+                new() { Time = .25f, ErrorCount = 4 },
+                new() { Time = .26f, ErrorCount = 3 },
+                new() { Time = .27f, ErrorCount = 2 },
+                new() { Time = .28f, ErrorCount = 1 },
+                new() { Time = .29f, ErrorCount = 0 },
 
-        Assert.Fail("Can't go beyond bounds");
+            },
+            Stats.GetErrorCountByTime(strokes, "hello"));
     }
 }

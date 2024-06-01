@@ -1,3 +1,5 @@
+using Schema;
+
 namespace Tests;
 
 public static class TH
@@ -82,14 +84,12 @@ public static class TH
 
         for (int i = 0; i < expected.Count; i++)
         {
-            Assert.AreEqual(
+            IsApproximately(
                 expected[i].Time,
-                actual[i].Time,
-                $"Time at {i} not equal. Expected {expected[i].Time}, but got {actual[i].Time}");
-            Assert.AreEqual(
+                actual[i].Time);
+            IsApproximately(
                 expected[i].ErrorCount,
-                actual[i].ErrorCount,
-                $"Error count at {i} not equal. Expected {expected[i].ErrorCount}, but got {actual[i].ErrorCount}");
+                actual[i].ErrorCount);
         }
     }
 }

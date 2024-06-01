@@ -1,3 +1,5 @@
+using Schema;
+
 namespace Tests;
 
 [TestClass]
