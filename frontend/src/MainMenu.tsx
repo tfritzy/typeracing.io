@@ -8,7 +8,6 @@ import { Profile } from "./Profile";
 import { Logo } from "./Logo";
 
 const phrases = [
- "helm, warp one. engage",
  "glhf",
  "glgl",
  "ready for dust-off",

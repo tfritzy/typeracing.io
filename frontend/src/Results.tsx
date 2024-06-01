@@ -9,27 +9,36 @@ import {
 } from "react";
 import { PlayerData } from "./store/gameSlice";
 import { ErrorsAtTime } from "./compiled";
+import React from "react";
 
 export const Results = () => {
  const [wpmData, setWpmData] = useState<{
   series: Series[];
   errors: ErrorsAtTime[];
  } | null>(null);
- const game = useSelector((state: RootState) => state.game);
+ const players = useSelector(
+  (state: RootState) => state.game.players
+ );
+ const placements = useSelector(
+  (state: RootState) => state.game.placements
+ );
+ const phrase = useSelector(
+  (state: RootState) => state.game.phrase
+ );
  const selfId = useSelector(
   (state: RootState) => state.player.id
  );
 
  const finishedPlayers = useMemo(
   () =>
-   game.placements
+   placements
     .map((placement) => {
-     return game.players.find(
+     return players.find(
       (player) => player.id === placement.playerId
      );
     })
     .filter((p) => p) as PlayerData[],
-  [game.placements, game.players]
+  [placements, players]
  );
 
  const self = finishedPlayers.find((p) => p.id === selfId);
@@ -87,13 +96,22 @@ export const Results = () => {
   []
  );
 
+ const chart = React.useMemo(() => {
+  return wpmData ? (
+   <LineChart
+    series={wpmData.series}
+    errors={wpmData.errors}
+   />
+  ) : null;
+ }, [wpmData]);
+
  if (!finishedPlayers.length) {
   return null;
  }
 
- const numWords = game.phrase.split(" ").length;
+ const numWords = phrase.split(" ").length;
  const numErrors = self?.num_errors || 0;
- const numCharacters = game.phrase.length;
+ const numCharacters = phrase.length;
  const duration =
   finishedPlayers[0].wpm_by_second?.length || 0;
  const durationFormatted = new Date(duration * 1000)
@@ -176,10 +194,7 @@ export const Results = () => {
     </div>
    </div>
 
-   <LineChart
-    series={wpmData?.series || []}
-    errors={wpmData?.errors || []}
-   />
+   {chart}
   </div>
  );
 };

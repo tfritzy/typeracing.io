@@ -18,6 +18,7 @@ type CursorProps = {
  pulsing: boolean;
  disabled: boolean;
  currentWord: string;
+ phrase: string;
 };
 
 const Cursor = (props: CursorProps) => {
@@ -80,6 +81,17 @@ const Cursor = (props: CursorProps) => {
    setTargetCursorYPos(cursorRect.top + cursorYOffset);
   }
  }, [props.currentWord]);
+
+ useEffect(() => {
+  if (props.targetObject.current) {
+   const cursorRect =
+    props.targetObject.current.getBoundingClientRect();
+   setTargetCursorXPos(cursorRect.left + cursorXOffset);
+   setTargetCursorYPos(cursorRect.top + cursorYOffset);
+   setCursorXPos(cursorRect.left + cursorXOffset);
+   setCursorYPos(cursorRect.top + cursorYOffset);
+  }
+ }, [props.phrase]);
 
  return (
   <span
@@ -355,6 +367,7 @@ export const TypeBox = (props: TypeBoxProps) => {
      pulsing={cursorPulsing}
      targetObject={cursorRef}
      currentWord={currentWord}
+     phrase={phrase}
     />
    </div>
 

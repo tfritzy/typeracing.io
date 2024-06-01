@@ -5,20 +5,28 @@ import {
  OneofRequest,
  encodeOneofRequest,
 } from "./compiled";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store/store";
-import { GameStage, GameState } from "./store/gameSlice";
+import {
+ GameStage,
+ GameState,
+ reset,
+} from "./store/gameSlice";
 import { Results } from "./Results";
 import { Players } from "./Players";
 import { ActionBar } from "./ActionBar";
 import { Logo } from "./Logo";
 import { Countdown } from "./Countdown";
+import { useNavigate, useParams } from "react-router-dom";
 
 type InGameProps = {
  sendRequest: (request: ArrayBuffer) => void;
 };
 
 export const InGame = (props: InGameProps) => {
+ const navigate = useNavigate();
+ const dispatch = useDispatch();
+ const { gameId } = useParams<{ gameId: string }>();
  const { sendRequest } = props;
  const gameState: GameState = useSelector(
   (state: RootState) => state.game
@@ -40,11 +48,6 @@ export const InGame = (props: InGameProps) => {
     .slice(lockCharIndex, newLockIndex)
     .trim();
 
-   console.log(
-    "Sending key strokes: " +
-     keyStrokes.map((k) => k.character).join("")
-   );
-
    const finishedWordRequest: OneofRequest = {
     sender_id: player.id,
     type_word: {
@@ -60,11 +63,22 @@ export const InGame = (props: InGameProps) => {
   [lockCharIndex, phrase, player.id, sendRequest]
  );
 
+ React.useEffect(() => {
+  if (gameState.id !== gameId) {
+   dispatch(reset());
+   navigate("/");
+  }
+ }, [dispatch, gameId, gameState.id, navigate]);
+
  const isGameOver =
   state === GameStage.Finished ||
   state === GameStage.ViewingResults;
  const startTime =
   gameState.start_time || Date.now() + 1000000;
+
+ if (gameId !== gameState.id) {
+  return null;
+ }
 
  return (
   <div>

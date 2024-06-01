@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
-import { Settings, StarSolid } from "iconoir-react";
+import { HelpCircle, StarSolid } from "iconoir-react";
 import { PlayerData } from "./store/gameSlice";
 import { Spinner } from "./Spinner";
 import Tooltip from "./Tooltip";
@@ -45,21 +45,18 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
   } else {
    return (
     <div className="font-normal">
-     <div className="flex flex-row space-x-2 items-center">
+     <div className="flex flex-row space-x-1 items-center">
       <div>{player?.name || <Spinner />}</div>
       {isSelf && (
        <div className="text-text-tertiary"> (You)</div>
       )}
-      {/* {player?.is_bot && (
+      {player?.is_bot && (
        <Tooltip content="This player is a bot. Bots are needed before/if ever this game gets a large enough playerbase. Share this game with your friends to help remove them.">
-        <div
-         key="gear"
-         className="text-text-tertiary animate-spin ease-linear"
-        >
-         <Settings width={16} height={16} />
+        <div key="gear" className="text-text-tertiary">
+         <HelpCircle width={12} height={12} />
         </div>
        </Tooltip>
-      )} */}
+      )}
      </div>
     </div>
    );
