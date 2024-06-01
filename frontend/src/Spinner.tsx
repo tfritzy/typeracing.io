@@ -56,5 +56,5 @@ export const Spinner = () => {
   return () => clearInterval(intervalId);
  }, []);
 
- return <span className="font-mono">{str}</span>;
+ return <span className="">{str}</span>;
 };
