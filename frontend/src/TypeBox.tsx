@@ -210,7 +210,7 @@ export const TypeBox = (props: TypeBoxProps) => {
       correctUpToIndex
     );
     let newEndIndex = -1;
-    const nextWord = phrase.slice(lockedCharacterIndex).split(" ")[0];
+    const nextWord = phrase.slice(lockedCharacterIndex).split(" ")[0].trim();
     if (currentWord.trim().startsWith(nextWord)) {
       newEndIndex =
         phrase.indexOf(nextWord, lockedCharacterIndex) + nextWord.length;
