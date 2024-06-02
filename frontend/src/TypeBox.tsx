@@ -128,9 +128,9 @@ export const TypeBox = (props: TypeBoxProps) => {
   const phraseRef = React.useRef<HTMLDivElement>(null);
   const cursorRef = React.useRef<HTMLSpanElement>(null);
   const keyStrokes = React.useRef<{
-    length: number;
+    compositeSize: number;
     strokes: KeyStroke[];
-  }>({ length: 0, strokes: [] });
+  }>({ compositeSize: 0, strokes: [] });
   const wordErrorsCount = React.useRef<number>(0);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [cursorPulsing, setCursorPinging] = useState(true);
@@ -181,20 +181,20 @@ export const TypeBox = (props: TypeBoxProps) => {
       setCursorPinging(true);
     }, 1000);
 
-    while (keyStrokes.current.length > currentWord.length) {
+    while (keyStrokes.current.compositeSize > currentWord.length) {
       keyStrokes.current.strokes.push({
         character: "\b",
         time: (Date.now() - props.startTime) / 1000,
       });
-      keyStrokes.current.length--;
+      keyStrokes.current.compositeSize--;
     }
 
-    while (keyStrokes.current.length < currentWord.length) {
+    while (keyStrokes.current.compositeSize < currentWord.length) {
       keyStrokes.current.strokes.push({
-        character: currentWord[currentWord.length - 1],
+        character: currentWord[keyStrokes.current.compositeSize],
         time: (Date.now() - props.startTime) / 1000,
       });
-      keyStrokes.current.length++;
+      keyStrokes.current.compositeSize++;
     }
 
     let correctUpToIndex = lockedCharacterIndex;
@@ -228,7 +228,7 @@ export const TypeBox = (props: TypeBoxProps) => {
       setCurrentWord("");
       wordErrorsCount.current = 0;
       keyStrokes.current.strokes = [];
-      keyStrokes.current.length = 0;
+      keyStrokes.current.compositeSize = 0;
     }
   }, [
     currentWord,
