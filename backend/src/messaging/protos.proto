@@ -25,6 +25,7 @@ message Player {
     string name = 1;
     string id = 2;
     bool is_bot = 3;
+    bool is_you = 4;
 }
 
 message OneofRequest {

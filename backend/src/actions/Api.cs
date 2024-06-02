@@ -80,7 +80,8 @@ public static class Api
                     {
                         Id = p.Id,
                         Name = p.Name,
-                        IsBot = p.BotConfig != null
+                        IsBot = p.BotConfig != null,
+                        IsYou = p.Id == player.Id
                     });
             galaxy.SendUpdate(
                 player,

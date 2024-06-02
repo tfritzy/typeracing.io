@@ -59,6 +59,7 @@ export interface Player {
   name?: string;
   id?: string;
   is_bot?: boolean;
+  is_you?: boolean;
 }
 
 export function encodePlayer(message: Player): Uint8Array {
@@ -87,6 +88,13 @@ function _encodePlayer(message: Player, bb: ByteBuffer): void {
   if ($is_bot !== undefined) {
     writeVarint32(bb, 24);
     writeByte(bb, $is_bot ? 1 : 0);
+  }
+
+  // optional bool is_you = 4;
+  let $is_you = message.is_you;
+  if ($is_you !== undefined) {
+    writeVarint32(bb, 32);
+    writeByte(bb, $is_you ? 1 : 0);
   }
 }
 
@@ -119,6 +127,12 @@ function _decodePlayer(bb: ByteBuffer): Player {
       // optional bool is_bot = 3;
       case 3: {
         message.is_bot = !!readByte(bb);
+        break;
+      }
+
+      // optional bool is_you = 4;
+      case 4: {
+        message.is_you = !!readByte(bb);
         break;
       }
 
