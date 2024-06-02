@@ -317,9 +317,9 @@ export const TypeBox = (props: TypeBoxProps) => {
           id="type-box"
           className="w-full outline-none typebox rounded-lg absolute top-0 left-0 bg-transparent text-transparent max-w-full max-h-full h-full"
           ref={inputRef}
-          autoCorrect="off"
+          autoCorrect="false"
           autoCapitalize="none"
-          autoComplete="off"
+          autoComplete="false"
           spellCheck={false}
           style={{
             width: `${inputWidth}px`,
