@@ -175,14 +175,6 @@ export const TypeBox = (props: TypeBoxProps) => {
       setCursorPinging(true);
     }, 1000);
 
-    while (keyStrokes.current.length < currentWord.length) {
-      keyStrokes.current.strokes.push({
-        character: currentWord[currentWord.length - 1],
-        time: (Date.now() - props.startTime) / 1000,
-      });
-      keyStrokes.current.length++;
-    }
-
     while (keyStrokes.current.length > currentWord.length) {
       keyStrokes.current.strokes.push({
         character: "\b",
@@ -191,8 +183,16 @@ export const TypeBox = (props: TypeBoxProps) => {
       keyStrokes.current.length--;
     }
 
+    while (keyStrokes.current.length < currentWord.length) {
+      keyStrokes.current.strokes.push({
+        character: currentWord[currentWord.length - 1],
+        time: (Date.now() - props.startTime) / 1000,
+      });
+      keyStrokes.current.length++;
+    }
+
     if (
-      currentWord.endsWith(" ") ||
+      currentWord.includes(" ") ||
       lockedCharacterIndex + currentWord.length === phrase.length
     ) {
       const word = phrase.slice(lockedCharacterIndex).split(" ")[0];
