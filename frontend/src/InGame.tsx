@@ -48,7 +48,7 @@ export const InGame = (props: InGameProps) => {
   React.useEffect(() => {
     if (gameState.id !== gameId) {
       dispatch(reset());
-      navigate("/");
+      navigate("/", { replace: true });
     }
   }, [dispatch, gameId, gameState.id, navigate]);
 
