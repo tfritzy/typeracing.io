@@ -40,6 +40,12 @@ const Cursor = (props: CursorProps) => {
       setCursorXPos((prevX) => lerp(prevX, targetCursorXPos, 0.4));
       setCursorYPos((prevY) => lerp(prevY, targetCursorYPos, 0.4));
 
+      if (props.targetObject.current) {
+        const cursorRect = props.targetObject.current.getBoundingClientRect();
+        setTargetCursorXPos(cursorRect.left + cursorXOffset);
+        setTargetCursorYPos(cursorRect.top + cursorYOffset);
+      }
+
       frameId = requestAnimationFrame(animate);
     };
 
@@ -319,7 +325,7 @@ export const TypeBox = (props: TypeBoxProps) => {
           ref={inputRef}
           autoCorrect="false"
           autoCapitalize="none"
-          autoComplete="false"
+          autoComplete="off"
           spellCheck={false}
           style={{
             width: `${inputWidth}px`,
