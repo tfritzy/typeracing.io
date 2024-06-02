@@ -197,22 +197,38 @@ export const TypeBox = (props: TypeBoxProps) => {
       keyStrokes.current.length++;
     }
 
-    if (
-      currentWord.includes(" ") ||
-      lockedCharacterIndex + currentWord.length === phrase.length
-    ) {
-      const word = phrase.slice(lockedCharacterIndex).split(" ")[0];
-      if (word === currentWord.trim()) {
-        onWordComplete(
-          lockedCharacterIndex + currentWord.length,
-          keyStrokes.current.strokes,
-          wordErrorsCount.current
-        );
-        setCurrentWord("");
-        wordErrorsCount.current = 0;
-        keyStrokes.current.strokes = [];
-        keyStrokes.current.length = 0;
+    let correctUpToIndex = lockedCharacterIndex;
+    for (let i = 0; i < currentWord.length; i++) {
+      if (currentWord[i] !== phrase[lockedCharacterIndex + i]) {
+        break;
       }
+      correctUpToIndex++;
+    }
+
+    const correctSubstring = phrase.slice(
+      lockedCharacterIndex,
+      correctUpToIndex
+    );
+    let newEndIndex = -1;
+    const nextWord = phrase.slice(lockedCharacterIndex).split(" ")[0];
+    if (currentWord.trim().startsWith(nextWord)) {
+      newEndIndex =
+        phrase.indexOf(nextWord, lockedCharacterIndex) + nextWord.length;
+      while (correctSubstring[newEndIndex - lockedCharacterIndex] === " ") {
+        newEndIndex++;
+      }
+    }
+
+    if (newEndIndex !== -1) {
+      onWordComplete(
+        newEndIndex,
+        keyStrokes.current.strokes,
+        wordErrorsCount.current
+      );
+      setCurrentWord("");
+      wordErrorsCount.current = 0;
+      keyStrokes.current.strokes = [];
+      keyStrokes.current.length = 0;
     }
   }, [
     currentWord,
