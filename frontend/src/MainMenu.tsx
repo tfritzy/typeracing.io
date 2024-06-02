@@ -45,7 +45,7 @@ export const MainMenu = (props: MainMenuProps) => {
   return (
     <div>
       <div className="relative h-screen flex flex-col space-y-32 items-center justify-center point">
-        <div className="absolute left-0 top-0 w-full flex flex-row justify-between p-2">
+        <div className="absolute left-0 top-0 w-full flex flex-row justify-between py-2">
           <Logo />
           <Profile />
         </div>
