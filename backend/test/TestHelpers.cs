@@ -32,13 +32,13 @@ public static class TH
     public static void TypeWholePhrase(Galaxy galaxy, Game game, InGamePlayer player, int wpm = 60)
     {
         var keystrokes = Keystrokes(game.Phrase, wpm);
-        Api.TypeWord(keystrokes, player.Id, galaxy);
+        Api.TypeWord(keystrokes, player, galaxy);
     }
 
     public static void TypeRemainderOfPhrase(Galaxy galaxy, Game game, InGamePlayer player, int wpm = 60)
     {
         var keystrokes = Keystrokes(game.Phrase.Substring(player.PhraseIndex), wpm);
-        Api.TypeWord(keystrokes, player.Id, galaxy);
+        Api.TypeWord(keystrokes, player, galaxy);
     }
 
     public static void AssertKeystrokesMatchStr(List<KeyStroke> strokes, string str)

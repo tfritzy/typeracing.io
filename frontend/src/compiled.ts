@@ -132,6 +132,7 @@ function _decodePlayer(bb: ByteBuffer): Player {
 
 export interface OneofRequest {
   sender_id?: string;
+  sender_token?: string;
   find_game?: FindGameRequest;
   type_word?: TypeWordRequest;
 }
@@ -150,10 +151,17 @@ function _encodeOneofRequest(message: OneofRequest, bb: ByteBuffer): void {
     writeString(bb, $sender_id);
   }
 
-  // optional FindGameRequest find_game = 2;
+  // optional string sender_token = 2;
+  let $sender_token = message.sender_token;
+  if ($sender_token !== undefined) {
+    writeVarint32(bb, 18);
+    writeString(bb, $sender_token);
+  }
+
+  // optional FindGameRequest find_game = 3;
   let $find_game = message.find_game;
   if ($find_game !== undefined) {
-    writeVarint32(bb, 18);
+    writeVarint32(bb, 26);
     let nested = popByteBuffer();
     _encodeFindGameRequest($find_game, nested);
     writeVarint32(bb, nested.limit);
@@ -161,10 +169,10 @@ function _encodeOneofRequest(message: OneofRequest, bb: ByteBuffer): void {
     pushByteBuffer(nested);
   }
 
-  // optional TypeWordRequest type_word = 3;
+  // optional TypeWordRequest type_word = 4;
   let $type_word = message.type_word;
   if ($type_word !== undefined) {
-    writeVarint32(bb, 26);
+    writeVarint32(bb, 34);
     let nested = popByteBuffer();
     _encodeTypeWordRequest($type_word, nested);
     writeVarint32(bb, nested.limit);
@@ -193,16 +201,22 @@ function _decodeOneofRequest(bb: ByteBuffer): OneofRequest {
         break;
       }
 
-      // optional FindGameRequest find_game = 2;
+      // optional string sender_token = 2;
       case 2: {
+        message.sender_token = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // optional FindGameRequest find_game = 3;
+      case 3: {
         let limit = pushTemporaryLength(bb);
         message.find_game = _decodeFindGameRequest(bb);
         bb.limit = limit;
         break;
       }
 
-      // optional TypeWordRequest type_word = 3;
-      case 3: {
+      // optional TypeWordRequest type_word = 4;
+      case 4: {
         let limit = pushTemporaryLength(bb);
         message.type_word = _decodeTypeWordRequest(bb);
         bb.limit = limit;
@@ -219,7 +233,6 @@ function _decodeOneofRequest(bb: ByteBuffer): OneofRequest {
 
 export interface FindGameRequest {
   player_name?: string;
-  player_token?: string;
   game_modes?: GameMode[];
   private_game?: boolean;
 }
@@ -238,30 +251,23 @@ function _encodeFindGameRequest(message: FindGameRequest, bb: ByteBuffer): void 
     writeString(bb, $player_name);
   }
 
-  // optional string player_token = 2;
-  let $player_token = message.player_token;
-  if ($player_token !== undefined) {
-    writeVarint32(bb, 18);
-    writeString(bb, $player_token);
-  }
-
-  // repeated GameMode game_modes = 3;
+  // repeated GameMode game_modes = 2;
   let array$game_modes = message.game_modes;
   if (array$game_modes !== undefined) {
     let packed = popByteBuffer();
     for (let value of array$game_modes) {
       writeVarint32(packed, encodeGameMode[value]);
     }
-    writeVarint32(bb, 26);
+    writeVarint32(bb, 18);
     writeVarint32(bb, packed.offset);
     writeByteBuffer(bb, packed);
     pushByteBuffer(packed);
   }
 
-  // optional bool private_game = 4;
+  // optional bool private_game = 3;
   let $private_game = message.private_game;
   if ($private_game !== undefined) {
-    writeVarint32(bb, 32);
+    writeVarint32(bb, 24);
     writeByte(bb, $private_game ? 1 : 0);
   }
 }
@@ -286,14 +292,8 @@ function _decodeFindGameRequest(bb: ByteBuffer): FindGameRequest {
         break;
       }
 
-      // optional string player_token = 2;
+      // repeated GameMode game_modes = 2;
       case 2: {
-        message.player_token = readString(bb, readVarint32(bb));
-        break;
-      }
-
-      // repeated GameMode game_modes = 3;
-      case 3: {
         let values = message.game_modes || (message.game_modes = []);
         if ((tag & 7) === 2) {
           let outerLimit = pushTemporaryLength(bb);
@@ -307,8 +307,8 @@ function _decodeFindGameRequest(bb: ByteBuffer): FindGameRequest {
         break;
       }
 
-      // optional bool private_game = 4;
-      case 4: {
+      // optional bool private_game = 3;
+      case 3: {
         message.private_game = !!readByte(bb);
         break;
       }

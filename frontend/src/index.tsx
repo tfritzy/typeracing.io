@@ -12,15 +12,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <div className="text-text-primary">
-    <div
-      style={{
-        textAlign: "center",
-        fontWeight: "normal",
-      }}
-      className="fixed bottom-0 left-0 w-full bg-neutral-color text-text-secondary"
-    >
-      Extremely alpha version. Expect frequent outages and broken stuff.
-    </div>
     <Provider store={store}>
       <BrowserRouter>
         <App />

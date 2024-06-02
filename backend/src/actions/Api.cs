@@ -185,8 +185,12 @@ public static class Api
         return errors;
     }
 
+    public static void TypeWord(List<KeyStroke> keyStrokes, InGamePlayer player, Galaxy galaxy)
+    {
+        TypeWord(keyStrokes, player.Id, player.Token, galaxy);
+    }
 
-    public static void TypeWord(List<KeyStroke> keyStrokes, string playerId, Galaxy galaxy)
+    public static void TypeWord(List<KeyStroke> keyStrokes, string playerId, string token, Galaxy galaxy)
     {
         if (!galaxy.PlayerGameMap.ContainsKey(playerId))
         {
@@ -208,6 +212,11 @@ public static class Api
 
         InGamePlayer? player = game.Players.FirstOrDefault(p => p.Id == playerId);
         if (player == null)
+        {
+            return;
+        }
+
+        if (player.Token != token)
         {
             return;
         }

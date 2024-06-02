@@ -10,12 +10,12 @@ export const sendFindGameRequest = (
 ) => {
   const findGame: FindGameRequest = {
     player_name: player.name,
-    player_token: player.token,
     game_modes: [player.gameMode],
     private_game: player.gameType === "Practice",
   };
   const request: OneofRequest = {
     sender_id: player.id,
+    sender_token: player.token,
     find_game: findGame,
   };
 

@@ -196,6 +196,7 @@ public class Game
                 Api.TypeWord(
                     keyStrokes: keyStrokes,
                     playerId: player.Id,
+                    token: player.Token,
                     Galaxy
                 );
             }

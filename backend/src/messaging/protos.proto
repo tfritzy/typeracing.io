@@ -29,17 +29,17 @@ message Player {
 
 message OneofRequest {
     string sender_id = 1;
+    string sender_token = 2;
     oneof request {
-        FindGameRequest find_game = 2;
-        TypeWordRequest type_word = 3;
+        FindGameRequest find_game = 3;
+        TypeWordRequest type_word = 4;
     }
 }
 
 message FindGameRequest {
     string player_name = 1;
-    string player_token = 2;
-    repeated GameMode game_modes = 3;
-    bool private_game = 4;
+    repeated GameMode game_modes = 2;
+    bool private_game = 3;
 }
 
 message KeyStroke {

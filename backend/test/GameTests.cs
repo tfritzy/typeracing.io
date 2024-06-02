@@ -33,7 +33,7 @@ public class GameTests
         var game = test.Galaxy.ActiveGames[test.Galaxy.PlayerGameMap[test.Players[0].Id]];
 
         // Ignored before game starts
-        Api.TypeWord(TH.KeystrokesForWord(game.Phrase, 0), test.Players[0].Id, test.Galaxy);
+        Api.TypeWord(TH.KeystrokesForWord(game.Phrase, 0), test.Players[0], test.Galaxy);
         Assert.AreEqual(0, game.Players[0].PhraseIndex);
 
         test.Galaxy.Time.Add(Game.CountdownDuration + .1f);
@@ -41,7 +41,7 @@ public class GameTests
 
         // Works now
         var ks = TH.KeystrokesForWord(game.Phrase, 0);
-        Api.TypeWord(ks, test.Players[0].Id, test.Galaxy);
+        Api.TypeWord(ks, test.Players[0], test.Galaxy);
         Assert.AreEqual(ks.Count, game.Players[0].PhraseIndex);
     }
 
@@ -59,9 +59,9 @@ public class GameTests
         Assert.AreEqual(Game.GameState.Running, game.State);
 
         var ks = TH.Keystrokes(game.Phrase);
-        Api.TypeWord(ks.GetRange(0, ks.Count - 1), test.Players[3].Id, test.Galaxy);
+        Api.TypeWord(ks.GetRange(0, ks.Count - 1), test.Players[3], test.Galaxy);
         Assert.AreEqual(Game.GameState.Running, game.State);
-        Api.TypeWord(ks.GetRange(ks.Count - 1, 1), test.Players[3].Id, test.Galaxy);
+        Api.TypeWord(ks.GetRange(ks.Count - 1, 1), test.Players[3], test.Galaxy);
         Assert.AreEqual(Game.GameState.Complete, game.State);
     }
 
@@ -75,9 +75,9 @@ public class GameTests
         test.Galaxy.Update();
 
         var ks = TH.Keystrokes(game.Phrase);
-        Api.TypeWord(ks.GetRange(0, ks.Count - 1), test.Players[0].Id, test.Galaxy);
+        Api.TypeWord(ks.GetRange(0, ks.Count - 1), test.Players[0], test.Galaxy);
         test.Galaxy.ClearOutbox();
-        Api.TypeWord(ks.GetRange(ks.Count - 1, 1), test.Players[0].Id, test.Galaxy);
+        Api.TypeWord(ks.GetRange(ks.Count - 1, 1), test.Players[0], test.Galaxy);
 
         Assert.AreEqual(8, test.Galaxy.OutboxCount());
         Assert.AreEqual(4, test.Galaxy.OutboxMessages().Where((m) => m.PlayerCompleted != null).Count());
@@ -105,12 +105,12 @@ public class GameTests
         InGamePlayer player = test.Galaxy.ActiveGames.Values.First().Players.Find(p => p.Id == test.Players[0].Id)!;
         string word1 = game.Phrase.Split(' ')[0] + " ";
         var keystrokes = TH.KeystrokesForWord(game.Phrase, 0, 30);
-        Api.TypeWord(keystrokes, test.Players[0].Id, test.Galaxy);
+        Api.TypeWord(keystrokes, test.Players[0], test.Galaxy);
         TH.AssertKeystrokesMatchStr(player.KeyStrokes, word1);
 
         string word2 = game.Phrase.Split(' ')[1] + " ";
         keystrokes = TH.KeystrokesForWord(game.Phrase, 1, 30);
-        Api.TypeWord(keystrokes, test.Players[0].Id, test.Galaxy);
+        Api.TypeWord(keystrokes, test.Players[0], test.Galaxy);
         TH.AssertKeystrokesMatchStr(player.KeyStrokes, word1 + word2);
     }
 
@@ -147,13 +147,13 @@ public class GameTests
         TH.AdvancePastCooldown(test.Galaxy, game);
 
         var keystrokes = TH.Keystrokes(game.Phrase, 30);
-        Api.TypeWord(keystrokes, test.Players[0].Id, test.Galaxy);
-        Api.TypeWord(keystrokes, test.Players[1].Id, test.Galaxy);
-        Api.TypeWord(keystrokes, test.Players[2].Id, test.Galaxy);
-        Api.TypeWord(keystrokes.GetRange(0, keystrokes.Count - 1), test.Players[3].Id, test.Galaxy);
+        Api.TypeWord(keystrokes, test.Players[0], test.Galaxy);
+        Api.TypeWord(keystrokes, test.Players[1], test.Galaxy);
+        Api.TypeWord(keystrokes, test.Players[2], test.Galaxy);
+        Api.TypeWord(keystrokes.GetRange(0, keystrokes.Count - 1), test.Players[3], test.Galaxy);
         test.Galaxy.ClearOutbox();
 
-        Api.TypeWord(keystrokes.GetRange(keystrokes.Count - 1, 1), test.Players[3].Id, test.Galaxy);
+        Api.TypeWord(keystrokes.GetRange(keystrokes.Count - 1, 1), test.Players[3], test.Galaxy);
         Assert.AreEqual(4, test.Galaxy.OutboxMessages().Where((m) => m.PlayerCompleted != null).Count());
         Assert.AreEqual(4, test.Galaxy.OutboxMessages().Where((m) => m.GameOver != null).Count());
         Assert.AreEqual(4, test.Galaxy.OutboxMessages().Where((m) => m.WordFinished != null).Count());
@@ -173,7 +173,7 @@ public class GameTests
         test.Galaxy.ClearOutbox();
 
         var ks = TH.KeystrokesForWord(game.Phrase, 0);
-        Api.TypeWord(ks, test.Players[0].Id, test.Galaxy);
+        Api.TypeWord(ks, test.Players[0], test.Galaxy);
         Assert.AreEqual(4, test.Galaxy.OutboxCount());
         var wordFinisheds = TH.GetUpdatesOfType(test.Galaxy, OneofUpdate.UpdateOneofCase.WordFinished);
         Assert.AreEqual(test.Galaxy.OutboxCount(), wordFinisheds.Count);
@@ -271,7 +271,7 @@ public class GameTests
         int insertPoint = ks.Count / 2;
         ks.Insert(insertPoint, new KeyStroke { Character = "f", Time = 0.2f });
         ks.Insert(insertPoint + 1, new KeyStroke { Character = "\b", Time = 0.3f });
-        Api.TypeWord(ks, test.Players[0].Id, test.Galaxy);
+        Api.TypeWord(ks, test.Players[0], test.Galaxy);
         Assert.AreEqual(ks.Count - 2, game.Players[0].PhraseIndex);
         Assert.AreEqual(1, game.Players[0].Errors);
 
@@ -290,7 +290,7 @@ public class GameTests
         Assert.AreEqual(42, test.Players[0].LastSeen);
         test.Galaxy.Time.Add(1);
         Assert.AreEqual(42, test.Players[0].LastSeen);
-        Api.TypeWord(TH.KeystrokesForWord(game.Phrase, 0), test.Players[0].Id, test.Galaxy);
+        Api.TypeWord(TH.KeystrokesForWord(game.Phrase, 0), test.Players[0], test.Galaxy);
         test.Galaxy.AddToInbox(new OneofRequest { SenderId = test.Players[0].Id });
         Assert.AreEqual(test.Galaxy.Time.Now, test.Players[0].LastSeen);
         Assert.AreEqual(42, test.Players[1].LastSeen);

@@ -159,7 +159,7 @@ public class Galaxy
                 Api.FindGame(
                     request.FindGame.PlayerName,
                     request.SenderId,
-                    request.FindGame.PlayerToken,
+                    request.SenderToken,
                     this,
                     request.FindGame.PrivateGame,
                     new HashSet<GameMode>(request.FindGame.GameModes));
@@ -168,6 +168,7 @@ public class Galaxy
                 Api.TypeWord(
                     request.TypeWord.KeyStrokes.ToList(),
                     request.SenderId,
+                    request.SenderToken,
                     this);
                 break;
             default:

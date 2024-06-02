@@ -100,7 +100,7 @@ h2 {
 }
 
 .accent-gradient-text {
-  background: linear-gradient(0deg, var(--accent), white);
+  background: linear-gradient(0deg, var(--accent), var(--accent-100));
   background-size: 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
