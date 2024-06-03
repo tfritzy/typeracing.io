@@ -217,9 +217,19 @@ export const TypeBox = (props: TypeBoxProps) => {
         return;
       }
 
+      if (event.target.value.length + lockedCharacterIndex > phrase.length) {
+        return;
+      }
+
       setCurrentWord(event.target.value);
     },
-    [currentWord.length, hasError, startTime]
+    [
+      currentWord.length,
+      hasError,
+      lockedCharacterIndex,
+      phrase.length,
+      startTime,
+    ]
   );
 
   const handleWordUpdate = React.useCallback(() => {
