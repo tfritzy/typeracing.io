@@ -148,6 +148,52 @@ export const TypeBox = (props: TypeBoxProps) => {
     }
   }, []);
 
+  const { text, hasError } = React.useMemo(() => {
+    let text = [
+      <span className="text-text-primary">
+        {phrase.slice(0, lockedCharacterIndex)}
+      </span>,
+    ];
+
+    let hasError = false;
+    for (let i = 0; i < currentWord.length; i++) {
+      if (currentWord[i] !== phrase[lockedCharacterIndex + i]) {
+        hasError = true;
+        text.push(
+          <span className="text-error-color underline">
+            {phrase[lockedCharacterIndex + i]}
+          </span>
+        );
+      } else {
+        text.push(
+          <span className="underline text-text-primary">{currentWord[i]}</span>
+        );
+      }
+    }
+
+    text.push(<span ref={cursorRef} key="cursor" />);
+
+    let nextSpaceIndex = phrase.indexOf(
+      " ",
+      lockedCharacterIndex + currentWord.length
+    );
+    nextSpaceIndex = nextSpaceIndex === -1 ? phrase.length : nextSpaceIndex;
+    const remainderOfWord = phrase.slice(
+      lockedCharacterIndex + currentWord.length,
+      nextSpaceIndex
+    );
+    text.push(
+      <span className="underline text-text-tertiary">{remainderOfWord}</span>
+    );
+
+    if (nextSpaceIndex !== -1) {
+      let remainingText = phrase.slice(nextSpaceIndex);
+      text.push(<span className="text-text-tertiary">{remainingText}</span>);
+    }
+
+    return { text, hasError };
+  }, [currentWord, lockedCharacterIndex, phrase]);
+
   const handleInput = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       if (Date.now() - startTime < 0) {
@@ -163,9 +209,17 @@ export const TypeBox = (props: TypeBoxProps) => {
         }
       }
 
+      if (
+        hasError &&
+        currentWord.length > 20 &&
+        event.target.value.length > currentWord.length
+      ) {
+        return;
+      }
+
       setCurrentWord(event.target.value);
     },
-    [currentWord.length, startTime]
+    [currentWord.length, hasError, startTime]
   );
 
   const handleWordUpdate = React.useCallback(() => {
@@ -241,52 +295,6 @@ export const TypeBox = (props: TypeBoxProps) => {
   useEffect(() => {
     handleWordUpdate();
   }, [currentWord, handleWordUpdate, startTime]);
-
-  const { text, hasError } = React.useMemo(() => {
-    let text = [
-      <span className="text-text-primary">
-        {phrase.slice(0, lockedCharacterIndex)}
-      </span>,
-    ];
-
-    let hasError = false;
-    for (let i = 0; i < currentWord.length; i++) {
-      if (currentWord[i] !== phrase[lockedCharacterIndex + i]) {
-        hasError = true;
-        text.push(
-          <span className="text-error-color underline">
-            {phrase[lockedCharacterIndex + i]}
-          </span>
-        );
-      } else {
-        text.push(
-          <span className="underline text-text-primary">{currentWord[i]}</span>
-        );
-      }
-    }
-
-    text.push(<span ref={cursorRef} key="cursor" />);
-
-    let nextSpaceIndex = phrase.indexOf(
-      " ",
-      lockedCharacterIndex + currentWord.length
-    );
-    nextSpaceIndex = nextSpaceIndex === -1 ? phrase.length : nextSpaceIndex;
-    const remainderOfWord = phrase.slice(
-      lockedCharacterIndex + currentWord.length,
-      nextSpaceIndex
-    );
-    text.push(
-      <span className="underline text-text-tertiary">{remainderOfWord}</span>
-    );
-
-    if (nextSpaceIndex !== -1) {
-      let remainingText = phrase.slice(nextSpaceIndex);
-      text.push(<span className="text-text-tertiary">{remainingText}</span>);
-    }
-
-    return { text, hasError };
-  }, [currentWord, lockedCharacterIndex, phrase]);
 
   const refocusMessage = React.useMemo(() => {
     return (

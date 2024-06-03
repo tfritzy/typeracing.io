@@ -38,7 +38,7 @@ export const LineChart = (props: LineChartProps) => {
             x: errors_at_time[i].time,
             x2: errors_at_time[indexBackToZero].time,
             fillColor: "#dc2626",
-            opacity: 0.08,
+            opacity: 0.15,
             borderColor: "var(--border-color-100)",
             strokeDashArray: 0,
             borderWidth: 100,
