@@ -26,6 +26,7 @@ const phrases = [
   "it's go time",
   "it's about to get heavy",
   "they'll never know what hit 'em",
+  "put me in coach",
 ];
 
 type MainMenuProps = {

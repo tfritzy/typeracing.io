@@ -21,9 +21,9 @@ export const Countdown = (props: CountdownProps) => {
 
   let string;
   if (timeTillStart > 10) {
-    string = "Waiting for opponents";
+    string = "Searching for opponents...";
   } else if (timeTillStart > 0) {
-    string = `Starting: 0:${Math.ceil(timeTillStart)
+    string = `Starting in 0:${Math.ceil(timeTillStart)
       .toFixed(0)
       .padStart(2, "0")}`;
   } else {
