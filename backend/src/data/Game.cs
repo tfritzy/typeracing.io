@@ -16,8 +16,10 @@ public class Game
     public float StartTime;
     public float RaceStartTime => StartTime + CountdownDuration;
     private Galaxy Galaxy { get; set; }
+    public bool IsPractice { get; private set; }
+    public float CountdownDuration => IsPractice ? 3 : DefaultCountdownDuration;
 
-    public const float CountdownDuration = 10;
+    public const float DefaultCountdownDuration = 10;
     public const int NetworkTickRate = 10;
     public const float NetworkTickDuration = 1 / NetworkTickRate;
 
@@ -29,16 +31,17 @@ public class Game
         Complete
     }
 
-    public Game(Galaxy galaxy, int maxPlayers = 4, GameMode mode = GameMode.Dictionary)
+    public Game(Galaxy galaxy, int maxPlayers = 4, GameMode mode = GameMode.Dictionary, bool isPractice = false)
     {
         Players = new List<InGamePlayer>();
         Placements = new List<string>();
         Id = IdGen.NewGameId();
-        MaxPlayers = maxPlayers;
+        MaxPlayers = isPractice ? 1 : maxPlayers;
         Galaxy = galaxy;
         Phrase = Phrases.GetPhraseForGameMode(mode);
         CreationTime = Galaxy.Time.Now;
         Mode = mode;
+        IsPractice = isPractice;
     }
 
     public void Update()

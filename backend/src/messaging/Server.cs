@@ -161,7 +161,6 @@ public class Server
                 Connections[update.RecipientId].State == WebSocketState.Open)
             {
                 WebSocket webSocket = Connections[update.RecipientId];
-                Logger.Log($"Sending update to {update.RecipientId} of type {update.UpdateCase}");
                 byte[] data = update.ToByteArray();
                 await webSocket.SendAsync(
                     new ArraySegment<byte>(data, 0, data.Length),

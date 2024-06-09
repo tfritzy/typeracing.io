@@ -42,7 +42,6 @@ public class Galaxy
         message.RecipientId = player.Id;
         message.GameId = gameId;
 
-        Logger.Log($"Enqueued update of type {message.UpdateCase} to {player.Id}");
         Outbox.Enqueue(message);
     }
 

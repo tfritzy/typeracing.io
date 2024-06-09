@@ -20,7 +20,7 @@ public static class Api
         if (game == null)
         {
             GameMode mode = enabledModes.ToArray()[new Random().Next(0, enabledModes.Count)];
-            game = new(galaxy, mode: mode, maxPlayers: practice ? 1 : 4);
+            game = new(galaxy, mode: mode, isPractice: practice);
             galaxy.OpenGames.Add(game);
             Logger.Log($"Created new game {game.Id} with mode {mode}.");
         }
@@ -114,7 +114,7 @@ public static class Api
             {
                 GameStarting = new GameStarting
                 {
-                    Countdown = Game.CountdownDuration,
+                    Countdown = openGame.CountdownDuration,
                 }
             });
         }
