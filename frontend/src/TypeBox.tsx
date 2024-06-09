@@ -160,8 +160,11 @@ export const TypeBox = (props: TypeBoxProps) => {
       if (currentWord[i] !== phrase[lockedCharacterIndex + i]) {
         hasError = true;
         text.push(
-          <span className="text-error-color underline">
+          <span className="relative text-neutral-color">
             {phrase[lockedCharacterIndex + i]}
+            <span className="absolute text-error-color top-1/2 left-1/2 transform underline -translate-x-1/2 -translate-y-1/2">
+              {currentWord[i]}
+            </span>
           </span>
         );
       } else {
