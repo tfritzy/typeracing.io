@@ -18,7 +18,7 @@ public static class BotNames
             "Fine",
             "Solid",
             "Exceptional",
-            "Robuts",
+            "Robust",
             "Sturdy",
             "Durable",
             "Excellent",
