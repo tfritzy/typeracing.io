@@ -37,7 +37,7 @@ const handleMessage = (
   dispatch: Dispatch,
   navigate: NavigateFunction,
   playerId: string,
-  gameId: string
+  gameRef: React.MutableRefObject<string>
 ) => {
   if (event.data === null) {
   } else if (event.data instanceof Blob) {
@@ -50,9 +50,12 @@ const handleMessage = (
         if (update.youve_been_added_to_game != null) {
           dispatch(setYouveBeenAddedToGame(update.youve_been_added_to_game));
           navigate(`/${update.youve_been_added_to_game.game_id}`);
+          if (gameRef.current) {
+            gameRef.current = update.youve_been_added_to_game.game_id || "";
+          }
         }
 
-        if (update.game_id !== gameId) {
+        if (update.game_id !== gameRef.current) {
           return;
         }
 
@@ -153,7 +156,7 @@ function App() {
       setWsState(WebSocket.OPEN);
     };
     ws.onmessage = (event) =>
-      handleMessage(event, dispatch, navigate, playerId || "", gameRef.current);
+      handleMessage(event, dispatch, navigate, playerId || "", gameRef);
     ws.onclose = () => {
       setWsState(WebSocket.CLOSED);
     };
@@ -171,7 +174,7 @@ function App() {
     }
 
     ws.onmessage = (event) =>
-      handleMessage(event, dispatch, navigate, playerId, gameRef.current);
+      handleMessage(event, dispatch, navigate, playerId, gameRef);
   }, [dispatch, navigate, playerId, ws]);
 
   const sendRequest = React.useCallback(

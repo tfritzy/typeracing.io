@@ -32,9 +32,9 @@ export const Countdown = (props: CountdownProps) => {
 
   return (
     <div
-      className="relative flex flex-col items-center transition-opacity duration-500 opacity-50"
+      className="relative flex flex-col items-center transition-opacity duration-500"
       style={{
-        opacity: props.startTime - Date.now() > -250 ? 1 : 0,
+        opacity: props.startTime - Date.now() > -250 ? 0.75 : 0,
       }}
     >
       <div className="relative font-mono p-1 px-3 text-lg font-bold flex flex-col items-center rounded-sm border overflow-hidden min-w-52 bg-neutral-color border-border-color">

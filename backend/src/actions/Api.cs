@@ -75,6 +75,7 @@ public static class Api
                 Phrase = game.Phrase
             };
             foreach (var p in game.Players)
+            {
                 youveBeenAddedToGame.CurrentPlayers.Add(
                     new Player
                     {
@@ -83,6 +84,7 @@ public static class Api
                         IsBot = p.BotConfig != null,
                         IsYou = p.Id == player.Id
                     });
+            }
             galaxy.SendUpdate(
                 player,
                 game.Id,
@@ -110,6 +112,7 @@ public static class Api
 
         foreach (InGamePlayer player in openGame.Players)
         {
+            Console.WriteLine($"Sending game starting to {player.Id}");
             galaxy.SendUpdate(player, openGame.Id, new OneofUpdate
             {
                 GameStarting = new GameStarting
