@@ -1,10 +1,16 @@
 {
-    "protoc": {
-        "compile_on_save": true,
-        "options": [
-            "--csharp_out=${workspaceRoot}\\src\\communication\\compiled",
-            "--js_out=import_style=commonjs,binary:${workspaceRoot}\\src\\communication\\compiled",
-            "--proto_path=${workspaceRoot}\\src\\communication\\protos"
-        ]
-    }
+  "protoc": {
+    "compile_on_save": true,
+    "options": [
+      "--csharp_out=${workspaceRoot}\\src\\communication\\compiled",
+      "--js_out=import_style=commonjs,binary:${workspaceRoot}\\src\\communication\\compiled",
+      "--proto_path=${workspaceRoot}\\src\\communication\\protos"
+    ]
+  },
+  "azureFunctions.deploySubpath": "api/bin/Release/net8.0/publish",
+  "azureFunctions.projectLanguage": "C#",
+  "azureFunctions.projectRuntime": "~4",
+  "debug.internalConsoleOptions": "neverOpen",
+  "azureFunctions.preDeployTask": "publish (functions)",
+  "azureFunctions.projectSubpath": "backend\\api"
 }
