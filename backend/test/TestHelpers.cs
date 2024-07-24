@@ -52,7 +52,7 @@ public static class TH
 
     public static void AdvancePastCooldown(Galaxy galaxy, Game game)
     {
-        galaxy.Time.Add(Game.CountdownDuration + .1f);
+        galaxy.Time.Add(game.CountdownDuration + .1f);
         galaxy.Update();
     }
 

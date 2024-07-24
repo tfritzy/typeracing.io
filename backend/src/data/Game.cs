@@ -19,7 +19,7 @@ public class Game
     public bool IsPractice { get; private set; }
     public float CountdownDuration => IsPractice ? 3 : DefaultCountdownDuration;
 
-    public const float DefaultCountdownDuration = 10;
+    public const float DefaultCountdownDuration = 3;
     public const int NetworkTickRate = 10;
     public const float NetworkTickDuration = 1 / NetworkTickRate;
 

@@ -36,7 +36,7 @@ public class GameTests
         Api.TypeWord(TH.KeystrokesForWord(game.Phrase, 0), test.Players[0], test.Galaxy);
         Assert.AreEqual(0, game.Players[0].PhraseIndex);
 
-        test.Galaxy.Time.Add(Game.CountdownDuration + .1f);
+        test.Galaxy.Time.Add(game.CountdownDuration + .1f);
         test.Galaxy.Update();
 
         // Works now
@@ -71,7 +71,7 @@ public class GameTests
         TestSetup test = new();
 
         var game = test.Galaxy.ActiveGames[test.Galaxy.PlayerGameMap[test.Players[0].Id]];
-        test.Galaxy.Time.Add(Game.CountdownDuration + .1f);
+        test.Galaxy.Time.Add(game.CountdownDuration + .1f);
         test.Galaxy.Update();
 
         var ks = TH.Keystrokes(game.Phrase);
@@ -98,7 +98,7 @@ public class GameTests
         TestSetup test = new();
 
         var game = test.Galaxy.ActiveGames[test.Galaxy.PlayerGameMap[test.Players[0].Id]];
-        float time = Game.CountdownDuration + .1f;
+        float time = game.CountdownDuration + .1f;
         test.Galaxy.Time.Add(time);
         test.Galaxy.Update();
 
@@ -198,7 +198,7 @@ public class GameTests
         Assert.AreEqual(Game.GameState.Lobby, game.State);
         Api.FindGame("Petunia", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false);
         Assert.AreEqual(Game.GameState.Countdown, game.State);
-        galaxy.Time.Add(Game.CountdownDuration - .1f);
+        galaxy.Time.Add(game.CountdownDuration - .1f);
         galaxy.Update();
         Assert.AreEqual(Game.GameState.Countdown, game.State);
         galaxy.Time.Add(.2f);
@@ -254,7 +254,7 @@ public class GameTests
         Api.FindGame(alice.Name, alice.Id, alice.Token, galaxy, false, new HashSet<GameMode> { GameMode.HomeRow });
         galaxy.ClearOutbox();
 
-        galaxy.Time.Add(Game.CountdownDuration + .1f);
+        galaxy.Time.Add(game.CountdownDuration + .1f);
         game.Update();
 
         Assert.AreEqual(0, galaxy.OutboxMessages().Count(m => m.RecipientId == alice.Id));

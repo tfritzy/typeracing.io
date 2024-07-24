@@ -107,7 +107,7 @@ public class DisconnectTests
         Assert.AreEqual(1, test.Galaxy.OutboxMessages().Count(u => u.RecipientId == player3.Id));
 
         test.Galaxy.ClearOutbox();
-        test.Galaxy.Time.Update(test.Galaxy.Time.Now + Game.CountdownDuration + 1f);
+        test.Galaxy.Time.Update(test.Galaxy.Time.Now + game.CountdownDuration + 1f);
         test.Galaxy.Update();
 
         Assert.AreEqual(2, test.Galaxy.OutboxCount()); // Player 2 and player 3

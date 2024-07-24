@@ -54,7 +54,7 @@ public class BotTests
         Assert.AreEqual(4, game.Players.Count);
         Assert.AreEqual(Game.GameState.Countdown, game.State);
 
-        time += Game.CountdownDuration + .1f;
+        time += game.CountdownDuration + .1f;
         test.Galaxy.Time.Update(time);
         test.Galaxy.Update();
         Assert.AreEqual(Game.GameState.Running, game.State);
