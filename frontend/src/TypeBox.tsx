@@ -160,7 +160,7 @@ export const TypeBox = (props: TypeBoxProps) => {
       if (currentWord[i] !== phrase[lockedCharacterIndex + i]) {
         hasError = true;
         text.push(
-          <span className="relative underline">
+          <span className="relative underline underline-offset-[6px]">
             <span className="text-tertiary-color opacity-25">
               {phrase[lockedCharacterIndex + i]}
             </span>
@@ -171,7 +171,9 @@ export const TypeBox = (props: TypeBoxProps) => {
         );
       } else {
         text.push(
-          <span className="underline text-text-primary">{currentWord[i]}</span>
+          <span className="underline underline-offset-[6px] text-text-primary">
+            {currentWord[i]}
+          </span>
         );
       }
     }
@@ -188,7 +190,9 @@ export const TypeBox = (props: TypeBoxProps) => {
       nextSpaceIndex
     );
     text.push(
-      <span className="underline text-text-tertiary">{remainderOfWord}</span>
+      <span className="underline underline-offset-[6px] text-text-tertiary">
+        {remainderOfWord}
+      </span>
     );
 
     if (nextSpaceIndex !== -1) {
