@@ -97,12 +97,12 @@ const handleMessage = (
 };
 
 function App() {
-  return (
-    <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-      <h2>Sorry out of service for a while.</h2>
-      <p>This is self hosted, and I'm moving. Will be back soon :(</p>
-    </div>
-  );
+  // return (
+  //   <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+  //     <h2>Sorry out of service for a while.</h2>
+  //     <p>This is self hosted, and I'm moving. Will be back soon :(</p>
+  //   </div>
+  // );
 
   const gameRef = React.useRef<string>("");
   const playerId = useSelector((state: RootState) => state.player.id);
