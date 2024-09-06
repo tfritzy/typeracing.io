@@ -13,6 +13,7 @@ public class InGamePlayer
     public bool IsDisconnected { get; set; }
     public int Errors { get; set; }
     public float LastSeen { get; set; }
+    public int DesyncCount { get; set; }
 
     public InGamePlayer(string name, string id, string token, BotConfig? botConfig = null)
     {
@@ -23,5 +24,6 @@ public class InGamePlayer
         KeyStrokes = new List<KeyStroke>();
         IsDisconnected = false;
         BotConfig = botConfig;
+        DesyncCount = 0;
     }
 }

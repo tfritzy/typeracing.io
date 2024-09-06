@@ -115,6 +115,38 @@ public class GameTests
     }
 
     [TestMethod]
+    public void Game_TypeWord_GivesPlayersABreak()
+    {
+        TestSetup test = new();
+        var game = test.Galaxy.ActiveGames[test.Galaxy.PlayerGameMap[test.Players[0].Id]];
+        float time = game.CountdownDuration + .1f;
+        test.Galaxy.Time.Add(time);
+        test.Galaxy.Update();
+
+        InGamePlayer player = test.Galaxy.ActiveGames.Values.First().Players.Find(p => p.Id == test.Players[0].Id)!;
+        var keystrokes = TH.KeystrokesForWord(game.Phrase, 0, 30);
+        int expectedIndex = keystrokes.Count;
+        Api.TypeWord(keystrokes, test.Players[0], test.Galaxy);
+        Assert.AreEqual(expectedIndex, player.PhraseIndex);
+
+        string somethingIncorrect = "a big old elephat sitting on a log";
+        keystrokes = TH.KeystrokesForWord(somethingIncorrect, 1, 30);
+        expectedIndex += keystrokes.Count;
+        Api.TypeWord(keystrokes, test.Players[0], test.Galaxy);
+        Assert.AreEqual(expectedIndex, player.PhraseIndex);
+
+        keystrokes = TH.KeystrokesForWord(somethingIncorrect, 2, 30);
+        expectedIndex += keystrokes.Count;
+        Api.TypeWord(keystrokes, test.Players[0], test.Galaxy);
+        Assert.AreEqual(expectedIndex, player.PhraseIndex);
+
+        // Out of chances. No more progression.
+        keystrokes = TH.KeystrokesForWord(somethingIncorrect, 3, 30);
+        Api.TypeWord(keystrokes, test.Players[0], test.Galaxy);
+        Assert.AreEqual(expectedIndex, player.PhraseIndex);
+    }
+
+    [TestMethod]
     public void Game_SendsStatsAboutPlayersWhenTheyFinish()
     {
         TestSetup test = new();

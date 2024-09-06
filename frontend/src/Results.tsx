@@ -27,6 +27,7 @@ export const Results = () => {
   );
 
   const self = finishedPlayers.find((p) => p.id === selfId);
+  const placement = finishedPlayers.findIndex((p) => p.id === selfId);
 
   useEffect(() => {
     const newWpmData: Series[] = [];
@@ -78,6 +79,46 @@ export const Results = () => {
     }
   }, []);
 
+  const getStringForPlacement = useCallback((place: number) => {
+    if (place === 0) {
+      return (
+        <span>
+          1<sup className="text-md">st</sup>
+        </span>
+      );
+    } else if (place === 1) {
+      return (
+        <span>
+          2<sup className="text-md">nd</sup>
+        </span>
+      );
+    } else if (place === 2) {
+      return (
+        <span>
+          3<sup className="text-md">rd</sup>
+        </span>
+      );
+    } else {
+      return (
+        <span>
+          4<sup className="text-md">th</sup>
+        </span>
+      );
+    }
+  }, []);
+
+  const getClassForPlacement = useCallback((placement: number) => {
+    if (placement === 0) {
+      return " pulsing-gradient-text ";
+    } else if (placement === 1) {
+      return "accent-gradient-text";
+    } else if (placement === 2) {
+      return "text-neutral-300";
+    } else {
+      return "text-text-secondary";
+    }
+  }, []);
+
   const chart = React.useMemo(() => {
     return wpmData ? (
       <LineChart series={wpmData.series} errors={wpmData.errors} />
@@ -101,9 +142,24 @@ export const Results = () => {
     <div>
       <div className="flex flex-row space-x-4 overflow-x-auto">
         <div
+          className={`p-3 py-2 min-w-24 rounded-lg ${getClassForPlacement(
+            placement
+          )}`}
+        >
+          <div className="text-xs text-text-tertiary">PLACE</div>
+          <div
+            className={`text-3xl border-none font-mono mx-auto ${getClassForPlacement(
+              placement
+            )}`}
+          >
+            {getStringForPlacement(placement)}
+          </div>
+        </div>
+
+        <div
           className={`p-3 py-2 min-w-24 rounded-lg ${getClassForWpm(finalWpm)}`}
         >
-          <div className="text-sm text-text-tertiary">WPM</div>
+          <div className="text-xs text-text-tertiary">WPM</div>
           <div
             className={`text-3xl border-none font-mono mx-auto ${getClassForWpm(
               finalWpm
@@ -118,7 +174,7 @@ export const Results = () => {
             self?.accuracy || 0
           )}`}
         >
-          <div className="text-sm text-text-tertiary">Accuracy</div>
+          <div className="text-xs text-text-tertiary">ACCURACY</div>
           <div className={"text-3xl border-none font-mono"}>
             {((self?.accuracy || 0) * 100).toFixed(0)}%
           </div>
@@ -127,29 +183,29 @@ export const Results = () => {
         <div className="h-12 w-1 border-r my-auto border-border-color" />
 
         <div className="p-3 px-6 h-full">
-          <div className="text-sm text-text-tertiary">Time</div>
+          <div className="text-xs text-text-tertiary">TIME</div>
           <div className="text-xl font-mono text-primary">
             {durationFormatted}
           </div>
         </div>
 
         <div className="p-3 px-6">
-          <div className="text-sm text-text-tertiary">Words</div>
+          <div className="text-xs text-text-tertiary">WORDS</div>
           <div className="text-xl font-mono text-primary">{numWords}</div>
         </div>
 
         <div className="p-3 px-6">
-          <div className="text-sm text-text-tertiary">Mistakes</div>
+          <div className="text-xs text-text-tertiary">MISTAKES</div>
           <div className="text-xl font-mono text-primary">{numErrors}</div>
         </div>
 
         <div className="p-3 px-6">
-          <div className="text-sm text-text-tertiary">Characters</div>
+          <div className="text-xs text-text-tertiary">CHARACTERS</div>
           <div className="text-xl font-mono text-primary">{numCharacters}</div>
         </div>
 
         <div className="p-3 px-6">
-          <div className="text-sm text-text-tertiary">Characters/s</div>
+          <div className="text-xs text-text-tertiary">CHARACTERS/S</div>
           <div className="text-xl font-mono text-primary">
             {(numCharacters / duration).toFixed(1)}
           </div>

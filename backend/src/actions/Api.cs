@@ -231,8 +231,17 @@ public static class Api
         }
 
         string typed = ParseKeystrokes(keyStrokes);
+        bool isCorrect = IsTypedCorrect(typed, game.Phrase, player.PhraseIndex);
+        if (!isCorrect && player.DesyncCount < 2)
+        {
+            Console.WriteLine("Player typed wrong thing but is below the desync threshold.");
+            player.DesyncCount += 1;
+            isCorrect = true;
+            keyStrokes = new List<KeyStroke>();
+            typed = game.Phrase.Substring(player.PhraseIndex, typed.Length);
+        }
 
-        if (IsTypedCorrect(typed, game.Phrase, player.PhraseIndex))
+        if (isCorrect)
         {
             player.Errors += CountErrors(keyStrokes, game.Phrase, player.PhraseIndex);
             player.KeyStrokes.AddRange(keyStrokes);

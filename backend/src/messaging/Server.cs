@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Net;
 using System.Net.WebSockets;
-using System.Security.Cryptography.X509Certificates;
 using Google.Protobuf;
 using DotNetEnv;
 using Schema;
