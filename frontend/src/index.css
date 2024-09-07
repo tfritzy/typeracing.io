@@ -100,7 +100,7 @@ h2 {
 }
 
 .accent-gradient-text {
-  background: linear-gradient(0deg, var(--accent), #ecfccb);
+  background: linear-gradient(0deg, var(--accent), var(--accent));
   background-size: 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -108,7 +108,7 @@ h2 {
 }
 
 .pulsing-gradient-text {
-  background: radial-gradient(circle, #fef08a, #a7f3d0);
+  background: radial-gradient(circle, #fef08a, #fde68a);
   background-size: 400%;
   -webkit-background-clip: text;
   background-clip: text;

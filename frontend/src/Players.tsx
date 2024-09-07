@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
-import { HelpCircle, StarSolid } from "iconoir-react";
+import { HelpCircle } from "iconoir-react";
 import { PlayerData } from "./store/gameSlice";
 import { Spinner } from "./Spinner";
 import Tooltip from "./Tooltip";
@@ -9,7 +9,6 @@ import Tooltip from "./Tooltip";
 const placementText = [
   <span className="font-semibold flex flex-row items-center space-x-1 pulsing-gradient-text">
     <span>1st</span>
-    <StarSolid width={16} height={16} />
   </span>,
   <span className="font-semibold text-text-primary">2nd</span>,
   <span className="font-semibold text-text-secondary">3rd</span>,

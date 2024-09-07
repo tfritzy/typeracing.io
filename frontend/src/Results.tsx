@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { PlayerData } from "./store/gameSlice";
 import { ErrorsAtTime } from "./compiled";
 import React from "react";
+import ConfettiExplosion from "react-confetti-explosion";
 
 export const Results = () => {
   const [wpmData, setWpmData] = useState<{
@@ -83,25 +84,29 @@ export const Results = () => {
     if (place === 0) {
       return (
         <span>
-          1<sup className="text-md">st</sup>
+          <span>1</span>
+          <span className="text-sm align-super">st</span>
         </span>
       );
     } else if (place === 1) {
       return (
         <span>
-          2<sup className="text-md">nd</sup>
+          <span>2</span>
+          <span className="text-sm align-super">nd</span>
         </span>
       );
     } else if (place === 2) {
       return (
         <span>
-          3<sup className="text-md">rd</sup>
+          <span>3</span>
+          <span className="text-sm align-super">rd</span>
         </span>
       );
     } else {
       return (
         <span>
-          4<sup className="text-md">th</sup>
+          <span>4</span>
+          <span className="text-sm align-super">th</span>
         </span>
       );
     }
@@ -118,12 +123,6 @@ export const Results = () => {
       return "text-text-secondary";
     }
   }, []);
-
-  const chart = React.useMemo(() => {
-    return wpmData ? (
-      <LineChart series={wpmData.series} errors={wpmData.errors} />
-    ) : null;
-  }, [wpmData]);
 
   if (!finishedPlayers.length) {
     return null;
@@ -146,6 +145,14 @@ export const Results = () => {
             placement
           )}`}
         >
+          {placement === 0 && (
+            <ConfettiExplosion
+              particleSize={2}
+              force={0.2}
+              duration={4000}
+              colors={["#fed7aa", "#fde68a", "#bae6fd", "#c7d2fe", "#f5d0fe"]}
+            />
+          )}
           <div className="text-xs text-text-tertiary">PLACE</div>
           <div
             className={`text-3xl border-none font-mono mx-auto ${getClassForPlacement(
@@ -212,7 +219,11 @@ export const Results = () => {
         </div>
       </div>
 
-      {chart}
+      {wpmData ? (
+        <LineChart series={wpmData.series} errors={wpmData.errors} />
+      ) : (
+        <div className="min-h-[300px]" />
+      )}
     </div>
   );
 };
