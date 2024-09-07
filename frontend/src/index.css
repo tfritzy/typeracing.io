@@ -108,7 +108,7 @@ h2 {
 }
 
 .pulsing-gradient-text {
-  background: radial-gradient(circle, #fef3c7, #fef9c3);
+  background: radial-gradient(circle, #fef3c7, #fde68a);
   background-size: 400%;
   -webkit-background-clip: text;
   background-clip: text;
