@@ -13,6 +13,7 @@ public class Server
     public Galaxy Galaxy { get; set; }
     private const int interval = 1000 / 15;
     private DateTime start = DateTime.Now;
+    const int MaxChunkSize = 4096;
 
     public Server()
     {
@@ -109,38 +110,52 @@ public class Server
         _ = Task.Run(() => ListenLoop(webSocket, id));
     }
 
-    private async void ListenLoop(WebSocket webSocket, string token)
+    private async Task ListenLoop(WebSocket webSocket, string token)
     {
+        var buffer = new byte[4096];
+        var messageBuffer = new MemoryStream();
+
         try
         {
-            byte[] receiveBuffer = new byte[1024];
             while (webSocket.State == WebSocketState.Open)
             {
-                var receiveResult = await webSocket.ReceiveAsync(
-                    new ArraySegment<byte>(receiveBuffer), CancellationToken.None);
-
-                int messageLength = receiveResult.Count;
-
-                if (receiveResult.MessageType == WebSocketMessageType.Binary)
+                WebSocketReceiveResult receiveResult;
+                do
                 {
-                    using (var ms = new MemoryStream(receiveBuffer, 0, messageLength))
+                    receiveResult = await webSocket.ReceiveAsync(
+                        new ArraySegment<byte>(buffer), CancellationToken.None);
+
+                    if (receiveResult.MessageType == WebSocketMessageType.Binary)
                     {
-                        OneofRequest request = OneofRequest.Parser.ParseFrom(ms);
-                        Galaxy.AddToInbox(request);
+                        await messageBuffer.WriteAsync(buffer, 0, receiveResult.Count);
+                    }
+                    else if (receiveResult.MessageType == WebSocketMessageType.Close)
+                    {
+                        Logger.Log("WebSocket connection closed by client.");
+                        Api.DisconnectPlayer(token, Galaxy);
+                        Connections.Remove(token);
+                        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+                        return;
                     }
                 }
-                else if (receiveResult.MessageType == WebSocketMessageType.Close)
+                while (!receiveResult.EndOfMessage);
+
+                if (receiveResult.MessageType == WebSocketMessageType.Binary && messageBuffer.Length > 0)
                 {
-                    Logger.Log("WebSocket connection closed by client.");
-                    Api.DisconnectPlayer(token, Galaxy);
-                    Connections.Remove(token);
-                    await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+                    messageBuffer.Position = 0;
+                    OneofRequest request = OneofRequest.Parser.ParseFrom(messageBuffer);
+                    Galaxy.AddToInbox(request);
+                    messageBuffer.SetLength(0);
                 }
             }
         }
         catch (Exception e)
         {
             Logger.Log("Exception in listen loop: " + e.Message);
+        }
+        finally
+        {
+            messageBuffer?.Dispose();
         }
     }
 
@@ -154,20 +169,25 @@ public class Server
             {
                 Connections.Remove(update.RecipientId);
             }
-
-            if (
-                Connections.ContainsKey(update.RecipientId) &&
+            if (Connections.ContainsKey(update.RecipientId) &&
                 Connections[update.RecipientId].State == WebSocketState.Open)
             {
                 WebSocket webSocket = Connections[update.RecipientId];
                 byte[] data = update.ToByteArray();
-                await webSocket.SendAsync(
-                    new ArraySegment<byte>(data, 0, data.Length),
-                    WebSocketMessageType.Binary,
-                    true,
-                    CancellationToken.None);
-            }
+                Console.WriteLine($"Sending a message that's this big: {data.Length}");
 
+                for (int i = 0; i < data.Length; i += MaxChunkSize)
+                {
+                    int chunkSize = Math.Min(MaxChunkSize, data.Length - i);
+                    bool isLastMessage = (i + chunkSize >= data.Length);
+
+                    await webSocket.SendAsync(
+                        new ArraySegment<byte>(data, i, chunkSize),
+                        WebSocketMessageType.Binary,
+                        isLastMessage,
+                        CancellationToken.None);
+                }
+            }
             update = Galaxy.GetUpdate();
         }
     }
