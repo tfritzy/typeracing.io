@@ -358,7 +358,7 @@ export const TypeBox = (props: TypeBoxProps) => {
         {errorBorder}
         <input
           value={currentWord}
-          // onPaste={(e) => e.preventDefault()}
+          onPaste={(e) => e.preventDefault()}
           onChange={handleInput}
           onKeyDown={ignoreArrows}
           id="type-box"
