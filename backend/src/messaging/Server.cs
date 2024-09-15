@@ -174,7 +174,6 @@ public class Server
             {
                 WebSocket webSocket = Connections[update.RecipientId];
                 byte[] data = update.ToByteArray();
-                Console.WriteLine($"Sending a message that's this big: {data.Length}");
 
                 for (int i = 0; i < data.Length; i += MaxChunkSize)
                 {
