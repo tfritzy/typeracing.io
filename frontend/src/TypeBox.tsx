@@ -283,16 +283,11 @@ export const TypeBox = (props: TypeBoxProps) => {
       correctUpToIndex
     );
     let newEndIndex = -1;
-    const nextWord = phrase.slice(lockedCharacterIndex).split(" ")[0].trim();
     if (
       correctUpToIndex - lockedCharacterIndex > 0 &&
-      currentWord.trim().startsWith(nextWord)
+      (correctSubstring.includes(" ") || correctUpToIndex === phrase.length)
     ) {
-      newEndIndex =
-        phrase.indexOf(nextWord, lockedCharacterIndex) + nextWord.length;
-      while (correctSubstring[newEndIndex - lockedCharacterIndex] === " ") {
-        newEndIndex++;
-      }
+      newEndIndex = correctUpToIndex;
     }
 
     if (newEndIndex !== -1) {
@@ -363,7 +358,7 @@ export const TypeBox = (props: TypeBoxProps) => {
         {errorBorder}
         <input
           value={currentWord}
-          onPaste={(e) => e.preventDefault()}
+          // onPaste={(e) => e.preventDefault()}
           onChange={handleInput}
           onKeyDown={ignoreArrows}
           id="type-box"
