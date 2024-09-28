@@ -47,6 +47,7 @@ public class GameMetricsTracker
         {
             { "wpm", wpm },
             { "place", place },
+            { "player", playerId.GetHashCode() },
         };
 
         telemetryClient.TrackEvent(eventName, properties, metrics);
