@@ -271,13 +271,14 @@ public static class Api
             Logger.Log($"Player {playerId} finished phrase.");
             game.Placements.Add(playerId);
             int place = game.Placements.Count - 1;
+            var wpm = Stats.GetWpm(player.KeyStrokes);
             foreach (InGamePlayer p in game.Players)
             {
                 var playerCompleted = new PlayerCompleted
                 {
                     PlayerId = playerId,
                     Place = place,
-                    Wpm = Stats.GetWpm(player.KeyStrokes),
+                    Wpm = wpm,
                     Accuracy = game.Phrase.Length / ((float)game.Phrase.Length + player.Errors),
                     Mode = game.Mode,
                     NumErrors = player.Errors,
@@ -290,6 +291,11 @@ public static class Api
                 {
                     PlayerCompleted = playerCompleted
                 });
+            }
+
+            if (player.BotConfig == null)
+            {
+                GameMetricsTracker.Instance.TrackGamePlayed(player.Id, "game_finished", (int)wpm, place);
             }
         }
 
