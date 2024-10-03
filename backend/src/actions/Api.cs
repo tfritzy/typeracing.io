@@ -233,8 +233,11 @@ public static class Api
         }
 
         string typed = ParseKeystrokes(keyStrokes);
-        Console.WriteLine($"Player typed word ${typed} at index {player.PhraseIndex}");
         bool isCorrect = IsTypedCorrect(typed, game.Phrase, player.PhraseIndex);
+
+        if (player.BotConfig == null)
+            Console.WriteLine($"${player.Id} typed '{typed}' at index {player.PhraseIndex}");
+
         if (!isCorrect && player.DesyncCount < 2)
         {
             Console.WriteLine("Player typed wrong thing but is below the desync threshold.");
