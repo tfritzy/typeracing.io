@@ -25,6 +25,7 @@ public static class Api
             game = new(galaxy, mode: mode, isPractice: practice);
             galaxy.OpenGames.Add(game);
             Logger.Log($"Created new game {game.Id} with mode {mode}.");
+            Logger.Log(game.Phrase);
         }
 
         AddPlayerToGame(galaxy, game, new InGamePlayer(playerName, playerId, playerToken));
@@ -114,7 +115,7 @@ public static class Api
 
         foreach (InGamePlayer player in openGame.Players)
         {
-            Console.WriteLine($"Sending game starting to {player.Id}");
+            Logger.Log($"Sending game starting to {player.Id}");
             galaxy.SendUpdate(player, openGame.Id, new OneofUpdate
             {
                 GameStarting = new GameStarting
