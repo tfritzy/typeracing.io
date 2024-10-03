@@ -16,6 +16,8 @@ public static class Api
         if (enabledModes.Count == 0)
             enabledModes.Add(GameMode.Dictionary);
 
+        Logger.Log($"Player {playerId} is looking for a game.");
+
         var game = FindFirstMatchingGame(enabledModes, galaxy);
         if (game == null)
         {
@@ -231,10 +233,12 @@ public static class Api
         }
 
         string typed = ParseKeystrokes(keyStrokes);
+        Console.WriteLine($"Player typed word ${typed} at index {player.PhraseIndex}");
         bool isCorrect = IsTypedCorrect(typed, game.Phrase, player.PhraseIndex);
         if (!isCorrect && player.DesyncCount < 2)
         {
             Console.WriteLine("Player typed wrong thing but is below the desync threshold.");
+            GameMetricsTracker.Instance.TrackDesync(player.Id);
             player.DesyncCount += 1;
             isCorrect = true;
             keyStrokes = new List<KeyStroke>();

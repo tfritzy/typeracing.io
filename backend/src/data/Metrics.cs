@@ -53,4 +53,24 @@ public class GameMetricsTracker
         telemetryClient.TrackEvent(eventName, properties, metrics);
         Logger.Log($"Tracked metric for {playerId} {wpm} {place}");
     }
+
+    public void TrackDesync(string playerId)
+    {
+        if (!IsProd)
+        {
+            return;
+        }
+
+        var properties = new Dictionary<string, string>
+        {
+            { "PlayerId", playerId },
+        };
+        var metrics = new Dictionary<string, double>
+        {
+            { "player", playerId.GetHashCode() },
+        };
+
+        telemetryClient.TrackEvent("desync", properties, metrics);
+        Logger.Log($"Tracked desync for {playerId}");
+    }
 }

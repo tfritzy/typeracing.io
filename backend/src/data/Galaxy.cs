@@ -150,8 +150,6 @@ public class Galaxy
 
     private void HandleRequest(OneofRequest request)
     {
-        Logger.Log($"Received request of type {request.RequestCase} from {request.SenderId}");
-
         switch (request.RequestCase)
         {
             case OneofRequest.RequestOneofCase.FindGame:
