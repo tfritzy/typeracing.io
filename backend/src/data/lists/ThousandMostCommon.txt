@@ -210,7 +210,6 @@ decision
 deep
 defense
 degree
-democrat
 democratic
 describe
 design
@@ -709,7 +708,6 @@ remember
 remove
 report
 represent
-republican
 require
 research
 resource
