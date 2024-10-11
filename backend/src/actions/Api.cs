@@ -237,15 +237,17 @@ public static class Api
         bool isCorrect = IsTypedCorrect(typed, game.Phrase, player.PhraseIndex);
 
         if (player.BotConfig == null)
-            Console.WriteLine($"${player.Id} typed '{typed}' at index {player.PhraseIndex}");
+            Logger.Log($"{player.Id} typed '{typed}' at index {player.PhraseIndex}");
 
         if (!isCorrect && player.DesyncCount < 2)
         {
-            Console.WriteLine("Player typed wrong thing but is below the desync threshold.");
+            Logger.Log("Player typed wrong thing but is below the desync threshold.");
             GameMetricsTracker.Instance.TrackDesync(player.Id);
             player.DesyncCount += 1;
-            isCorrect = true;
             keyStrokes = new List<KeyStroke>();
+            var index = game.Phrase.IndexOf(typed);
+            player.PhraseIndex = index;
+            isCorrect = true;
             typed = game.Phrase.Substring(player.PhraseIndex, typed.Length);
         }
 

@@ -27,7 +27,7 @@ public class StatsTests
     [TestMethod]
     public void Stats_ReturnsWpm()
     {
-        var strokes = TH.Keystrokes("hello world", 120);
+        var strokes = TH.GetKeystrokes("hello world", 120);
 
         TH.IsApproximately(120, Stats.GetWpm(strokes));
 
@@ -47,7 +47,7 @@ public class StatsTests
     [TestMethod]
     public void Stats_ErrorCount()
     {
-        var strokes = TH.Keystrokes("hello", 120);
+        var strokes = TH.GetKeystrokes("hello", 120);
         CollectionAssert.AreEqual(
             new List<ErrorsAtTime>
             {

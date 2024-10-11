@@ -58,7 +58,7 @@ public class GameTests
 
         Assert.AreEqual(Game.GameState.Running, game.State);
 
-        var ks = TH.Keystrokes(game.Phrase);
+        var ks = TH.GetKeystrokes(game.Phrase);
         Api.TypeWord(ks.GetRange(0, ks.Count - 1), test.Players[3], test.Galaxy);
         Assert.AreEqual(Game.GameState.Running, game.State);
         Api.TypeWord(ks.GetRange(ks.Count - 1, 1), test.Players[3], test.Galaxy);
@@ -74,7 +74,7 @@ public class GameTests
         test.Galaxy.Time.Add(game.CountdownDuration + .1f);
         test.Galaxy.Update();
 
-        var ks = TH.Keystrokes(game.Phrase);
+        var ks = TH.GetKeystrokes(game.Phrase);
         Api.TypeWord(ks.GetRange(0, ks.Count - 1), test.Players[0], test.Galaxy);
         test.Galaxy.ClearOutbox();
         Api.TypeWord(ks.GetRange(ks.Count - 1, 1), test.Players[0], test.Galaxy);
@@ -119,31 +119,31 @@ public class GameTests
     {
         TestSetup test = new();
         var game = test.Galaxy.ActiveGames[test.Galaxy.PlayerGameMap[test.Players[0].Id]];
+        game.Phrase = "hello world of earth";
         float time = game.CountdownDuration + .1f;
         test.Galaxy.Time.Add(time);
         test.Galaxy.Update();
 
         InGamePlayer player = test.Galaxy.ActiveGames.Values.First().Players.Find(p => p.Id == test.Players[0].Id)!;
-        var keystrokes = TH.KeystrokesForWord(game.Phrase, 0, 30);
-        int expectedIndex = keystrokes.Count;
+        var keystrokes = TH.GetKeystrokes("hello ", 30);
         Api.TypeWord(keystrokes, test.Players[0], test.Galaxy);
-        Assert.AreEqual(expectedIndex, player.PhraseIndex);
+        Assert.AreEqual(6, player.PhraseIndex);
 
-        string somethingIncorrect = "a big old elephat sitting on a log";
-        keystrokes = TH.KeystrokesForWord(somethingIncorrect, 1, 30);
-        expectedIndex += keystrokes.Count;
+        keystrokes = TH.GetKeystrokes("world ", 30);
         Api.TypeWord(keystrokes, test.Players[0], test.Galaxy);
-        Assert.AreEqual(expectedIndex, player.PhraseIndex);
+        Assert.AreEqual(12, player.PhraseIndex);
 
-        keystrokes = TH.KeystrokesForWord(somethingIncorrect, 2, 30);
-        expectedIndex += keystrokes.Count;
+        keystrokes = TH.GetKeystrokes("world o", 30);
         Api.TypeWord(keystrokes, test.Players[0], test.Galaxy);
-        Assert.AreEqual(expectedIndex, player.PhraseIndex);
+        Assert.AreEqual(13, player.PhraseIndex);
 
-        // Out of chances. No more progression.
-        keystrokes = TH.KeystrokesForWord(somethingIncorrect, 3, 30);
+        keystrokes = TH.GetKeystrokes("f ", 30);
         Api.TypeWord(keystrokes, test.Players[0], test.Galaxy);
-        Assert.AreEqual(expectedIndex, player.PhraseIndex);
+        Assert.AreEqual(15, player.PhraseIndex);
+
+        keystrokes = TH.GetKeystrokes("earth", 30);
+        Api.TypeWord(keystrokes, test.Players[0], test.Galaxy);
+        Assert.IsTrue(game.Placements.Contains(player.Id));
     }
 
     [TestMethod]
@@ -178,7 +178,7 @@ public class GameTests
         Game game = TH.FindGameOfPlayer(test.Galaxy, test.Players[0]);
         TH.AdvancePastCooldown(test.Galaxy, game);
 
-        var keystrokes = TH.Keystrokes(game.Phrase, 30);
+        var keystrokes = TH.GetKeystrokes(game.Phrase, 30);
         Api.TypeWord(keystrokes, test.Players[0], test.Galaxy);
         Api.TypeWord(keystrokes, test.Players[1], test.Galaxy);
         Api.TypeWord(keystrokes, test.Players[2], test.Galaxy);

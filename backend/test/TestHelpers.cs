@@ -4,7 +4,7 @@ namespace Tests;
 
 public static class TH
 {
-    public static List<KeyStroke> Keystrokes(string str, int wpm = 60)
+    public static List<KeyStroke> GetKeystrokes(string str, int wpm = 60)
     {
         List<KeyStroke> keystrokes = new();
         float timePerChar = 60f / wpm / 5f;
@@ -26,18 +26,18 @@ public static class TH
         {
             word += " ";
         }
-        return Keystrokes(word, wpm);
+        return GetKeystrokes(word, wpm);
     }
 
     public static void TypeWholePhrase(Galaxy galaxy, Game game, InGamePlayer player, int wpm = 60)
     {
-        var keystrokes = Keystrokes(game.Phrase, wpm);
+        var keystrokes = GetKeystrokes(game.Phrase, wpm);
         Api.TypeWord(keystrokes, player, galaxy);
     }
 
     public static void TypeRemainderOfPhrase(Galaxy galaxy, Game game, InGamePlayer player, int wpm = 60)
     {
-        var keystrokes = Keystrokes(game.Phrase.Substring(player.PhraseIndex), wpm);
+        var keystrokes = GetKeystrokes(game.Phrase.Substring(player.PhraseIndex), wpm);
         Api.TypeWord(keystrokes, player, galaxy);
     }
 

@@ -10,7 +10,7 @@ public class Game
     public string Id { get; set; }
     public int MaxPlayers { get; set; }
     public GameState State { get; set; }
-    public string Phrase { get; private set; }
+    public string Phrase { get; set; }
     public float CreationTime { get; private set; }
     public GameMode Mode { get; private set; }
     public float StartTime;
