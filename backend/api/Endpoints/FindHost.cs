@@ -22,7 +22,7 @@ namespace api
 
         [Function("FindHost")]
         public async Task<HttpResponseData> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req)
         {
             var container = _cosmosClient.GetContainer(_databaseName, _containerName);
             var queryDefinition = new QueryDefinition("SELECT * FROM c");
