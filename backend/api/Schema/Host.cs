@@ -9,16 +9,12 @@ public class Host
     [JsonPropertyName("ip")]
     public string ip { get; set; }
 
-    [JsonPropertyName("version")]
-    public string version { get; set; }
-
     [JsonPropertyName("hosts")]
     public string hosts { get; set; } = "hosts";
 
-    public Host(string id, string ip, string version)
+    public Host(string id, string ip)
     {
         this.id = id;
         this.ip = ip;
-        this.version = version;
     }
 }

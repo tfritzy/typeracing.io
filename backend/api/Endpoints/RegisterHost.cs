@@ -34,7 +34,7 @@ namespace api
                 .Select(s => s.Trim()));
         }
 
-        [Function("RegisterHost")]
+        [Function("register")]
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req)
         {
@@ -57,18 +57,16 @@ namespace api
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
                 );
 
-                if (String.IsNullOrEmpty(requestBody?.Version))
-                {
-                    return new BadRequestObjectResult("Invalid version");
-                }
-
                 var host = new Host(
                     id: GenerateHostId(),
-                    ip: clientIP,
-                    version: requestBody.Version
+                    ip: clientIP
                 );
 
                 var container = _cosmosClient.GetContainer(_databaseName, _containerName);
+
+                List<string> existingEntries = await HostHelpers.FindExistingEntries(container, clientIP);
+                await HostHelpers.DeleteHosts(container, existingEntries);
+
                 await container.CreateItemAsync(host, new PartitionKey("hosts"));
 
                 return new OkObjectResult("Host registered successfully");
@@ -85,19 +83,6 @@ namespace api
                     StatusCode = 500
                 };
             }
-        }
-
-        private string? GetClientIp(HttpRequestData req)
-        {
-            var headerDictionary = req.Headers.ToDictionary(x => x.Key, x => x.Value, StringComparer.Ordinal);
-            var key = "X-Forwarded-For";
-            Console.WriteLine("Headers " + req.Headers);
-            if (headerDictionary.ContainsKey(key))
-            {
-                return headerDictionary[key].FirstOrDefault();
-            }
-
-            return null;
         }
 
         private string GenerateHostId()

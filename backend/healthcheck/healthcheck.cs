@@ -69,7 +69,6 @@ namespace Typeracing.Api
                             tcs.SetResult(true);
                             _logger.LogInformation("WebSocket connection closed after successful connection.");
                         }
-
                     };
 
                     ws.Connect();
