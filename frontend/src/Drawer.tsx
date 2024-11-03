@@ -100,7 +100,7 @@ export const Drawer = (props: DrawerProps) => {
           onClick={props.onClose}
           className="rounded-md text-sm font-normal px-3 py-1 flex flex-row items-center space-x-2"
         >
-          Done
+          Close
         </button>
       </div>
     </div>
