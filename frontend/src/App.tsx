@@ -163,7 +163,7 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         const ws = new WebSocket(
-          `${wsScheme}://${data.ip}:4999/?id=${playerId}`
+          `${wsScheme}://${data.ip}:4998/?id=${playerId}`
         );
         ws.onopen = () => {
           setWsState(WebSocket.OPEN);
