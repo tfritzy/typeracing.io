@@ -159,27 +159,41 @@ function App() {
     dispatch(updatePlayerId(playerId));
     dispatch(updateToken(token));
 
-    fetch(apiUrl + "/api/find-host")
-      .then((response) => response.json())
-      .then((data) => {
-        const ws = new WebSocket(
-          // `${wsScheme}://${data.ip}:4998/?id=${playerId}`
-          `wss://135.131.7.56:4998/?id=${playerId}`
-        );
-        ws.onopen = () => {
-          setWsState(WebSocket.OPEN);
-        };
-        ws.onmessage = (event) =>
-          handleMessage(event, dispatch, navigate, playerId || "", gameRef);
-        ws.onclose = () => {
-          setWsState(WebSocket.CLOSED);
-        };
-        setWs(ws);
-      })
-      .catch((error) => {
-        console.error("Error finding host:", error);
-        setWsState(WebSocket.CLOSED);
-      });
+    const ws = new WebSocket(
+      // `${wsScheme}://${data.ip}:4998/?id=${playerId}`
+      `wss://135.131.7.56:4998/?id=${playerId}`
+    );
+    ws.onopen = () => {
+      setWsState(WebSocket.OPEN);
+    };
+    ws.onmessage = (event) =>
+      handleMessage(event, dispatch, navigate, playerId || "", gameRef);
+    ws.onclose = () => {
+      setWsState(WebSocket.CLOSED);
+    };
+    setWs(ws);
+
+    // fetch(apiUrl + "/api/find-host")
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     const ws = new WebSocket(
+    //       // `${wsScheme}://${data.ip}:4998/?id=${playerId}`
+    //       `wss://135.131.7.56:4998/?id=${playerId}`
+    //     );
+    //     ws.onopen = () => {
+    //       setWsState(WebSocket.OPEN);
+    //     };
+    //     ws.onmessage = (event) =>
+    //       handleMessage(event, dispatch, navigate, playerId || "", gameRef);
+    //     ws.onclose = () => {
+    //       setWsState(WebSocket.CLOSED);
+    //     };
+    //     setWs(ws);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error finding host:", error);
+    //     setWsState(WebSocket.CLOSED);
+    //   });
 
     // todo: use resp from find-host
     // var ws = new WebSocket(`${apiUrl}/?id=${playerId}`);
