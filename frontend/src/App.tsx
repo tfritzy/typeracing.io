@@ -30,7 +30,8 @@ import { RootState } from "./store/store";
 import { Dispatch } from "redux";
 import { DisconnectedModal } from "./DisconnectedModal";
 
-const serverUrl = process.env.REACT_APP_SERVER_ADDRESS;
+const apiUrl = process.env.REACT_APP_API_ADDRESS;
+const wsScheme = process.env.REACT_APP_WS_SCHEME;
 
 const handleMessage = (
   event: MessageEvent<any>,
@@ -158,19 +159,41 @@ function App() {
     dispatch(updatePlayerId(playerId));
     dispatch(updateToken(token));
 
-    var ws = new WebSocket(`${serverUrl}/?id=${playerId}`);
-    ws.onopen = () => {
-      setWsState(WebSocket.OPEN);
-    };
-    ws.onmessage = (event) =>
-      handleMessage(event, dispatch, navigate, playerId || "", gameRef);
-    ws.onclose = () => {
-      setWsState(WebSocket.CLOSED);
-    };
-    setWs(ws);
-    return () => {
-      ws.close();
-    };
+    fetch(apiUrl + "/api/find-host")
+      .then((response) => response.json())
+      .then((data) => {
+        const ws = new WebSocket(
+          `${wsScheme}://${data.ip}:4999/?id=${playerId}`
+        );
+        ws.onopen = () => {
+          setWsState(WebSocket.OPEN);
+        };
+        ws.onmessage = (event) =>
+          handleMessage(event, dispatch, navigate, playerId || "", gameRef);
+        ws.onclose = () => {
+          setWsState(WebSocket.CLOSED);
+        };
+        setWs(ws);
+      })
+      .catch((error) => {
+        console.error("Error finding host:", error);
+        setWsState(WebSocket.CLOSED);
+      });
+
+    // todo: use resp from find-host
+    // var ws = new WebSocket(`${apiUrl}/?id=${playerId}`);
+    // ws.onopen = () => {
+    //   setWsState(WebSocket.OPEN);
+    // };
+    // ws.onmessage = (event) =>
+    //   handleMessage(event, dispatch, navigate, playerId || "", gameRef);
+    // ws.onclose = () => {
+    //   setWsState(WebSocket.CLOSED);
+    // };
+    // setWs(ws);
+    // return () => {
+    //   ws.close();
+    // };
   }, [dispatch, navigate]);
 
   React.useEffect(() => connect(), []);

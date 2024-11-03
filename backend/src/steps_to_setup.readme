@@ -2,3 +2,5 @@ Configure DNS to swap requests to api as api.typeracing.io
 C:\Windows\System32\drivers\etc\hosts
 /etc/hosts
 [your machine's IP] api.typeracing.io
+
+Configure api.typeracing.io ssl certificate on this machine
