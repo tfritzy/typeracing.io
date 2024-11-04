@@ -56,7 +56,8 @@ public class Server
 
         await RegisterAsHost(hostColor);
 
-        string url = $"http://{hostColor}.typeracing.io:4998/";
+        string url = $"http://+:8080/";
+        Logger.Log("Attempting to listen on " + url);
         httpListener.Prefixes.Add(url);
         httpListener.Start();
         Logger.Log("Listening on " + url);
