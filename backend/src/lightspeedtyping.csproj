@@ -29,5 +29,8 @@
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.22.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
-
+  <Target Name="SetEnvFilePermissions" AfterTargets="Build">
+    <Exec Command="chmod 600 $(OutDir)/.env.production" />
+    <Exec Command="chown typeracer:typeracer $(OutDir)/.env.production" />
+  </Target>
 </Project>

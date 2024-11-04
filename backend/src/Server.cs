@@ -48,14 +48,16 @@ public class Server
         string envFile = environment == "Production" ? ".env.production" : ".env";
         Env.Load(envFile);
 
-        string? url = Environment.GetEnvironmentVariable("HOSTED_ADDRESS");
-        if (String.IsNullOrEmpty(url))
+        string? hostColor = Environment.GetEnvironmentVariable("HOST_COLOR");
+        if (String.IsNullOrEmpty(hostColor))
         {
-            throw new Exception("HOSTED_ADDRESS environment variable not set.");
+            throw new Exception("HOST_COLOR environment variable not set.");
         }
 
-        await RegisterAsHost();
+        await RegisterAsHost(hostColor);
 
+        string url = $"http://+:8080/";
+        Logger.Log("Attempting to listen on " + url);
         httpListener.Prefixes.Add(url);
         httpListener.Start();
         Logger.Log("Listening on " + url);
@@ -84,7 +86,7 @@ public class Server
         }
     }
 
-    private async Task RegisterAsHost()
+    private async Task RegisterAsHost(string hostColor)
     {
         string? apiUrl = Environment.GetEnvironmentVariable("API_ADDRESS");
         if (String.IsNullOrEmpty(apiUrl))
@@ -100,14 +102,14 @@ public class Server
 
         HttpClient client = new HttpClient();
         client.DefaultRequestHeaders.Add("X-API-Key", apiKey);
-        var url = $"{apiUrl}api/register";
-        var data = new { version = "1" };
+        var registerUrl = $"{apiUrl}api/register";
+        var data = new { color = hostColor };
         var json = Newtonsoft.Json.JsonConvert.SerializeObject(data);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
         try
         {
-            var response = await client.PostAsync(url, content);
+            var response = await client.PostAsync(registerUrl, content);
             response.EnsureSuccessStatusCode();
 
             var responseBody = await response.Content.ReadAsStringAsync();
