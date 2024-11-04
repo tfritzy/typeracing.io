@@ -161,7 +161,7 @@ function App() {
     fetch(apiUrl + "/api/find-host")
       .then((response) => response.json())
       .then((data) => {
-        const ws = new WebSocket(data.url);
+        var ws = new WebSocket(`${data.url}/?id=${playerId}`);
         ws.onopen = () => {
           setWsState(WebSocket.OPEN);
         };
