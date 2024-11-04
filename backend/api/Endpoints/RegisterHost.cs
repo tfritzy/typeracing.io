@@ -57,9 +57,15 @@ namespace api
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
                 );
 
+                if (string.IsNullOrEmpty(requestBody?.color))
+                {
+                    return new BadRequestObjectResult("No color specified");
+                }
+
                 var host = new Host(
                     id: GenerateHostId(),
-                    ip: clientIP
+                    ip: clientIP,
+                    color: requestBody.color
                 );
 
                 var container = _cosmosClient.GetContainer(_databaseName, _containerName);

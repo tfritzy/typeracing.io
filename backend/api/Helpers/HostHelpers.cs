@@ -22,10 +22,10 @@ public static class HostHelpers
         }
     }
 
-    public static async Task<List<string>> FindExistingEntries(Container container, string clientIp)
+    public static async Task<List<string>> FindExistingEntries(Container container, string color)
     {
         List<string> existingEntryIds = [];
-        var existingEntriesQuery = new QueryDefinition($"SELECT * FROM c WHERE c.ip='{clientIp}'");
+        var existingEntriesQuery = new QueryDefinition($"SELECT * FROM c WHERE c.color='{color}'");
         using var iterator = container.GetItemQueryIterator<Host>(existingEntriesQuery);
         while (iterator.HasMoreResults)
         {

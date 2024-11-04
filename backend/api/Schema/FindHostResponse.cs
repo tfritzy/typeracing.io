@@ -3,11 +3,11 @@ using System.Text.Json.Serialization;
 
 public class FindHostResponse
 {
-    [JsonPropertyName("ip")]
-    public string ip { get; set; }
+    [JsonPropertyName("url")]
+    public string url { get; set; }
 
-    public FindHostResponse(string ip)
+    public FindHostResponse(string url)
     {
-        this.ip = ip;
+        this.url = url;
     }
 }
