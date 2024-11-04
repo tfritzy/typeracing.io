@@ -11,7 +11,7 @@ namespace Typeracing.Api
     {
         private readonly ILogger _logger;
         private static readonly HttpClient HttpClient = new HttpClient();
-        private const string WebSocketUrl = "wss://api.typeracing.io:5000/?id=plyr_healthcheck";
+        private const string WebSocketUrl = "wss://blue.typeracing.io:5000/?id=plyr_healthcheck";
         private const string LogicAppUrl = "https://prod-30.centralus.logic.azure.com:443/workflows/29eff023afbc47d98dbc62ef1074b3ee/triggers/scream/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fscream%2Frun&sv=1.0&sig=4Twd0_dT7DZe3MMw_s9I1zoPkbWBC3ODvG4XByZG-Zg";
         private const int WebSocketTimeoutMs = 3000;
 
