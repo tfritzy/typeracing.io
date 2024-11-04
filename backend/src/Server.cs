@@ -48,15 +48,15 @@ public class Server
         string envFile = environment == "Production" ? ".env.production" : ".env";
         Env.Load(envFile);
 
-        string? hostUrl = Environment.GetEnvironmentVariable("HOST_URL");
-        if (String.IsNullOrEmpty(hostUrl))
+        string? hostColor = Environment.GetEnvironmentVariable("HOST_COLOR");
+        if (String.IsNullOrEmpty(hostColor))
         {
-            throw new Exception("HOST_URL environment variable not set.");
+            throw new Exception("HOST_COLOR environment variable not set.");
         }
 
-        await RegisterAsHost(hostUrl);
+        await RegisterAsHost(hostColor);
 
-        string url = $"{hostUrl}:443/";
+        string url = $"http://{hostColor}.typeracing.io:4998/";
         httpListener.Prefixes.Add(url);
         httpListener.Start();
         Logger.Log("Listening on " + url);
@@ -85,7 +85,7 @@ public class Server
         }
     }
 
-    private async Task RegisterAsHost(string hostUrl)
+    private async Task RegisterAsHost(string hostColor)
     {
         string? apiUrl = Environment.GetEnvironmentVariable("API_ADDRESS");
         if (String.IsNullOrEmpty(apiUrl))
@@ -102,7 +102,7 @@ public class Server
         HttpClient client = new HttpClient();
         client.DefaultRequestHeaders.Add("X-API-Key", apiKey);
         var registerUrl = $"{apiUrl}api/register";
-        var data = new { url = hostUrl.Split("://")[1] };
+        var data = new { color = hostColor };
         var json = Newtonsoft.Json.JsonConvert.SerializeObject(data);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
