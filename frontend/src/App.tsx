@@ -30,7 +30,7 @@ import { RootState } from "./store/store";
 import { Dispatch } from "redux";
 import { DisconnectedModal } from "./DisconnectedModal";
 
-const serverUrl = process.env.REACT_APP_SERVER_ADDRESS;
+const apiUrl = process.env.REACT_APP_API_ADDRESS;
 
 const handleMessage = (
   event: MessageEvent<any>,
@@ -158,7 +158,7 @@ function App() {
     dispatch(updatePlayerId(playerId));
     dispatch(updateToken(token));
 
-    var ws = new WebSocket(`${serverUrl}/?id=${playerId}`);
+    var ws = new WebSocket(`wss://blue.typeracing.io/?id=${playerId}`);
     ws.onopen = () => {
       setWsState(WebSocket.OPEN);
     };
@@ -168,9 +168,25 @@ function App() {
       setWsState(WebSocket.CLOSED);
     };
     setWs(ws);
-    return () => {
-      ws.close();
-    };
+
+    // fetch(apiUrl + "/api/find-host")
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     var ws = new WebSocket(`${data.url}/?id=${playerId}`);
+    //     ws.onopen = () => {
+    //       setWsState(WebSocket.OPEN);
+    //     };
+    //     ws.onmessage = (event) =>
+    //       handleMessage(event, dispatch, navigate, playerId || "", gameRef);
+    //     ws.onclose = () => {
+    //       setWsState(WebSocket.CLOSED);
+    //     };
+    //     setWs(ws);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error finding host:", error);
+    //     setWsState(WebSocket.CLOSED);
+    //   });
   }, [dispatch, navigate]);
 
   React.useEffect(() => connect(), []);

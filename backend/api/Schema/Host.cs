@@ -12,9 +12,13 @@ public class Host
     [JsonPropertyName("hosts")]
     public string hosts { get; set; } = "hosts";
 
-    public Host(string id, string ip)
+    [JsonPropertyName("color")]
+    public string color { get; set; }
+
+    public Host(string id, string ip, string color)
     {
         this.id = id;
         this.ip = ip;
+        this.color = color;
     }
 }
