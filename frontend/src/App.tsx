@@ -158,7 +158,7 @@ function App() {
     dispatch(updatePlayerId(playerId));
     dispatch(updateToken(token));
 
-    var ws = new WebSocket(`wss://blue.typeracing.io/?id=${playerId}`);
+    var ws = new WebSocket(`wss://green.typeracing.io/?id=${playerId}`);
     ws.onopen = () => {
       setWsState(WebSocket.OPEN);
     };
