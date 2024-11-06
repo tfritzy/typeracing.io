@@ -7,12 +7,12 @@ public class Time
 
     public void Add(float seconds)
     {
-        Update(Now + seconds);
+        Update(seconds);
     }
 
-    public void Update(float currentTime_s)
+    public void Update(float deltaTime_s)
     {
-        DeltaTime = currentTime_s - Now;
-        Now = currentTime_s;
+        DeltaTime = deltaTime_s;
+        Now += deltaTime_s;
     }
 }

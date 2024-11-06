@@ -1,15 +1,8 @@
-using System;
-using System.Threading.Tasks;
-using System.Security.Cryptography;
-using System.Text;
 using System.Net;
-using System.Collections.Generic;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.Cosmos;
 using System.Text.Json;
-using System.Collections.Concurrent;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -67,6 +60,11 @@ namespace api
                     ip: clientIP,
                     color: requestBody.color
                 );
+
+                if (!await HostHelpers.IsHostAlive(host))
+                {
+                    return new BadRequestObjectResult("Host not able to accept traffic");
+                }
 
                 var container = _cosmosClient.GetContainer(_databaseName, _containerName);
 

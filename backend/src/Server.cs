@@ -13,8 +13,10 @@ public class Server
     public Dictionary<string, WebSocket> Connections { get; set; }
     public Galaxy Galaxy { get; set; }
     private const int interval = 1000 / 15;
-    private DateTime start = DateTime.Now;
+    private long lastTime = Environment.TickCount64;
+    private float registerCountdown = RE_REGISTER_PERIOD;
     const int MaxChunkSize = 4096;
+    private const float RE_REGISTER_PERIOD = 360;
 
     public Server()
     {
@@ -24,8 +26,12 @@ public class Server
 
     public async void Update()
     {
-        Tick();
+        float deltaTime_s = (Environment.TickCount64 - lastTime) / 1000f;
+        lastTime = Environment.TickCount64;
+
+        Tick(deltaTime_s);
         await ProcessOutbox();
+        await ReRegisterPeriodically(deltaTime_s);
 
         var nextTick = DateTime.Now.AddMilliseconds(interval);
 
@@ -34,11 +40,20 @@ public class Server
             Thread.Sleep(delay);
     }
 
-    public void Tick()
+    public void Tick(float deltaTime_s)
     {
-        float time_s = (float)((DateTime.Now - start).TotalMilliseconds / 1000f);
-        Galaxy.Time.Update(time_s);
+        Galaxy.Time.Update(deltaTime_s);
         Galaxy.Update();
+    }
+
+    private async Task ReRegisterPeriodically(float delta_s)
+    {
+        registerCountdown -= delta_s;
+        if (registerCountdown <= 0)
+        {
+            registerCountdown = RE_REGISTER_PERIOD;
+            await RegisterAsHost();
+        }
     }
 
     public async void StartAcceptingConnections()
@@ -48,19 +63,13 @@ public class Server
         string envFile = environment == "Production" ? ".env.production" : ".env";
         Env.Load(envFile);
 
-        string? hostColor = Environment.GetEnvironmentVariable("HOST_COLOR");
-        if (String.IsNullOrEmpty(hostColor))
-        {
-            throw new Exception("HOST_COLOR environment variable not set.");
-        }
-
-        await RegisterAsHost(hostColor);
-
         string url = $"http://+:8080/";
         Logger.Log("Attempting to listen on " + url);
         httpListener.Prefixes.Add(url);
         httpListener.Start();
         Logger.Log("Listening on " + url);
+
+        _ = Task.Run(() => RegisterAsHost());
 
         try
         {
@@ -86,7 +95,7 @@ public class Server
         }
     }
 
-    private async Task RegisterAsHost(string hostColor)
+    private async Task RegisterAsHost()
     {
         string? apiUrl = Environment.GetEnvironmentVariable("API_ADDRESS");
         if (String.IsNullOrEmpty(apiUrl))
@@ -100,24 +109,37 @@ public class Server
             throw new Exception("API_KEY environment variable not set.");
         }
 
+        string? hostColor = Environment.GetEnvironmentVariable("HOST_COLOR");
+        if (String.IsNullOrEmpty(hostColor))
+        {
+            throw new Exception("HOST_COLOR environment variable not set.");
+        }
+
         HttpClient client = new HttpClient();
         client.DefaultRequestHeaders.Add("X-API-Key", apiKey);
         var registerUrl = $"{apiUrl}api/register";
         var data = new { color = hostColor };
         var json = Newtonsoft.Json.JsonConvert.SerializeObject(data);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
+        Logger.Log($"Attempting a registration at " + registerUrl);
 
         try
         {
             var response = await client.PostAsync(registerUrl, content);
-            response.EnsureSuccessStatusCode();
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                Logger.Log("Failed to register due to rejection");
+                Logger.Log(response.ToString());
+            }
 
             var responseBody = await response.Content.ReadAsStringAsync();
             Console.WriteLine(responseBody);
         }
         catch (HttpRequestException e)
         {
-            throw new Exception($"Was unable to register as host: {e.Message}");
+            Logger.Log("Failed to register due to error");
+            Logger.Log(e.Message);
         }
     }
 
@@ -188,6 +210,10 @@ public class Server
                     messageBuffer.SetLength(0);
                 }
             }
+        }
+        catch (WebSocketException ex) when (ex.WebSocketErrorCode == WebSocketError.ConnectionClosedPrematurely)
+        {
+            // Normal closure.
         }
         catch (Exception e)
         {
