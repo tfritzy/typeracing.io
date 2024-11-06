@@ -54,12 +54,6 @@ let modes: Record<ValidGameMode, ModeConfig> = {
     icon: <BookmarkBook width={20} height={20} />,
     hotkey: "b",
   },
-  //  MostCommon: {
-  //   name: "Most common word",
-  //   description: "The the the the the the the the the.",
-  //   icon: <Message width={20} height={20} />,
-  //   hotkey: "c",
-  //  },
   LeastCommon: {
     name: "Archaic words",
     description: "Extremely archaic words.",
@@ -72,12 +66,6 @@ let modes: Record<ValidGameMode, ModeConfig> = {
     icon: <Copy width={20} height={20} />,
     hotkey: "d",
   },
-  // SpamTap: {
-  //   name: "Spam tap",
-  //   description: "Like a mouse clicking race, but keyboard.",
-  //   icon: <MouseButtonLeft width={20} height={20} />,
-  //   hotkey: "f",
-  // },
   Numbers: {
     name: "Numbers",
     description: "You know, numbers.",
@@ -124,18 +112,6 @@ let modes: Record<ValidGameMode, ModeConfig> = {
     icon: <Arc3d width={20} height={20} />,
     hotkey: "k",
   },
-  // FakeWords: {
-  //   name: "Fake words",
-  //   description: "fwois woisn woiqun sowiqun soiwnmd.",
-  //   icon: <MessageAlert width={20} height={20} />,
-  //   hotkey: "n",
-  // },
-  // LongestHundred: {
-  //   name: "Very long words",
-  //   description: "The longest 100 words in the dictionary.",
-  //   icon: <Stretching width={20} height={20} />,
-  //   hotkey: "o",
-  // },
 };
 
 type ModeButtonProps = {
@@ -232,9 +208,6 @@ const ModeCheckboxes = () => {
   return (
     <div>
       <div className="font-normal mb-4 ">Game modes</div>
-      {/* <div className="mb-4" style={{ color: SecondaryTextColor }}>
-        You'll be placed in a game with the selected mode.
-      </div> */}
       <div className="grid grid-cols-2 gap-x-2 gap-y-2">{checkboxes}</div>
     </div>
   );
@@ -266,9 +239,6 @@ const Content = () => {
     <div className="rounded-lg flex flex-col space-y-8 border-border-color">
       <div>
         <div className="font-normal mb-4">Multiplayer settings</div>
-        {/* <div className="mb-4" style={{ color: SecondaryTextColor }}>
-          Choose whether you want to play with others.
-        </div> */}
         <div
           className="flex flex-row items-stretch w-full rounded-md bg-background-color"
           style={{

@@ -6,6 +6,7 @@
   --accent: #a7f3d0;
   --accent-100: #bfdbfe50;
   --accent-200: #bfdbfe10;
+  --accent-secondary: #fde68a;
   --text-primary: #e6ede6;
   --text-secondary: #adbac7;
   --text-tertiary: #7d8590;
@@ -31,7 +32,7 @@ body {
 
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 10px;
+  padding: 0 20px;
 }
 
 h1 {

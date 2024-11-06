@@ -74,7 +74,7 @@ export const InGame = (props: InGameProps) => {
         </div>
 
         {!isGameOver && (
-          <div className="grow-[2]">
+          <div className="grow-[2] px-2">
             <TypeBox
               phrase={phrase}
               lockedCharacterIndex={lockCharIndex}

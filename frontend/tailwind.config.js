@@ -22,6 +22,7 @@ module.exports = {
         "text-secondary": "var(--text-secondary)",
         "text-tertiary": "var(--text-tertiary)",
         accent: "var(--accent)",
+        "accent-secondary": "var(--accent-secondary)",
         "accent-100": "var(--accent-100)",
         "accent-200": "var(--accent-200)",
         "white-900": "var(--white-900)",
