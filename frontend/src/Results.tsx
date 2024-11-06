@@ -58,9 +58,9 @@ export const Results = () => {
 
   const getClassForWpm = useCallback((wpm: number) => {
     if (wpm >= 100) {
-      return " pulsing-gradient-text  ";
+      return "text-accent-secondary";
     } else if (wpm >= 80) {
-      return "accent-gradient-text";
+      return "text-accent";
     } else if (wpm >= 60) {
       return "text-neutral-300";
     } else {
@@ -70,9 +70,9 @@ export const Results = () => {
 
   const getClassForAccuracy = useCallback((accuracy: number) => {
     if (accuracy >= 1) {
-      return " pulsing-gradient-text ";
+      return "text-accent-secondary";
     } else if (accuracy >= 0.97) {
-      return "accent-gradient-text";
+      return "text-accent";
     } else if (accuracy >= 0.95) {
       return "text-neutral-300";
     } else {
@@ -114,9 +114,9 @@ export const Results = () => {
 
   const getClassForPlacement = useCallback((placement: number) => {
     if (placement === 0) {
-      return " pulsing-gradient-text ";
+      return "text-accent-secondary";
     } else if (placement === 1) {
-      return "accent-gradient-text";
+      return "text-accent";
     } else if (placement === 2) {
       return "text-neutral-300";
     } else {

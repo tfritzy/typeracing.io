@@ -102,24 +102,6 @@ h2 {
   }
 }
 
-.accent-gradient-text {
-  background: linear-gradient(0deg, var(--accent), var(--accent));
-  background-size: 100%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.pulsing-gradient-text {
-  background: radial-gradient(circle, #fef3c7, #fde68a);
-  background-size: 400%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientAnimation 12s ease infinite;
-  color: #fef08a;
-}
-
 @keyframes fadeBlink {
   0% { opacity: 1; }
   50% { opacity: 0; }
