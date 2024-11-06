@@ -100,19 +100,22 @@ public class Server
         string? apiUrl = Environment.GetEnvironmentVariable("API_ADDRESS");
         if (String.IsNullOrEmpty(apiUrl))
         {
-            throw new Exception("API_ADDRESS environment variable not set.");
+            Logger.Log("API_ADDRESS environment variable not set.");
+            return;
         }
 
         string? apiKey = Environment.GetEnvironmentVariable("API_KEY");
         if (String.IsNullOrEmpty(apiKey))
         {
-            throw new Exception("API_KEY environment variable not set.");
+            Logger.Log("API_KEY environment variable not set.");
+            return;
         }
 
         string? hostColor = Environment.GetEnvironmentVariable("HOST_COLOR");
         if (String.IsNullOrEmpty(hostColor))
         {
-            throw new Exception("HOST_COLOR environment variable not set.");
+            Logger.Log("HOST_COLOR environment variable not set.");
+            return;
         }
 
         HttpClient client = new HttpClient();

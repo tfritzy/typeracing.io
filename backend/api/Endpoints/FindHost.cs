@@ -48,9 +48,12 @@ namespace api
                             if (await HostHelpers.IsHostAlive(host))
                             {
                                 await HostHelpers.DeleteHosts(container, deadHostIds);
+
+                                var isDev =
+                                    Environment.GetEnvironmentVariable("AZURE_FUNCTIONS_ENVIRONMENT") == "Development";
+                                var url = isDev ? "ws://localhost" : $"wss://{host.color}.typeracing.io";
                                 response = req.CreateResponse(HttpStatusCode.OK);
-                                await response.WriteAsJsonAsync(
-                                    new FindHostResponse($"wss://{host.color}.typeracing.io"));
+                                await response.WriteAsJsonAsync(new FindHostResponse(url));
                                 return response;
                             }
                             else
