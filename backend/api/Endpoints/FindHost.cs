@@ -51,7 +51,7 @@ namespace api
 
                                 var isDev =
                                     Environment.GetEnvironmentVariable("AZURE_FUNCTIONS_ENVIRONMENT") == "Development";
-                                var url = isDev ? "ws://localhost" : $"wss://{host.color}.typeracing.io";
+                                var url = isDev ? "ws://localhost:8080" : $"wss://{host.color}.typeracing.io";
                                 response = req.CreateResponse(HttpStatusCode.OK);
                                 await response.WriteAsJsonAsync(new FindHostResponse(url));
                                 return response;

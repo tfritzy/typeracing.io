@@ -64,12 +64,18 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
           <span className="text-text-secondary">WPM</span>
         </div>
       </div>
-      <div className="w-full h-[3px] rounded-full mt-2 relative bg-neutral-color">
+      <div className="w-full mt-3 relative flex flex-row space-x-1">
         <div
-          className="h-full transition-all duration-350 ease-in-out rounded-full"
+          className="h-1 transition-all duration-350 ease-in-out rounded-full"
           style={{
             width: `${(player?.progress || 0) * 100}%`,
             backgroundColor: player?.themeColor,
+          }}
+        />
+        <div
+          className="h-1 transition-all duration-350 ease-in-out rounded-full bg-border-color"
+          style={{
+            width: `${(1 - (player?.progress || 0)) * 100}%`,
           }}
         />
       </div>
@@ -137,13 +143,13 @@ export const Players = () => {
   const playerElements = useMemo(() => {
     if (viewportHeight < 600) {
       return (
-        <div className="h-full flex flex-col space-y-6">
+        <div className="h-full flex flex-col space-y-8">
           <PlayerRow player={players[selfIndex]} />
         </div>
       );
     } else {
       return (
-        <div className="h-full flex flex-col space-y-6">
+        <div className="h-full flex flex-col space-y-8">
           {players.map((player, index) => (
             <PlayerRow key={player.id} player={player} />
           ))}

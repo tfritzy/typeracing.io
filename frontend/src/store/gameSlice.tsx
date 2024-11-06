@@ -88,7 +88,9 @@ export const gameSlice = createSlice({
         velocity_km_s: 0,
         position_km: 0,
         is_disconnected: false,
-        themeColor: player.is_you ? "var(--accent)" : "var(--border-color)",
+        themeColor: player.is_you
+          ? "var(--player-color)"
+          : "var(--other-player-color)",
         is_bot: player.is_bot || false,
         is_you: player.is_you || false,
         most_recent_wpm: 0,
@@ -119,7 +121,7 @@ export const gameSlice = createSlice({
         velocity_km_s: 0,
         position_km: 0,
         is_disconnected: false,
-        themeColor: "var(--border-color)",
+        themeColor: "var(--other-player-color)",
         is_bot: action.payload.player?.is_bot || false,
         most_recent_wpm: 0,
         accuracy: 0,

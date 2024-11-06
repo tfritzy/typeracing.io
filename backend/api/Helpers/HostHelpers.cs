@@ -33,7 +33,7 @@ public static class HostHelpers
         {
             foreach (Host existingEntry in await iterator.ReadNextAsync())
             {
-                Console.WriteLine("Found existing registration for this ip.");
+                Console.WriteLine("Found existing registration for this color.");
                 existingEntryIds.Add(existingEntry.id);
             }
         }

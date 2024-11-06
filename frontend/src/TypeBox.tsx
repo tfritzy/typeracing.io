@@ -7,7 +7,8 @@ function lerp(start: number, end: number, alpha: number) {
 }
 
 const cursorYOffset = 2;
-const cursorXOffset = -1;
+const cursorXOffset = -2;
+const cursorStartPos = -100;
 
 type CursorProps = {
   targetObject: RefObject<HTMLSpanElement>;
@@ -18,10 +19,10 @@ type CursorProps = {
 };
 
 const Cursor = (props: CursorProps) => {
-  const [cursorXPos, setCursorXPos] = useState(0);
-  const [cursorYPos, setCursorYPos] = useState(0);
-  const [targetCursorXPos, setTargetCursorXPos] = useState(0);
-  const [targetCursorYPos, setTargetCursorYPos] = useState(0);
+  const [cursorXPos, setCursorXPos] = useState(cursorStartPos);
+  const [cursorYPos, setCursorYPos] = useState(cursorStartPos);
+  const [targetCursorXPos, setTargetCursorXPos] = useState(cursorStartPos);
+  const [targetCursorYPos, setTargetCursorYPos] = useState(cursorStartPos);
 
   const resetPos = React.useCallback(() => {
     if (props.targetObject.current) {
@@ -97,7 +98,7 @@ const Cursor = (props: CursorProps) => {
 
   return (
     <span
-      className={`h-[26px] w-[2px] rounded-full bg-text-primary fixed ${
+      className={`h-[26px] w-[1px] bg-text-primary fixed ${
         props.pulsing ? "cursor" : ""
       }`}
       style={{
