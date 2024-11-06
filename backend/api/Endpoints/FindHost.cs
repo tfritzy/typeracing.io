@@ -45,12 +45,15 @@ namespace api
                     {
                         try
                         {
-                            if (await IsHostAlive(host))
+                            if (await HostHelpers.IsHostAlive(host))
                             {
                                 await HostHelpers.DeleteHosts(container, deadHostIds);
+
+                                var isDev =
+                                    Environment.GetEnvironmentVariable("AZURE_FUNCTIONS_ENVIRONMENT") == "Development";
+                                var url = isDev ? "ws://localhost" : $"wss://{host.color}.typeracing.io";
                                 response = req.CreateResponse(HttpStatusCode.OK);
-                                await response.WriteAsJsonAsync(
-                                    new FindHostResponse($"wss://{host.color}.typeracing.io"));
+                                await response.WriteAsJsonAsync(new FindHostResponse(url));
                                 return response;
                             }
                             else
@@ -80,33 +83,6 @@ namespace api
                 return response;
             }
         }
-        private async Task<bool> IsHostAlive(Host host)
-        {
-            try
-            {
-                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
-                using var ws = new ClientWebSocket();
 
-                ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(1);
-                ws.Options.SetRequestHeader("Connection", "close");
-
-                var uri = new Uri($"{_websocketScheme}://{host.color}.typeracing.io/?id=plyr_matchmaker");
-
-                // Connect with timeout
-                var connectTask = ws.ConnectAsync(uri, cts.Token);
-                if (await Task.WhenAny(connectTask, Task.Delay(1000, cts.Token)) != connectTask)
-                {
-                    ws.Abort();
-                    return false;
-                }
-
-                return ws.State == WebSocketState.Open;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Encountered error connecting to host {host.color}: {ex.Message}");
-                return false;
-            }
-        }
     }
 }
