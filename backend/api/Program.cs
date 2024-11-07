@@ -10,6 +10,7 @@ var host = new HostBuilder()
         services.AddApplicationInsightsTelemetryWorkerService();
         services.ConfigureFunctionsApplicationInsights();
         services.AddSingleton((s) => new CosmosClient(Environment.GetEnvironmentVariable("CosmosDBConnectionString")));
+        services.AddHttpClient();
     })
     .Build();
 
