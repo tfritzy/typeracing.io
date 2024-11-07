@@ -157,6 +157,10 @@ function App() {
         var ws = new WebSocket(`${data.url}/?id=${playerId}`);
         ws.onopen = () => {
           setWsState(WebSocket.OPEN);
+          const loader = document.getElementById("initial-loader");
+          if (loader) {
+            loader.remove();
+          }
         };
         ws.onmessage = (event) =>
           handleMessage(event, dispatch, navigate, playerId || "", gameRef);
