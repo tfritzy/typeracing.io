@@ -29,6 +29,7 @@ import { saveRaceResult } from "./helpers/raceResults";
 import { RootState } from "./store/store";
 import { Dispatch } from "redux";
 import { DisconnectedModal } from "./DisconnectedModal";
+import { LoadingWrapper } from "./LoadingWrapper";
 
 const apiUrl = process.env.REACT_APP_API_ADDRESS;
 
@@ -157,6 +158,7 @@ function App() {
         var ws = new WebSocket(`${data.url}/?id=${playerId}`);
         ws.onopen = () => {
           setWsState(WebSocket.OPEN);
+          console.log("Open");
           const loader = document.getElementById("initial-loader");
           if (loader) {
             loader.remove();
@@ -217,19 +219,21 @@ function App() {
     };
   }, [navigate]);
 
-  if (wsState === WebSocket.CONNECTING) {
-    return null;
-  }
-
   if (wsState === WebSocket.CLOSED) {
     return <DisconnectedModal reconnect={connect} />;
   }
 
   return (
-    <Routes>
-      <Route path="/" element={<MainMenu sendRequest={sendRequest} />} />
-      <Route path="/:gameId" element={<InGame sendRequest={sendRequest} />} />
-    </Routes>
+    <LoadingWrapper
+      delay={0}
+      minDuration={300}
+      isLoading={wsState === WebSocket.CONNECTING}
+    >
+      <Routes>
+        <Route path="/" element={<MainMenu sendRequest={sendRequest} />} />
+        <Route path="/:gameId" element={<InGame sendRequest={sendRequest} />} />
+      </Routes>
+    </LoadingWrapper>
   );
 }
 

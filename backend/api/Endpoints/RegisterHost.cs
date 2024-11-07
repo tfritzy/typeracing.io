@@ -68,7 +68,8 @@ namespace api
 
                 var container = _cosmosClient.GetContainer(_databaseName, _containerName);
 
-                List<string> existingEntries = await HostHelpers.FindExistingEntries(container, clientIP);
+                List<string> existingEntries = await HostHelpers.FindExistingEntries(container, host.color);
+
                 await HostHelpers.DeleteHosts(container, existingEntries);
 
                 await container.CreateItemAsync(host, new PartitionKey("hosts"));

@@ -67,23 +67,41 @@
       </p>
     </div>
     <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
       #initial-loader {
         position: fixed;
         left: 50%;
-        top: 50%;
+        top: 45%;
         transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       #initial-loader .spinner {
         width: 36px;
         height: 36px;
-        border: 2px solid #9ca3af;
-        border-top-color: transparent;
+        border: 2px solid #3a414a;
+        border-top: 2px solid transparent;
         border-radius: 50%;
-        animation: spin 0.6s linear infinite;
+        animation-name: spin;
+        animation-duration: 0.6s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        will-change: transform;
       }
 
       @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
         to {
           transform: rotate(360deg);
         }
@@ -92,10 +110,9 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root">
-      <div id="initial-loader">
-        <div class="spinner"></div>
-      </div>
+    <div id="root"></div>
+    <div id="initial-loader">
+      <div class="spinner"></div>
     </div>
   </body>
 </html>
