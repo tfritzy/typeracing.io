@@ -1,10 +1,12 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import { HelpCircle } from "iconoir-react";
 import { PlayerData } from "./store/gameSlice";
 import { Spinner } from "./Spinner";
 import Tooltip from "./Tooltip";
+import { useAppSelector, useGameSelector } from "./store/storeHooks";
+import { GameStoreState } from "./store/gameStore";
 
 const placementText = [
   <span className="font-semibold flex flex-row items-center space-x-1 pulsing-gradient-text">
@@ -16,12 +18,11 @@ const placementText = [
 ];
 
 const PlayerRow = ({ player }: { player?: PlayerData }) => {
-  const isSelf = useSelector(
-    (state: RootState) => state.player.id === player?.id
-  );
-  const place = useSelector((state: RootState) =>
+  const playerId = useAppSelector((state: RootState) => state.player.id);
+  const place = useGameSelector((state: GameStoreState) =>
     state.game.placements?.findIndex((p) => p.playerId === player?.id)
   );
+  const isSelf = playerId === player?.id;
 
   const playerName = React.useMemo(() => {
     if (player?.is_disconnected) {
@@ -84,10 +85,11 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
 };
 
 export const Players = () => {
-  const player = useSelector((state: RootState) => state.player);
-  const players = useSelector((state: RootState) => state.game.players);
+  const player = useAppSelector((state: RootState) => state.player);
+  const players = useGameSelector(
+    (state: GameStoreState) => state.game.players
+  );
   const selfIndex = players.findIndex((p) => p.id === player.id);
-  const positionRefs = useRef<number[]>([]);
   const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
 
   useEffect(() => {
@@ -96,48 +98,6 @@ export const Players = () => {
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    positionRefs.current = [];
-    for (let i = 0; i < players.length; i++) {
-      positionRefs.current.push(players[i].position_km);
-    }
-  }, [players]);
-
-  useEffect(() => {
-    let frameId: number;
-    let lastTime: number = Date.now();
-
-    if (selfIndex === -1) {
-      return;
-    }
-
-    const animate = () => {
-      const deltaTime_s = (Date.now() - lastTime) / 1000;
-      lastTime = Date.now();
-
-      while (positionRefs.current.length < players.length) {
-        positionRefs.current.push(0);
-      }
-
-      for (let i = 0; i < players.length; i++) {
-        positionRefs.current[i] += players[i].velocity_km_s * deltaTime_s;
-      }
-      let ownPos = positionRefs.current[selfIndex];
-      const deltas = [];
-      for (let i = 0; i < players.length; i++) {
-        deltas.push(positionRefs.current[i] - ownPos);
-      }
-
-      frameId = requestAnimationFrame(animate);
-    };
-
-    frameId = requestAnimationFrame(animate);
-
-    return () => {
-      cancelAnimationFrame(frameId);
-    };
   }, []);
 
   const playerElements = useMemo(() => {

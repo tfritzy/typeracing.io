@@ -1,21 +1,25 @@
-import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import { LineChart, Series } from "./ResultsChart";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { PlayerData } from "./store/gameSlice";
 import { ErrorsAtTime } from "./compiled";
-import React from "react";
 import ConfettiExplosion from "react-confetti-explosion";
+import { useAppSelector, useGameSelector } from "./store/storeHooks";
+import { GameStoreState } from "./store/gameStore";
 
 export const Results = () => {
   const [wpmData, setWpmData] = useState<{
     series: Series[];
     errors: ErrorsAtTime[];
   } | null>(null);
-  const players = useSelector((state: RootState) => state.game.players);
-  const placements = useSelector((state: RootState) => state.game.placements);
-  const phrase = useSelector((state: RootState) => state.game.phrase);
-  const selfId = useSelector((state: RootState) => state.player.id);
+  const players = useGameSelector(
+    (state: GameStoreState) => state.game.players
+  );
+  const placements = useGameSelector(
+    (state: GameStoreState) => state.game.placements
+  );
+  const phrase = useGameSelector((state: GameStoreState) => state.game.phrase);
+  const selfId = useAppSelector((state: RootState) => state.player.id);
 
   const finishedPlayers = useMemo(
     () =>

@@ -1,4 +1,6 @@
+import { EvPlugXmark } from "iconoir-react";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type DisconnectedModalProps = {
   reconnect: () => void;
@@ -6,6 +8,7 @@ type DisconnectedModalProps = {
 
 export const DisconnectedModal = (props: DisconnectedModalProps) => {
   const [shouldShow, setShouldShow] = useState(false);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -18,24 +21,26 @@ export const DisconnectedModal = (props: DisconnectedModalProps) => {
   }
 
   return (
-    <div
-      className="z-50 rounded-lg flex flex-col shadow-md min-w-96 min-h-64 border fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 border-border-color"
-      style={{
-        backgroundImage: `linear-gradient(#24292ef7, #24292ef7), url(${process.env.PUBLIC_URL}/bleh.avif)`,
-        backgroundSize: "cover",
-      }}
-    >
-      <div className="py-2 px-4 font-semibold">Disconnected</div>
-      <div className="w-full border-b border-border-color" />
-      <div className="p-4 flex flex-col space-y-3 grow justify-center items-center">
-        <div>Lost connection with server.</div>
-        <button
-          className="bg-emerald-700 rounded-md border border-emerald-600 px-2 py-1 font-semibold"
-          onClick={props.reconnect}
-          autoFocus
-        >
-          Reconnect
-        </button>
+    <div className="z-50 flex flex-col min-w-96 min-h-64 fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+      <div className="p-4 flex flex-col space-y-6 grow justify-center items-center">
+        <EvPlugXmark width={32} height={32} color="red" />
+        <div className="text-lg">Failed to connect to game server</div>
+        <div className="flex flex-row space-x-4">
+          <button
+            className="bg-slate-700 rounded-md border border-slate-600 px-2 py-1 font-semibold"
+            onClick={() => navigate("/", { replace: true })}
+            autoFocus
+          >
+            Go back
+          </button>
+          <button
+            className="bg-slate-700 rounded-md border border-slate-600 px-2 py-1 font-semibold"
+            onClick={props.reconnect}
+            autoFocus
+          >
+            Try again
+          </button>
+        </div>
       </div>
     </div>
   );

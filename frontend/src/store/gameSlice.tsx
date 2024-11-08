@@ -27,8 +27,6 @@ export type PlayerData = {
   id: string;
   name: string;
   progress: number;
-  velocity_km_s: number;
-  position_km: number;
   is_disconnected: boolean;
   themeColor: string;
   final_wpm?: number;
@@ -85,8 +83,6 @@ export const gameSlice = createSlice({
         id: player.id || "",
         name: player.name || "",
         progress: 0,
-        velocity_km_s: 0,
-        position_km: 0,
         is_disconnected: false,
         themeColor: player.is_you
           ? "var(--player-color)"
@@ -118,8 +114,6 @@ export const gameSlice = createSlice({
         id: action.payload.player?.id || "",
         name: action.payload.player?.name || "",
         progress: 0,
-        velocity_km_s: 0,
-        position_km: 0,
         is_disconnected: false,
         themeColor: "var(--other-player-color)",
         is_bot: action.payload.player?.is_bot || false,
@@ -142,7 +136,6 @@ export const gameSlice = createSlice({
         return;
       }
 
-      player.velocity_km_s = 0;
       player.final_wpm = action.payload.wpm || 0;
       player.wpm_by_second = action.payload.wpm_by_second || [];
       player.raw_wpm_by_second = action.payload.raw_wpm_by_second || [];
@@ -198,8 +191,6 @@ export const gameSlice = createSlice({
       );
       if (player) {
         player.progress = action.payload.percent_complete || 0;
-        player.velocity_km_s = action.payload.velocity_km_s || 0;
-        player.position_km = action.payload.position_km || 0;
         player.most_recent_wpm = action.payload.wpm || 0;
       }
     },
