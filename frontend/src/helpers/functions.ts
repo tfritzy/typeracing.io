@@ -5,7 +5,7 @@ import { Dispatch } from "redux";
 import { reset } from "../store/gameSlice";
 
 export const sendFindGameRequest = (
-  sendRequest: (request: ArrayBuffer) => void,
+  sendRequest: (request: OneofRequest) => void,
   player: PlayerState
 ) => {
   const findGame: FindGameRequest = {
@@ -19,7 +19,7 @@ export const sendFindGameRequest = (
     find_game: findGame,
   };
 
-  sendRequest(encodeOneofRequest(request));
+  sendRequest(request);
 };
 
 export const returnToMainMenu = (

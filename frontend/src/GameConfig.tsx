@@ -12,7 +12,6 @@ import {
   Settings,
   Upload,
 } from "iconoir-react";
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import { GameMode, decodeGameMode, encodeGameMode } from "./compiled";
 import { GameType, setGameType, setMode } from "./store/playerSlice";
@@ -20,6 +19,7 @@ import { Drawer } from "./Drawer";
 import { Hotkey } from "./Hotkey";
 import Cookies from "js-cookie";
 import { Dispatch } from "redux";
+import { useAppDispatch, useAppSelector } from "./store/storeHooks";
 
 type ValidGameMode =
   | GameMode.Common
@@ -159,8 +159,8 @@ const selectGameMode = (mode: GameMode, dispatch: Dispatch) => {
 };
 
 const ModeCheckboxes = () => {
-  const dispatch = useDispatch();
-  const player = useSelector((state: RootState) => state.player);
+  const dispatch = useAppDispatch();
+  const player = useAppSelector((state: RootState) => state.player);
 
   React.useEffect(() => {
     let setModes = false;
@@ -214,8 +214,8 @@ const ModeCheckboxes = () => {
 };
 
 const Content = () => {
-  const dispatch = useDispatch();
-  const gameType = useSelector((state: RootState) => state.player.gameType);
+  const dispatch = useAppDispatch();
+  const gameType = useAppSelector((state: RootState) => state.player.gameType);
 
   React.useEffect(() => {
     let gameType = Cookies.get("gameType");
@@ -264,9 +264,9 @@ const Content = () => {
 
 type GameConfigProps = { onClose: () => void };
 export const GameConfig = (props: GameConfigProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState<boolean>(false);
-  const player = useSelector((state: RootState) => state.player);
+  const player = useAppSelector((state: RootState) => state.player);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     const mode = Object.keys(modes).find(

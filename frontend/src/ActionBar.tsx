@@ -1,10 +1,11 @@
-import React, { SyntheticEvent, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { reset } from "./store/gameSlice";
+import React, { useEffect } from "react";
 import { returnToMainMenu, sendFindGameRequest } from "./helpers/functions";
 import { RootState } from "./store/store";
 import { Hotkey } from "./Hotkey";
 import { useNavigate } from "react-router-dom";
+import { OneofRequest } from "./compiled";
+import { useAppSelector, useGameDispatch } from "./store/storeHooks";
+import { reset } from "./store/gameSlice";
 
 const TextButton = ({
   children,
@@ -24,22 +25,23 @@ const TextButton = ({
 };
 
 type ActionBarProps = {
-  sendRequest: (request: ArrayBuffer) => void;
+  sendRequest: (request: OneofRequest) => void;
+  resetState: () => void;
 };
 
 export const ActionBar = (props: ActionBarProps) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const player = useSelector((state: RootState) => state.player);
+  const dispatch = useGameDispatch();
+  const player = useAppSelector((state: RootState) => state.player);
 
   const findGame = React.useCallback(
     (event: Event) => {
       event.preventDefault();
+      props.resetState();
       dispatch(reset());
-      navigate("/", { replace: true });
       sendFindGameRequest(props.sendRequest, player);
     },
-    [dispatch, navigate, props.sendRequest, player]
+    [props, dispatch, player]
   );
 
   const mainMenu = React.useCallback(() => {

@@ -1,11 +1,9 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "./store/store";
 import { GameConfig } from "./GameConfig";
 import { TypeBoxButton } from "./TypeBoxButton";
-import { sendFindGameRequest } from "./helpers/functions";
 import { Profile } from "./Profile";
 import { Logo } from "./Logo";
+import { useNavigate } from "react-router-dom";
 
 const phrases = [
   "glhf",
@@ -28,19 +26,21 @@ const phrases = [
   "put me in coach",
 ];
 
-type MainMenuProps = {
-  sendRequest: (request: ArrayBuffer) => void;
-};
+type MainMenuProps = {};
 
 export const MainMenu = (props: MainMenuProps) => {
   const [phrase] = React.useState(
     phrases[Math.floor(Math.random() * phrases.length)]
   );
-  const player = useSelector((state: RootState) => state.player);
+  const navigate = useNavigate();
 
   const findGame = React.useCallback(() => {
-    sendFindGameRequest(props.sendRequest, player);
-  }, [props.sendRequest, player]);
+    navigate("/in-game");
+  }, [navigate]);
+
+  const focusTypeBox = React.useCallback(() => {
+    document.getElementById("type-box")?.focus();
+  }, []);
 
   return (
     <div>
@@ -50,11 +50,7 @@ export const MainMenu = (props: MainMenuProps) => {
           <Profile />
         </div>
         <TypeBoxButton phrase={phrase} onPhraseComplete={findGame} />
-        <GameConfig
-          onClose={() => {
-            document.getElementById("type-box")?.focus();
-          }}
-        />
+        <GameConfig onClose={focusTypeBox} />
       </div>
     </div>
   );

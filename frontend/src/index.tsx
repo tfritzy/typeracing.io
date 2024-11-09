@@ -1,10 +1,10 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { Provider } from "react-redux";
 import { store } from "./store/store";
 import { BrowserRouter } from "react-router-dom";
+import { StoreProvider } from "./store/CustomProvider";
+import { AppContext } from "./store/storeHooks";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -13,11 +13,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <>
     <div className="text-text-primary">
-      <Provider store={store}>
+      <StoreProvider store={store} context={AppContext}>
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </Provider>
+      </StoreProvider>
     </div>
   </>
 );
