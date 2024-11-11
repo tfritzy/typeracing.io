@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { LoadingSpinner } from "./LoadingSpinner";
+import { LoadingSpinner } from "../components/LoadingSpinner";
 
 type Props = {
   isLoading: boolean;
@@ -49,9 +49,8 @@ export const LoadingWrapper = ({
 
   return (
     <div
-      className={`transition-opacity duration-300 ${
-        loadingComplete ? "opacity-100" : "opacity-0"
-      }`}
+      className={`transition-opacity duration-300 ${loadingComplete ? "opacity-100" : "opacity-0"
+        }`}
     >
       {shouldShowSpinner ? <LoadingSpinner /> : children}
     </div>

@@ -1,6 +1,6 @@
 import React, { RefObject, useEffect, useState } from "react";
-import { GoLabel } from "./GoLabel";
-import { KeyStroke } from "./compiled";
+import { GoLabel } from "../game/GoLabel";
+import { KeyStroke } from "../compiled";
 
 function lerp(start: number, end: number, alpha: number) {
   return start + (end - start) * alpha;
@@ -98,9 +98,8 @@ const Cursor = (props: CursorProps) => {
 
   return (
     <span
-      className={`h-[26px] w-[1px] bg-text-primary fixed ${
-        props.pulsing ? "cursor" : ""
-      }`}
+      className={`h-[26px] w-[1px] bg-text-primary fixed ${props.pulsing ? "cursor" : ""
+        }`}
       style={{
         top: cursorYPos,
         left: cursorXPos,

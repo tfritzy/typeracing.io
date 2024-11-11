@@ -1,5 +1,5 @@
 import React from "react";
-import { PlayerData } from "./store/gameSlice";
+import { PlayerData } from "../store/gameSlice";
 
 export const PlayerResultsList = ({ players }: { players: PlayerData[] }) => {
   return (

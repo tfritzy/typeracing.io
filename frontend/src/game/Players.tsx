@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "./store/store";
+import { RootState } from "../store/store";
 import { HelpCircle } from "iconoir-react";
-import { PlayerData } from "./store/gameSlice";
-import { Spinner } from "./Spinner";
-import Tooltip from "./Tooltip";
-import { useAppSelector, useGameSelector } from "./store/storeHooks";
-import { GameStoreState } from "./store/gameStore";
+import { PlayerData } from "../store/gameSlice";
+import { Spinner } from "../components/Spinner";
+import Tooltip from "../components/Tooltip";
+import { useAppSelector, useGameSelector } from "../store/storeHooks";
+import { GameStoreState } from "../store/gameStore";
 
 const placementText = [
   <span className="font-semibold flex flex-row items-center space-x-1 pulsing-gradient-text">

@@ -1,9 +1,9 @@
 {
  "IsEncrypted": false,
  "Values": {
-  "AzureWebJobsStorage": "UseDevelopmentStorage=false",
+  "AzureWebJobsStorage": "UseDevelopmentStorage=true",
   "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-  "CosmosDBConnectionString": "AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
+  "CosmosDBConnectionString": "AccountEndpoint=https://10.255.255.254:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
   "AllowedIps": "::1,127.0.0.1",
   "HostRegistrationKey": "secret",
   "WebsocketScheme": "ws"

@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect } from "react";
-import { TypeBox } from "./TypeBox";
+import { TypeBox } from "../components/TypeBox";
 import {
   GameMode,
   KeyStroke,
   OneofRequest,
   decodeOneofUpdate,
-} from "./compiled";
-import { RootState } from "./store/store";
+} from "../compiled";
+import { RootState } from "../store/store";
 import {
   GameStage,
   GameState,
@@ -20,24 +20,24 @@ import {
   setGameStarted,
   setYouveBeenAddedToGame,
   wordFinished,
-} from "./store/gameSlice";
+} from "../store/gameSlice";
 import { Results } from "./Results";
 import { Players } from "./Players";
 import { ActionBar } from "./ActionBar";
-import { Logo } from "./Logo";
+import { Logo } from "../components/Logo";
 import { Countdown } from "./Countdown";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { useConnectionContext } from "./ConnectionProvider";
-import { sendFindGameRequest } from "./helpers/functions";
-import { LoadingSpinner } from "./LoadingSpinner";
+import { useConnectionContext } from "../ConnectionProvider";
+import { sendFindGameRequest } from "../helpers/functions";
+import { LoadingSpinner } from "../components/LoadingSpinner";
 import {
   useAppSelector,
   useGameDispatch,
   useGameSelector,
-} from "./store/storeHooks";
-import { GameStoreDispatch, GameStoreState } from "./store/gameStore";
-import { saveRaceResult } from "./helpers/raceResults";
-import { addRaceResult } from "./store/playerSlice";
+} from "../store/storeHooks";
+import { GameStoreDispatch, GameStoreState } from "../store/gameStore";
+import { saveRaceResult } from "../helpers/raceResults";
+import { addRaceResult } from "../store/playerSlice";
 
 const handleMessage = (
   event: MessageEvent<any>,
@@ -156,9 +156,6 @@ export const InGame = () => {
   return (
     <div>
       <div className="relative flex flex-col space-y-8 justify-center font-thin h-screen">
-        <div className="absolute left-0 top-0 flex flex-row justify-between py-2">
-          <Logo />
-        </div>
         <div
           className="relative flex flex-col justify-end"
           style={{ flexGrow: !isGameOver ? "1" : undefined }}

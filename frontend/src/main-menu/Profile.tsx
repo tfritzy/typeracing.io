@@ -1,11 +1,11 @@
-import { RootState } from "./store/store";
+import { RootState } from "../store/store";
 import React from "react";
-import { updatePlayerName } from "./store/playerSlice";
+import { updatePlayerName } from "../store/playerSlice";
 import EditInput from "./EditInput";
 import Cookies from "js-cookie";
-import { calculateWpm } from "./helpers/raceResults";
-import Tooltip from "./Tooltip";
-import { useAppDispatch, useAppSelector } from "./store/storeHooks";
+import { calculateWpm } from "../helpers/raceResults";
+import Tooltip from "../components/Tooltip";
+import { useAppDispatch, useAppSelector } from "../store/storeHooks";
 
 export const Profile = () => {
   const dispatch = useAppDispatch();

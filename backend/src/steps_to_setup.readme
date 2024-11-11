@@ -26,9 +26,9 @@ After=network.target
 Type=simple
 User=typeracer
 Group=typeracer
-WorkingDirectory=/opt/typeracing.io/backend/src/bin/Release/net7.0/
+WorkingDirectory=/opt/typeracing.io/backend/src/bin/Release/net8.0/
 Environment=ENVIRONMENT=Production
-ExecStart=/usr/bin/dotnet /opt/typeracing.io/backend/src/bin/Release/net7.0/lightspeedtyping.dll
+ExecStart=/usr/bin/dotnet /opt/typeracing.io/backend/src/bin/Release/net8.0/lightspeedtyping.dll
 Restart=always
 RestartSec=10
 SyslogIdentifier=typeracing.io
