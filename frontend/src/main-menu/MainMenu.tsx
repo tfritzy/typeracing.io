@@ -1,8 +1,8 @@
 import React from "react";
 import { GameConfig } from "./GameConfig";
-import { TypeBoxButton } from "./TypeBoxButton";
+import { TypeBoxButton } from "../components/TypeBoxButton";
 import { Profile } from "./Profile";
-import { Logo } from "./Logo";
+import { Logo } from "../components/Logo";
 import { useNavigate } from "react-router-dom";
 
 const phrases = [
@@ -45,8 +45,7 @@ export const MainMenu = (props: MainMenuProps) => {
   return (
     <div>
       <div className="relative h-screen flex flex-col space-y-32 items-center justify-center point">
-        <div className="absolute left-0 top-0 w-full flex flex-row justify-between py-2">
-          <Logo />
+        <div className="absolute left-0 top-0 w-full flex flex-row justify-end py-2">
           <Profile />
         </div>
         <TypeBoxButton phrase={phrase} onPhraseComplete={findGame} />

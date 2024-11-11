@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { returnToMainMenu, sendFindGameRequest } from "./helpers/functions";
-import { RootState } from "./store/store";
-import { Hotkey } from "./Hotkey";
+import { returnToMainMenu, sendFindGameRequest } from "../helpers/functions";
+import { RootState } from "../store/store";
+import { Hotkey } from "../components/Hotkey";
 import { useNavigate } from "react-router-dom";
-import { OneofRequest } from "./compiled";
-import { useAppSelector, useGameDispatch } from "./store/storeHooks";
-import { reset } from "./store/gameSlice";
+import { OneofRequest } from "../compiled";
+import { useAppSelector, useGameDispatch } from "../store/storeHooks";
+import { reset } from "../store/gameSlice";
 
 const TextButton = ({
   children,

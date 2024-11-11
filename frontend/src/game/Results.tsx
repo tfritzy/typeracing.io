@@ -1,11 +1,11 @@
-import { RootState } from "./store/store";
+import { RootState } from "../store/store";
 import { LineChart, Series } from "./ResultsChart";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { PlayerData } from "./store/gameSlice";
-import { ErrorsAtTime } from "./compiled";
+import { PlayerData } from "../store/gameSlice";
+import { ErrorsAtTime } from "../compiled";
 import ConfettiExplosion from "react-confetti-explosion";
-import { useAppSelector, useGameSelector } from "./store/storeHooks";
-import { GameStoreState } from "./store/gameStore";
+import { useAppSelector, useGameSelector } from "../store/storeHooks";
+import { GameStoreState } from "../store/gameStore";
 
 export const Results = () => {
   const [wpmData, setWpmData] = useState<{

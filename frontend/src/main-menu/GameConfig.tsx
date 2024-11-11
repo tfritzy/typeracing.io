@@ -12,14 +12,14 @@ import {
   Settings,
   Upload,
 } from "iconoir-react";
-import { RootState } from "./store/store";
-import { GameMode, decodeGameMode, encodeGameMode } from "./compiled";
-import { GameType, setGameType, setMode } from "./store/playerSlice";
-import { Drawer } from "./Drawer";
-import { Hotkey } from "./Hotkey";
+import { RootState } from "../store/store";
+import { GameMode, decodeGameMode, encodeGameMode } from "../compiled";
+import { GameType, setGameType, setMode } from "../store/playerSlice";
+import { Drawer } from "../components/Drawer";
+import { Hotkey } from "../components/Hotkey";
 import Cookies from "js-cookie";
 import { Dispatch } from "redux";
-import { useAppDispatch, useAppSelector } from "./store/storeHooks";
+import { useAppDispatch, useAppSelector } from "../store/storeHooks";
 
 type ValidGameMode =
   | GameMode.Common
@@ -127,17 +127,17 @@ const ModeButton = (props: ModeButtonProps) => {
       style={
         props.selected
           ? {
-              backgroundColor: "var(--accent-200)",
-              color: "var(--accent)",
-              borderColor: "var(--accent-100)",
-              borderWidth: "1px",
-            }
+            backgroundColor: "var(--accent-200)",
+            color: "var(--accent)",
+            borderColor: "var(--accent-100)",
+            borderWidth: "1px",
+          }
           : {
-              backgroundColor: "transparent",
-              color: "var(--text-secondary)",
-              borderColor: "var(--border-color)",
-              borderWidth: undefined,
-            }
+            backgroundColor: "transparent",
+            color: "var(--text-secondary)",
+            borderColor: "var(--border-color)",
+            borderWidth: undefined,
+          }
       }
       onClick={props.onClick}
     >

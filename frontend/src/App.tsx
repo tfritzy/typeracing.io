@@ -1,16 +1,19 @@
 import React from "react";
-import { generateRandomName } from "./generateRandomName";
+import { generateRandomName } from "./helpers/generateRandomName";
 import {
   setRaceResults,
   updatePlayerId,
   updatePlayerName,
   updateToken,
 } from "./store/playerSlice";
-import { MainMenu } from "./MainMenu";
+import { MainMenu } from "./main-menu/MainMenu";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { Game } from "./Game";
+import { Game } from "./game/Game";
 import { useAppDispatch } from "./store/storeHooks";
+import { TimeTrials } from "./time-trials/TimeTrials";
+import { Logo } from "./components/Logo";
+import { TimeTrial } from "./time-trials/TimeTrial";
 
 function App() {
   const navigate = useNavigate();
@@ -84,10 +87,16 @@ function App() {
   }, [navigate]);
 
   return (
-    <Routes>
-      <Route path="/" element={<MainMenu />} />
-      <Route path="/in-game" element={<Game />} />
-    </Routes>
+    <>
+      <Logo />
+      <Routes>
+        <Route path="/" element={<MainMenu />} />
+        <Route path="/in-game" element={<Game />} />
+        <Route path="/time-trials" element={<TimeTrials />} />
+        <Route path="/time-trials/:id" element={<TimeTrial />} />
+      </Routes>
+    </>
+
   );
 }
 
