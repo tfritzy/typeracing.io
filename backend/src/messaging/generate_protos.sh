@@ -2,7 +2,7 @@ TS_OUT_DIR="../../../frontend/src"
 CS_FILE="Protos.cs"
 
 echo "Generating c#"
-npx protoc -I=. --csharp_out="." protos.proto
+protoc -I=. --csharp_out="." protos.proto
 
 if [ -f "$CS_FILE" ]; then
   sed -i 's/1591, 0612, 3021/1591, 0612, 3021, 8600, 8981/g' "$CS_FILE"

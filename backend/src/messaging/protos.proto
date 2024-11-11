@@ -122,3 +122,17 @@ message PlayerDisconnected {
     bool removed = 2;
     bool is_you = 3;
 }
+
+message TimeTrial {
+    string id = 1;
+    string name = 2;
+    string phrase = 3;
+}
+
+message TimeTrialListItem {
+    string id = 1;
+    string name = 2;
+    int32 length = 3;
+    int32 time = 4;
+    int32 place = 5;
+}
