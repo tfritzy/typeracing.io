@@ -3,6 +3,8 @@ using Microsoft.Azure.Cosmos;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Schema;
+using Google.Protobuf;
 
 namespace api
 {
@@ -31,7 +33,6 @@ namespace api
                 }
 
                 string? id = req.Query["id"];
-
                 if (String.IsNullOrEmpty(id))
                 {
                     return new BadRequestObjectResult("id can't be null");
@@ -51,7 +52,7 @@ namespace api
                         return new NotFoundObjectResult($"No trial found with id '{id}'");
                     }
 
-                    return new OkObjectResult(trial);
+                    return new ProtobufResult(trial);
                 }
                 else
                 {

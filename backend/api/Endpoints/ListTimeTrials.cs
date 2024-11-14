@@ -1,8 +1,9 @@
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Cosmos;
-using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Schema;
+using Google.Protobuf;
 
 namespace api
 {
@@ -23,25 +24,20 @@ namespace api
         {
             try
             {
-                // var requestBody = await JsonSerializer.DeserializeAsync<ListTimeTrialsRequest>(
-                //     req.Body,
-                //     new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-                // );
-
                 var container = _cosmosClient.GetContainer(_databaseName, _containerName);
 
-                List<TimeTrialListItem> trials = [];
+                ListTimeTrialsResponse trials = new ListTimeTrialsResponse();
                 var listAllTrialsQuery = new QueryDefinition($"SELECT * FROM c");
                 using var iterator = container.GetItemQueryIterator<TimeTrial>(listAllTrialsQuery);
                 while (iterator.HasMoreResults)
                 {
                     foreach (TimeTrial trial in await iterator.ReadNextAsync())
                     {
-                        trials.Add(new TimeTrialListItem(trial));
+                        trials.TimeTrials.Add(CreateListItem(trial));
                     }
                 }
 
-                return new OkObjectResult(trials);
+                return new ProtobufResult(trials);
             }
             catch (Exception ex)
             {
@@ -55,6 +51,18 @@ namespace api
                     StatusCode = 500
                 };
             }
+        }
+
+        private static TimeTrialListItem CreateListItem(TimeTrial trial)
+        {
+            return new TimeTrialListItem
+            {
+                Id = trial.Id,
+                Length = trial.Phrase.Split(" ").Length,
+                Name = trial.Name,
+                Place = -1,
+                Time = -1
+            };
         }
     }
 }

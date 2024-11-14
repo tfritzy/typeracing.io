@@ -55,20 +55,38 @@ export const decodeGameMode: { [key: number]: GameMode } = {
   15: GameMode.LongestHundred,
 };
 
-export interface Player {
+export const enum PlayerAuthType {
+  InvalidAuthType = "InvalidAuthType",
+  Anonymous = "Anonymous",
+  Authenticated = "Authenticated",
+}
+
+export const encodePlayerAuthType: { [key: string]: number } = {
+  InvalidAuthType: 0,
+  Anonymous: 1,
+  Authenticated: 2,
+};
+
+export const decodePlayerAuthType: { [key: number]: PlayerAuthType } = {
+  0: PlayerAuthType.InvalidAuthType,
+  1: PlayerAuthType.Anonymous,
+  2: PlayerAuthType.Authenticated,
+};
+
+export interface InGamePlayer {
   name?: string;
   id?: string;
   is_bot?: boolean;
   is_you?: boolean;
 }
 
-export function encodePlayer(message: Player): Uint8Array {
+export function encodeInGamePlayer(message: InGamePlayer): Uint8Array {
   let bb = popByteBuffer();
-  _encodePlayer(message, bb);
+  _encodeInGamePlayer(message, bb);
   return toUint8Array(bb);
 }
 
-function _encodePlayer(message: Player, bb: ByteBuffer): void {
+function _encodeInGamePlayer(message: InGamePlayer, bb: ByteBuffer): void {
   // optional string name = 1;
   let $name = message.name;
   if ($name !== undefined) {
@@ -98,12 +116,12 @@ function _encodePlayer(message: Player, bb: ByteBuffer): void {
   }
 }
 
-export function decodePlayer(binary: Uint8Array): Player {
-  return _decodePlayer(wrapByteBuffer(binary));
+export function decodeInGamePlayer(binary: Uint8Array): InGamePlayer {
+  return _decodeInGamePlayer(wrapByteBuffer(binary));
 }
 
-function _decodePlayer(bb: ByteBuffer): Player {
-  let message: Player = {} as any;
+function _decodeInGamePlayer(bb: ByteBuffer): InGamePlayer {
+  let message: InGamePlayer = {} as any;
 
   end_of_message: while (!isAtEnd(bb)) {
     let tag = readVarint32(bb);
@@ -1089,7 +1107,7 @@ function _decodePlayerCompleted(bb: ByteBuffer): PlayerCompleted {
 }
 
 export interface PlayerJoinedGame {
-  player?: Player;
+  player?: InGamePlayer;
   game_id?: string;
 }
 
@@ -1100,12 +1118,12 @@ export function encodePlayerJoinedGame(message: PlayerJoinedGame): Uint8Array {
 }
 
 function _encodePlayerJoinedGame(message: PlayerJoinedGame, bb: ByteBuffer): void {
-  // optional Player player = 1;
+  // optional InGamePlayer player = 1;
   let $player = message.player;
   if ($player !== undefined) {
     writeVarint32(bb, 10);
     let nested = popByteBuffer();
-    _encodePlayer($player, nested);
+    _encodeInGamePlayer($player, nested);
     writeVarint32(bb, nested.limit);
     writeByteBuffer(bb, nested);
     pushByteBuffer(nested);
@@ -1133,10 +1151,10 @@ function _decodePlayerJoinedGame(bb: ByteBuffer): PlayerJoinedGame {
       case 0:
         break end_of_message;
 
-      // optional Player player = 1;
+      // optional InGamePlayer player = 1;
       case 1: {
         let limit = pushTemporaryLength(bb);
-        message.player = _decodePlayer(bb);
+        message.player = _decodeInGamePlayer(bb);
         bb.limit = limit;
         break;
       }
@@ -1289,7 +1307,7 @@ function _decodeWordFinished(bb: ByteBuffer): WordFinished {
 
 export interface YouveBeenAddedToGame {
   game_id?: string;
-  current_players?: Player[];
+  current_players?: InGamePlayer[];
   phrase?: string;
 }
 
@@ -1307,13 +1325,13 @@ function _encodeYouveBeenAddedToGame(message: YouveBeenAddedToGame, bb: ByteBuff
     writeString(bb, $game_id);
   }
 
-  // repeated Player current_players = 2;
+  // repeated InGamePlayer current_players = 2;
   let array$current_players = message.current_players;
   if (array$current_players !== undefined) {
     for (let value of array$current_players) {
       writeVarint32(bb, 18);
       let nested = popByteBuffer();
-      _encodePlayer(value, nested);
+      _encodeInGamePlayer(value, nested);
       writeVarint32(bb, nested.limit);
       writeByteBuffer(bb, nested);
       pushByteBuffer(nested);
@@ -1348,11 +1366,11 @@ function _decodeYouveBeenAddedToGame(bb: ByteBuffer): YouveBeenAddedToGame {
         break;
       }
 
-      // repeated Player current_players = 2;
+      // repeated InGamePlayer current_players = 2;
       case 2: {
         let limit = pushTemporaryLength(bb);
         let values = message.current_players || (message.current_players = []);
-        values.push(_decodePlayer(bb));
+        values.push(_decodeInGamePlayer(bb));
         bb.limit = limit;
         break;
       }
@@ -1521,6 +1539,62 @@ function _decodeTimeTrial(bb: ByteBuffer): TimeTrial {
   return message;
 }
 
+export interface ListTimeTrialsResponse {
+  time_trials?: TimeTrialListItem[];
+}
+
+export function encodeListTimeTrialsResponse(message: ListTimeTrialsResponse): Uint8Array {
+  let bb = popByteBuffer();
+  _encodeListTimeTrialsResponse(message, bb);
+  return toUint8Array(bb);
+}
+
+function _encodeListTimeTrialsResponse(message: ListTimeTrialsResponse, bb: ByteBuffer): void {
+  // repeated TimeTrialListItem time_trials = 1;
+  let array$time_trials = message.time_trials;
+  if (array$time_trials !== undefined) {
+    for (let value of array$time_trials) {
+      writeVarint32(bb, 10);
+      let nested = popByteBuffer();
+      _encodeTimeTrialListItem(value, nested);
+      writeVarint32(bb, nested.limit);
+      writeByteBuffer(bb, nested);
+      pushByteBuffer(nested);
+    }
+  }
+}
+
+export function decodeListTimeTrialsResponse(binary: Uint8Array): ListTimeTrialsResponse {
+  return _decodeListTimeTrialsResponse(wrapByteBuffer(binary));
+}
+
+function _decodeListTimeTrialsResponse(bb: ByteBuffer): ListTimeTrialsResponse {
+  let message: ListTimeTrialsResponse = {} as any;
+
+  end_of_message: while (!isAtEnd(bb)) {
+    let tag = readVarint32(bb);
+
+    switch (tag >>> 3) {
+      case 0:
+        break end_of_message;
+
+      // repeated TimeTrialListItem time_trials = 1;
+      case 1: {
+        let limit = pushTemporaryLength(bb);
+        let values = message.time_trials || (message.time_trials = []);
+        values.push(_decodeTimeTrialListItem(bb));
+        bb.limit = limit;
+        break;
+      }
+
+      default:
+        skipUnknownField(bb, tag & 7);
+    }
+  }
+
+  return message;
+}
+
 export interface TimeTrialListItem {
   id?: string;
   name?: string;
@@ -1613,6 +1687,439 @@ function _decodeTimeTrialListItem(bb: ByteBuffer): TimeTrialListItem {
       // optional int32 place = 5;
       case 5: {
         message.place = readVarint32(bb);
+        break;
+      }
+
+      default:
+        skipUnknownField(bb, tag & 7);
+    }
+  }
+
+  return message;
+}
+
+export interface TimeTrialResult {
+  id?: string;
+  player_id?: string;
+  best_time?: number;
+  best_keystrokes?: KeyStroke[];
+}
+
+export function encodeTimeTrialResult(message: TimeTrialResult): Uint8Array {
+  let bb = popByteBuffer();
+  _encodeTimeTrialResult(message, bb);
+  return toUint8Array(bb);
+}
+
+function _encodeTimeTrialResult(message: TimeTrialResult, bb: ByteBuffer): void {
+  // optional string id = 1;
+  let $id = message.id;
+  if ($id !== undefined) {
+    writeVarint32(bb, 10);
+    writeString(bb, $id);
+  }
+
+  // optional string player_id = 2;
+  let $player_id = message.player_id;
+  if ($player_id !== undefined) {
+    writeVarint32(bb, 18);
+    writeString(bb, $player_id);
+  }
+
+  // optional float best_time = 3;
+  let $best_time = message.best_time;
+  if ($best_time !== undefined) {
+    writeVarint32(bb, 29);
+    writeFloat(bb, $best_time);
+  }
+
+  // repeated KeyStroke best_keystrokes = 4;
+  let array$best_keystrokes = message.best_keystrokes;
+  if (array$best_keystrokes !== undefined) {
+    for (let value of array$best_keystrokes) {
+      writeVarint32(bb, 34);
+      let nested = popByteBuffer();
+      _encodeKeyStroke(value, nested);
+      writeVarint32(bb, nested.limit);
+      writeByteBuffer(bb, nested);
+      pushByteBuffer(nested);
+    }
+  }
+}
+
+export function decodeTimeTrialResult(binary: Uint8Array): TimeTrialResult {
+  return _decodeTimeTrialResult(wrapByteBuffer(binary));
+}
+
+function _decodeTimeTrialResult(bb: ByteBuffer): TimeTrialResult {
+  let message: TimeTrialResult = {} as any;
+
+  end_of_message: while (!isAtEnd(bb)) {
+    let tag = readVarint32(bb);
+
+    switch (tag >>> 3) {
+      case 0:
+        break end_of_message;
+
+      // optional string id = 1;
+      case 1: {
+        message.id = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // optional string player_id = 2;
+      case 2: {
+        message.player_id = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // optional float best_time = 3;
+      case 3: {
+        message.best_time = readFloat(bb);
+        break;
+      }
+
+      // repeated KeyStroke best_keystrokes = 4;
+      case 4: {
+        let limit = pushTemporaryLength(bb);
+        let values = message.best_keystrokes || (message.best_keystrokes = []);
+        values.push(_decodeKeyStroke(bb));
+        bb.limit = limit;
+        break;
+      }
+
+      default:
+        skipUnknownField(bb, tag & 7);
+    }
+  }
+
+  return message;
+}
+
+export interface ReportTimeTrialRequest {
+  id?: string;
+  keystrokes?: KeyStroke[];
+}
+
+export function encodeReportTimeTrialRequest(message: ReportTimeTrialRequest): Uint8Array {
+  let bb = popByteBuffer();
+  _encodeReportTimeTrialRequest(message, bb);
+  return toUint8Array(bb);
+}
+
+function _encodeReportTimeTrialRequest(message: ReportTimeTrialRequest, bb: ByteBuffer): void {
+  // optional string id = 1;
+  let $id = message.id;
+  if ($id !== undefined) {
+    writeVarint32(bb, 10);
+    writeString(bb, $id);
+  }
+
+  // repeated KeyStroke keystrokes = 2;
+  let array$keystrokes = message.keystrokes;
+  if (array$keystrokes !== undefined) {
+    for (let value of array$keystrokes) {
+      writeVarint32(bb, 18);
+      let nested = popByteBuffer();
+      _encodeKeyStroke(value, nested);
+      writeVarint32(bb, nested.limit);
+      writeByteBuffer(bb, nested);
+      pushByteBuffer(nested);
+    }
+  }
+}
+
+export function decodeReportTimeTrialRequest(binary: Uint8Array): ReportTimeTrialRequest {
+  return _decodeReportTimeTrialRequest(wrapByteBuffer(binary));
+}
+
+function _decodeReportTimeTrialRequest(bb: ByteBuffer): ReportTimeTrialRequest {
+  let message: ReportTimeTrialRequest = {} as any;
+
+  end_of_message: while (!isAtEnd(bb)) {
+    let tag = readVarint32(bb);
+
+    switch (tag >>> 3) {
+      case 0:
+        break end_of_message;
+
+      // optional string id = 1;
+      case 1: {
+        message.id = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // repeated KeyStroke keystrokes = 2;
+      case 2: {
+        let limit = pushTemporaryLength(bb);
+        let values = message.keystrokes || (message.keystrokes = []);
+        values.push(_decodeKeyStroke(bb));
+        bb.limit = limit;
+        break;
+      }
+
+      default:
+        skipUnknownField(bb, tag & 7);
+    }
+  }
+
+  return message;
+}
+
+export interface AuthenticatedAuthInfo {
+  provider?: string;
+  external_id?: string;
+  email?: string;
+  last_login_at?: number;
+}
+
+export function encodeAuthenticatedAuthInfo(message: AuthenticatedAuthInfo): Uint8Array {
+  let bb = popByteBuffer();
+  _encodeAuthenticatedAuthInfo(message, bb);
+  return toUint8Array(bb);
+}
+
+function _encodeAuthenticatedAuthInfo(message: AuthenticatedAuthInfo, bb: ByteBuffer): void {
+  // optional string provider = 1;
+  let $provider = message.provider;
+  if ($provider !== undefined) {
+    writeVarint32(bb, 10);
+    writeString(bb, $provider);
+  }
+
+  // optional string external_id = 2;
+  let $external_id = message.external_id;
+  if ($external_id !== undefined) {
+    writeVarint32(bb, 18);
+    writeString(bb, $external_id);
+  }
+
+  // optional string email = 3;
+  let $email = message.email;
+  if ($email !== undefined) {
+    writeVarint32(bb, 26);
+    writeString(bb, $email);
+  }
+
+  // optional double last_login_at = 4;
+  let $last_login_at = message.last_login_at;
+  if ($last_login_at !== undefined) {
+    writeVarint32(bb, 33);
+    writeDouble(bb, $last_login_at);
+  }
+}
+
+export function decodeAuthenticatedAuthInfo(binary: Uint8Array): AuthenticatedAuthInfo {
+  return _decodeAuthenticatedAuthInfo(wrapByteBuffer(binary));
+}
+
+function _decodeAuthenticatedAuthInfo(bb: ByteBuffer): AuthenticatedAuthInfo {
+  let message: AuthenticatedAuthInfo = {} as any;
+
+  end_of_message: while (!isAtEnd(bb)) {
+    let tag = readVarint32(bb);
+
+    switch (tag >>> 3) {
+      case 0:
+        break end_of_message;
+
+      // optional string provider = 1;
+      case 1: {
+        message.provider = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // optional string external_id = 2;
+      case 2: {
+        message.external_id = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // optional string email = 3;
+      case 3: {
+        message.email = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // optional double last_login_at = 4;
+      case 4: {
+        message.last_login_at = readDouble(bb);
+        break;
+      }
+
+      default:
+        skipUnknownField(bb, tag & 7);
+    }
+  }
+
+  return message;
+}
+
+export interface AnonAuthInfo {
+  auth_token?: string;
+  last_login_at?: number;
+}
+
+export function encodeAnonAuthInfo(message: AnonAuthInfo): Uint8Array {
+  let bb = popByteBuffer();
+  _encodeAnonAuthInfo(message, bb);
+  return toUint8Array(bb);
+}
+
+function _encodeAnonAuthInfo(message: AnonAuthInfo, bb: ByteBuffer): void {
+  // optional string auth_token = 1;
+  let $auth_token = message.auth_token;
+  if ($auth_token !== undefined) {
+    writeVarint32(bb, 10);
+    writeString(bb, $auth_token);
+  }
+
+  // optional double last_login_at = 2;
+  let $last_login_at = message.last_login_at;
+  if ($last_login_at !== undefined) {
+    writeVarint32(bb, 17);
+    writeDouble(bb, $last_login_at);
+  }
+}
+
+export function decodeAnonAuthInfo(binary: Uint8Array): AnonAuthInfo {
+  return _decodeAnonAuthInfo(wrapByteBuffer(binary));
+}
+
+function _decodeAnonAuthInfo(bb: ByteBuffer): AnonAuthInfo {
+  let message: AnonAuthInfo = {} as any;
+
+  end_of_message: while (!isAtEnd(bb)) {
+    let tag = readVarint32(bb);
+
+    switch (tag >>> 3) {
+      case 0:
+        break end_of_message;
+
+      // optional string auth_token = 1;
+      case 1: {
+        message.auth_token = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // optional double last_login_at = 2;
+      case 2: {
+        message.last_login_at = readDouble(bb);
+        break;
+      }
+
+      default:
+        skipUnknownField(bb, tag & 7);
+    }
+  }
+
+  return message;
+}
+
+export interface Player {
+  id?: string;
+  type?: PlayerAuthType;
+  created_s?: number;
+  authenticated_auth_info?: AuthenticatedAuthInfo;
+  anon_auth_info?: AnonAuthInfo;
+}
+
+export function encodePlayer(message: Player): Uint8Array {
+  let bb = popByteBuffer();
+  _encodePlayer(message, bb);
+  return toUint8Array(bb);
+}
+
+function _encodePlayer(message: Player, bb: ByteBuffer): void {
+  // optional string id = 1;
+  let $id = message.id;
+  if ($id !== undefined) {
+    writeVarint32(bb, 10);
+    writeString(bb, $id);
+  }
+
+  // optional PlayerAuthType type = 2;
+  let $type = message.type;
+  if ($type !== undefined) {
+    writeVarint32(bb, 16);
+    writeVarint32(bb, encodePlayerAuthType[$type]);
+  }
+
+  // optional double created_s = 3;
+  let $created_s = message.created_s;
+  if ($created_s !== undefined) {
+    writeVarint32(bb, 25);
+    writeDouble(bb, $created_s);
+  }
+
+  // optional AuthenticatedAuthInfo authenticated_auth_info = 4;
+  let $authenticated_auth_info = message.authenticated_auth_info;
+  if ($authenticated_auth_info !== undefined) {
+    writeVarint32(bb, 34);
+    let nested = popByteBuffer();
+    _encodeAuthenticatedAuthInfo($authenticated_auth_info, nested);
+    writeVarint32(bb, nested.limit);
+    writeByteBuffer(bb, nested);
+    pushByteBuffer(nested);
+  }
+
+  // optional AnonAuthInfo anon_auth_info = 5;
+  let $anon_auth_info = message.anon_auth_info;
+  if ($anon_auth_info !== undefined) {
+    writeVarint32(bb, 42);
+    let nested = popByteBuffer();
+    _encodeAnonAuthInfo($anon_auth_info, nested);
+    writeVarint32(bb, nested.limit);
+    writeByteBuffer(bb, nested);
+    pushByteBuffer(nested);
+  }
+}
+
+export function decodePlayer(binary: Uint8Array): Player {
+  return _decodePlayer(wrapByteBuffer(binary));
+}
+
+function _decodePlayer(bb: ByteBuffer): Player {
+  let message: Player = {} as any;
+
+  end_of_message: while (!isAtEnd(bb)) {
+    let tag = readVarint32(bb);
+
+    switch (tag >>> 3) {
+      case 0:
+        break end_of_message;
+
+      // optional string id = 1;
+      case 1: {
+        message.id = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // optional PlayerAuthType type = 2;
+      case 2: {
+        message.type = decodePlayerAuthType[readVarint32(bb)];
+        break;
+      }
+
+      // optional double created_s = 3;
+      case 3: {
+        message.created_s = readDouble(bb);
+        break;
+      }
+
+      // optional AuthenticatedAuthInfo authenticated_auth_info = 4;
+      case 4: {
+        let limit = pushTemporaryLength(bb);
+        message.authenticated_auth_info = _decodeAuthenticatedAuthInfo(bb);
+        bb.limit = limit;
+        break;
+      }
+
+      // optional AnonAuthInfo anon_auth_info = 5;
+      case 5: {
+        let limit = pushTemporaryLength(bb);
+        message.anon_auth_info = _decodeAnonAuthInfo(bb);
+        bb.limit = limit;
         break;
       }
 
