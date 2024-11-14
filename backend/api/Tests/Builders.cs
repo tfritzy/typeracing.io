@@ -18,4 +18,26 @@ public static class Builders
             }
         };
     }
+
+    public static TimeTrial BuildTimeTrial(int i)
+    {
+        return new()
+        {
+            Id = "trial_00" + i,
+            Name = "A tale of two cities",
+            Phrase = "It was the best of times, it was the worst of times."
+        };
+    }
+
+    public static TimeTrialResult BuildTimeTrialResult(TimeTrial trial, Player player)
+    {
+        TimeTrialResult result = new()
+        {
+            Id = trial.Id,
+            BestTime = 23,
+            PlayerId = player.Id,
+        };
+        result.BestKeystrokes.Add(new KeyStroke()); // TODO: parse
+        return result;
+    }
 }

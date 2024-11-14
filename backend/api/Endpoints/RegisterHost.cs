@@ -11,8 +11,6 @@ namespace api
     public class RegisterHost
     {
         private readonly CosmosClient _cosmosClient;
-        private readonly string _databaseName = "aces";
-        private readonly string _containerName = "typeracing-hosts";
         private readonly HashSet<string> _allowedIPs;
         private readonly string _apiKey;
 
@@ -66,7 +64,7 @@ namespace api
                     return new BadRequestObjectResult("Host not able to accept traffic");
                 }
 
-                var container = _cosmosClient.GetContainer(_databaseName, _containerName);
+                var container = _cosmosClient.GetContainer(DBConst.DB, DBConst.Hosts);
 
                 List<string> existingEntries = await HostHelpers.FindExistingEntries(container, host.color);
 

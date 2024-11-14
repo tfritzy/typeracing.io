@@ -15,8 +15,6 @@ namespace api
     public class FindHost
     {
         private readonly CosmosClient _cosmosClient;
-        private readonly string _databaseName = "aces";
-        private readonly string _containerName = "typeracing-hosts";
         private readonly string _websocketScheme;
         private readonly ILogger _logger;
 
@@ -32,7 +30,7 @@ namespace api
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req)
         {
             HttpResponseData response;
-            var container = _cosmosClient.GetContainer(_databaseName, _containerName);
+            var container = _cosmosClient.GetContainer(DBConst.DB, DBConst.Hosts);
             var queryDefinition = new QueryDefinition("SELECT * FROM c ORDER BY c.color");
             List<string> deadHostIds = [];
             try

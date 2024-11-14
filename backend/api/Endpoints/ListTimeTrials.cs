@@ -10,8 +10,6 @@ namespace api
     public class ListTimeTrials
     {
         private readonly CosmosClient _cosmosClient;
-        private readonly string _databaseName = "aces";
-        private readonly string _containerName = "time-trials";
 
         public ListTimeTrials(CosmosClient cosmosClient)
         {
@@ -24,7 +22,7 @@ namespace api
         {
             try
             {
-                var container = _cosmosClient.GetContainer(_databaseName, _containerName);
+                var container = _cosmosClient.GetContainer(DBConst.DB, DBConst.TimeTrials);
 
                 ListTimeTrialsResponse trials = new ListTimeTrialsResponse();
                 var listAllTrialsQuery = new QueryDefinition($"SELECT * FROM c");

@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Schema;
 using System.Security.Claims;
+using Microsoft.Azure.Cosmos.Core;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace api
 {
     public class ReportTimeTrialResult
     {
         private readonly CosmosClient _cosmosClient;
-        private readonly string _databaseName = "aces";
-        private readonly string _containerName = "time-trial-results";
 
         public ReportTimeTrialResult(CosmosClient cosmosClient)
         {
@@ -22,7 +22,7 @@ namespace api
         }
 
         [Function("time-trial-result")]
-        public async Task<IActionResult> Run(
+        public async Task<IStatusCodeActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req,
             ClaimsPrincipal? claimsPrincipal)
         {
@@ -39,8 +39,20 @@ namespace api
                 return new BadRequestObjectResult(e.Message);
             }
 
-            var container = _cosmosClient.GetContainer(_databaseName, _containerName);
-            TimeTrialResult? existingResult = await TimeTrialHelpers.FindResultForTrial(container, player.Id, trailRequest.Id);
+            TimeTrial? trial = await TimeTrialHelpers.FindTrial(
+                _cosmosClient,
+                trailRequest.Id);
+
+            if (trial == null)
+            {
+                return new NotFoundObjectResult("Trial not found");
+            }
+
+            var container = _cosmosClient.GetContainer(DBConst.DB, DBConst.TimeTrialResults);
+            TimeTrialResult? existingResult = await TimeTrialHelpers.FindResultForTrial(
+                container,
+                player.Id,
+                trailRequest.Id);
 
             return new OkObjectResult("Host registered successfully");
         }
@@ -50,12 +62,9 @@ namespace api
             ReportTimeTrialRequest? requestBody;
             try
             {
-                requestBody = await JsonSerializer.DeserializeAsync<ReportTimeTrialRequest>(
-                    req.Body,
-                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-                );
+                requestBody = ReportTimeTrialRequest.Parser.ParseFrom(req.Body);
             }
-            catch
+            catch (Exception e)
             {
                 throw new BadHttpRequestException("Invalid request body");
             }

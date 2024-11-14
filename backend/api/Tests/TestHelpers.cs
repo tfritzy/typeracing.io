@@ -1,6 +1,7 @@
 using System.Net;
 using System.Security.Claims;
 using System.Text.Json;
+using Google.Protobuf;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Primitives;
@@ -11,7 +12,7 @@ public static class TestHelpers
 {
     public static Mock<HttpRequest> CreateMockRequest(
         Dictionary<string, StringValues>? headers = null,
-        object? body = null,
+        IMessage? body = null,
         Dictionary<string, string>? queryParams = null)
     {
         var request = new Mock<HttpRequest>();
@@ -23,11 +24,9 @@ public static class TestHelpers
 
         if (body != null)
         {
-            var json = JsonSerializer.Serialize(body);
+            byte[] bodyBytes = body.ToByteArray();
             var bodyStream = new MemoryStream();
-            var writer = new StreamWriter(bodyStream);
-            writer.Write(json);
-            writer.Flush();
+            bodyStream.Write(bodyBytes, 0, bodyBytes.Length);
             bodyStream.Position = 0;
             request.Setup(r => r.Body).Returns(bodyStream);
         }
@@ -46,35 +45,24 @@ public static class TestHelpers
         return request;
     }
 
-    public static CosmosClient BuildFakeClient(Mock<Container> container)
+    public static CosmosClient BuildFakeClient(List<Mock<Container>> containers)
     {
         var mockDatabase = new Mock<Database>();
         var mockClient = new Mock<CosmosClient>();
 
-        Player? capturedPlayer = null;
-        container
-            .Setup(c => c.CreateItemAsync(
-                It.IsAny<Player>(),
-                null,
-                null,
-                default))
-            .Callback<Player, PartitionKey?, ItemRequestOptions, CancellationToken>((player, pk, options, token) =>
-            {
-                capturedPlayer = player;
-            })
-            .ReturnsAsync(() => Mock.Of<ItemResponse<Player>>(r =>
-                r.Resource == capturedPlayer &&
-                r.StatusCode == HttpStatusCode.Created));
-
         mockClient
             .Setup(c => c.GetDatabase(It.IsAny<string>()))
             .Returns(mockDatabase.Object);
-        mockDatabase
-            .Setup(d => d.GetContainer(It.IsAny<string>()))
-            .Returns(container.Object);
-        mockClient
-            .Setup(c => c.GetContainer(It.IsAny<string>(), It.IsAny<string>()))
-            .Returns(container.Object);
+
+        foreach (Mock<Container> container in containers)
+        {
+            mockDatabase
+                .Setup(d => d.GetContainer(container.Name))
+                .Returns(container.Object);
+            mockClient
+                .Setup(c => c.GetContainer(It.IsAny<string>(), container.Name))
+                .Returns(container.Object);
+        }
 
         return mockClient.Object;
     }
@@ -90,5 +78,46 @@ public static class TestHelpers
         .ReturnsAsync(Mock.Of<ItemResponse<Player>>(r =>
             r.Resource == player &&
             r.StatusCode == HttpStatusCode.OK));
+    }
+
+    public static void InsertTrial(Mock<Container> container, TimeTrial trial)
+    {
+        container
+            .Setup(c => c.ReadItemAsync<TimeTrial>(
+                trial.Id,
+                It.IsAny<PartitionKey>(),
+                null,
+                default))
+        .ReturnsAsync(Mock.Of<ItemResponse<TimeTrial>>(r =>
+            r.Resource == trial &&
+            r.StatusCode == HttpStatusCode.OK));
+    }
+
+    public static void InsertTrialResult(Mock<Container> container, TimeTrialResult result)
+    {
+        container
+            .Setup(c => c.ReadItemAsync<TimeTrialResult>(
+                result.Id,
+                It.IsAny<PartitionKey>(),
+                null,
+                default))
+        .ReturnsAsync(Mock.Of<ItemResponse<TimeTrialResult>>(r =>
+            r.Resource == result &&
+            r.StatusCode == HttpStatusCode.OK));
+    }
+
+    public static HttpRequest MakeAnonRequest(Player player, IMessage? body)
+    {
+        var httpRequest = TestHelpers.CreateMockRequest(
+            headers: new Dictionary<string, StringValues>
+            {
+                { "X-Player-Id", new StringValues(player.Id) },
+                { "X-Auth-Token", new StringValues(player.AnonAuthInfo.AuthToken) }
+            },
+            body: body,
+            queryParams: null
+        ).Object;
+
+        return httpRequest;
     }
 }

@@ -13,8 +13,6 @@ namespace Typeracing.Api
         private static readonly HttpClient HttpClient = new HttpClient();
         private const string WebSocketUrl = "wss://blue.typeracing.io/?id=plyr_hostcleanup";
         private const string LogicAppUrl = "https://prod-30.centralus.logic.azure.com:443/workflows/29eff023afbc47d98dbc62ef1074b3ee/triggers/scream/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fscream%2Frun&sv=1.0&sig=4Twd0_dT7DZe3MMw_s9I1zoPkbWBC3ODvG4XByZG-Zg";
-        private readonly string _databaseName = "aces";
-        private readonly string _containerName = "typeracing-hosts";
         private readonly CosmosClient _cosmosClient;
         private const int WebSocketTimeoutMs = 3000;
 
@@ -35,7 +33,7 @@ namespace Typeracing.Api
             }
 
             List<string> toDelete = [];
-            var container = _cosmosClient.GetContainer(_databaseName, _containerName);
+            var container = _cosmosClient.GetContainer(DBConst.DB, DBConst.Hosts);
             var allHostsQuery = new QueryDefinition($"SELECT * FROM c");
             using var iterator = container.GetItemQueryIterator<Host>(allHostsQuery);
             while (iterator.HasMoreResults)

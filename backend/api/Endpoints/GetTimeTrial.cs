@@ -11,8 +11,6 @@ namespace api
     public class GetTimeTrial
     {
         private readonly CosmosClient _cosmosClient;
-        private readonly string _databaseName = "aces";
-        private readonly string _containerName = "time-trials";
 
         public GetTimeTrial(CosmosClient cosmosClient)
         {
@@ -38,7 +36,7 @@ namespace api
                     return new BadRequestObjectResult("id can't be null");
                 }
 
-                var container = _cosmosClient.GetContainer(_databaseName, _containerName);
+                var container = _cosmosClient.GetContainer(DBConst.DB, DBConst.TimeTrials);
 
                 var listAllTrialsQuery = new QueryDefinition($"SELECT * FROM c WHERE c.id='{id}'");
                 using var iterator = container.GetItemQueryIterator<TimeTrial>(listAllTrialsQuery);
