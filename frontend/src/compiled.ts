@@ -1702,6 +1702,7 @@ export interface TimeTrialResult {
   id?: string;
   player_id?: string;
   best_time?: number;
+  attempt_times?: number[];
   best_keystrokes?: KeyStroke[];
 }
 
@@ -1733,11 +1734,24 @@ function _encodeTimeTrialResult(message: TimeTrialResult, bb: ByteBuffer): void 
     writeFloat(bb, $best_time);
   }
 
-  // repeated KeyStroke best_keystrokes = 4;
+  // repeated float attempt_times = 4;
+  let array$attempt_times = message.attempt_times;
+  if (array$attempt_times !== undefined) {
+    let packed = popByteBuffer();
+    for (let value of array$attempt_times) {
+      writeFloat(packed, value);
+    }
+    writeVarint32(bb, 34);
+    writeVarint32(bb, packed.offset);
+    writeByteBuffer(bb, packed);
+    pushByteBuffer(packed);
+  }
+
+  // repeated KeyStroke best_keystrokes = 5;
   let array$best_keystrokes = message.best_keystrokes;
   if (array$best_keystrokes !== undefined) {
     for (let value of array$best_keystrokes) {
-      writeVarint32(bb, 34);
+      writeVarint32(bb, 42);
       let nested = popByteBuffer();
       _encodeKeyStroke(value, nested);
       writeVarint32(bb, nested.limit);
@@ -1779,8 +1793,23 @@ function _decodeTimeTrialResult(bb: ByteBuffer): TimeTrialResult {
         break;
       }
 
-      // repeated KeyStroke best_keystrokes = 4;
+      // repeated float attempt_times = 4;
       case 4: {
+        let values = message.attempt_times || (message.attempt_times = []);
+        if ((tag & 7) === 2) {
+          let outerLimit = pushTemporaryLength(bb);
+          while (!isAtEnd(bb)) {
+            values.push(readFloat(bb));
+          }
+          bb.limit = outerLimit;
+        } else {
+          values.push(readFloat(bb));
+        }
+        break;
+      }
+
+      // repeated KeyStroke best_keystrokes = 5;
+      case 5: {
         let limit = pushTemporaryLength(bb);
         let values = message.best_keystrokes || (message.best_keystrokes = []);
         values.push(_decodeKeyStroke(bb));

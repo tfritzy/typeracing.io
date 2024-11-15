@@ -145,7 +145,8 @@ message TimeTrialResult {
     string id = 1;
     string player_id = 2;
     float best_time = 3;
-    repeated KeyStroke best_keystrokes = 4;
+    repeated float attempt_times = 4;
+    repeated KeyStroke best_keystrokes = 5;
 }
 
 message ReportTimeTrialRequest {

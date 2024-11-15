@@ -120,4 +120,22 @@ public static class TestHelpers
 
         return httpRequest;
     }
+
+    public static List<KeyStroke> GetKeystrokesForPhrase(string phrase, float wpm)
+    {
+        float time = 0;
+        float charTime = (1 / wpm) * 5;
+        List<KeyStroke> keyStrokes = new List<KeyStroke>();
+        foreach (char c in phrase)
+        {
+            keyStrokes.Add(new KeyStroke()
+            {
+                Character = c.ToString(),
+                Time = time,
+            });
+            time += charTime;
+        }
+
+        return keyStrokes;
+    }
 }

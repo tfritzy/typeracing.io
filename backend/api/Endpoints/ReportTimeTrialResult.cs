@@ -29,10 +29,10 @@ namespace api
             Player? player = await PlayerHelpers.GetPlayer(_cosmosClient, req, claimsPrincipal);
             if (player == null) return new UnauthorizedResult();
 
-            ReportTimeTrialRequest trailRequest;
+            ReportTimeTrialRequest trialRequest;
             try
             {
-                trailRequest = await ValidateRequest(req);
+                trialRequest = await ValidateRequest(req);
             }
             catch (BadHttpRequestException e)
             {
@@ -41,7 +41,7 @@ namespace api
 
             TimeTrial? trial = await TimeTrialHelpers.FindTrial(
                 _cosmosClient,
-                trailRequest.Id);
+                trialRequest.Id);
 
             if (trial == null)
             {
@@ -52,9 +52,28 @@ namespace api
             TimeTrialResult? existingResult = await TimeTrialHelpers.FindResultForTrial(
                 container,
                 player.Id,
-                trailRequest.Id);
+                trialRequest.Id);
 
-            return new OkObjectResult("Host registered successfully");
+            string typed = KeystrokeHelpers.ParseKeystrokes(trialRequest.Keystrokes);
+            if (typed != trial.Phrase)
+            {
+                return new OkResult();
+            }
+
+            float time = KeystrokeHelpers.GetTime(trialRequest.Keystrokes);
+            if (time < existingResult.BestTime)
+            {
+                existingResult.BestTime = time;
+                existingResult.BestKeystrokes.Clear();
+                existingResult.BestKeystrokes.AddRange(trialRequest.Keystrokes);
+                await container.ReplaceItemAsync(
+                    existingResult,
+                    existingResult.Id,
+                    new PartitionKey(existingResult.PlayerId)
+                );
+            }
+
+            return new OkObjectResult("Score updated");
         }
 
         private async Task<ReportTimeTrialRequest> ValidateRequest(HttpRequest req)

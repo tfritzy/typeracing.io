@@ -67,27 +67,27 @@ namespace Schema {
             "Fkxpc3RUaW1lVHJpYWxzUmVzcG9uc2USLgoLdGltZV90cmlhbHMYASADKAsy",
             "GS5TY2hlbWEuVGltZVRyaWFsTGlzdEl0ZW0iWgoRVGltZVRyaWFsTGlzdEl0",
             "ZW0SCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIOCgZsZW5ndGgYAyABKAUS",
-            "DAoEdGltZRgEIAEoBRINCgVwbGFjZRgFIAEoBSJvCg9UaW1lVHJpYWxSZXN1",
-            "bHQSCgoCaWQYASABKAkSEQoJcGxheWVyX2lkGAIgASgJEhEKCWJlc3RfdGlt",
-            "ZRgDIAEoAhIqCg9iZXN0X2tleXN0cm9rZXMYBCADKAsyES5TY2hlbWEuS2V5",
-            "U3Ryb2tlIksKFlJlcG9ydFRpbWVUcmlhbFJlcXVlc3QSCgoCaWQYASABKAkS",
-            "JQoKa2V5c3Ryb2tlcxgCIAMoCzIRLlNjaGVtYS5LZXlTdHJva2UiZAoVQXV0",
-            "aGVudGljYXRlZEF1dGhJbmZvEhAKCHByb3ZpZGVyGAEgASgJEhMKC2V4dGVy",
-            "bmFsX2lkGAIgASgJEg0KBWVtYWlsGAMgASgJEhUKDWxhc3RfbG9naW5fYXQY",
-            "BCABKAEiOQoMQW5vbkF1dGhJbmZvEhIKCmF1dGhfdG9rZW4YASABKAkSFQoN",
-            "bGFzdF9sb2dpbl9hdBgCIAEoASK7AQoGUGxheWVyEgoKAmlkGAEgASgJEiQK",
-            "BHR5cGUYAiABKA4yFi5TY2hlbWEuUGxheWVyQXV0aFR5cGUSEQoJY3JlYXRl",
-            "ZF9zGAMgASgBEj4KF2F1dGhlbnRpY2F0ZWRfYXV0aF9pbmZvGAQgASgLMh0u",
-            "U2NoZW1hLkF1dGhlbnRpY2F0ZWRBdXRoSW5mbxIsCg5hbm9uX2F1dGhfaW5m",
-            "bxgFIAEoCzIULlNjaGVtYS5Bbm9uQXV0aEluZm8q/AEKCEdhbWVNb2RlEgsK",
-            "B0ludmFsaWQQABIOCgpNb3N0Q29tbW9uEAESCgoGQ29tbW9uEAISDgoKRGlj",
-            "dGlvbmFyeRADEg8KC0xlYXN0Q29tbW9uEAQSDgoKQ29weVBhc3RhcxAFEgsK",
-            "B1NwYW1UYXAQBhILCgdOdW1iZXJzEAcSDAoITWFyYXRob24QCBILCgdIb21l",
-            "Um93EAkSDAoIVXBwZXJSb3cQChINCglSaWdodEhhbmQQCxIMCghMZWZ0SGFu",
-            "ZBAMEhMKD0FsdGVybmF0aW5nSGFuZBANEg0KCUZha2VXb3JkcxAOEhIKDkxv",
-            "bmdlc3RIdW5kcmVkEA8qRwoOUGxheWVyQXV0aFR5cGUSEwoPSW52YWxpZEF1",
-            "dGhUeXBlEAASDQoJQW5vbnltb3VzEAESEQoNQXV0aGVudGljYXRlZBACYgZw",
-            "cm90bzM="));
+            "DAoEdGltZRgEIAEoBRINCgVwbGFjZRgFIAEoBSKGAQoPVGltZVRyaWFsUmVz",
+            "dWx0EgoKAmlkGAEgASgJEhEKCXBsYXllcl9pZBgCIAEoCRIRCgliZXN0X3Rp",
+            "bWUYAyABKAISFQoNYXR0ZW1wdF90aW1lcxgEIAMoAhIqCg9iZXN0X2tleXN0",
+            "cm9rZXMYBSADKAsyES5TY2hlbWEuS2V5U3Ryb2tlIksKFlJlcG9ydFRpbWVU",
+            "cmlhbFJlcXVlc3QSCgoCaWQYASABKAkSJQoKa2V5c3Ryb2tlcxgCIAMoCzIR",
+            "LlNjaGVtYS5LZXlTdHJva2UiZAoVQXV0aGVudGljYXRlZEF1dGhJbmZvEhAK",
+            "CHByb3ZpZGVyGAEgASgJEhMKC2V4dGVybmFsX2lkGAIgASgJEg0KBWVtYWls",
+            "GAMgASgJEhUKDWxhc3RfbG9naW5fYXQYBCABKAEiOQoMQW5vbkF1dGhJbmZv",
+            "EhIKCmF1dGhfdG9rZW4YASABKAkSFQoNbGFzdF9sb2dpbl9hdBgCIAEoASK7",
+            "AQoGUGxheWVyEgoKAmlkGAEgASgJEiQKBHR5cGUYAiABKA4yFi5TY2hlbWEu",
+            "UGxheWVyQXV0aFR5cGUSEQoJY3JlYXRlZF9zGAMgASgBEj4KF2F1dGhlbnRp",
+            "Y2F0ZWRfYXV0aF9pbmZvGAQgASgLMh0uU2NoZW1hLkF1dGhlbnRpY2F0ZWRB",
+            "dXRoSW5mbxIsCg5hbm9uX2F1dGhfaW5mbxgFIAEoCzIULlNjaGVtYS5Bbm9u",
+            "QXV0aEluZm8q/AEKCEdhbWVNb2RlEgsKB0ludmFsaWQQABIOCgpNb3N0Q29t",
+            "bW9uEAESCgoGQ29tbW9uEAISDgoKRGljdGlvbmFyeRADEg8KC0xlYXN0Q29t",
+            "bW9uEAQSDgoKQ29weVBhc3RhcxAFEgsKB1NwYW1UYXAQBhILCgdOdW1iZXJz",
+            "EAcSDAoITWFyYXRob24QCBILCgdIb21lUm93EAkSDAoIVXBwZXJSb3cQChIN",
+            "CglSaWdodEhhbmQQCxIMCghMZWZ0SGFuZBAMEhMKD0FsdGVybmF0aW5nSGFu",
+            "ZBANEg0KCUZha2VXb3JkcxAOEhIKDkxvbmdlc3RIdW5kcmVkEA8qRwoOUGxh",
+            "eWVyQXV0aFR5cGUSEwoPSW52YWxpZEF1dGhUeXBlEAASDQoJQW5vbnltb3Vz",
+            "EAESEQoNQXV0aGVudGljYXRlZBACYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Schema.GameMode), typeof(global::Schema.PlayerAuthType), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -109,7 +109,7 @@ namespace Schema {
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrial), global::Schema.TimeTrial.Parser, new[]{ "Id", "Name", "Phrase" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ListTimeTrialsResponse), global::Schema.ListTimeTrialsResponse.Parser, new[]{ "TimeTrials" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrialListItem), global::Schema.TimeTrialListItem.Parser, new[]{ "Id", "Name", "Length", "Time", "Place" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrialResult), global::Schema.TimeTrialResult.Parser, new[]{ "Id", "PlayerId", "BestTime", "BestKeystrokes" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrialResult), global::Schema.TimeTrialResult.Parser, new[]{ "Id", "PlayerId", "BestTime", "AttemptTimes", "BestKeystrokes" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ReportTimeTrialRequest), global::Schema.ReportTimeTrialRequest.Parser, new[]{ "Id", "Keystrokes" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.AuthenticatedAuthInfo), global::Schema.AuthenticatedAuthInfo.Parser, new[]{ "Provider", "ExternalId", "Email", "LastLoginAt" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.AnonAuthInfo), global::Schema.AnonAuthInfo.Parser, new[]{ "AuthToken", "LastLoginAt" }, null, null, null, null),
@@ -3836,6 +3836,7 @@ namespace Schema {
       id_ = other.id_;
       playerId_ = other.playerId_;
       bestTime_ = other.bestTime_;
+      attemptTimes_ = other.attemptTimes_.Clone();
       bestKeystrokes_ = other.bestKeystrokes_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -3878,10 +3879,20 @@ namespace Schema {
       }
     }
 
+    /// <summary>Field number for the "attempt_times" field.</summary>
+    public const int AttemptTimesFieldNumber = 4;
+    private static readonly pb::FieldCodec<float> _repeated_attemptTimes_codec
+        = pb::FieldCodec.ForFloat(34);
+    private readonly pbc::RepeatedField<float> attemptTimes_ = new pbc::RepeatedField<float>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<float> AttemptTimes {
+      get { return attemptTimes_; }
+    }
+
     /// <summary>Field number for the "best_keystrokes" field.</summary>
-    public const int BestKeystrokesFieldNumber = 4;
+    public const int BestKeystrokesFieldNumber = 5;
     private static readonly pb::FieldCodec<global::Schema.KeyStroke> _repeated_bestKeystrokes_codec
-        = pb::FieldCodec.ForMessage(34, global::Schema.KeyStroke.Parser);
+        = pb::FieldCodec.ForMessage(42, global::Schema.KeyStroke.Parser);
     private readonly pbc::RepeatedField<global::Schema.KeyStroke> bestKeystrokes_ = new pbc::RepeatedField<global::Schema.KeyStroke>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::Schema.KeyStroke> BestKeystrokes {
@@ -3904,6 +3915,7 @@ namespace Schema {
       if (Id != other.Id) return false;
       if (PlayerId != other.PlayerId) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(BestTime, other.BestTime)) return false;
+      if(!attemptTimes_.Equals(other.attemptTimes_)) return false;
       if(!bestKeystrokes_.Equals(other.bestKeystrokes_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -3914,6 +3926,7 @@ namespace Schema {
       if (Id.Length != 0) hash ^= Id.GetHashCode();
       if (PlayerId.Length != 0) hash ^= PlayerId.GetHashCode();
       if (BestTime != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(BestTime);
+      hash ^= attemptTimes_.GetHashCode();
       hash ^= bestKeystrokes_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -3940,6 +3953,7 @@ namespace Schema {
         output.WriteRawTag(29);
         output.WriteFloat(BestTime);
       }
+      attemptTimes_.WriteTo(output, _repeated_attemptTimes_codec);
       bestKeystrokes_.WriteTo(output, _repeated_bestKeystrokes_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -3958,6 +3972,7 @@ namespace Schema {
       if (BestTime != 0F) {
         size += 1 + 4;
       }
+      size += attemptTimes_.CalculateSize(_repeated_attemptTimes_codec);
       size += bestKeystrokes_.CalculateSize(_repeated_bestKeystrokes_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -3979,6 +3994,7 @@ namespace Schema {
       if (other.BestTime != 0F) {
         BestTime = other.BestTime;
       }
+      attemptTimes_.Add(other.attemptTimes_);
       bestKeystrokes_.Add(other.bestKeystrokes_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -4003,7 +4019,12 @@ namespace Schema {
             BestTime = input.ReadFloat();
             break;
           }
-          case 34: {
+          case 34:
+          case 37: {
+            attemptTimes_.AddEntriesFrom(input, _repeated_attemptTimes_codec);
+            break;
+          }
+          case 42: {
             bestKeystrokes_.AddEntriesFrom(input, _repeated_bestKeystrokes_codec);
             break;
           }
