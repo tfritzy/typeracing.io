@@ -186,7 +186,7 @@ public class ReportTimeTrialResultTests
     }
 
     [TestMethod]
-    public void OkRequest_UpdatesExistingResult()
+    public void OkRequest_UpdatesExistingResult_Best()
     {
         TestSetup setup = SetupWorld();
         TimeTrialResult result = Builders.BuildTimeTrialResult(setup.Trial, setup.Player.Id);
@@ -209,6 +209,35 @@ public class ReportTimeTrialResultTests
             default),
             Times.Once());
         Assert.AreEqual(200, response.StatusCode);
+    }
+
+
+    [TestMethod]
+    public void OkRequest_UpdatesExistingResult_NotBest()
+    {
+        TestSetup setup = SetupWorld();
+        TimeTrialResult result = Builders.BuildTimeTrialResult(setup.Trial, setup.Player.Id);
+        TestHelpers.InsertTrialResult(setup.TrialResultsContainer, result);
+
+        ReportTimeTrialRequest reqBody = new ReportTimeTrialRequest() { Id = setup.Trial.Id };
+        reqBody.Keystrokes.Add(TestHelpers.GetKeystrokesForPhrase(setup.Trial.Phrase, 60));
+        var httpRequest = TestHelpers.MakeAnonRequest(setup.Player, reqBody);
+        var function = new ReportTimeTrialResult(setup.Client);
+
+        var deser = ReportTimeTrialRequest.Parser.ParseFrom(reqBody.ToByteArray());
+
+        IStatusCodeActionResult response = function.Run(httpRequest, null).Result;
+
+        setup.TrialResultsContainer.Verify(x => x.ReplaceItemAsync(
+            It.IsAny<TimeTrialResult>(),
+            setup.Trial.Id,
+            It.Is<PartitionKey>(pk => pk.ToString() == new PartitionKey(setup.Player.Id).ToString()),
+            It.IsAny<ItemRequestOptions>(),
+            default),
+            Times.Once());
+        Assert.AreEqual(200, response.StatusCode);
+
+        Assert.Fail("Update to test that best values don't get replaced");
     }
 
     [TestMethod]
