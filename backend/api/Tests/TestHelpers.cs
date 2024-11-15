@@ -5,6 +5,7 @@ using Google.Protobuf;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Primitives;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Schema;
 
@@ -137,5 +138,14 @@ public static class TestHelpers
         }
 
         return keyStrokes;
+    }
+
+    public static bool CompareTrialResult(TimeTrialResult tr1, TimeTrialResult tr2)
+    {
+        Assert.AreEqual(tr1.BestTime, tr2.BestTime);
+        Assert.AreEqual(tr1.Id, tr2.Id);
+        Assert.AreEqual(tr1.PlayerId, tr2.PlayerId);
+
+        return true;
     }
 }

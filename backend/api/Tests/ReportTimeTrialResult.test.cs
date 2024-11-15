@@ -65,7 +65,7 @@ public class ReportTimeTrialResultTests
         var function = new ReportTimeTrialResult(client);
         var claimsPrincipal = ClaimsPrincipalFactory.CreateAnonymous();
 
-        return new TestSetup(player, timeTrial, client, trialContainer);
+        return new TestSetup(player, timeTrial, client, trialResultsContainer);
     }
 
     [TestMethod]
@@ -189,7 +189,7 @@ public class ReportTimeTrialResultTests
     public void OkRequest_UpdatesExistingResult()
     {
         TestSetup setup = SetupWorld();
-        TimeTrialResult result = Builders.BuildTimeTrialResult(setup.Trial, setup.Player);
+        TimeTrialResult result = Builders.BuildTimeTrialResult(setup.Trial, setup.Player.Id);
         TestHelpers.InsertTrialResult(setup.TrialResultsContainer, result);
 
         ReportTimeTrialRequest reqBody = new ReportTimeTrialRequest() { Id = setup.Trial.Id };
@@ -203,12 +203,42 @@ public class ReportTimeTrialResultTests
 
         setup.TrialResultsContainer.Verify(x => x.ReplaceItemAsync(
             It.IsAny<TimeTrialResult>(),
-            It.IsAny<string>(),
-            It.IsAny<PartitionKey>(),
+            setup.Trial.Id,
+            It.Is<PartitionKey>(pk => pk.ToString() == new PartitionKey(setup.Player.Id).ToString()),
             It.IsAny<ItemRequestOptions>(),
             default),
             Times.Once());
+        Assert.AreEqual(200, response.StatusCode);
+    }
 
+    [TestMethod]
+    public void OkRequest_CreatesNewResult()
+    {
+        TestSetup setup = SetupWorld();
+
+        ReportTimeTrialRequest reqBody = new ReportTimeTrialRequest() { Id = setup.Trial.Id };
+        reqBody.Keystrokes.Add(TestHelpers.GetKeystrokesForPhrase(setup.Trial.Phrase, 60));
+        var httpRequest = TestHelpers.MakeAnonRequest(setup.Player, reqBody);
+        var function = new ReportTimeTrialResult(setup.Client);
+
+        var deser = ReportTimeTrialRequest.Parser.ParseFrom(reqBody.ToByteArray());
+
+        IStatusCodeActionResult response = function.Run(httpRequest, null).Result;
+
+        var expectedItem = new TimeTrialResult()
+        {
+            Id = setup.Trial.Id,
+            PlayerId = setup.Player.Id,
+            BestTime = KeystrokeHelpers.GetTime(reqBody.Keystrokes),
+        };
+        expectedItem.AttemptTimes.Add(KeystrokeHelpers.GetTime(reqBody.Keystrokes));
+        expectedItem.BestKeystrokes.Add(reqBody.Keystrokes);
+        setup.TrialResultsContainer.Verify(x => x.CreateItemAsync(
+            It.Is<TimeTrialResult>(tr => TestHelpers.CompareTrialResult(expectedItem, tr)),
+            new PartitionKey(setup.Player.Id),
+            It.IsAny<ItemRequestOptions>(),
+            default),
+            Times.Once());
         Assert.AreEqual(200, response.StatusCode);
     }
 }

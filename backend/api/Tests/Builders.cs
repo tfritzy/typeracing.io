@@ -29,15 +29,17 @@ public static class Builders
         };
     }
 
-    public static TimeTrialResult BuildTimeTrialResult(TimeTrial trial, Player player)
+    public static TimeTrialResult BuildTimeTrialResult(TimeTrial timeTrial, string playerId)
     {
-        TimeTrialResult result = new()
+        var ks = TestHelpers.GetKeystrokesForPhrase(timeTrial.Phrase, 50);
+        var result = new TimeTrialResult()
         {
-            Id = trial.Id,
-            BestTime = 23,
-            PlayerId = player.Id,
+            BestTime = KeystrokeHelpers.GetTime(ks),
+            Id = timeTrial.Id,
+            PlayerId = playerId
         };
-        result.BestKeystrokes.Add(new KeyStroke()); // TODO: parse
+        result.AttemptTimes.Add(KeystrokeHelpers.GetTime(ks));
+        result.BestKeystrokes.Add(ks);
         return result;
     }
 }

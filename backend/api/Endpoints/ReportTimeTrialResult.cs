@@ -48,20 +48,35 @@ namespace api
                 return new NotFoundObjectResult("Trial not found");
             }
 
-            var container = _cosmosClient.GetContainer(DBConst.DB, DBConst.TimeTrialResults);
-            TimeTrialResult? existingResult = await TimeTrialHelpers.FindResultForTrial(
-                container,
-                player.Id,
-                trialRequest.Id);
-
             string typed = KeystrokeHelpers.ParseKeystrokes(trialRequest.Keystrokes);
             if (typed != trial.Phrase)
             {
                 return new OkResult();
             }
 
+            var container = _cosmosClient.GetContainer(DBConst.DB, DBConst.TimeTrialResults);
+            TimeTrialResult? existingResult = await TimeTrialHelpers.FindResultForTrial(
+                container,
+                player.Id,
+                trialRequest.Id);
+
             float time = KeystrokeHelpers.GetTime(trialRequest.Keystrokes);
-            if (time < existingResult.BestTime)
+            if (existingResult == null)
+            {
+                TimeTrialResult result = new TimeTrialResult()
+                {
+                    Id = trial.Id,
+                    PlayerId = player.Id,
+                    BestTime = time,
+                };
+                result.BestKeystrokes.Add(trialRequest.Keystrokes);
+                result.AttemptTimes.Add(time);
+                await container.CreateItemAsync(
+                   result,
+                   new PartitionKey(result.PlayerId)
+               );
+            }
+            else if (time < existingResult.BestTime)
             {
                 existingResult.BestTime = time;
                 existingResult.BestKeystrokes.Clear();
