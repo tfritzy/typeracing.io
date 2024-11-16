@@ -28,7 +28,6 @@ export const TypeBoxButton = (
             phrase={props.phrase}
             lockedCharacterIndex={lockedCharIndex}
             onWordComplete={handleWordComplete}
-            startTime={0}
         />
     );
 };

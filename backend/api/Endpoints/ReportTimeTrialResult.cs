@@ -9,6 +9,9 @@ using Schema;
 using System.Security.Claims;
 using Microsoft.Azure.Cosmos.Core;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
+using System.Buffers;
 
 namespace api
 {
@@ -45,16 +48,19 @@ namespace api
 
             if (trial == null)
             {
+                Console.WriteLine($"Could not find trial for {trialRequest.Id}");
                 return new NotFoundObjectResult("Trial not found");
             }
 
             string typed = KeystrokeHelpers.ParseKeystrokes(trialRequest.Keystrokes);
+            Console.WriteLine($"Player typed: {typed}");
             if (typed != trial.Phrase)
             {
+                Console.WriteLine($"Typed doesn't look right. Bailing.");
                 return new OkResult();
             }
 
-            var container = _cosmosClient.GetContainer(DBConst.DB, DBConst.TimeTrialResults);
+            var container = _cosmosClient.GetContainer(DB.Name, DB.TimeTrialResults);
             TimeTrialResult? existingResult = await TimeTrialHelpers.FindResultForTrial(
                 container,
                 player.Id,
@@ -72,23 +78,34 @@ namespace api
                 result.BestKeystrokes.Add(trialRequest.Keystrokes);
                 result.AttemptTimes.Add(time);
                 await container.CreateItemAsync(
-                   result,
+                    DB.FormatProto(result),
                    new PartitionKey(result.PlayerId)
                );
             }
-            else if (time < existingResult.BestTime)
+            else
             {
-                existingResult.BestTime = time;
-                existingResult.BestKeystrokes.Clear();
-                existingResult.BestKeystrokes.AddRange(trialRequest.Keystrokes);
+                existingResult.AttemptTimes.Add(KeystrokeHelpers.GetTime(trialRequest.Keystrokes));
+                if (time < existingResult.BestTime)
+                {
+                    existingResult.BestTime = time;
+                    existingResult.BestKeystrokes.Clear();
+                    existingResult.BestKeystrokes.AddRange(trialRequest.Keystrokes);
+                }
                 await container.ReplaceItemAsync(
-                    existingResult,
+                    DB.FormatProto(existingResult),
                     existingResult.Id,
                     new PartitionKey(existingResult.PlayerId)
                 );
             }
 
-            return new OkObjectResult("Score updated");
+            float duration = KeystrokeHelpers.GetTime(trialRequest.Keystrokes);
+            ReportTimeTrialResponse response = new()
+            {
+                Time = duration,
+                Wpm = KeystrokeHelpers.GetWpm(typed.Length, duration)
+            };
+
+            return new ProtobufResult(response);
         }
 
         private async Task<ReportTimeTrialRequest> ValidateRequest(HttpRequest req)
@@ -96,10 +113,12 @@ namespace api
             ReportTimeTrialRequest? requestBody;
             try
             {
-                requestBody = ReportTimeTrialRequest.Parser.ParseFrom(req.Body);
+                var result = await req.BodyReader.ReadAsync();
+                requestBody = ReportTimeTrialRequest.Parser.ParseFrom(result.Buffer.ToArray());
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.ToString());
                 throw new BadHttpRequestException("Invalid request body");
             }
 

@@ -140,12 +140,31 @@ public static class TestHelpers
         return keyStrokes;
     }
 
-    public static bool CompareTrialResult(TimeTrialResult tr1, TimeTrialResult tr2)
+    public static bool CompareTrialResult(TimeTrialResult expected, TimeTrialResult actual)
     {
-        Assert.AreEqual(tr1.BestTime, tr2.BestTime);
-        Assert.AreEqual(tr1.Id, tr2.Id);
-        Assert.AreEqual(tr1.PlayerId, tr2.PlayerId);
+        if (expected.ToString() != actual.ToString())
+        {
+            Console.WriteLine("- Expected - ");
+            Console.WriteLine(expected.ToString());
+            Console.WriteLine("-----------");
+            Console.WriteLine("- Actual - ");
+            Console.WriteLine(actual.ToString());
+        }
 
-        return true;
+        return expected.ToString() == actual.ToString();
+    }
+
+    public static bool ComparePlayer(Player expected, Player actual)
+    {
+        if (expected.ToString() != actual.ToString())
+        {
+            Console.WriteLine("- Expected - ");
+            Console.WriteLine(expected.ToString());
+            Console.WriteLine("-----------");
+            Console.WriteLine("- Actual - ");
+            Console.WriteLine(actual.ToString());
+        }
+
+        return expected.ToString() == actual.ToString();
     }
 }

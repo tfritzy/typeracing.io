@@ -2,6 +2,7 @@ using System.Net;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Cosmos;
+using Newtonsoft.Json;
 using Schema;
 
 public static class PlayerHelpers
@@ -34,10 +35,19 @@ public static class PlayerHelpers
 
     public static async Task<Player?> ValidateAnonPlayer(Container container, string playerId, string token)
     {
-        ItemResponse<Player> response = await container.ReadItemAsync<Player>(
-            playerId,
-            new PartitionKey(playerId)
-        );
+        ItemResponse<Player>? response;
+        try
+        {
+            response = await container.ReadItemAsync<Player>(
+                playerId,
+                new PartitionKey(playerId)
+            );
+        }
+        catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        {
+            response = null;
+        }
+
         if (response != null)
         {
             Player player = response.Resource;
@@ -49,7 +59,7 @@ public static class PlayerHelpers
             }
 
             player.AnonAuthInfo.LastLoginAt = TimeHelpers.Now_s;
-            await container.ReplaceItemAsync(player, playerId);
+            await container.ReplaceItemAsync(DB.FormatProto(player), playerId);
 
             return player;
         }
@@ -67,8 +77,10 @@ public static class PlayerHelpers
                 }
             };
 
-            var createResponse = await container.CreateItemAsync(player);
-            return createResponse.Resource;
+            var createResponse = await container.CreateItemAsync(
+                DB.FormatProto(player),
+                new PartitionKey(player.Id));
+            return createResponse.Resource as Player;
         }
     }
 
@@ -88,7 +100,7 @@ public static class PlayerHelpers
             if (player.AuthenticatedAuthInfo != null)
             {
                 player.AuthenticatedAuthInfo.LastLoginAt = TimeHelpers.Now_s;
-                await container.ReplaceItemAsync(player, userId);
+                await container.ReplaceItemAsync(DB.FormatProto(player), userId);
             }
 
             return player;
@@ -109,8 +121,8 @@ public static class PlayerHelpers
                 }
             };
 
-            var response = await container.CreateItemAsync(player);
-            return response.Resource;
+            var response = await container.CreateItemAsync(DB.FormatProto(player));
+            return response.Resource as Player;
         }
     }
 }

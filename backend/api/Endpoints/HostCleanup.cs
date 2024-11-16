@@ -33,7 +33,7 @@ namespace Typeracing.Api
             }
 
             List<string> toDelete = [];
-            var container = _cosmosClient.GetContainer(DBConst.DB, DBConst.Hosts);
+            var container = _cosmosClient.GetContainer(DB.Name, DB.Hosts);
             var allHostsQuery = new QueryDefinition($"SELECT * FROM c");
             using var iterator = container.GetItemQueryIterator<Host>(allHostsQuery);
             while (iterator.HasMoreResults)

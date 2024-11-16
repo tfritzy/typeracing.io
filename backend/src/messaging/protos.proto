@@ -154,6 +154,11 @@ message ReportTimeTrialRequest {
     repeated KeyStroke keystrokes = 2;
 }
 
+message ReportTimeTrialResponse {
+    float time = 1;
+    float wpm = 2;
+}
+
 message AuthenticatedAuthInfo {
     string provider = 1;
     string external_id = 2;

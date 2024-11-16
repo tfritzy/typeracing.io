@@ -30,7 +30,7 @@ namespace api
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req)
         {
             HttpResponseData response;
-            var container = _cosmosClient.GetContainer(DBConst.DB, DBConst.Hosts);
+            var container = _cosmosClient.GetContainer(DB.Name, DB.Hosts);
             var queryDefinition = new QueryDefinition("SELECT * FROM c ORDER BY c.color");
             List<string> deadHostIds = [];
             try

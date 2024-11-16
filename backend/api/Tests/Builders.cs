@@ -25,7 +25,7 @@ public static class Builders
         {
             Id = "trial_00" + i,
             Name = "A tale of two cities",
-            Phrase = "It was the best of times, it was the worst of times."
+            Phrase = "It was the best."
         };
     }
 

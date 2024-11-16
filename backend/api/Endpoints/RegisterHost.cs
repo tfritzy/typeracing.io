@@ -64,7 +64,7 @@ namespace api
                     return new BadRequestObjectResult("Host not able to accept traffic");
                 }
 
-                var container = _cosmosClient.GetContainer(DBConst.DB, DBConst.Hosts);
+                var container = _cosmosClient.GetContainer(DB.Name, DB.Hosts);
 
                 List<string> existingEntries = await HostHelpers.FindExistingEntries(container, host.color);
 

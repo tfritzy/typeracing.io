@@ -1895,6 +1895,67 @@ function _decodeReportTimeTrialRequest(bb: ByteBuffer): ReportTimeTrialRequest {
   return message;
 }
 
+export interface ReportTimeTrialResponse {
+  time?: number;
+  wpm?: number;
+}
+
+export function encodeReportTimeTrialResponse(message: ReportTimeTrialResponse): Uint8Array {
+  let bb = popByteBuffer();
+  _encodeReportTimeTrialResponse(message, bb);
+  return toUint8Array(bb);
+}
+
+function _encodeReportTimeTrialResponse(message: ReportTimeTrialResponse, bb: ByteBuffer): void {
+  // optional float time = 1;
+  let $time = message.time;
+  if ($time !== undefined) {
+    writeVarint32(bb, 13);
+    writeFloat(bb, $time);
+  }
+
+  // optional float wpm = 2;
+  let $wpm = message.wpm;
+  if ($wpm !== undefined) {
+    writeVarint32(bb, 21);
+    writeFloat(bb, $wpm);
+  }
+}
+
+export function decodeReportTimeTrialResponse(binary: Uint8Array): ReportTimeTrialResponse {
+  return _decodeReportTimeTrialResponse(wrapByteBuffer(binary));
+}
+
+function _decodeReportTimeTrialResponse(bb: ByteBuffer): ReportTimeTrialResponse {
+  let message: ReportTimeTrialResponse = {} as any;
+
+  end_of_message: while (!isAtEnd(bb)) {
+    let tag = readVarint32(bb);
+
+    switch (tag >>> 3) {
+      case 0:
+        break end_of_message;
+
+      // optional float time = 1;
+      case 1: {
+        message.time = readFloat(bb);
+        break;
+      }
+
+      // optional float wpm = 2;
+      case 2: {
+        message.wpm = readFloat(bb);
+        break;
+      }
+
+      default:
+        skipUnknownField(bb, tag & 7);
+    }
+  }
+
+  return message;
+}
+
 export interface AuthenticatedAuthInfo {
   provider?: string;
   external_id?: string;

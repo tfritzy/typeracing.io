@@ -22,7 +22,7 @@ namespace api
         {
             try
             {
-                var container = _cosmosClient.GetContainer(DBConst.DB, DBConst.TimeTrials);
+                var container = _cosmosClient.GetContainer(DB.Name, DB.TimeTrials);
 
                 ListTimeTrialsResponse trials = new ListTimeTrialsResponse();
                 var listAllTrialsQuery = new QueryDefinition($"SELECT * FROM c");

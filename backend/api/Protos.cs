@@ -72,22 +72,23 @@ namespace Schema {
             "bWUYAyABKAISFQoNYXR0ZW1wdF90aW1lcxgEIAMoAhIqCg9iZXN0X2tleXN0",
             "cm9rZXMYBSADKAsyES5TY2hlbWEuS2V5U3Ryb2tlIksKFlJlcG9ydFRpbWVU",
             "cmlhbFJlcXVlc3QSCgoCaWQYASABKAkSJQoKa2V5c3Ryb2tlcxgCIAMoCzIR",
-            "LlNjaGVtYS5LZXlTdHJva2UiZAoVQXV0aGVudGljYXRlZEF1dGhJbmZvEhAK",
-            "CHByb3ZpZGVyGAEgASgJEhMKC2V4dGVybmFsX2lkGAIgASgJEg0KBWVtYWls",
-            "GAMgASgJEhUKDWxhc3RfbG9naW5fYXQYBCABKAEiOQoMQW5vbkF1dGhJbmZv",
-            "EhIKCmF1dGhfdG9rZW4YASABKAkSFQoNbGFzdF9sb2dpbl9hdBgCIAEoASK7",
-            "AQoGUGxheWVyEgoKAmlkGAEgASgJEiQKBHR5cGUYAiABKA4yFi5TY2hlbWEu",
-            "UGxheWVyQXV0aFR5cGUSEQoJY3JlYXRlZF9zGAMgASgBEj4KF2F1dGhlbnRp",
-            "Y2F0ZWRfYXV0aF9pbmZvGAQgASgLMh0uU2NoZW1hLkF1dGhlbnRpY2F0ZWRB",
-            "dXRoSW5mbxIsCg5hbm9uX2F1dGhfaW5mbxgFIAEoCzIULlNjaGVtYS5Bbm9u",
-            "QXV0aEluZm8q/AEKCEdhbWVNb2RlEgsKB0ludmFsaWQQABIOCgpNb3N0Q29t",
-            "bW9uEAESCgoGQ29tbW9uEAISDgoKRGljdGlvbmFyeRADEg8KC0xlYXN0Q29t",
-            "bW9uEAQSDgoKQ29weVBhc3RhcxAFEgsKB1NwYW1UYXAQBhILCgdOdW1iZXJz",
-            "EAcSDAoITWFyYXRob24QCBILCgdIb21lUm93EAkSDAoIVXBwZXJSb3cQChIN",
-            "CglSaWdodEhhbmQQCxIMCghMZWZ0SGFuZBAMEhMKD0FsdGVybmF0aW5nSGFu",
-            "ZBANEg0KCUZha2VXb3JkcxAOEhIKDkxvbmdlc3RIdW5kcmVkEA8qRwoOUGxh",
-            "eWVyQXV0aFR5cGUSEwoPSW52YWxpZEF1dGhUeXBlEAASDQoJQW5vbnltb3Vz",
-            "EAESEQoNQXV0aGVudGljYXRlZBACYgZwcm90bzM="));
+            "LlNjaGVtYS5LZXlTdHJva2UiNAoXUmVwb3J0VGltZVRyaWFsUmVzcG9uc2US",
+            "DAoEdGltZRgBIAEoAhILCgN3cG0YAiABKAIiZAoVQXV0aGVudGljYXRlZEF1",
+            "dGhJbmZvEhAKCHByb3ZpZGVyGAEgASgJEhMKC2V4dGVybmFsX2lkGAIgASgJ",
+            "Eg0KBWVtYWlsGAMgASgJEhUKDWxhc3RfbG9naW5fYXQYBCABKAEiOQoMQW5v",
+            "bkF1dGhJbmZvEhIKCmF1dGhfdG9rZW4YASABKAkSFQoNbGFzdF9sb2dpbl9h",
+            "dBgCIAEoASK7AQoGUGxheWVyEgoKAmlkGAEgASgJEiQKBHR5cGUYAiABKA4y",
+            "Fi5TY2hlbWEuUGxheWVyQXV0aFR5cGUSEQoJY3JlYXRlZF9zGAMgASgBEj4K",
+            "F2F1dGhlbnRpY2F0ZWRfYXV0aF9pbmZvGAQgASgLMh0uU2NoZW1hLkF1dGhl",
+            "bnRpY2F0ZWRBdXRoSW5mbxIsCg5hbm9uX2F1dGhfaW5mbxgFIAEoCzIULlNj",
+            "aGVtYS5Bbm9uQXV0aEluZm8q/AEKCEdhbWVNb2RlEgsKB0ludmFsaWQQABIO",
+            "CgpNb3N0Q29tbW9uEAESCgoGQ29tbW9uEAISDgoKRGljdGlvbmFyeRADEg8K",
+            "C0xlYXN0Q29tbW9uEAQSDgoKQ29weVBhc3RhcxAFEgsKB1NwYW1UYXAQBhIL",
+            "CgdOdW1iZXJzEAcSDAoITWFyYXRob24QCBILCgdIb21lUm93EAkSDAoIVXBw",
+            "ZXJSb3cQChINCglSaWdodEhhbmQQCxIMCghMZWZ0SGFuZBAMEhMKD0FsdGVy",
+            "bmF0aW5nSGFuZBANEg0KCUZha2VXb3JkcxAOEhIKDkxvbmdlc3RIdW5kcmVk",
+            "EA8qRwoOUGxheWVyQXV0aFR5cGUSEwoPSW52YWxpZEF1dGhUeXBlEAASDQoJ",
+            "QW5vbnltb3VzEAESEQoNQXV0aGVudGljYXRlZBACYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Schema.GameMode), typeof(global::Schema.PlayerAuthType), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -111,6 +112,7 @@ namespace Schema {
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrialListItem), global::Schema.TimeTrialListItem.Parser, new[]{ "Id", "Name", "Length", "Time", "Place" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrialResult), global::Schema.TimeTrialResult.Parser, new[]{ "Id", "PlayerId", "BestTime", "AttemptTimes", "BestKeystrokes" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ReportTimeTrialRequest), global::Schema.ReportTimeTrialRequest.Parser, new[]{ "Id", "Keystrokes" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ReportTimeTrialResponse), global::Schema.ReportTimeTrialResponse.Parser, new[]{ "Time", "Wpm" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.AuthenticatedAuthInfo), global::Schema.AuthenticatedAuthInfo.Parser, new[]{ "Provider", "ExternalId", "Email", "LastLoginAt" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.AnonAuthInfo), global::Schema.AnonAuthInfo.Parser, new[]{ "AuthToken", "LastLoginAt" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.Player), global::Schema.Player.Parser, new[]{ "Id", "Type", "CreatedS", "AuthenticatedAuthInfo", "AnonAuthInfo" }, null, null, null, null)
@@ -4183,6 +4185,163 @@ namespace Schema {
 
   }
 
+  public sealed partial class ReportTimeTrialResponse : pb::IMessage<ReportTimeTrialResponse> {
+    private static readonly pb::MessageParser<ReportTimeTrialResponse> _parser = new pb::MessageParser<ReportTimeTrialResponse>(() => new ReportTimeTrialResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<ReportTimeTrialResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Schema.ProtosReflection.Descriptor.MessageTypes[20]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ReportTimeTrialResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ReportTimeTrialResponse(ReportTimeTrialResponse other) : this() {
+      time_ = other.time_;
+      wpm_ = other.wpm_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ReportTimeTrialResponse Clone() {
+      return new ReportTimeTrialResponse(this);
+    }
+
+    /// <summary>Field number for the "time" field.</summary>
+    public const int TimeFieldNumber = 1;
+    private float time_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float Time {
+      get { return time_; }
+      set {
+        time_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "wpm" field.</summary>
+    public const int WpmFieldNumber = 2;
+    private float wpm_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float Wpm {
+      get { return wpm_; }
+      set {
+        wpm_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as ReportTimeTrialResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(ReportTimeTrialResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Time, other.Time)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Wpm, other.Wpm)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Time != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Time);
+      if (Wpm != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Wpm);
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Time != 0F) {
+        output.WriteRawTag(13);
+        output.WriteFloat(Time);
+      }
+      if (Wpm != 0F) {
+        output.WriteRawTag(21);
+        output.WriteFloat(Wpm);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Time != 0F) {
+        size += 1 + 4;
+      }
+      if (Wpm != 0F) {
+        size += 1 + 4;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(ReportTimeTrialResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Time != 0F) {
+        Time = other.Time;
+      }
+      if (other.Wpm != 0F) {
+        Wpm = other.Wpm;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 13: {
+            Time = input.ReadFloat();
+            break;
+          }
+          case 21: {
+            Wpm = input.ReadFloat();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class AuthenticatedAuthInfo : pb::IMessage<AuthenticatedAuthInfo> {
     private static readonly pb::MessageParser<AuthenticatedAuthInfo> _parser = new pb::MessageParser<AuthenticatedAuthInfo>(() => new AuthenticatedAuthInfo());
     private pb::UnknownFieldSet _unknownFields;
@@ -4191,7 +4350,7 @@ namespace Schema {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Schema.ProtosReflection.Descriptor.MessageTypes[20]; }
+      get { return global::Schema.ProtosReflection.Descriptor.MessageTypes[21]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4404,7 +4563,7 @@ namespace Schema {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Schema.ProtosReflection.Descriptor.MessageTypes[21]; }
+      get { return global::Schema.ProtosReflection.Descriptor.MessageTypes[22]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4561,7 +4720,7 @@ namespace Schema {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Schema.ProtosReflection.Descriptor.MessageTypes[22]; }
+      get { return global::Schema.ProtosReflection.Descriptor.MessageTypes[23]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

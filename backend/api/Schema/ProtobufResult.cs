@@ -1,7 +1,8 @@
 using Google.Protobuf;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
-public class ProtobufResult : IActionResult
+public class ProtobufResult : IStatusCodeActionResult
 {
     private readonly IMessage _message;
 
@@ -9,6 +10,8 @@ public class ProtobufResult : IActionResult
     {
         _message = message;
     }
+
+    public int? StatusCode => 200;
 
     public async Task ExecuteResultAsync(ActionContext context)
     {

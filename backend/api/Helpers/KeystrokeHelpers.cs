@@ -28,4 +28,9 @@ public static class KeystrokeHelpers
     {
         return keyStrokes.Last().Time;
     }
+
+    public static float GetWpm(int charCount, float time_s)
+    {
+        return charCount / time_s * 60 / 5;
+    }
 }

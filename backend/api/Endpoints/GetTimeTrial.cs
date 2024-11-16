@@ -36,7 +36,7 @@ namespace api
                     return new BadRequestObjectResult("id can't be null");
                 }
 
-                var container = _cosmosClient.GetContainer(DBConst.DB, DBConst.TimeTrials);
+                var container = _cosmosClient.GetContainer(DB.Name, DB.TimeTrials);
 
                 var listAllTrialsQuery = new QueryDefinition($"SELECT * FROM c WHERE c.id='{id}'");
                 using var iterator = container.GetItemQueryIterator<TimeTrial>(listAllTrialsQuery);
