@@ -1,5 +1,4 @@
 import React, { RefObject, useEffect, useState } from "react";
-import { GoLabel } from "../game/GoLabel";
 import { KeyStroke } from "../compiled";
 
 function lerp(start: number, end: number, alpha: number) {
@@ -117,11 +116,12 @@ type TypeBoxProps = {
     keyStrokes: KeyStroke[],
     errorCount: number
   ) => void;
-  startTime: number;
+  isLocked: boolean;
+  onFirstKeystroke?: () => void;
 };
 
 export const TypeBox = (props: TypeBoxProps) => {
-  const { phrase, lockedCharacterIndex, onWordComplete, startTime } = props;
+  const { phrase, lockedCharacterIndex, onWordComplete, isLocked } = props;
   const [focused, setFocused] = useState(true);
   const [currentWord, setCurrentWord] = useState("");
   const [inputWidth, setInputWidth] = useState(0);
@@ -205,8 +205,13 @@ export const TypeBox = (props: TypeBoxProps) => {
 
   const handleInput = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (Date.now() - startTime < 0) {
+      if (isLocked) {
         return;
+      }
+
+      if (currentWord.length === 0 && lockedCharacterIndex === 0)
+      {
+        props.onFirstKeystroke && props.onFirstKeystroke();
       }
 
       if (currentWord.length < event.target.value.length) {
@@ -234,10 +239,11 @@ export const TypeBox = (props: TypeBoxProps) => {
     },
     [
       currentWord.length,
-      hasError,
+      hasError, 
       lockedCharacterIndex,
       phrase.length,
-      startTime,
+      isLocked,
+      props.onFirstKeystroke
     ]
   );
 
@@ -257,7 +263,7 @@ export const TypeBox = (props: TypeBoxProps) => {
     while (keyStrokes.current.compositeSize > currentWord.length) {
       keyStrokes.current.strokes.push({
         character: "\b",
-        time: (Date.now() - props.startTime) / 1000,
+        time: Date.now() / 1000,
       });
       keyStrokes.current.compositeSize--;
     }
@@ -265,7 +271,7 @@ export const TypeBox = (props: TypeBoxProps) => {
     while (keyStrokes.current.compositeSize < currentWord.length) {
       keyStrokes.current.strokes.push({
         character: currentWord[keyStrokes.current.compositeSize],
-        time: (Date.now() - props.startTime) / 1000,
+        time: Date.now() / 1000,
       });
       keyStrokes.current.compositeSize++;
     }
@@ -306,12 +312,11 @@ export const TypeBox = (props: TypeBoxProps) => {
     lockedCharacterIndex,
     onWordComplete,
     phrase,
-    props.startTime,
   ]);
 
   useEffect(() => {
     handleWordUpdate();
-  }, [currentWord, handleWordUpdate, startTime]);
+  }, [currentWord, handleWordUpdate]);
 
   const refocusMessage = React.useMemo(() => {
     return (
@@ -348,7 +353,7 @@ export const TypeBox = (props: TypeBoxProps) => {
           className="rounded-lg transition-colors whitespace-pre-wrap"
           style={{
             filter: focused ? "blur(0)" : "blur(2px)",
-            opacity: focused && Date.now() - startTime > 0 ? 1 : 0.5,
+            opacity: focused && !isLocked ? 1 : 0.5,
           }}
           ref={phraseRef}
         >
@@ -384,10 +389,6 @@ export const TypeBox = (props: TypeBoxProps) => {
           currentWord={currentWord}
           phrase={phrase}
         />
-      </div>
-
-      <div className="absolute -left-16 top-2">
-        <GoLabel startTime={startTime} />
       </div>
     </div>
   );

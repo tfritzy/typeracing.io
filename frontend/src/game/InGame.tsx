@@ -24,7 +24,6 @@ import {
 import { Results } from "./Results";
 import { Players } from "./Players";
 import { ActionBar } from "./ActionBar";
-import { Logo } from "../components/Logo";
 import { Countdown } from "./Countdown";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useConnectionContext } from "../ConnectionProvider";
@@ -38,6 +37,7 @@ import {
 import { GameStoreDispatch, GameStoreState } from "../store/gameStore";
 import { saveRaceResult } from "../helpers/raceResults";
 import { addRaceResult } from "../store/playerSlice";
+import { GoLabel } from "./GoLabel";
 
 const handleMessage = (
   event: MessageEvent<any>,
@@ -109,6 +109,9 @@ export const InGame = () => {
   const { ws, sendRequest } = useConnectionContext();
   const navigate = useNavigate();
   const dispatch = useGameDispatch();
+  const isGameOver =
+    state === GameStage.Finished || state === GameStage.ViewingResults;
+  const startTime = gameState.start_time || Date.now() + 1000000;
 
   const resetState = useCallback(() => {
     setLockCharIndex(0);
@@ -128,6 +131,10 @@ export const InGame = () => {
   const handleWordComplete = React.useCallback(
     (newLockIndex: number, keyStrokes: KeyStroke[], errors: number) => {
       const word = phrase.slice(lockCharIndex, newLockIndex).trim();
+      for (let i = 0; i < keyStrokes.length; i++)
+      {
+        keyStrokes[i].time = keyStrokes[i].time! - startTime;
+      }
 
       const finishedWordRequest: OneofRequest = {
         sender_id: player.id,
@@ -142,16 +149,12 @@ export const InGame = () => {
       setLockCharIndex(newLockIndex);
       sendRequest(finishedWordRequest);
     },
-    [lockCharIndex, phrase, player.id, player.token, sendRequest]
+    [lockCharIndex, phrase, player.id, player.token, sendRequest, startTime]
   );
 
   if (!gameState.id) {
     return <LoadingSpinner />;
   }
-
-  const isGameOver =
-    state === GameStage.Finished || state === GameStage.ViewingResults;
-  const startTime = gameState.start_time || Date.now() + 1000000;
 
   return (
     <div>
@@ -169,7 +172,7 @@ export const InGame = () => {
               phrase={phrase}
               lockedCharacterIndex={lockCharIndex}
               onWordComplete={handleWordComplete}
-              startTime={startTime}
+              isLocked={Date.now() - startTime < 0}
             />
           </div>
         )}
@@ -183,6 +186,10 @@ export const InGame = () => {
           <Countdown startTime={startTime} />
         </div>
       )}
+
+      <div className="absolute -left-16 top-2">
+        <GoLabel startTime={startTime} />
+      </div>
     </div>
   );
 };

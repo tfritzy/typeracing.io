@@ -51,10 +51,10 @@ h2 {
 
 .type-box {
   font-family: Consolas, Lucida Console, monospace;
-  font-size: 1.5rem;
-  line-height: 40px;
-  letter-spacing: 0.04em;
-  word-spacing: 0.08em;
+  font-size: 1.25rem;
+  /* line-height: 40px; */
+  /* letter-spacing: 0.04em;
+  word-spacing: 0.08em; */
 }
 
 

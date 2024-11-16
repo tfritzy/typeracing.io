@@ -1,27 +1,23 @@
 import React from "react";
+import { decodeListTimeTrialsResponse, TimeTrialListItem } from "../compiled";
+import { arrayBuffer } from "stream/consumers";
 
 const apiUrl = process.env.REACT_APP_API_ADDRESS;
 
-type Trial = {
-    id: string | undefined;
-    name: string | undefined;
-    length: number | undefined;
-    time: number | undefined;
-    place: number | undefined;
-}
 
 function LinkTD(props: { trialId: string | undefined, children: string | JSX.Element }) {
     return <td><a href={`/time-trials/${props.trialId}`}>{props.children}</a></td>
 }
 
 export function TimeTrials() {
-    const [trials, setTrials] = React.useState<Trial[] | undefined>(undefined);
+    const [trials, setTrials] = React.useState<TimeTrialListItem[] | undefined>(undefined);
 
     React.useEffect(() => {
         fetch(apiUrl + "/api/list-time-trials")
-            .then((response) => response.json())
+            .then((response) => response.arrayBuffer())
+            .then((arrayBuffer) => new Uint8Array(arrayBuffer))
             .then((data) => {
-                setTrials(data);
+                setTrials(decodeListTimeTrialsResponse(data).time_trials);
             })
             .catch((error) => {
                 console.error("Error finding host:", error);

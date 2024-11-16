@@ -1,33 +1,40 @@
 import React from "react";
 import { TypeBox } from "../components/TypeBox"
-import { TimeTrial } from "../types/TimeTrial"
-import { KeyStroke } from "../compiled";
+import { KeyStroke, TimeTrial } from "../compiled";
 
 type Props = {
     trial: TimeTrial;
+    onPhraseComplete: (keystrokes: KeyStroke[]) => void;
 }
 
 export function TimeTrialTypeBox(props: Props) {
     const [lockedCharIndex, setLockedCharIndex] =
         React.useState<number>(0);
     const keyStrokes = React.useRef<KeyStroke[]>([]);
+    const [startTime, setStartTime] = React.useState<number>(0)
 
     const handleWordComplete = React.useCallback(
         (charIndex: number, wordStrokes: KeyStroke[]) => {
             setLockedCharIndex(charIndex);
+
+            for (let i = 0; i < wordStrokes.length; i++)
+            {
+                wordStrokes[i].time! -= startTime;
+            }
             keyStrokes.current.push(...wordStrokes);
 
-            if (charIndex >= props.trial.phrase.length) {
-                // props.onPhraseComplete();
+            if (charIndex >= props.trial.phrase!.length) {
+                props.onPhraseComplete(keyStrokes.current);
             }
         },
-        [props]
+        [props, startTime]
     );
 
-    return <>{JSON.stringify(keyStrokes.current)}<TypeBox
-        phrase={props.trial.phrase}
+    return <TypeBox
+        phrase={props.trial.phrase!}
         lockedCharacterIndex={lockedCharIndex}
         onWordComplete={handleWordComplete}
-        startTime={0}
-    /></>
+        isLocked={false}
+        onFirstKeystroke={() => setStartTime(Date.now() / 1000)}
+    />
 }
