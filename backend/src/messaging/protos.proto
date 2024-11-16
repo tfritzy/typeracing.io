@@ -21,7 +21,7 @@ enum GameMode {
     LongestHundred = 15;
 }
 
-message Player {
+message InGamePlayer {
     string name = 1;
     string id = 2;
     bool is_bot = 3;
@@ -98,7 +98,7 @@ message PlayerCompleted {
 }
 
 message PlayerJoinedGame {
-    Player player = 1;
+    InGamePlayer player = 1;
     string game_id = 2;
 }
 
@@ -113,7 +113,7 @@ message WordFinished {
 
 message YouveBeenAddedToGame {
     string game_id = 1;
-    repeated Player current_players = 2;
+    repeated InGamePlayer current_players = 2;
     string phrase = 3;
 }
 
@@ -121,4 +121,67 @@ message PlayerDisconnected {
     string player_id = 1;
     bool removed = 2;
     bool is_you = 3;
+}
+
+message TimeTrial {
+    string id = 1;
+    string name = 2;
+    string phrase = 3;
+}
+
+message ListTimeTrialsResponse {
+    repeated TimeTrialListItem time_trials = 1;
+}
+
+message TimeTrialListItem {
+    string id = 1;
+    string name = 2;
+    int32 length = 3;
+    int32 time = 4;
+    int32 place = 5;
+}
+
+message TimeTrialResult {
+    string id = 1;
+    string player_id = 2;
+    float best_time = 3;
+    repeated float attempt_times = 4;
+    repeated KeyStroke best_keystrokes = 5;
+}
+
+message ReportTimeTrialRequest {
+    string id = 1;
+    repeated KeyStroke keystrokes = 2;
+}
+
+message ReportTimeTrialResponse {
+    float time = 1;
+    float wpm = 2;
+}
+
+message AuthenticatedAuthInfo {
+    string provider = 1;
+    string external_id = 2;
+    string email = 3;
+    double last_login_at = 4;
+}
+
+message AnonAuthInfo {
+    string auth_token = 1;
+    double last_login_at = 2;
+}
+
+enum PlayerAuthType {
+    InvalidAuthType = 0;
+    Anonymous = 1;
+    Authenticated = 2;
+}
+
+message Player
+{
+    string id = 1;
+    PlayerAuthType type = 2;
+    double created_s = 3;
+    AuthenticatedAuthInfo authenticated_auth_info = 4;
+    AnonAuthInfo anon_auth_info = 5;
 }
