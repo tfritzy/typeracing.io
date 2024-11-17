@@ -1,11 +1,10 @@
-import React from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import { ErrorsAtTime } from "../compiled";
 
-const secondaryColor = "var(--text-tertiary)";
+const secondaryColor = "var(--base-300)";
 const areaColor = "#00000033";
-const textColor = "var(--text-tertiary)";
+const textColor = "var(--base-300)";
 
 export type Series = {
   name: string;
@@ -39,7 +38,7 @@ export const LineChart = (props: LineChartProps) => {
             x2: errors_at_time[indexBackToZero].time,
             fillColor: "#dc2626",
             opacity: 0.15,
-            borderColor: "var(--border-color-100)",
+            borderColor: "var(--base-700)",
             strokeDashArray: 0,
             borderWidth: 100,
           });
@@ -97,7 +96,7 @@ export const LineChart = (props: LineChartProps) => {
         show: false,
       },
       grid: {
-        borderColor: "var(--border-color-100)",
+        borderColor: "var(--base-700)",
         show: true,
         xaxis: {
           lines: {

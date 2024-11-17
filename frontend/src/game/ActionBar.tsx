@@ -17,7 +17,7 @@ const TextButton = ({
   return (
     <button
       onClick={onClick as any}
-      className="flex w-32 text-text-secondary flex-row space-x-2 items-center justify-center rounded-full p-2 hover:text-accent outline-none"
+      className="flex w-32 text-base-200 flex-row space-x-2 items-center justify-center rounded-full p-2 hover:text-accent outline-none"
     >
       {children}
     </button>
@@ -69,13 +69,13 @@ export const ActionBar = (props: ActionBarProps) => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex flex-row rounded-full px-2 bg-background-color border border-border-color shadow-sm shadow-shadow-color">
+      <div className="flex flex-row rounded-full px-2 bg-base-800 border border-base-600 shadow-sm shadow-shadow-color">
         <TextButton onClick={findGame}>
           <span>Play again</span>
           <Hotkey code="p" />
         </TextButton>
 
-        <div className="h-6 m-auto border-r ml-1 mr-1 py-3 border-border-color" />
+        <div className="h-6 m-auto border-r ml-1 mr-1 py-3 border-base-600" />
 
         <TextButton onClick={mainMenu}>
           <span>Main Menu</span>

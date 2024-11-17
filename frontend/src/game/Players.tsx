@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { HelpCircle } from "iconoir-react";
 import { PlayerData } from "../store/gameSlice";
@@ -12,9 +11,9 @@ const placementText = [
   <span className="font-semibold flex flex-row items-center space-x-1 pulsing-gradient-text">
     <span>1st</span>
   </span>,
-  <span className="font-semibold text-text-primary">2nd</span>,
-  <span className="font-semibold text-text-secondary">3rd</span>,
-  <span className="font-semibold text-text-tertiary">4th</span>,
+  <span className="font-semibold text-base-100">2nd</span>,
+  <span className="font-semibold text-base-200">3rd</span>,
+  <span className="font-semibold text-base-300">4th</span>,
 ];
 
 const PlayerRow = ({ player }: { player?: PlayerData }) => {
@@ -28,9 +27,7 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
     if (player?.is_disconnected) {
       return (
         <div className="text-lg flex flex-row space-x-2 items-center">
-          <span className="text-text-secondary line-through">
-            {player.name}
-          </span>
+          <span className="text-base-200 line-through">{player.name}</span>
           <span className="text-sm"> (Disconnected)</span>
         </div>
       );
@@ -39,10 +36,10 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
         <div className="font-normal">
           <div className="flex flex-row space-x-1 items-center">
             <div>{player?.name || <Spinner />}</div>
-            {isSelf && <div className="text-text-tertiary"> (You)</div>}
+            {isSelf && <div className="text-base-300"> (You)</div>}
             {player?.is_bot && (
               <Tooltip content="This player is a bot. Bots are needed before/if ever this game gets a large enough playerbase. Share this game with your friends to help remove them.">
-                <div key="gear" className="text-text-tertiary">
+                <div key="gear" className="text-base-300">
                   <HelpCircle width={12} height={12} />
                 </div>
               </Tooltip>
@@ -56,13 +53,13 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
   return (
     <div className="h-md relative">
       <div className="flex flex-row items-center justify-between space-x-2 w-full mb-2">
-        <div className="flex text-text-secondary flex-row space-x-2 items-center">
+        <div className="flex text-base-200 flex-row space-x-2 items-center">
           <span>{playerName}</span>
           <span>{place !== -1 ? placementText[place] : ""} </span>
         </div>
         <div>
           {player?.most_recent_wpm.toFixed(0)}{" "}
-          <span className="text-text-secondary">WPM</span>
+          <span className="text-base-200">WPM</span>
         </div>
       </div>
       <div className="w-full mt-3 relative flex flex-row space-x-1">
@@ -74,7 +71,7 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
           }}
         />
         <div
-          className="h-1 transition-all duration-350 ease-in-out rounded-full bg-border-color"
+          className="h-1 transition-all duration-350 ease-in-out rounded-full bg-base-600"
           style={{
             width: `${(1 - (player?.progress || 0)) * 100}%`,
           }}

@@ -39,12 +39,12 @@ export const Modal = (props: ModalProps) => {
       ref={dialogRef}
       id="modal"
       open={props.open}
-      className="rounded-lg shadow-lg text-text-primary transition-all shadow-[#00000055] bg-neutral-color"
+      className="rounded-lg shadow-lg text-base-100 transition-all shadow-[#00000055] bg-base-900"
       style={{
         backdropFilter: "blur(5px)",
       }}
     >
-      <div className="flex flex-row justify-between w-full p-3 pl-4 font-semibold border-b border-text-tertiary">
+      <div className="flex flex-row justify-between w-full p-3 pl-4 font-semibold border-b border-base-300">
         <div>{props.title}</div>
         <button onClick={props.onClose} className="rounded-full">
           <Xmark />

@@ -127,17 +127,17 @@ const ModeButton = (props: ModeButtonProps) => {
       style={
         props.selected
           ? {
-            backgroundColor: "var(--accent-200)",
-            color: "var(--accent)",
-            borderColor: "var(--accent-100)",
-            borderWidth: "1px",
-          }
+              backgroundColor: "var(--accent-200)",
+              color: "var(--accent)",
+              borderColor: "var(--accent-dark)",
+              borderWidth: "1px",
+            }
           : {
-            backgroundColor: "transparent",
-            color: "var(--text-secondary)",
-            borderColor: "var(--border-color)",
-            borderWidth: undefined,
-          }
+              backgroundColor: "transparent",
+              color: "var(--base-200)",
+              borderColor: "var(--base-600)",
+              borderWidth: undefined,
+            }
       }
       onClick={props.onClick}
     >
@@ -192,8 +192,8 @@ const ModeCheckboxes = () => {
         className="flex flex-row items-center space-x-2 border rounded-md p-2"
         style={{
           backgroundColor: isEnabled ? "var(--accent-200)" : "transparent",
-          borderColor: isEnabled ? "var(--accent-100)" : "var(--border-color)",
-          color: isEnabled ? "var(--accent)" : "var(--text-secondary)",
+          borderColor: isEnabled ? "var(--accent-dark)" : "var(--base-600)",
+          color: isEnabled ? "var(--accent)" : "var(--base-200)",
         }}
         onClick={() => selectGameMode(key, dispatch)}
       >
@@ -236,11 +236,11 @@ const Content = () => {
   );
 
   return (
-    <div className="rounded-lg flex flex-col space-y-8 border-border-color">
+    <div className="rounded-lg flex flex-col space-y-8 border-base-600">
       <div>
         <div className="font-normal mb-4">Multiplayer settings</div>
         <div
-          className="flex flex-row items-stretch w-full rounded-md bg-background-color"
+          className="flex flex-row items-stretch w-full rounded-md bg-base-800"
           style={{
             borderColor: "var(--accent-200)",
           }}
@@ -283,7 +283,7 @@ export const GameConfig = (props: GameConfigProps) => {
   return (
     <>
       <button
-        className="flex flex-row items-center border border-border-color space-x-2 rounded-full p-2 px-4 text-text-secondary focus:text-text-primary bg-neutral-color shadow-sm shadow-shadow-color"
+        className="flex flex-row items-center border border-base-600 space-x-2 rounded-full p-2 px-4 text-base-200 focus:text-base-100 bg-base-900 shadow-sm shadow-shadow-color"
         onClick={() => setOpen(true)}
       >
         <Settings width={20} height={20} />

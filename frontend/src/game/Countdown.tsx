@@ -37,8 +37,8 @@ export const Countdown = (props: CountdownProps) => {
         opacity: props.startTime - Date.now() > -250 ? 0.75 : 0,
       }}
     >
-      <div className="relative font-mono p-1 px-3 text-lg font-bold flex flex-col items-center rounded-sm border overflow-hidden min-w-52 bg-neutral-color border-border-color">
-        <div className="p-1 text-text-primary">{string}</div>
+      <div className="relative font-mono p-1 px-3 text-lg font-bold flex flex-col items-center rounded-sm border overflow-hidden min-w-52 bg-base-900 border-base-600">
+        <div className="p-1 text-base-100">{string}</div>
       </div>
     </div>
   );

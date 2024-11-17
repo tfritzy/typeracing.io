@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <>
-    <div className="text-text-primary">
+    <div className="text-base-100">
       <StoreProvider store={store} context={AppContext}>
         <BrowserRouter>
           <App />

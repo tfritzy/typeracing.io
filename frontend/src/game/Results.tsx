@@ -66,9 +66,9 @@ export const Results = () => {
     } else if (wpm >= 80) {
       return "text-accent";
     } else if (wpm >= 60) {
-      return "text-neutral-300";
+      return "text-base-300";
     } else {
-      return "text-text-secondary";
+      return "text-base-200";
     }
   }, []);
 
@@ -78,9 +78,9 @@ export const Results = () => {
     } else if (accuracy >= 0.97) {
       return "text-accent";
     } else if (accuracy >= 0.95) {
-      return "text-neutral-300";
+      return "text-base-300";
     } else {
-      return "text-text-secondary";
+      return "text-base-200";
     }
   }, []);
 
@@ -122,9 +122,9 @@ export const Results = () => {
     } else if (placement === 1) {
       return "text-accent";
     } else if (placement === 2) {
-      return "text-neutral-300";
+      return "text-base-300";
     } else {
-      return "text-text-secondary";
+      return "text-base-200";
     }
   }, []);
 
@@ -157,7 +157,7 @@ export const Results = () => {
               colors={["#fed7aa", "#fde68a", "#bae6fd", "#c7d2fe", "#f5d0fe"]}
             />
           )}
-          <div className="text-xs text-text-tertiary">PLACE</div>
+          <div className="text-xs text-base-300">PLACE</div>
           <div
             className={`text-3xl border-none font-mono mx-auto ${getClassForPlacement(
               placement
@@ -170,7 +170,7 @@ export const Results = () => {
         <div
           className={`p-3 py-2 min-w-24 rounded-lg ${getClassForWpm(finalWpm)}`}
         >
-          <div className="text-xs text-text-tertiary">WPM</div>
+          <div className="text-xs text-base-300">WPM</div>
           <div
             className={`text-3xl border-none font-mono mx-auto ${getClassForWpm(
               finalWpm
@@ -185,39 +185,37 @@ export const Results = () => {
             self?.accuracy || 0
           )}`}
         >
-          <div className="text-xs text-text-tertiary">ACCURACY</div>
+          <div className="text-xs text-base-300">ACCURACY</div>
           <div className={"text-3xl border-none font-mono"}>
             {((self?.accuracy || 0) * 100).toFixed(0)}%
           </div>
         </div>
 
-        <div className="h-12 w-1 border-r my-auto border-border-color" />
+        <div className="h-12 w-1 border-r my-auto border-base-600" />
 
         <div className="p-3 px-6 h-full">
-          <div className="text-xs text-text-tertiary">TIME</div>
-          <div className="text-xl font-mono text-primary">
-            {durationFormatted}
-          </div>
+          <div className="text-xs text-base-300">TIME</div>
+          <div className="text-xl font-mono base-100">{durationFormatted}</div>
         </div>
 
         <div className="p-3 px-6">
-          <div className="text-xs text-text-tertiary">WORDS</div>
-          <div className="text-xl font-mono text-primary">{numWords}</div>
+          <div className="text-xs text-base-300">WORDS</div>
+          <div className="text-xl font-mono base-100">{numWords}</div>
         </div>
 
         <div className="p-3 px-6">
-          <div className="text-xs text-text-tertiary">MISTAKES</div>
-          <div className="text-xl font-mono text-primary">{numErrors}</div>
+          <div className="text-xs text-base-300">MISTAKES</div>
+          <div className="text-xl font-mono base-100">{numErrors}</div>
         </div>
 
         <div className="p-3 px-6">
-          <div className="text-xs text-text-tertiary">CHARACTERS</div>
-          <div className="text-xl font-mono text-primary">{numCharacters}</div>
+          <div className="text-xs text-base-300">CHARACTERS</div>
+          <div className="text-xl font-mono base-100">{numCharacters}</div>
         </div>
 
         <div className="p-3 px-6">
-          <div className="text-xs text-text-tertiary">CHARACTERS/S</div>
-          <div className="text-xl font-mono text-primary">
+          <div className="text-xs text-base-300">CHARACTERS/S</div>
+          <div className="text-xl font-mono base-100">
             {(numCharacters / duration).toFixed(1)}
           </div>
         </div>

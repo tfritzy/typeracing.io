@@ -81,12 +81,12 @@ export const Drawer = (props: DrawerProps) => {
 
   return (
     <div
-      className={`fixed flex bg-neutral-color flex-col shadow-lg h-screen bottom-0 right-0 border-l border-border-color transition-transform transform ${
+      className={`fixed flex bg-base-900 flex-col shadow-lg h-screen bottom-0 right-0 border-l border-base-600 transition-transform transform ${
         props.open ? "" : "translate-x-full"
       }`}
       ref={drawerRef}
     >
-      <div className="flex flex-row justify-between w-full p-3 pl-4 font-semibold border-b border-border-color">
+      <div className="flex flex-row justify-between w-full p-3 pl-4 font-semibold border-b border-base-600">
         <div>{props.title}</div>
         <button onClick={props.onClose} className="rounded-full">
           <Xmark />
@@ -95,7 +95,7 @@ export const Drawer = (props: DrawerProps) => {
 
       <div className="grow overflow-y-scroll">{props.children}</div>
 
-      <div className="flex flex-row justify-between w-full p-3 pl-4 font-semibold border-t border-border-color">
+      <div className="flex flex-row justify-between w-full p-3 pl-4 font-semibold border-t border-base-600">
         <button
           onClick={props.onClose}
           className="rounded-md text-sm font-normal px-3 py-1 flex flex-row items-center space-x-2"

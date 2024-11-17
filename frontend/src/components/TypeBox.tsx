@@ -97,8 +97,9 @@ const Cursor = (props: CursorProps) => {
 
   return (
     <span
-      className={`h-[26px] w-[1px] bg-text-primary fixed ${props.pulsing ? "cursor" : ""
-        }`}
+      className={`h-[26px] w-[1px] bg-base-100 fixed ${
+        props.pulsing ? "cursor" : ""
+      }`}
       style={{
         top: cursorYPos,
         left: cursorXPos,
@@ -150,7 +151,7 @@ export const TypeBox = (props: TypeBoxProps) => {
 
   const { text, hasError } = React.useMemo(() => {
     let text = [
-      <span className="text-text-primary">
+      <span className="text-base-100">
         {phrase.slice(0, lockedCharacterIndex)}
       </span>,
     ];
@@ -161,7 +162,7 @@ export const TypeBox = (props: TypeBoxProps) => {
         hasError = true;
         text.push(
           <span className="relative underline underline-offset-[6px]">
-            <span className="text-tertiary-color opacity-25">
+            <span className="base-300-color opacity-25">
               {phrase[lockedCharacterIndex + i]}
             </span>
             <span className="absolute text-error-color top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -171,7 +172,7 @@ export const TypeBox = (props: TypeBoxProps) => {
         );
       } else {
         text.push(
-          <span className="underline underline-offset-[6px] text-text-primary">
+          <span className="underline underline-offset-[6px] text-accent-secondary">
             {currentWord[i]}
           </span>
         );
@@ -190,14 +191,14 @@ export const TypeBox = (props: TypeBoxProps) => {
       nextSpaceIndex
     );
     text.push(
-      <span className="underline underline-offset-[6px] text-text-tertiary">
+      <span className="underline underline-offset-[6px] text-accent-secondary opacity-50">
         {remainderOfWord}
       </span>
     );
 
     if (nextSpaceIndex !== -1) {
       let remainingText = phrase.slice(nextSpaceIndex);
-      text.push(<span className="text-text-tertiary">{remainingText}</span>);
+      text.push(<span className="text-base-300">{remainingText}</span>);
     }
 
     return { text, hasError };
@@ -209,8 +210,7 @@ export const TypeBox = (props: TypeBoxProps) => {
         return;
       }
 
-      if (currentWord.length === 0 && lockedCharacterIndex === 0)
-      {
+      if (currentWord.length === 0 && lockedCharacterIndex === 0) {
         props.onFirstKeystroke && props.onFirstKeystroke();
       }
 
@@ -239,11 +239,11 @@ export const TypeBox = (props: TypeBoxProps) => {
     },
     [
       currentWord.length,
-      hasError, 
+      hasError,
       lockedCharacterIndex,
       phrase.length,
       isLocked,
-      props.onFirstKeystroke
+      props.onFirstKeystroke,
     ]
   );
 
@@ -307,12 +307,7 @@ export const TypeBox = (props: TypeBoxProps) => {
       keyStrokes.current.strokes = [];
       keyStrokes.current.compositeSize = 0;
     }
-  }, [
-    currentWord,
-    lockedCharacterIndex,
-    onWordComplete,
-    phrase,
-  ]);
+  }, [currentWord, lockedCharacterIndex, onWordComplete, phrase]);
 
   useEffect(() => {
     handleWordUpdate();
@@ -321,7 +316,7 @@ export const TypeBox = (props: TypeBoxProps) => {
   const refocusMessage = React.useMemo(() => {
     return (
       <div
-        className="absolute top-1/2 left-1/2 transform -translate-x-[50%] -translate-y-[50%] cursor-pointer transition-opacity pointer-events-none text-base w-max text-text-secondary"
+        className="absolute top-1/2 left-1/2 transform -translate-x-[50%] -translate-y-[50%] cursor-pointer transition-opacity pointer-events-none text-base w-max text-base-200"
         style={{
           opacity: !focused ? 1 : 0,
         }}

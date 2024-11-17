@@ -8,12 +8,12 @@ type InputWithIconProps = {
 
 export const EditInput = ({ value, onChange }: InputWithIconProps) => {
   return (
-    <div className="relative w-full text-text-secondary">
+    <div className="relative w-full text-base-200">
       <input
         type="text"
         value={value}
         onChange={onChange}
-        className="pl-3 pr-8 py-2 rounded-lg w-[160px] bg-neutral-color"
+        className="pl-3 pr-8 py-2 rounded-lg w-[160px] bg-base-900"
       />
       <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
         <EditPencil width={16} height={16} />
