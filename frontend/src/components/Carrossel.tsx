@@ -15,7 +15,6 @@ export const Carrossel: React.FC<CarrosselProps> = ({ views }) => {
   const itemsRef = React.useRef<(HTMLDivElement | null)[]>([]);
   const [index, setIndex] = React.useState<number>(0);
 
-  // Initialize refs array for all items
   if (itemsRef.current.length !== views.length) {
     itemsRef.current = Array(views.length).fill(null);
   }
@@ -49,7 +48,7 @@ export const Carrossel: React.FC<CarrosselProps> = ({ views }) => {
         minWidth: itemWidth,
       }}
     >
-      <div className="font-semibold pl-4 p-2">{views[index].id}</div>
+      <div className="font-semibold pl-4 p-2">{views[i].id}</div>
       {v.render()}
     </div>
   ));

@@ -1468,6 +1468,7 @@ export interface TimeTrial {
   id?: string;
   name?: string;
   phrase?: string;
+  finish_times?: number[];
 }
 
 export function encodeTimeTrial(message: TimeTrial): Uint8Array {
@@ -1496,6 +1497,19 @@ function _encodeTimeTrial(message: TimeTrial, bb: ByteBuffer): void {
   if ($phrase !== undefined) {
     writeVarint32(bb, 26);
     writeString(bb, $phrase);
+  }
+
+  // repeated float finish_times = 4;
+  let array$finish_times = message.finish_times;
+  if (array$finish_times !== undefined) {
+    let packed = popByteBuffer();
+    for (let value of array$finish_times) {
+      writeFloat(packed, value);
+    }
+    writeVarint32(bb, 34);
+    writeVarint32(bb, packed.offset);
+    writeByteBuffer(bb, packed);
+    pushByteBuffer(packed);
   }
 }
 
@@ -1528,6 +1542,21 @@ function _decodeTimeTrial(bb: ByteBuffer): TimeTrial {
       // optional string phrase = 3;
       case 3: {
         message.phrase = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // repeated float finish_times = 4;
+      case 4: {
+        let values = message.finish_times || (message.finish_times = []);
+        if ((tag & 7) === 2) {
+          let outerLimit = pushTemporaryLength(bb);
+          while (!isAtEnd(bb)) {
+            values.push(readFloat(bb));
+          }
+          bb.limit = outerLimit;
+        } else {
+          values.push(readFloat(bb));
+        }
         break;
       }
 
