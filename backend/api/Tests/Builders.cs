@@ -8,7 +8,7 @@ public static class Builders
     {
         return new()
         {
-            Id = "plyr_00" + i,
+            id = "plyr_00" + i,
             CreatedS = 1,
             Type = PlayerAuthType.Anonymous,
             AnonAuthInfo = new AnonAuthInfo()
@@ -23,7 +23,7 @@ public static class Builders
     {
         return new()
         {
-            Id = "trial_00" + i,
+            id = "trial_00" + i,
             Name = "A tale of two cities",
             Phrase = "It was the best."
         };
@@ -35,7 +35,7 @@ public static class Builders
         var result = new TimeTrialResult()
         {
             BestTime = KeystrokeHelpers.GetTime(ks),
-            Id = timeTrial.Id,
+            id = timeTrial.id,
             PlayerId = playerId
         };
         result.AttemptTimes.Add(KeystrokeHelpers.GetTime(ks));

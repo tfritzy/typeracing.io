@@ -19,9 +19,8 @@ public static class TimeTrialHelpers
         }
     }
 
-    public static async Task<TimeTrial?> FindTrial(CosmosClient client, string trialId)
+    public static async Task<ItemResponse<TimeTrial>?> FindTrial(Container container, string trialId)
     {
-        Container container = client.GetContainer(DB.Name, DB.TimeTrials);
         try
         {
             return await container.ReadItemAsync<TimeTrial>(

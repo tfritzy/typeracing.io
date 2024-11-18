@@ -43,7 +43,7 @@ public static class PlayerHelpers
                 new PartitionKey(playerId)
             );
         }
-        catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        catch
         {
             response = null;
         }
@@ -59,7 +59,7 @@ public static class PlayerHelpers
             }
 
             player.AnonAuthInfo.LastLoginAt = TimeHelpers.Now_s;
-            await container.ReplaceItemAsync(DB.FormatProto(player), playerId);
+            await container.ReplaceItemAsync(player, playerId);
 
             return player;
         }
@@ -67,7 +67,7 @@ public static class PlayerHelpers
         {
             var player = new Player
             {
-                Id = playerId,
+                id = playerId,
                 Type = PlayerAuthType.Anonymous,
                 CreatedS = TimeHelpers.Now_s,
                 AnonAuthInfo = new AnonAuthInfo
@@ -78,8 +78,8 @@ public static class PlayerHelpers
             };
 
             var createResponse = await container.CreateItemAsync(
-                DB.FormatProto(player),
-                new PartitionKey(player.Id));
+                player,
+                new PartitionKey(player.id));
             return createResponse.Resource as Player;
         }
     }
@@ -100,16 +100,16 @@ public static class PlayerHelpers
             if (player.AuthenticatedAuthInfo != null)
             {
                 player.AuthenticatedAuthInfo.LastLoginAt = TimeHelpers.Now_s;
-                await container.ReplaceItemAsync(DB.FormatProto(player), userId);
+                await container.ReplaceItemAsync(player, userId);
             }
 
             return player;
         }
-        catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        catch
         {
             var player = new Player
             {
-                Id = userId,
+                id = userId,
                 Type = PlayerAuthType.Authenticated,
                 CreatedS = TimeHelpers.Now_s,
                 AuthenticatedAuthInfo = new AuthenticatedAuthInfo
@@ -121,7 +121,7 @@ public static class PlayerHelpers
                 }
             };
 
-            var response = await container.CreateItemAsync(DB.FormatProto(player));
+            var response = await container.CreateItemAsync(player);
             return response.Resource as Player;
         }
     }

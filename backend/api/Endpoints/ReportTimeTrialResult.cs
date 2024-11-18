@@ -42,43 +42,48 @@ namespace api
                 return new BadRequestObjectResult(e.Message);
             }
 
-            TimeTrial? trial = await TimeTrialHelpers.FindTrial(
-                _cosmosClient,
-                trialRequest.Id);
+            Container trialContainer = _cosmosClient.GetContainer(DB.Name, DB.TimeTrials);
+            ItemResponse<TimeTrial>? trial = await TimeTrialHelpers.FindTrial(
+                trialContainer,
+                trialRequest.id);
 
             if (trial == null)
             {
-                Console.WriteLine($"Could not find trial for {trialRequest.Id}");
+                Console.WriteLine($"Could not find trial for {trialRequest.id}");
                 return new NotFoundObjectResult("Trial not found");
             }
 
             string typed = KeystrokeHelpers.ParseKeystrokes(trialRequest.Keystrokes);
             Console.WriteLine($"Player typed: {typed}");
-            if (typed != trial.Phrase)
+            if (typed != trial.Resource.Phrase)
             {
                 Console.WriteLine($"Typed doesn't look right. Bailing.");
                 return new OkResult();
             }
 
+            float time = KeystrokeHelpers.GetTime(trialRequest.Keystrokes);
+            AddTimeToGlobalStats(trial, time);
+            ItemRequestOptions options = new ItemRequestOptions { IfMatchEtag = trial.ETag };
+            await trialContainer.ReplaceItemAsync(trial.Resource, trial.Resource.id, new PartitionKey(trial.Resource.id), options);
+
             var container = _cosmosClient.GetContainer(DB.Name, DB.TimeTrialResults);
             TimeTrialResult? existingResult = await TimeTrialHelpers.FindResultForTrial(
                 container,
-                player.Id,
-                trialRequest.Id);
+                player.id,
+                trialRequest.id);
 
-            float time = KeystrokeHelpers.GetTime(trialRequest.Keystrokes);
             if (existingResult == null)
             {
                 TimeTrialResult result = new TimeTrialResult()
                 {
-                    Id = trial.Id,
-                    PlayerId = player.Id,
+                    id = trial.Resource.id,
+                    PlayerId = player.id,
                     BestTime = time,
                 };
                 result.BestKeystrokes.Add(trialRequest.Keystrokes);
                 result.AttemptTimes.Add(time);
                 await container.CreateItemAsync(
-                    DB.FormatProto(result),
+                    result,
                    new PartitionKey(result.PlayerId)
                );
             }
@@ -92,8 +97,8 @@ namespace api
                     existingResult.BestKeystrokes.AddRange(trialRequest.Keystrokes);
                 }
                 await container.ReplaceItemAsync(
-                    DB.FormatProto(existingResult),
-                    existingResult.Id,
+                    existingResult,
+                    existingResult.id,
                     new PartitionKey(existingResult.PlayerId)
                 );
             }
@@ -104,8 +109,20 @@ namespace api
                 Time = duration,
                 Wpm = KeystrokeHelpers.GetWpm(typed.Length, duration)
             };
+            response.GlobalTimes.Add(trial.Resource.GlobalTimes);
 
             return new ProtobufResult(response);
+        }
+
+        private void AddTimeToGlobalStats(ItemResponse<TimeTrial> timeTrial, float time)
+        {
+            uint index = (uint)time;
+            if (!timeTrial.Resource.GlobalTimes.ContainsKey(index))
+            {
+                timeTrial.Resource.GlobalTimes[index] = 0;
+            }
+
+            timeTrial.Resource.GlobalTimes[index] += 1;
         }
 
         private async Task<ReportTimeTrialRequest> ValidateRequest(HttpRequest req)
@@ -114,6 +131,7 @@ namespace api
             try
             {
                 var result = await req.BodyReader.ReadAsync();
+                Console.WriteLine(result);
                 requestBody = ReportTimeTrialRequest.Parser.ParseFrom(result.Buffer.ToArray());
             }
             catch (Exception e)
@@ -127,7 +145,7 @@ namespace api
                 throw new BadHttpRequestException("Missing request body");
             }
 
-            if (string.IsNullOrEmpty(requestBody.Id))
+            if (string.IsNullOrEmpty(requestBody.id))
             {
                 throw new BadHttpRequestException("Missing trial id");
             }

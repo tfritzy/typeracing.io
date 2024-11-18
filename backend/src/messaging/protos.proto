@@ -127,7 +127,7 @@ message TimeTrial {
     string id = 1;
     string name = 2;
     string phrase = 3;
-    repeated float finish_times = 4;
+    map<uint32, uint32> global_times = 4;
 }
 
 message ListTimeTrialsResponse {
@@ -158,6 +158,7 @@ message ReportTimeTrialRequest {
 message ReportTimeTrialResponse {
     float time = 1;
     float wpm = 2;
+    map<uint32, uint32> global_times = 3;
 }
 
 message AuthenticatedAuthInfo {

@@ -1,3 +1,5 @@
+using System.Buffers;
+using System.IO.Pipelines;
 using System.Net;
 using System.Security.Claims;
 using System.Text.Json;
@@ -26,10 +28,15 @@ public static class TestHelpers
         if (body != null)
         {
             byte[] bodyBytes = body.ToByteArray();
-            var bodyStream = new MemoryStream();
-            bodyStream.Write(bodyBytes, 0, bodyBytes.Length);
-            bodyStream.Position = 0;
-            request.Setup(r => r.Body).Returns(bodyStream);
+            var bodyReader = new Mock<PipeReader>();
+            bodyReader
+                .Setup(br => br.ReadAsync(It.IsAny<CancellationToken>()))
+                .Returns(new ValueTask<ReadResult>(
+                    new ReadResult(
+                        new ReadOnlySequence<byte>(bodyBytes),
+                        isCanceled: false,
+                        isCompleted: true)));
+            request.Setup(r => r.BodyReader).Returns(bodyReader.Object);
         }
 
         // Set up query params
@@ -44,6 +51,20 @@ public static class TestHelpers
         }
 
         return request;
+    }
+
+    public static Mock<Container> BuildFakeContainer<T>()
+    {
+        var container = new Mock<Container>();
+        container
+            .Setup(d => d.ReadItemAsync<T>(It.IsAny<string>(), It.IsAny<PartitionKey>(), null, default))
+            .ThrowsAsync(new CosmosException(
+                message: "Not found",
+                statusCode: HttpStatusCode.NotFound,
+                subStatusCode: 0,
+                activityId: "mock-activity-id",
+                requestCharge: 0));
+        return container;
     }
 
     public static CosmosClient BuildFakeClient(List<Mock<Container>> containers)
@@ -72,7 +93,7 @@ public static class TestHelpers
     {
         container
             .Setup(c => c.ReadItemAsync<Player>(
-                player.Id,
+                player.id,
                 It.IsAny<PartitionKey>(),
                 null,
                 default))
@@ -85,7 +106,7 @@ public static class TestHelpers
     {
         container
             .Setup(c => c.ReadItemAsync<TimeTrial>(
-                trial.Id,
+                trial.id,
                 It.IsAny<PartitionKey>(),
                 null,
                 default))
@@ -98,7 +119,7 @@ public static class TestHelpers
     {
         container
             .Setup(c => c.ReadItemAsync<TimeTrialResult>(
-                result.Id,
+                result.id,
                 It.IsAny<PartitionKey>(),
                 null,
                 default))
@@ -112,7 +133,7 @@ public static class TestHelpers
         var httpRequest = TestHelpers.CreateMockRequest(
             headers: new Dictionary<string, StringValues>
             {
-                { "X-Player-Id", new StringValues(player.Id) },
+                { "X-Player-Id", new StringValues(player.id) },
                 { "X-Auth-Token", new StringValues(player.AnonAuthInfo.AuthToken) }
             },
             body: body,
@@ -154,7 +175,7 @@ public static class TestHelpers
         return expected.ToString() == actual.ToString();
     }
 
-    public static bool ComparePlayer(Player expected, Player actual)
+    public static bool CompareProto(IMessage expected, IMessage actual)
     {
         if (expected.ToString() != actual.ToString())
         {

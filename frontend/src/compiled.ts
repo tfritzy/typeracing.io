@@ -1468,7 +1468,7 @@ export interface TimeTrial {
   id?: string;
   name?: string;
   phrase?: string;
-  finish_times?: number[];
+  global_times?: { [key: number]: number };
 }
 
 export function encodeTimeTrial(message: TimeTrial): Uint8Array {
@@ -1499,17 +1499,21 @@ function _encodeTimeTrial(message: TimeTrial, bb: ByteBuffer): void {
     writeString(bb, $phrase);
   }
 
-  // repeated float finish_times = 4;
-  let array$finish_times = message.finish_times;
-  if (array$finish_times !== undefined) {
-    let packed = popByteBuffer();
-    for (let value of array$finish_times) {
-      writeFloat(packed, value);
+  // optional map<uint32, uint32> global_times = 4;
+  let map$global_times = message.global_times;
+  if (map$global_times !== undefined) {
+    for (let key in map$global_times) {
+      let nested = popByteBuffer();
+      let value = map$global_times[key];
+      writeVarint32(nested, 8);
+      writeVarint32(nested, +key);
+      writeVarint32(nested, 16);
+      writeVarint32(nested, value);
+      writeVarint32(bb, 34);
+      writeVarint32(bb, nested.offset);
+      writeByteBuffer(bb, nested);
+      pushByteBuffer(nested);
     }
-    writeVarint32(bb, 34);
-    writeVarint32(bb, packed.offset);
-    writeByteBuffer(bb, packed);
-    pushByteBuffer(packed);
   }
 }
 
@@ -1545,18 +1549,33 @@ function _decodeTimeTrial(bb: ByteBuffer): TimeTrial {
         break;
       }
 
-      // repeated float finish_times = 4;
+      // optional map<uint32, uint32> global_times = 4;
       case 4: {
-        let values = message.finish_times || (message.finish_times = []);
-        if ((tag & 7) === 2) {
-          let outerLimit = pushTemporaryLength(bb);
-          while (!isAtEnd(bb)) {
-            values.push(readFloat(bb));
+        let values = message.global_times || (message.global_times = {});
+        let outerLimit = pushTemporaryLength(bb);
+        let key: number | undefined;
+        let value: number | undefined;
+        end_of_entry: while (!isAtEnd(bb)) {
+          let tag = readVarint32(bb);
+          switch (tag >>> 3) {
+            case 0:
+              break end_of_entry;
+            case 1: {
+              key = readVarint32(bb) >>> 0;
+              break;
+            }
+            case 2: {
+              value = readVarint32(bb) >>> 0;
+              break;
+            }
+            default:
+              skipUnknownField(bb, tag & 7);
           }
-          bb.limit = outerLimit;
-        } else {
-          values.push(readFloat(bb));
         }
+        if (key === undefined || value === undefined)
+          throw new Error("Invalid data for map: global_times");
+        values[key] = value;
+        bb.limit = outerLimit;
         break;
       }
 
@@ -1927,6 +1946,7 @@ function _decodeReportTimeTrialRequest(bb: ByteBuffer): ReportTimeTrialRequest {
 export interface ReportTimeTrialResponse {
   time?: number;
   wpm?: number;
+  global_times?: { [key: number]: number };
 }
 
 export function encodeReportTimeTrialResponse(message: ReportTimeTrialResponse): Uint8Array {
@@ -1948,6 +1968,23 @@ function _encodeReportTimeTrialResponse(message: ReportTimeTrialResponse, bb: By
   if ($wpm !== undefined) {
     writeVarint32(bb, 21);
     writeFloat(bb, $wpm);
+  }
+
+  // optional map<uint32, uint32> global_times = 3;
+  let map$global_times = message.global_times;
+  if (map$global_times !== undefined) {
+    for (let key in map$global_times) {
+      let nested = popByteBuffer();
+      let value = map$global_times[key];
+      writeVarint32(nested, 8);
+      writeVarint32(nested, +key);
+      writeVarint32(nested, 16);
+      writeVarint32(nested, value);
+      writeVarint32(bb, 26);
+      writeVarint32(bb, nested.offset);
+      writeByteBuffer(bb, nested);
+      pushByteBuffer(nested);
+    }
   }
 }
 
@@ -1974,6 +2011,36 @@ function _decodeReportTimeTrialResponse(bb: ByteBuffer): ReportTimeTrialResponse
       // optional float wpm = 2;
       case 2: {
         message.wpm = readFloat(bb);
+        break;
+      }
+
+      // optional map<uint32, uint32> global_times = 3;
+      case 3: {
+        let values = message.global_times || (message.global_times = {});
+        let outerLimit = pushTemporaryLength(bb);
+        let key: number | undefined;
+        let value: number | undefined;
+        end_of_entry: while (!isAtEnd(bb)) {
+          let tag = readVarint32(bb);
+          switch (tag >>> 3) {
+            case 0:
+              break end_of_entry;
+            case 1: {
+              key = readVarint32(bb) >>> 0;
+              break;
+            }
+            case 2: {
+              value = readVarint32(bb) >>> 0;
+              break;
+            }
+            default:
+              skipUnknownField(bb, tag & 7);
+          }
+        }
+        if (key === undefined || value === undefined)
+          throw new Error("Invalid data for map: global_times");
+        values[key] = value;
+        bb.limit = outerLimit;
         break;
       }
 

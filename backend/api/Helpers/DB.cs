@@ -8,9 +8,4 @@ public static class DB
     public const string TimeTrials = "time-trials";
     public const string Hosts = "typeracing-hosts";
     public const string Players = "players";
-
-    public static object FormatProto(IMessage proto)
-    {
-        return JsonConvert.DeserializeObject(proto.ToString()!)!;
-    }
 }

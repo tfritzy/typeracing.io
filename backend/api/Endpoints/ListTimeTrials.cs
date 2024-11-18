@@ -55,7 +55,7 @@ namespace api
         {
             return new TimeTrialListItem
             {
-                Id = trial.Id,
+                id = trial.id,
                 Length = trial.Phrase.Split(" ").Length,
                 Name = trial.Name,
                 Place = -1,
