@@ -7,8 +7,8 @@ type View = {
 interface CarrosselProps {
   views: View[];
 }
-const itemWidth = 475;
-const containerWidth = 600;
+const itemWidth = 575;
+const containerWidth = 700;
 const overlap = (containerWidth - itemWidth) / 2;
 export const Carrossel: React.FC<CarrosselProps> = ({ views }) => {
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);

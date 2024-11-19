@@ -12,6 +12,7 @@ import {
 import { useAppSelector } from "../store/storeHooks";
 import { PlayerState } from "../store/playerSlice";
 import { RootState } from "../store/store";
+import { TrialResultsModal } from "./TrialResultsModal";
 
 const apiUrl = process.env.REACT_APP_API_ADDRESS;
 
@@ -73,9 +74,13 @@ export function TimeTrial() {
 
   return (
     <div>
-      {JSON.stringify(error)}
-      {JSON.stringify(results)}
-      <TimeTrialTypeBox trial={trial} onPhraseComplete={postResult} />
+      <div className="flex flex-col min-h-[90vh] items-center justify-center">
+        <TimeTrialTypeBox trial={trial} onPhraseComplete={postResult} />
+      </div>
+
+      {results && (
+        <TrialResultsModal results={results} phrase={trial.phrase!} />
+      )}
     </div>
   );
 }

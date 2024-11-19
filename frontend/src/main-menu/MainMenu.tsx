@@ -3,7 +3,6 @@ import { GameConfig } from "./GameConfig";
 import { TypeBoxButton } from "../components/TypeBoxButton";
 import { Profile } from "./Profile";
 import { useNavigate } from "react-router-dom";
-import { TrialResultsModal } from "../time-trials/TrialResultsModal";
 
 const phrases = [
   "glhf",
@@ -51,7 +50,6 @@ export const MainMenu = (props: MainMenuProps) => {
         <TypeBoxButton phrase={phrase} onPhraseComplete={findGame} />
         <GameConfig onClose={focusTypeBox} />
       </div>
-      <TrialResultsModal />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { NavigateFunction } from "react-router-dom";
-import { FindGameRequest, OneofRequest, encodeOneofRequest } from "../compiled";
+import { FindGameRequest, OneofRequest } from "../compiled";
 import { PlayerState } from "../store/playerSlice";
 import { Dispatch } from "redux";
 import { reset } from "../store/gameSlice";
@@ -28,4 +28,8 @@ export const returnToMainMenu = (
 ) => {
   navigate("/", { replace: true });
   dispatch(reset());
+};
+
+export const computeWpm = (charCount: number, time_s: number): number => {
+  return ((charCount / time_s) * 60) / 5;
 };
