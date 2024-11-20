@@ -11,6 +11,8 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Game } from "./Game";
 import { useAppDispatch } from "./store/storeHooks";
+import { Footer } from "./Footer";
+import { RoadMap } from "./Roadmap";
 
 function App() {
   const navigate = useNavigate();
@@ -84,10 +86,14 @@ function App() {
   }, [navigate]);
 
   return (
-    <Routes>
-      <Route path="/" element={<MainMenu />} />
-      <Route path="/in-game" element={<Game />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<MainMenu />} />
+        <Route path="/in-game" element={<Game />} />
+        <Route path="/roadmap" element={<RoadMap />} />
+      </Routes>
+      <Footer />
+    </>
   );
 }
 

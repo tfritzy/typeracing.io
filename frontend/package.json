@@ -14,7 +14,7 @@
     "apexcharts": "^3.48.0",
     "dotnet": "^1.1.4",
     "google-protobuf": "^3.21.2",
-    "iconoir-react": "^7.9.0",
+    "iconoir-react": "^7.10.0",
     "js-cookie": "^3.0.5",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",

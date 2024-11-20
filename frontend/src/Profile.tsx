@@ -30,12 +30,12 @@ export const Profile = () => {
   };
 
   return (
-    <div className="flex flex-row rounded-lg space-x-2">
+    <div className="flex flex-row rounded-lg space-x-6">
       <div className=" flex flex-row items-center space-x-1">
         <EditInput value={player.name} onChange={updateName} />
       </div>
       <Tooltip content="The average wpm of your past 10 games in the current mode.">
-        <div className="rounded-lg py-2 px-3 space-x-1 padding-auto flex flex-row items-center justify-center bg-neutral-color">
+        <div className="rounded py-2 px-3 space-x-1 padding-auto flex flex-row items-center justify-center bg-neutral-color border border-border-color">
           <span className="text-accent">{wpm || "—"}</span>
           <span className="text-sm text-text-tertiary">wpm</span>
         </div>
