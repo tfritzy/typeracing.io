@@ -13,6 +13,7 @@ import { useAppSelector } from "../store/storeHooks";
 import { PlayerState } from "../store/playerSlice";
 import { RootState } from "../store/store";
 import { TrialResultsModal } from "./TrialResultsModal";
+import Timer from "../components/Timer";
 
 const apiUrl = process.env.REACT_APP_API_ADDRESS;
 

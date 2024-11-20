@@ -15,6 +15,9 @@ export const PercentileBarChart: React.FC<Props> = ({ data, phrase }) => {
     }
 
     const filledIn: { [key: number]: string } = {};
+    const min = Object.keys(data)
+      .map(Number)
+      .reduce((min, val) => Math.min(min, val));
     const max = Object.keys(data)
       .map(Number)
       .reduce((max, val) => Math.max(max, val));
@@ -22,7 +25,7 @@ export const PercentileBarChart: React.FC<Props> = ({ data, phrase }) => {
       .map(Number)
       .reduce((sum, val) => sum + val);
 
-    for (let i = 1; i < max; i++) {
+    for (let i = min - 5; i < max + 5; i++) {
       const wpm = computeWpm(phrase.length, i);
       const percent = (((data[i] ?? 0) / totalCount) * 100).toFixed(0) + "%";
       filledIn[wpm] = percent;
@@ -30,6 +33,9 @@ export const PercentileBarChart: React.FC<Props> = ({ data, phrase }) => {
 
     return filledIn;
   }, [data, phrase.length]);
+  console.log(data);
+  console.log(formattedData);
+
 
   const series: ApexOptions["series"] = React.useMemo(() => {
     const ser: ApexAxisChartSeries = [

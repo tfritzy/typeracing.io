@@ -4,15 +4,19 @@ import ReactApexChart from "react-apexcharts";
 
 interface Props {
   data: { [key: number]: number };
+  mostRecentTime: number;
 }
 
-export const TimeBarChart: React.FC<Props> = ({ data }) => {
+export const TimeBarChart: React.FC<Props> = ({ data, mostRecentTime }) => {
   const formattedData: { [key: number]: string } = React.useMemo(() => {
     if (Object.keys(data).length === 0) {
       return {};
     }
 
     const filledIn: { [key: number]: string } = {};
+    const min = Object.keys(data)
+      .map(Number)
+      .reduce((min, val) => Math.min(min, val));
     const max = Object.keys(data)
       .map(Number)
       .reduce((max, val) => Math.max(max, val));
@@ -20,7 +24,7 @@ export const TimeBarChart: React.FC<Props> = ({ data }) => {
       .map(Number)
       .reduce((sum, val) => sum + val);
 
-    for (let i = 1; i < max + 3; i++) {
+    for (let i = min - 5; i < max + 5; i++) {
       const percent = (((data[i] ?? 0) / totalCount) * 100).toFixed(0) + "%";
       filledIn[i] = percent;
     }
@@ -34,10 +38,13 @@ export const TimeBarChart: React.FC<Props> = ({ data }) => {
         name: "Value",
         data: Object.keys(formattedData)
           .map(Number)
-          .map((wpm) => ({
-            x: wpm,
-            y: formattedData[wpm],
-            fillColor: "var(--base-600)",
+          .map((time) => ({
+            x: time,
+            y: formattedData[time],
+            fillColor:
+              time === Math.floor(mostRecentTime)
+                ? "var(--accent)"
+                : "var(--base-600)",
           }))
           .sort((a, b) => a.x - b.x),
       },
