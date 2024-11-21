@@ -6,9 +6,14 @@ import { computeWpm } from "../helpers/functions";
 interface Props {
   phrase: string;
   data: { [key: number]: number };
+  mostRecentWpm: number;
 }
 
-export const PercentileBarChart: React.FC<Props> = ({ data, phrase }) => {
+export const PercentileBarChart: React.FC<Props> = ({
+  data,
+  phrase,
+  mostRecentWpm,
+}) => {
   const formattedData: { [key: number]: string } = React.useMemo(() => {
     if (Object.keys(data).length === 0) {
       return {};
@@ -33,9 +38,6 @@ export const PercentileBarChart: React.FC<Props> = ({ data, phrase }) => {
 
     return filledIn;
   }, [data, phrase.length]);
-  console.log(data);
-  console.log(formattedData);
-
 
   const series: ApexOptions["series"] = React.useMemo(() => {
     const ser: ApexAxisChartSeries = [
@@ -46,13 +48,14 @@ export const PercentileBarChart: React.FC<Props> = ({ data, phrase }) => {
           .map((wpm) => ({
             x: wpm,
             y: formattedData[wpm],
-            fillColor: "var(--base-600)",
+            fillColor:
+              wpm === mostRecentWpm ? "var(--accent)" : "var(--base-600)",
           }))
           .sort((a, b) => b.x - a.x),
       },
     ];
     return ser;
-  }, [formattedData]);
+  }, [formattedData, mostRecentWpm]);
 
   console.log(series);
 

@@ -1,17 +1,12 @@
 import { RootState } from "../store/store";
-import { LineChart, Series } from "./ResultsChart";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { WpmOverTime } from "../charts/WpmOverTimeChart";
+import { useCallback, useMemo } from "react";
 import { PlayerData } from "../store/gameSlice";
-import { ErrorsAtTime } from "../compiled";
 import ConfettiExplosion from "react-confetti-explosion";
 import { useAppSelector, useGameSelector } from "../store/storeHooks";
 import { GameStoreState } from "../store/gameStore";
 
 export const Results = () => {
-  const [wpmData, setWpmData] = useState<{
-    series: Series[];
-    errors: ErrorsAtTime[];
-  } | null>(null);
   const players = useGameSelector(
     (state: GameStoreState) => state.game.players
   );
@@ -33,32 +28,6 @@ export const Results = () => {
 
   const self = finishedPlayers.find((p) => p.id === selfId);
   const placement = finishedPlayers.findIndex((p) => p.id === selfId);
-
-  useEffect(() => {
-    const newWpmData: Series[] = [];
-    if (
-      !self ||
-      !self.wpm_by_second?.length ||
-      !self.raw_wpm_by_second?.length
-    ) {
-      return;
-    }
-
-    newWpmData.push({
-      name: "raw",
-      data: self.raw_wpm_by_second,
-    });
-
-    newWpmData.push({
-      name: "wpm",
-      data: self.wpm_by_second,
-    });
-
-    setWpmData({
-      series: newWpmData,
-      errors: self.errors_at_time || [],
-    });
-  }, [self]);
 
   const getClassForWpm = useCallback((wpm: number) => {
     if (wpm >= 100) {
@@ -221,11 +190,15 @@ export const Results = () => {
         </div>
       </div>
 
-      {wpmData ? (
-        <LineChart series={wpmData.series} errors={wpmData.errors} />
-      ) : (
-        <div className="min-h-[300px]" />
-      )}
+      {self?.wpm_by_second &&
+        self?.raw_wpm_by_second &&
+        self?.errors_at_time && (
+          <WpmOverTime
+            wpm_by_second={self.wpm_by_second}
+            raw_wpm_by_second={self.raw_wpm_by_second}
+            errors={self.errors_at_time}
+          />
+        )}
     </div>
   );
 };

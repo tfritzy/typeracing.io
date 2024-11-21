@@ -57,10 +57,12 @@ export const Carrossel: React.FC<CarrosselProps> = ({ views }) => {
       <div
         className="relative flex flex-row space-x-3 pt-3 pb-3 overflow-x-scroll scrollbar-hide"
         ref={scrollContainerRef}
-        style={{
-          paddingLeft: overlap,
-          paddingRight: overlap,
-        }}
+        style={
+          {
+            // paddingLeft: overlap,
+            // paddingRight: overlap,
+          }
+        }
       >
         {rendered}
       </div>

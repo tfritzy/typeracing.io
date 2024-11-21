@@ -35,9 +35,12 @@ export function TimeTrialTypeBox(props: Props) {
     <div>
       <div
         className="transition-opacity"
-        style={{ opacity: startTime > 0 ? 1 : 0 }}
+        style={{ opacity: startTime > 0 ? 1 : 0.5 }}
       >
-        <Timer startTime={startTime} stop={done} />
+        <Timer
+          startTime={startTime || Date.now()}
+          stop={done || startTime === 0}
+        />
       </div>
       <TypeBox
         phrase={props.trial.phrase!}

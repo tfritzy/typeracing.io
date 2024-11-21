@@ -1,21 +1,23 @@
 export const formatTime = (delta_millis: number): string => {
-    if (delta_millis < 0) {
-        throw new Error("Time delta cannot be negative");
-    }
+  if (delta_millis < 0) {
+    throw new Error("Time delta cannot be negative");
+  }
 
-    const minutes = Math.floor(delta_millis / 60000);
-    const remainingMillis = delta_millis % 60000;
-    const seconds = Math.floor(remainingMillis / 1000);
-    const ms = remainingMillis % 1000;
+  let diffInHrs = delta_millis / 3600000;
+  let hh = Math.floor(diffInHrs);
 
-    // Format milliseconds to 3 decimal places
-    const msStr = ms.toFixed(3).padStart(3, '0');
-    
-    const secondsStr = seconds.toFixed(0).toString().padStart(2, '0');
+  let diffInMin = (diffInHrs - hh) * 60;
+  let mm = Math.floor(diffInMin);
 
-    if (minutes === 0) {
-        return `${secondsStr}:${msStr}`;
-    }
+  let diffInSec = (diffInMin - mm) * 60;
+  let ss = Math.floor(diffInSec);
 
-    return `${minutes}:${secondsStr}:${msStr}`;
+  let diffInMs = (diffInSec - ss) * 100;
+  let ms = Math.floor(diffInMs);
+
+  let formattedMM = mm.toString().padStart(2, "0");
+  let formattedSS = ss.toString().padStart(2, "0");
+  let formattedMS = ms.toString().padStart(2, "0");
+
+  return `${formattedMM}:${formattedSS}:${formattedMS}`;
 };

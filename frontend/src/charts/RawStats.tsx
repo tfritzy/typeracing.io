@@ -1,4 +1,3 @@
-import { ResultType } from "@remix-run/router/dist/utils";
 import { ReportTimeTrialResponse } from "../compiled";
 import { formatTime } from "../helpers/time";
 
@@ -15,14 +14,12 @@ type Props = {
 export const RawStats = (props: Props) => {
   return (
     <div className="w-full">
-      <div className="flex flex-row items-stretch justify-around w-full">
-        <div className="rounded-full px-8 p-3 bg-[#ffffff11]">
-          <div className="font-bold text-sm">Time</div>
-          <div className="font-mono">{formatTime(props.result.time!)}</div>
-        </div>
+      <div className="flex flex-col items-stretch justify-around w-full">
         <div>
           <div className="font-bold text-sm">Previous best</div>
-          <div className="font-mono">{formatTime(props.result.time!)}</div>
+          <div className="font-mono">
+            {formatTime(props.result.time! * 1000)}
+          </div>
         </div>
         <div>
           <div className="font-bold text-sm">WPM</div>

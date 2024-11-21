@@ -1,10 +1,10 @@
-import { Clock } from "iconoir-react";
-import { PercentileBarChart } from "../charts/PercentileBarChart";
 import { TimeBarChart } from "../charts/TimeBarChart";
 import { ReportTimeTrialResponse } from "../compiled";
-import { Carrossel } from "../components/Carrossel";
-import { Results } from "../game/Results";
 import { RawStats } from "../charts/RawStats";
+import { WpmOverTime } from "../charts/WpmOverTimeChart";
+import { formatTime } from "../helpers/time";
+import { Carrossel } from "../components/Carrossel";
+import { PercentileBarChart } from "../charts/PercentileBarChart";
 
 type Props = {
   results: ReportTimeTrialResponse;
@@ -14,55 +14,52 @@ type Props = {
 export function TrialResultsModal(props: Props) {
   const views = [
     {
-      id: "Stats",
-      render: () => {
-        return <RawStats result={props.results} phrase={props.phrase} />;
-      },
-    },
-    {
-      id: "WPM distribution",
-      render: () => {
-        return (
-          <PercentileBarChart
-            data={props.results.global_times!}
-            phrase={props.phrase}
-          />
-        );
-      },
-    },
-    {
-      id: "Time distribution",
-      render: () => {
-        return (
-          <TimeBarChart
-            data={props.results.global_times!}
-            mostRecentTime={props.results.time!}
-          />
-        );
-      },
-    },
-  ];
-
-  return (
-    <div className="fixed min-w-[700px] max-h-[80vh] rounded border border-base-600 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 backdrop-blur-lg backdrop-brightness-110 flex flex-col items-center">
-      <div className="font-semibold pl-4 p-2 border-b border-base-600 w-full">
-        Results
-      </div>
-
-      <div className="w-full overflow-y-scroll">
-        <div className="pt-8">
-          <RawStats result={props.results} phrase={props.phrase} />
-        </div>
-
-        <PercentileBarChart
-          data={props.results.global_times!}
-          phrase={props.phrase}
-        />
-
+      id: "Time",
+      render: () => (
         <TimeBarChart
           data={props.results.global_times!}
           mostRecentTime={props.results.time!}
         />
+      ),
+    },
+    {
+      id: "WPM",
+      render: () => (
+        <PercentileBarChart
+          data={props.results.global_times!}
+          phrase={props.phrase}
+          mostRecentWpm={props.results.wpm!}
+        />
+      ),
+    },
+  ];
+
+  return (
+    <div className="fixed min-w-[700px] rounded border border-base-600 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-base-900 flex flex-col items-center">
+      <div className="px-8 p-3 bg-[#ffffff11] w-full border-b border-base-600">
+        <div className="font-bold text-sm">Finish</div>
+        <div className="font-mono font-bold text-5xl">
+          {formatTime(props.results.time! * 1000)}
+        </div>
+      </div>
+
+      <div className="w-full pt-4 flex flex-col space-y-4 px-4">
+        <div className="pl-4">
+          <RawStats result={props.results} phrase={props.phrase} />
+        </div>
+
+        <div>
+          <div className="pl-4 font-semibold">Race breakdown</div>
+          <WpmOverTime
+            wpm_by_second={props.results.wpm_by_second!}
+            raw_wpm_by_second={props.results.raw_wpm_by_second!}
+            errors={props.results.errors_at_time!}
+          />
+        </div>
+        <div>
+          <div className="pl-4 font-semibold">Global stats</div>
+          <Carrossel views={views} />
+        </div>
       </div>
     </div>
   );
