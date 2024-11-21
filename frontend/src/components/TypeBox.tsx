@@ -172,7 +172,7 @@ export const TypeBox = (props: TypeBoxProps) => {
         );
       } else {
         text.push(
-          <span className="underline underline-offset-[6px] text-accent-secondary">
+          <span className="underline underline-offset-[6px] text-base-100">
             {currentWord[i]}
           </span>
         );
@@ -191,14 +191,14 @@ export const TypeBox = (props: TypeBoxProps) => {
       nextSpaceIndex
     );
     text.push(
-      <span className="underline underline-offset-[6px] text-accent-secondary opacity-50">
+      <span className="underline underline-offset-[6px] text-base-500">
         {remainderOfWord}
       </span>
     );
 
     if (nextSpaceIndex !== -1) {
       let remainingText = phrase.slice(nextSpaceIndex);
-      text.push(<span className="text-base-300">{remainingText}</span>);
+      text.push(<span className="text-base-500">{remainingText}</span>);
     }
 
     return { text, hasError };

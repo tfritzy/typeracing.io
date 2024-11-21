@@ -54,9 +54,6 @@ export const Carrossel: React.FC<CarrosselProps> = ({ views }) => {
   ));
   return (
     <div className="w-full" style={{ maxWidth: containerWidth }}>
-      <div className="font-semibold pl-4 p-2 border-b border-base-600">
-        Results
-      </div>
       <div
         className="relative flex flex-row space-x-3 pt-3 pb-3 overflow-x-scroll scrollbar-hide"
         ref={scrollContainerRef}
