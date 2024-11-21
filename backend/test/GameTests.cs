@@ -1,5 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-using Schema;
+using typeracing.io;
 
 namespace Tests;
 
@@ -81,7 +81,7 @@ public class GameTests
 
         Assert.AreEqual(8, test.Galaxy.OutboxCount());
         Assert.AreEqual(4, test.Galaxy.OutboxMessages().Where((m) => m.PlayerCompleted != null).Count());
-        PlayerCompleted[] playerCompletedMessages =
+        Schema.PlayerCompleted[] playerCompletedMessages =
             test.Galaxy.OutboxMessages().Where((m) => m.PlayerCompleted != null).Select((m) => m.PlayerCompleted).ToArray();
         Assert.IsTrue(playerCompletedMessages.All((m) => m.PlayerId == test.Players[0].Id));
         Assert.IsTrue(playerCompletedMessages.All((m) => m.Place == 0));
@@ -154,19 +154,19 @@ public class GameTests
         TH.AdvancePastCooldown(test.Galaxy, game);
         TH.TypeWholePhrase(test.Galaxy, game, test.Players[0], 42);
 
-        var playerCompleteds = TH.GetUpdatesOfType(test.Galaxy, OneofUpdate.UpdateOneofCase.PlayerCompleted);
+        var playerCompleteds = TH.GetUpdatesOfType(test.Galaxy, Schema.OneofUpdate.UpdateOneofCase.PlayerCompleted);
         Assert.AreEqual(4, playerCompleteds.Count);
-        Assert.AreEqual(Stats.GetWpm(test.Players[0].KeyStrokes), playerCompleteds[0].PlayerCompleted.Wpm);
+        Assert.AreEqual(Schema.Stats.GetWpm(test.Players[0].KeyStrokes), playerCompleteds[0].PlayerCompleted.Wpm);
         Assert.IsTrue(playerCompleteds[0].PlayerCompleted.RawWpmBySecond.Count > 0);
         Assert.IsTrue(playerCompleteds[0].PlayerCompleted.WpmBySecond.Count > 0);
         CollectionAssert.AreEqual(
-            Stats.GetRawWpmBySecond(test.Players[0].KeyStrokes),
+            Schema.Stats.GetRawWpmBySecond(test.Players[0].KeyStrokes),
             playerCompleteds[0].PlayerCompleted.RawWpmBySecond);
         CollectionAssert.AreEqual(
-            Stats.GetAggWpmBySecond(test.Players[0].KeyStrokes),
+            Schema.Stats.GetAggWpmBySecond(test.Players[0].KeyStrokes),
             playerCompleteds[0].PlayerCompleted.WpmBySecond);
         TH.AssertErrorCountsEqual(
-            Stats.GetErrorCountByTime(test.Players[0].KeyStrokes, game.Phrase),
+            Schema.Stats.GetErrorCountByTime(test.Players[0].KeyStrokes, game.Phrase),
             playerCompleteds[0].PlayerCompleted.ErrorsAtTime.ToList()
         );
     }
@@ -207,7 +207,7 @@ public class GameTests
         var ks = TH.KeystrokesForWord(game.Phrase, 0);
         Api.TypeWord(ks, test.Players[0], test.Galaxy);
         Assert.AreEqual(4, test.Galaxy.OutboxCount());
-        var wordFinisheds = TH.GetUpdatesOfType(test.Galaxy, OneofUpdate.UpdateOneofCase.WordFinished);
+        var wordFinisheds = TH.GetUpdatesOfType(test.Galaxy, Schema.OneofUpdate.UpdateOneofCase.WordFinished);
         Assert.AreEqual(test.Galaxy.OutboxCount(), wordFinisheds.Count);
         Assert.AreEqual(4, wordFinisheds.Count);
         Assert.AreEqual(1, wordFinisheds.Where((m) => m.RecipientId == test.Players[0].Id).Count());
@@ -267,7 +267,7 @@ public class GameTests
         Api.DisconnectPlayer(alice.Id, galaxy);
         galaxy.ClearOutbox();
 
-        Api.FindGame(alice.Name, alice.Id, alice.Token, galaxy, false, new HashSet<GameMode> { GameMode.HomeRow });
+        Api.FindGame(alice.Name, alice.Id, alice.Token, galaxy, false, new HashSet<Schema.GameMode> { Schema.GameMode.HomeRow });
         Game newGame = galaxy.OpenGames[^1];
         Assert.AreEqual(1, galaxy.OutboxMessages().Count(m => m.GameId == newGame.Id));
         Assert.AreEqual(1, galaxy.OutboxMessages().Count(m => m.RecipientId == alice.Id));
@@ -283,7 +283,7 @@ public class GameTests
         Api.FindGame("Ava", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false);
         Game game = galaxy.ActiveGames.Values.First();
         InGamePlayer alice = game.Players[0];
-        Api.FindGame(alice.Name, alice.Id, alice.Token, galaxy, false, new HashSet<GameMode> { GameMode.HomeRow });
+        Api.FindGame(alice.Name, alice.Id, alice.Token, galaxy, false, new HashSet<Schema.GameMode> { Schema.GameMode.HomeRow });
         galaxy.ClearOutbox();
 
         galaxy.Time.Add(game.CountdownDuration + .1f);
@@ -301,8 +301,8 @@ public class GameTests
 
         var ks = TH.KeystrokesForWord(game.Phrase, 0, 30);
         int insertPoint = ks.Count / 2;
-        ks.Insert(insertPoint, new KeyStroke { Character = "f", Time = 0.2f });
-        ks.Insert(insertPoint + 1, new KeyStroke { Character = "\b", Time = 0.3f });
+        ks.Insert(insertPoint, new Schema.KeyStroke { Character = "f", Time = 0.2f });
+        ks.Insert(insertPoint + 1, new Schema.KeyStroke { Character = "\b", Time = 0.3f });
         Api.TypeWord(ks, test.Players[0], test.Galaxy);
         Assert.AreEqual(ks.Count - 2, game.Players[0].PhraseIndex);
         Assert.AreEqual(1, game.Players[0].Errors);
@@ -323,12 +323,12 @@ public class GameTests
         test.Galaxy.Time.Add(1);
         Assert.AreEqual(42, test.Players[0].LastSeen);
         Api.TypeWord(TH.KeystrokesForWord(game.Phrase, 0), test.Players[0], test.Galaxy);
-        test.Galaxy.AddToInbox(new OneofRequest { SenderId = test.Players[0].Id });
+        test.Galaxy.AddToInbox(new Schema.OneofRequest { SenderId = test.Players[0].Id });
         Assert.AreEqual(test.Galaxy.Time.Now, test.Players[0].LastSeen);
         Assert.AreEqual(42, test.Players[1].LastSeen);
 
         // Doesn't blow up on unknown player
-        test.Galaxy.AddToInbox(new OneofRequest { SenderId = "unknown" });
+        test.Galaxy.AddToInbox(new Schema.OneofRequest { SenderId = "unknown" });
     }
 
     [TestMethod]
@@ -339,7 +339,7 @@ public class GameTests
         TH.AdvancePastCooldown(test.Galaxy, game);
 
         test.Galaxy.Time.Add(Constants.InactiveTimeBeforeKicking - 1);
-        test.Galaxy.AddToInbox(new OneofRequest { SenderId = test.Players[0].Id });
+        test.Galaxy.AddToInbox(new Schema.OneofRequest { SenderId = test.Players[0].Id });
         test.Galaxy.Time.Add(2f);
         test.Galaxy.Update();
         Assert.AreEqual(3, game.Players.FindAll(p => p.IsDisconnected).Count);
@@ -373,16 +373,16 @@ public class GameTests
         TH.TypeWholePhrase(test.Galaxy, game, test.Players[1]);
         Assert.AreEqual(Game.GameState.Running, game.State);
         test.Galaxy.Time.Add(Constants.InactiveTimeBeforeKicking - 1);
-        test.Galaxy.AddToInbox(new OneofRequest { SenderId = test.Players[0].Id });
-        test.Galaxy.AddToInbox(new OneofRequest { SenderId = test.Players[1].Id });
-        test.Galaxy.AddToInbox(new OneofRequest { SenderId = test.Players[2].Id });
+        test.Galaxy.AddToInbox(new Schema.OneofRequest { SenderId = test.Players[0].Id });
+        test.Galaxy.AddToInbox(new Schema.OneofRequest { SenderId = test.Players[1].Id });
+        test.Galaxy.AddToInbox(new Schema.OneofRequest { SenderId = test.Players[2].Id });
         test.Galaxy.Time.Add(2f);
         test.Galaxy.Update();
         Assert.AreEqual(1, game.Players.FindAll(p => p.IsDisconnected).Count);
         Assert.AreEqual(Game.GameState.Running, game.State);
         test.Galaxy.Time.Add(Constants.InactiveTimeBeforeKicking + 1);
-        test.Galaxy.AddToInbox(new OneofRequest { SenderId = test.Players[0].Id });
-        test.Galaxy.AddToInbox(new OneofRequest { SenderId = test.Players[1].Id });
+        test.Galaxy.AddToInbox(new Schema.OneofRequest { SenderId = test.Players[0].Id });
+        test.Galaxy.AddToInbox(new Schema.OneofRequest { SenderId = test.Players[1].Id });
         test.Galaxy.Update();
         Assert.AreEqual(Game.GameState.Complete, game.State);
         Assert.AreEqual(2, test.Galaxy.OutboxMessages().Count(m => m.GameOver != null));
@@ -397,7 +397,7 @@ public class GameTests
         for (int i = 0; i < 4; i++)
         {
             test.Galaxy.Time.Add(Constants.InactiveTimeBeforeKicking + 1);
-            test.Galaxy.AddToInbox(new OneofRequest { SenderId = test.Players[0].Id });
+            test.Galaxy.AddToInbox(new Schema.OneofRequest { SenderId = test.Players[0].Id });
             test.Galaxy.Update();
         }
 
@@ -428,7 +428,7 @@ public class GameTests
         for (int i = 0; i < 10; i++)
         {
             test.Galaxy.Time.Add(Constants.InactiveTimeBeforeKicking - 1);
-            test.Galaxy.AddToInbox(new OneofRequest { SenderId = test.Players[0].Id });
+            test.Galaxy.AddToInbox(new Schema.OneofRequest { SenderId = test.Players[0].Id });
             test.Galaxy.Update();
         }
 
@@ -447,7 +447,7 @@ public class GameTests
         Game secondGame = TH.FindGameOfPlayer(test.Galaxy, test.Players[0]);
 
         test.Galaxy.Time.Add(Constants.InactiveTimeBeforeKicking + 1);
-        test.Galaxy.AddToInbox(new OneofRequest { SenderId = test.Players[0].Id });
+        test.Galaxy.AddToInbox(new Schema.OneofRequest { SenderId = test.Players[0].Id });
         test.Galaxy.Update();
 
         Assert.AreEqual(1, test.Galaxy.ActiveGames.Count);

@@ -1,7 +1,7 @@
 using Google.Protobuf;
 using Schema;
 
-namespace LightspeedTyperacing;
+namespace typeracing.io;
 
 public class Galaxy
 {

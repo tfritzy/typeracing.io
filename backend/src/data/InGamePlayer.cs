@@ -1,6 +1,6 @@
 using Schema;
 
-namespace LightspeedTyperacing;
+namespace typeracing.io;
 
 public class InGamePlayer
 {

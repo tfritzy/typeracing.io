@@ -32,4 +32,8 @@
   <ItemGroup>
     <Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\stats\stats.csproj" />
+    <ProjectReference Include="..\schema\schema.csproj" />
+  </ItemGroup>
 </Project>

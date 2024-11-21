@@ -1947,6 +1947,12 @@ export interface ReportTimeTrialResponse {
   time?: number;
   wpm?: number;
   global_times?: { [key: number]: number };
+  raw_wpm_by_second?: number[];
+  wpm_by_second?: number[];
+  accuracy?: number;
+  mode?: GameMode;
+  errors_at_time?: ErrorsAtTime[];
+  num_errors?: number;
 }
 
 export function encodeReportTimeTrialResponse(message: ReportTimeTrialResponse): Uint8Array {
@@ -1985,6 +1991,66 @@ function _encodeReportTimeTrialResponse(message: ReportTimeTrialResponse, bb: By
       writeByteBuffer(bb, nested);
       pushByteBuffer(nested);
     }
+  }
+
+  // repeated float raw_wpm_by_second = 4;
+  let array$raw_wpm_by_second = message.raw_wpm_by_second;
+  if (array$raw_wpm_by_second !== undefined) {
+    let packed = popByteBuffer();
+    for (let value of array$raw_wpm_by_second) {
+      writeFloat(packed, value);
+    }
+    writeVarint32(bb, 34);
+    writeVarint32(bb, packed.offset);
+    writeByteBuffer(bb, packed);
+    pushByteBuffer(packed);
+  }
+
+  // repeated float wpm_by_second = 5;
+  let array$wpm_by_second = message.wpm_by_second;
+  if (array$wpm_by_second !== undefined) {
+    let packed = popByteBuffer();
+    for (let value of array$wpm_by_second) {
+      writeFloat(packed, value);
+    }
+    writeVarint32(bb, 42);
+    writeVarint32(bb, packed.offset);
+    writeByteBuffer(bb, packed);
+    pushByteBuffer(packed);
+  }
+
+  // optional float accuracy = 6;
+  let $accuracy = message.accuracy;
+  if ($accuracy !== undefined) {
+    writeVarint32(bb, 53);
+    writeFloat(bb, $accuracy);
+  }
+
+  // optional GameMode mode = 7;
+  let $mode = message.mode;
+  if ($mode !== undefined) {
+    writeVarint32(bb, 56);
+    writeVarint32(bb, encodeGameMode[$mode]);
+  }
+
+  // repeated ErrorsAtTime errors_at_time = 8;
+  let array$errors_at_time = message.errors_at_time;
+  if (array$errors_at_time !== undefined) {
+    for (let value of array$errors_at_time) {
+      writeVarint32(bb, 66);
+      let nested = popByteBuffer();
+      _encodeErrorsAtTime(value, nested);
+      writeVarint32(bb, nested.limit);
+      writeByteBuffer(bb, nested);
+      pushByteBuffer(nested);
+    }
+  }
+
+  // optional int32 num_errors = 9;
+  let $num_errors = message.num_errors;
+  if ($num_errors !== undefined) {
+    writeVarint32(bb, 72);
+    writeVarint64(bb, intToLong($num_errors));
   }
 }
 
@@ -2041,6 +2107,63 @@ function _decodeReportTimeTrialResponse(bb: ByteBuffer): ReportTimeTrialResponse
           throw new Error("Invalid data for map: global_times");
         values[key] = value;
         bb.limit = outerLimit;
+        break;
+      }
+
+      // repeated float raw_wpm_by_second = 4;
+      case 4: {
+        let values = message.raw_wpm_by_second || (message.raw_wpm_by_second = []);
+        if ((tag & 7) === 2) {
+          let outerLimit = pushTemporaryLength(bb);
+          while (!isAtEnd(bb)) {
+            values.push(readFloat(bb));
+          }
+          bb.limit = outerLimit;
+        } else {
+          values.push(readFloat(bb));
+        }
+        break;
+      }
+
+      // repeated float wpm_by_second = 5;
+      case 5: {
+        let values = message.wpm_by_second || (message.wpm_by_second = []);
+        if ((tag & 7) === 2) {
+          let outerLimit = pushTemporaryLength(bb);
+          while (!isAtEnd(bb)) {
+            values.push(readFloat(bb));
+          }
+          bb.limit = outerLimit;
+        } else {
+          values.push(readFloat(bb));
+        }
+        break;
+      }
+
+      // optional float accuracy = 6;
+      case 6: {
+        message.accuracy = readFloat(bb);
+        break;
+      }
+
+      // optional GameMode mode = 7;
+      case 7: {
+        message.mode = decodeGameMode[readVarint32(bb)];
+        break;
+      }
+
+      // repeated ErrorsAtTime errors_at_time = 8;
+      case 8: {
+        let limit = pushTemporaryLength(bb);
+        let values = message.errors_at_time || (message.errors_at_time = []);
+        values.push(_decodeErrorsAtTime(bb));
+        bb.limit = limit;
+        break;
+      }
+
+      // optional int32 num_errors = 9;
+      case 9: {
+        message.num_errors = readVarint32(bb);
         break;
       }
 

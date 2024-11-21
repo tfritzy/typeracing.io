@@ -1,4 +1,4 @@
-using Schema;
+using typeracing.io;
 
 namespace Tests;
 
@@ -29,10 +29,10 @@ public class FindGameTests
         Assert.AreEqual(player.Id, game.Players[0].Id);
 
         Assert.AreEqual(1, galaxy.OutboxCount());
-        OneofUpdate? message = galaxy.GetUpdate();
-        YouveBeenAddedToGame jg = message!.YouveBeenAddedToGame;
+        Schema.OneofUpdate? message = galaxy.GetUpdate();
+        Schema.YouveBeenAddedToGame jg = message!.YouveBeenAddedToGame;
         Assert.AreEqual(game.Id, jg.GameId);
-        Assert.AreEqual(player.Id, jg.CurrentPlayers[0].Id);
+        Assert.AreEqual(player.Id, jg.CurrentPlayers[0].id);
         Assert.AreEqual(player.Name, jg.CurrentPlayers[0].Name);
     }
 
@@ -59,15 +59,15 @@ public class FindGameTests
         Assert.AreEqual(2, playerJoinedGameMessages.Count());
         Assert.AreEqual(1, playerJoinedGameMessages.Count(m => m.RecipientId == player1.Id));
         Assert.AreEqual(1, playerJoinedGameMessages.Count(m => m.RecipientId == player2.Id));
-        Assert.IsTrue(playerJoinedGameMessages.All(m => m.PlayerJoinedGame.Player.Id == player3.Id));
+        Assert.IsTrue(playerJoinedGameMessages.All(m => m.PlayerJoinedGame.Player.id == player3.Id));
         Assert.IsTrue(playerJoinedGameMessages.All(m => m.PlayerJoinedGame.Player.Name == player3.Name));
 
         var addedToGameMessage = addedToGameMessages.First();
         Assert.AreEqual(player3.Id, addedToGameMessage.RecipientId);
         Assert.AreEqual(3, addedToGameMessage.YouveBeenAddedToGame.CurrentPlayers.Count);
-        Assert.AreEqual(1, addedToGameMessage.YouveBeenAddedToGame.CurrentPlayers.Count(p => p.Id == player1.Id));
-        Assert.AreEqual(1, addedToGameMessage.YouveBeenAddedToGame.CurrentPlayers.Count(p => p.Id == player2.Id));
-        Assert.AreEqual(1, addedToGameMessage.YouveBeenAddedToGame.CurrentPlayers.Count(p => p.Id == player3.Id));
+        Assert.AreEqual(1, addedToGameMessage.YouveBeenAddedToGame.CurrentPlayers.Count(p => p.id == player1.Id));
+        Assert.AreEqual(1, addedToGameMessage.YouveBeenAddedToGame.CurrentPlayers.Count(p => p.id == player2.Id));
+        Assert.AreEqual(1, addedToGameMessage.YouveBeenAddedToGame.CurrentPlayers.Count(p => p.id == player3.Id));
         Assert.AreEqual(1, addedToGameMessage.YouveBeenAddedToGame.CurrentPlayers.Count(p => p.Name == player1.Name));
         Assert.AreEqual(1, addedToGameMessage.YouveBeenAddedToGame.CurrentPlayers.Count(p => p.Name == player2.Name));
         Assert.AreEqual(1, addedToGameMessage.YouveBeenAddedToGame.CurrentPlayers.Count(p => p.Name == player3.Name));
@@ -109,26 +109,26 @@ public class FindGameTests
         var galaxy = new Galaxy();
         Api.FindGame("Jeff 1", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false);
         Assert.AreEqual(1, galaxy.OpenGames.Count);
-        Assert.AreEqual(GameMode.Dictionary, galaxy.OpenGames[0].Mode);
+        Assert.AreEqual(Schema.GameMode.Dictionary, galaxy.OpenGames[0].Mode);
         Assert.AreEqual(1, galaxy.OpenGames[0].Players.Count);
 
-        Api.FindGame("Jeff 2", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false, new HashSet<GameMode> { GameMode.Numbers });
+        Api.FindGame("Jeff 2", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false, new HashSet<Schema.GameMode> { Schema.GameMode.Numbers });
         Assert.AreEqual(2, galaxy.OpenGames.Count);
-        Assert.AreEqual(GameMode.Numbers, galaxy.OpenGames[1].Mode);
+        Assert.AreEqual(Schema.GameMode.Numbers, galaxy.OpenGames[1].Mode);
         Assert.AreEqual(1, galaxy.OpenGames[1].Players.Count);
 
-        Api.FindGame("Jeff 3", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false, new HashSet<GameMode> { GameMode.Numbers });
+        Api.FindGame("Jeff 3", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false, new HashSet<Schema.GameMode> { Schema.GameMode.Numbers });
         Assert.AreEqual(2, galaxy.OpenGames.Count);
         Assert.AreEqual(2, galaxy.OpenGames[1].Players.Count);
 
-        Api.FindGame("Jeff 4", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false, new HashSet<GameMode> { GameMode.SpamTap, GameMode.Numbers });
+        Api.FindGame("Jeff 4", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false, new HashSet<Schema.GameMode> { Schema.GameMode.SpamTap, Schema.GameMode.Numbers });
         Assert.AreEqual(2, galaxy.OpenGames.Count);
         Assert.AreEqual(3, galaxy.OpenGames[1].Players.Count);
 
-        Api.FindGame("Jeff 5", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false, new HashSet<GameMode> { GameMode.CopyPastas });
+        Api.FindGame("Jeff 5", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false, new HashSet<Schema.GameMode> { Schema.GameMode.CopyPastas });
         Assert.AreEqual(3, galaxy.OpenGames.Count);
 
-        Api.FindGame("Jeff 6", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false, new HashSet<GameMode> { GameMode.CopyPastas, GameMode.Numbers });
+        Api.FindGame("Jeff 6", IdGen.NewPlayerId(), IdGen.NewToken(), galaxy, false, new HashSet<Schema.GameMode> { Schema.GameMode.CopyPastas, Schema.GameMode.Numbers });
         Assert.AreEqual(2, galaxy.OpenGames.Count);
     }
 

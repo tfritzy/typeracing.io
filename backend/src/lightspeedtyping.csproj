@@ -30,6 +30,11 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <ProjectReference Include="..\schema\schema.csproj" />
+  </ItemGroup>
+
   <Target Name="SetEnvFilePermissions" AfterTargets="Build" Condition="'$(OS)' == 'Linux'">
     <Exec Command="chmod 600 $(OutDir)/.env.production" />
     <Exec Command="chown typeracer:typeracer $(OutDir)/.env.production" />

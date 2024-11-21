@@ -6,7 +6,7 @@ using DotNetEnv;
 using Schema;
 using System.Text;
 
-namespace LightspeedTyperacing;
+namespace typeracing.io;
 
 public class Server
 {

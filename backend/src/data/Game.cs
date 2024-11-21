@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using Schema;
 
-namespace LightspeedTyperacing;
+namespace typeracing.io;
 
 public class Game
 {

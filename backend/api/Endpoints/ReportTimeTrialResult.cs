@@ -1,16 +1,10 @@
-using System.Net;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.Cosmos;
-using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Schema;
 using System.Security.Claims;
-using Microsoft.Azure.Cosmos.Core;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Newtonsoft.Json;
-using Microsoft.Extensions.Logging;
 using System.Buffers;
 
 namespace api
@@ -53,7 +47,8 @@ namespace api
                 return new NotFoundObjectResult("Trial not found");
             }
 
-            string typed = KeystrokeHelpers.ParseKeystrokes(trialRequest.Keystrokes);
+            List<KeyStroke> keystrokes = trialRequest.Keystrokes!.ToList();
+            string typed = Schema.Stats.ParseKeystrokes(keystrokes);
             Console.WriteLine($"Player typed: {typed}");
             if (typed != trial.Resource.Phrase)
             {
@@ -61,7 +56,7 @@ namespace api
                 return new OkResult();
             }
 
-            float time = KeystrokeHelpers.GetTime(trialRequest.Keystrokes);
+            float time = Schema.Stats.GetTime(keystrokes);
             AddTimeToGlobalStats(trial, time);
             ItemRequestOptions options = new ItemRequestOptions { IfMatchEtag = trial.ETag };
             await trialContainer.ReplaceItemAsync(trial.Resource, trial.Resource.id, new PartitionKey(trial.Resource.id), options);
@@ -80,7 +75,7 @@ namespace api
                     PlayerId = player.id,
                     BestTime = time,
                 };
-                result.BestKeystrokes.Add(trialRequest.Keystrokes);
+                result.BestKeystrokes.Add(keystrokes);
                 result.AttemptTimes.Add(time);
                 await container.CreateItemAsync(
                     result,
@@ -89,12 +84,12 @@ namespace api
             }
             else
             {
-                existingResult.AttemptTimes.Add(KeystrokeHelpers.GetTime(trialRequest.Keystrokes));
+                existingResult.AttemptTimes.Add(Schema.Stats.GetTime(keystrokes));
                 if (time < existingResult.BestTime)
                 {
                     existingResult.BestTime = time;
                     existingResult.BestKeystrokes.Clear();
-                    existingResult.BestKeystrokes.AddRange(trialRequest.Keystrokes);
+                    existingResult.BestKeystrokes.AddRange(keystrokes);
                 }
                 await container.ReplaceItemAsync(
                     existingResult,
@@ -103,13 +98,17 @@ namespace api
                 );
             }
 
-            float duration = KeystrokeHelpers.GetTime(trialRequest.Keystrokes);
+            float duration = Schema.Stats.GetTime(keystrokes);
             ReportTimeTrialResponse response = new()
             {
                 Time = duration,
-                Wpm = KeystrokeHelpers.GetWpm(typed.Length, duration)
+                Wpm = Schema.Stats.GetWpm(typed.Length, duration),
             };
             response.GlobalTimes.Add(trial.Resource.GlobalTimes);
+            response.RawWpmBySecond.Add(Stats.GetRawWpmBySecond(keystrokes));
+            response.WpmBySecond.Add(Stats.GetAggWpmBySecond(keystrokes));
+            response.ErrorsAtTime.Add(Stats.GetErrorCountByTime(keystrokes, trial.Resource.Phrase));
+            Console.WriteLine(Stats.GetAggWpmBySecond(keystrokes));
 
             return new ProtobufResult(response);
         }
