@@ -61,6 +61,7 @@ export function TimeTrial() {
         .then((arrayBuffer) => new Uint8Array(arrayBuffer))
         .then((data) => {
           setResults(decodeReportTimeTrialResponse(data));
+          console.log("Results", decodeReportTimeTrialResponse(data));
         })
         .catch((error) => {
           console.log(error);

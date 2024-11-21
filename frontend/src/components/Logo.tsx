@@ -4,9 +4,9 @@ export const Logo = () => {
       className="rounded-lg py-2 border border-base-600 px-3 flex flex-row font-bold logo w-min h-min bg-base-900"
       href="/"
     >
-      <span className="text-accent">void</span>
+      <span className="">void</span>
       <span className="">type</span>
-      <span className="">.io</span>
+      <span className="text-accent">.io</span>
     </a>
   );
 };
