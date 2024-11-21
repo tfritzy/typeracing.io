@@ -1,4 +1,4 @@
-using Schema;
+using typeracing.io;
 
 namespace Tests;
 
@@ -25,7 +25,7 @@ public class Test_GameStart
         Game game = galaxy.ActiveGames.Values.First();
         Assert.AreEqual(0, galaxy.OpenGames.Count);
         Assert.AreEqual(1, galaxy.ActiveGames.Count);
-        OneofUpdate[] messages =
+        Schema.OneofUpdate[] messages =
             galaxy.OutboxMessages().Where(m => m.GameStarting != null).ToArray();
         Assert.AreEqual(4, messages.Length);
         Assert.AreEqual(4, messages.Count(m => m.GameStarting.Countdown == game.CountdownDuration));
@@ -54,7 +54,7 @@ public class Test_GameStart
         Assert.AreEqual(0, galaxy.OutboxMessages().Where(m => m.GameStarted != null).Count());
         galaxy.Time.Update(game.CountdownDuration + .1f);
         galaxy.Update();
-        OneofUpdate[] messages = galaxy.OutboxMessages().Where(m => m.GameStarted != null).ToArray();
+        Schema.OneofUpdate[] messages = galaxy.OutboxMessages().Where(m => m.GameStarted != null).ToArray();
         Assert.AreEqual(4, messages.Length);
         Assert.AreEqual(1, messages.Count(m => m.RecipientId == players[0].Id));
         Assert.AreEqual(1, messages.Count(m => m.RecipientId == players[1].Id));

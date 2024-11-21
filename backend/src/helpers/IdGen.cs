@@ -1,7 +1,7 @@
 using System.Numerics;
 using System.Text;
 
-namespace LightspeedTyperacing;
+namespace typeracing.io;
 
 public static class IdGen
 {

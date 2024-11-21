@@ -1,7 +1,7 @@
-using LightspeedTyperacing;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Schema;
+using typeracing.io;
 
 public class GameMetricsTracker
 {

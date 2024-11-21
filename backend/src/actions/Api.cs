@@ -1,6 +1,6 @@
 using Schema;
 
-namespace LightspeedTyperacing;
+namespace typeracing.io;
 
 public static class Api
 {
@@ -56,9 +56,9 @@ public static class Api
                 PlayerJoinedGame = new PlayerJoinedGame()
                 {
                     GameId = game.Id,
-                    Player = new Player
+                    Player = new Schema.InGamePlayer
                     {
-                        Id = player.Id,
+                        id = player.Id,
                         Name = player.Name,
                         IsBot = player.BotConfig != null
                     },
@@ -80,9 +80,9 @@ public static class Api
             foreach (var p in game.Players)
             {
                 youveBeenAddedToGame.CurrentPlayers.Add(
-                    new Player
+                    new Schema.InGamePlayer
                     {
-                        Id = p.Id,
+                        id = p.Id,
                         Name = p.Name,
                         IsBot = p.BotConfig != null,
                         IsYou = p.Id == player.Id

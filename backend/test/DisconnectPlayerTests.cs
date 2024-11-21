@@ -1,4 +1,4 @@
-using Schema;
+using typeracing.io;
 
 namespace Tests;
 
@@ -61,7 +61,7 @@ public class DisconnectTests
         Assert.AreEqual(1, game.Players.Count);
         Assert.AreEqual(Game.GameState.Lobby, game.State);
         Assert.IsFalse(test.Galaxy.PlayerGameMap.ContainsKey(test.Player1.Id));
-        PlayerDisconnected dc = test.Galaxy.GetUpdate()!.PlayerDisconnected;
+        Schema.PlayerDisconnected dc = test.Galaxy.GetUpdate()!.PlayerDisconnected;
         Assert.AreEqual(test.Player1.Id, dc.PlayerId);
         Assert.IsTrue(dc.Removed);
     }
@@ -75,14 +75,14 @@ public class DisconnectTests
 
         Api.DisconnectPlayer(test.Player1.Id, test.Galaxy);
         Assert.AreEqual(2, test.Galaxy.OutboxCount());
-        OneofUpdate? update1 = test.Galaxy.GetUpdate();
+        Schema.OneofUpdate? update1 = test.Galaxy.GetUpdate();
         Assert.IsNotNull(update1);
         Assert.AreEqual(test.Player1.Id, update1.RecipientId);
-        PlayerDisconnected disconnected = update1.PlayerDisconnected;
+        Schema.PlayerDisconnected disconnected = update1.PlayerDisconnected;
         Assert.AreEqual(test.Player1.Id, disconnected.PlayerId);
         Assert.IsTrue(disconnected.IsYou);
 
-        OneofUpdate? update2 = test.Galaxy.GetUpdate();
+        Schema.OneofUpdate? update2 = test.Galaxy.GetUpdate();
         Assert.IsNotNull(update2);
         Assert.AreEqual(test.Player2.Id, update2.RecipientId);
         disconnected = update2.PlayerDisconnected;

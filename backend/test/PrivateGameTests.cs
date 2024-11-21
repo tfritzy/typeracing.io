@@ -1,3 +1,5 @@
+using typeracing.io;
+
 namespace Tests;
 
 [TestClass]

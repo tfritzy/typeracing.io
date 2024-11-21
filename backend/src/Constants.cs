@@ -1,4 +1,4 @@
-namespace LightspeedTyperacing;
+namespace typeracing.io;
 
 public static class Constants
 {
