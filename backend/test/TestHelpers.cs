@@ -76,7 +76,7 @@ public static class TH
 
     public static void IsApproximately(float expected, float actual, float tolerance = 0.001f)
     {
-        Assert.IsTrue(Math.Abs(expected - actual) < tolerance);
+        Assert.IsTrue(Math.Abs(expected - actual) < tolerance, $"{expected} not within {tolerance} of {actual}");
     }
 
     public static void AssertErrorCountsEqual(List<ErrorsAtTime> expected, List<ErrorsAtTime> actual)

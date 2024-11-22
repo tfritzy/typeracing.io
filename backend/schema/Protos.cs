@@ -62,69 +62,71 @@ namespace Schema {
             "ZW5BZGRlZFRvR2FtZRIPCgdnYW1lX2lkGAEgASgJEi0KD2N1cnJlbnRfcGxh",
             "eWVycxgCIAMoCzIULlNjaGVtYS5JbkdhbWVQbGF5ZXISDgoGcGhyYXNlGAMg",
             "ASgJIkgKElBsYXllckRpc2Nvbm5lY3RlZBIRCglwbGF5ZXJfaWQYASABKAkS",
-            "DwoHcmVtb3ZlZBgCIAEoCBIOCgZpc195b3UYAyABKAgiowEKCVRpbWVUcmlh",
-            "bBIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEg4KBnBocmFzZRgDIAEoCRI4",
-            "CgxnbG9iYWxfdGltZXMYBCADKAsyIi5TY2hlbWEuVGltZVRyaWFsLkdsb2Jh",
-            "bFRpbWVzRW50cnkaMgoQR2xvYmFsVGltZXNFbnRyeRILCgNrZXkYASABKA0S",
-            "DQoFdmFsdWUYAiABKA06AjgBIkgKFkxpc3RUaW1lVHJpYWxzUmVzcG9uc2US",
-            "LgoLdGltZV90cmlhbHMYASADKAsyGS5TY2hlbWEuVGltZVRyaWFsTGlzdEl0",
-            "ZW0iWgoRVGltZVRyaWFsTGlzdEl0ZW0SCgoCaWQYASABKAkSDAoEbmFtZRgC",
-            "IAEoCRIOCgZsZW5ndGgYAyABKAUSDAoEdGltZRgEIAEoBRINCgVwbGFjZRgF",
-            "IAEoBSKGAQoPVGltZVRyaWFsUmVzdWx0EgoKAmlkGAEgASgJEhEKCXBsYXll",
-            "cl9pZBgCIAEoCRIRCgliZXN0X3RpbWUYAyABKAISFQoNYXR0ZW1wdF90aW1l",
-            "cxgEIAMoAhIqCg9iZXN0X2tleXN0cm9rZXMYBSADKAsyES5TY2hlbWEuS2V5",
-            "U3Ryb2tlIksKFlJlcG9ydFRpbWVUcmlhbFJlcXVlc3QSCgoCaWQYASABKAkS",
-            "JQoKa2V5c3Ryb2tlcxgCIAMoCzIRLlNjaGVtYS5LZXlTdHJva2Ui1gIKF1Jl",
-            "cG9ydFRpbWVUcmlhbFJlc3BvbnNlEgwKBHRpbWUYASABKAISCwoDd3BtGAIg",
-            "ASgCEkYKDGdsb2JhbF90aW1lcxgDIAMoCzIwLlNjaGVtYS5SZXBvcnRUaW1l",
-            "VHJpYWxSZXNwb25zZS5HbG9iYWxUaW1lc0VudHJ5EhkKEXJhd193cG1fYnlf",
-            "c2Vjb25kGAQgAygCEhUKDXdwbV9ieV9zZWNvbmQYBSADKAISEAoIYWNjdXJh",
-            "Y3kYBiABKAISHgoEbW9kZRgHIAEoDjIQLlNjaGVtYS5HYW1lTW9kZRIsCg5l",
-            "cnJvcnNfYXRfdGltZRgIIAMoCzIULlNjaGVtYS5FcnJvcnNBdFRpbWUSEgoK",
-            "bnVtX2Vycm9ycxgJIAEoBRoyChBHbG9iYWxUaW1lc0VudHJ5EgsKA2tleRgB",
-            "IAEoDRINCgV2YWx1ZRgCIAEoDToCOAEiZAoVQXV0aGVudGljYXRlZEF1dGhJ",
-            "bmZvEhAKCHByb3ZpZGVyGAEgASgJEhMKC2V4dGVybmFsX2lkGAIgASgJEg0K",
-            "BWVtYWlsGAMgASgJEhUKDWxhc3RfbG9naW5fYXQYBCABKAEiOQoMQW5vbkF1",
-            "dGhJbmZvEhIKCmF1dGhfdG9rZW4YASABKAkSFQoNbGFzdF9sb2dpbl9hdBgC",
-            "IAEoASK7AQoGUGxheWVyEgoKAmlkGAEgASgJEiQKBHR5cGUYAiABKA4yFi5T",
-            "Y2hlbWEuUGxheWVyQXV0aFR5cGUSEQoJY3JlYXRlZF9zGAMgASgBEj4KF2F1",
-            "dGhlbnRpY2F0ZWRfYXV0aF9pbmZvGAQgASgLMh0uU2NoZW1hLkF1dGhlbnRp",
-            "Y2F0ZWRBdXRoSW5mbxIsCg5hbm9uX2F1dGhfaW5mbxgFIAEoCzIULlNjaGVt",
-            "YS5Bbm9uQXV0aEluZm8q/AEKCEdhbWVNb2RlEgsKB0ludmFsaWQQABIOCgpN",
-            "b3N0Q29tbW9uEAESCgoGQ29tbW9uEAISDgoKRGljdGlvbmFyeRADEg8KC0xl",
-            "YXN0Q29tbW9uEAQSDgoKQ29weVBhc3RhcxAFEgsKB1NwYW1UYXAQBhILCgdO",
-            "dW1iZXJzEAcSDAoITWFyYXRob24QCBILCgdIb21lUm93EAkSDAoIVXBwZXJS",
-            "b3cQChINCglSaWdodEhhbmQQCxIMCghMZWZ0SGFuZBAMEhMKD0FsdGVybmF0",
-            "aW5nSGFuZBANEg0KCUZha2VXb3JkcxAOEhIKDkxvbmdlc3RIdW5kcmVkEA8q",
-            "RwoOUGxheWVyQXV0aFR5cGUSEwoPSW52YWxpZEF1dGhUeXBlEAASDQoJQW5v",
-            "bnltb3VzEAESEQoNQXV0aGVudGljYXRlZBACYgZwcm90bzM="));
+            "DwoHcmVtb3ZlZBgCIAEoCBIOCgZpc195b3UYAyABKAginQEKCVRpbWVUcmlh",
+            "bBIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEg4KBnBocmFzZRgDIAEoCRI0",
+            "CgpnbG9iYWxfd3BtGAQgAygLMiAuU2NoZW1hLlRpbWVUcmlhbC5HbG9iYWxX",
+            "cG1FbnRyeRowCg5HbG9iYWxXcG1FbnRyeRILCgNrZXkYASABKA0SDQoFdmFs",
+            "dWUYAiABKA06AjgBIkgKFkxpc3RUaW1lVHJpYWxzUmVzcG9uc2USLgoLdGlt",
+            "ZV90cmlhbHMYASADKAsyGS5TY2hlbWEuVGltZVRyaWFsTGlzdEl0ZW0iWgoR",
+            "VGltZVRyaWFsTGlzdEl0ZW0SCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIO",
+            "CgZsZW5ndGgYAyABKAUSDAoEdGltZRgEIAEoBRINCgVwbGFjZRgFIAEoBSKG",
+            "AQoPVGltZVRyaWFsUmVzdWx0EgoKAmlkGAEgASgJEhEKCXBsYXllcl9pZBgC",
+            "IAEoCRIRCgliZXN0X3RpbWUYAyABKAISFQoNYXR0ZW1wdF90aW1lcxgEIAMo",
+            "AhIqCg9iZXN0X2tleXN0cm9rZXMYBSADKAsyES5TY2hlbWEuS2V5U3Ryb2tl",
+            "IksKFlJlcG9ydFRpbWVUcmlhbFJlcXVlc3QSCgoCaWQYASABKAkSJQoKa2V5",
+            "c3Ryb2tlcxgCIAMoCzIRLlNjaGVtYS5LZXlTdHJva2UingMKF1JlcG9ydFRp",
+            "bWVUcmlhbFJlc3BvbnNlEgwKBHRpbWUYASABKAISCwoDd3BtGAIgASgCEkYK",
+            "DGdsb2JhbF90aW1lcxgDIAMoCzIwLlNjaGVtYS5SZXBvcnRUaW1lVHJpYWxS",
+            "ZXNwb25zZS5HbG9iYWxUaW1lc0VudHJ5EhkKEXJhd193cG1fYnlfc2Vjb25k",
+            "GAQgAygCEhUKDXdwbV9ieV9zZWNvbmQYBSADKAISEAoIYWNjdXJhY3kYBiAB",
+            "KAISHgoEbW9kZRgHIAEoDjIQLlNjaGVtYS5HYW1lTW9kZRIsCg5lcnJvcnNf",
+            "YXRfdGltZRgIIAMoCzIULlNjaGVtYS5FcnJvcnNBdFRpbWUSEgoKbnVtX2Vy",
+            "cm9ycxgJIAEoBRIQCghwOTlfdGltZRgKIAEoAhIQCghwOTBfdGltZRgLIAEo",
+            "AhIQCghwNTBfdGltZRgMIAEoAhIQCghwMjVfdGltZRgNIAEoAhoyChBHbG9i",
+            "YWxUaW1lc0VudHJ5EgsKA2tleRgBIAEoDRINCgV2YWx1ZRgCIAEoDToCOAEi",
+            "ZAoVQXV0aGVudGljYXRlZEF1dGhJbmZvEhAKCHByb3ZpZGVyGAEgASgJEhMK",
+            "C2V4dGVybmFsX2lkGAIgASgJEg0KBWVtYWlsGAMgASgJEhUKDWxhc3RfbG9n",
+            "aW5fYXQYBCABKAEiOQoMQW5vbkF1dGhJbmZvEhIKCmF1dGhfdG9rZW4YASAB",
+            "KAkSFQoNbGFzdF9sb2dpbl9hdBgCIAEoASK7AQoGUGxheWVyEgoKAmlkGAEg",
+            "ASgJEiQKBHR5cGUYAiABKA4yFi5TY2hlbWEuUGxheWVyQXV0aFR5cGUSEQoJ",
+            "Y3JlYXRlZF9zGAMgASgBEj4KF2F1dGhlbnRpY2F0ZWRfYXV0aF9pbmZvGAQg",
+            "ASgLMh0uU2NoZW1hLkF1dGhlbnRpY2F0ZWRBdXRoSW5mbxIsCg5hbm9uX2F1",
+            "dGhfaW5mbxgFIAEoCzIULlNjaGVtYS5Bbm9uQXV0aEluZm8q/AEKCEdhbWVN",
+            "b2RlEgsKB0ludmFsaWQQABIOCgpNb3N0Q29tbW9uEAESCgoGQ29tbW9uEAIS",
+            "DgoKRGljdGlvbmFyeRADEg8KC0xlYXN0Q29tbW9uEAQSDgoKQ29weVBhc3Rh",
+            "cxAFEgsKB1NwYW1UYXAQBhILCgdOdW1iZXJzEAcSDAoITWFyYXRob24QCBIL",
+            "CgdIb21lUm93EAkSDAoIVXBwZXJSb3cQChINCglSaWdodEhhbmQQCxIMCghM",
+            "ZWZ0SGFuZBAMEhMKD0FsdGVybmF0aW5nSGFuZBANEg0KCUZha2VXb3JkcxAO",
+            "EhIKDkxvbmdlc3RIdW5kcmVkEA8qRwoOUGxheWVyQXV0aFR5cGUSEwoPSW52",
+            "YWxpZEF1dGhUeXBlEAASDQoJQW5vbnltb3VzEAESEQoNQXV0aGVudGljYXRl",
+            "ZBACYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Schema.GameMode), typeof(global::Schema.PlayerAuthType), }, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.InGamePlayer), global::Schema.InGamePlayer.Parser, new[]{ "Name", "id", "IsBot", "IsYou" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.OneofRequest), global::Schema.OneofRequest.Parser, new[]{ "SenderId", "SenderToken", "FindGame", "TypeWord" }, new[]{ "Request" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.FindGameRequest), global::Schema.FindGameRequest.Parser, new[]{ "PlayerName", "GameModes", "PrivateGame" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.KeyStroke), global::Schema.KeyStroke.Parser, new[]{ "Character", "Time" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TypeWordRequest), global::Schema.TypeWordRequest.Parser, new[]{ "Word", "KeyStrokes", "NumErrors" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.OneofUpdate), global::Schema.OneofUpdate.Parser, new[]{ "RecipientId", "GameId", "GameOver", "GameStarted", "GameStarting", "PlayerCompleted", "PlayerJoinedGame", "WordFinished", "YouveBeenAddedToGame", "PlayerDisconnected" }, new[]{ "Update" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.GameOver), global::Schema.GameOver.Parser, new[]{ "EndTimeS" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.GameStarted), global::Schema.GameStarted.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.GameStarting), global::Schema.GameStarting.Parser, new[]{ "Countdown" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ErrorsAtTime), global::Schema.ErrorsAtTime.Parser, new[]{ "Time", "ErrorCount" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.PlayerCompleted), global::Schema.PlayerCompleted.Parser, new[]{ "PlayerId", "Place", "RawWpmBySecond", "WpmBySecond", "Wpm", "Accuracy", "Mode", "ErrorsAtTime", "NumErrors" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.PlayerJoinedGame), global::Schema.PlayerJoinedGame.Parser, new[]{ "Player", "GameId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.WordFinished), global::Schema.WordFinished.Parser, new[]{ "PlayerId", "PercentComplete", "VelocityKmS", "PositionKm", "CharCompletionTimes", "Wpm" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.YouveBeenAddedToGame), global::Schema.YouveBeenAddedToGame.Parser, new[]{ "GameId", "CurrentPlayers", "Phrase" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.PlayerDisconnected), global::Schema.PlayerDisconnected.Parser, new[]{ "PlayerId", "Removed", "IsYou" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrial), global::Schema.TimeTrial.Parser, new[]{ "id", "Name", "Phrase", "GlobalTimes" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ListTimeTrialsResponse), global::Schema.ListTimeTrialsResponse.Parser, new[]{ "TimeTrials" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrialListItem), global::Schema.TimeTrialListItem.Parser, new[]{ "id", "Name", "Length", "Time", "Place" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrialResult), global::Schema.TimeTrialResult.Parser, new[]{ "id", "PlayerId", "BestTime", "AttemptTimes", "BestKeystrokes" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ReportTimeTrialRequest), global::Schema.ReportTimeTrialRequest.Parser, new[]{ "id", "Keystrokes" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ReportTimeTrialResponse), global::Schema.ReportTimeTrialResponse.Parser, new[]{ "Time", "Wpm", "GlobalTimes", "RawWpmBySecond", "WpmBySecond", "Accuracy", "Mode", "ErrorsAtTime", "NumErrors" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.AuthenticatedAuthInfo), global::Schema.AuthenticatedAuthInfo.Parser, new[]{ "Provider", "ExternalId", "Email", "LastLoginAt" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.AnonAuthInfo), global::Schema.AnonAuthInfo.Parser, new[]{ "AuthToken", "LastLoginAt" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.Player), global::Schema.Player.Parser, new[]{ "id", "Type", "CreatedS", "AuthenticatedAuthInfo", "AnonAuthInfo" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Schema.GameMode), typeof(global::Schema.PlayerAuthType), }, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.InGamePlayer), global::Schema.InGamePlayer.Parser, new[]{ "Name", "id", "IsBot", "IsYou" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.OneofRequest), global::Schema.OneofRequest.Parser, new[]{ "SenderId", "SenderToken", "FindGame", "TypeWord" }, new[]{ "Request" }, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.FindGameRequest), global::Schema.FindGameRequest.Parser, new[]{ "PlayerName", "GameModes", "PrivateGame" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.KeyStroke), global::Schema.KeyStroke.Parser, new[]{ "Character", "Time" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TypeWordRequest), global::Schema.TypeWordRequest.Parser, new[]{ "Word", "KeyStrokes", "NumErrors" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.OneofUpdate), global::Schema.OneofUpdate.Parser, new[]{ "RecipientId", "GameId", "GameOver", "GameStarted", "GameStarting", "PlayerCompleted", "PlayerJoinedGame", "WordFinished", "YouveBeenAddedToGame", "PlayerDisconnected" }, new[]{ "Update" }, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.GameOver), global::Schema.GameOver.Parser, new[]{ "EndTimeS" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.GameStarted), global::Schema.GameStarted.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.GameStarting), global::Schema.GameStarting.Parser, new[]{ "Countdown" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ErrorsAtTime), global::Schema.ErrorsAtTime.Parser, new[]{ "Time", "ErrorCount" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.PlayerCompleted), global::Schema.PlayerCompleted.Parser, new[]{ "PlayerId", "Place", "RawWpmBySecond", "WpmBySecond", "Wpm", "Accuracy", "Mode", "ErrorsAtTime", "NumErrors" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.PlayerJoinedGame), global::Schema.PlayerJoinedGame.Parser, new[]{ "Player", "GameId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.WordFinished), global::Schema.WordFinished.Parser, new[]{ "PlayerId", "PercentComplete", "VelocityKmS", "PositionKm", "CharCompletionTimes", "Wpm" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.YouveBeenAddedToGame), global::Schema.YouveBeenAddedToGame.Parser, new[]{ "GameId", "CurrentPlayers", "Phrase" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.PlayerDisconnected), global::Schema.PlayerDisconnected.Parser, new[]{ "PlayerId", "Removed", "IsYou" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrial), global::Schema.TimeTrial.Parser, new[]{ "id", "Name", "Phrase", "GlobalWpm" }, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ListTimeTrialsResponse), global::Schema.ListTimeTrialsResponse.Parser, new[]{ "TimeTrials" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrialListItem), global::Schema.TimeTrialListItem.Parser, new[]{ "id", "Name", "Length", "Time", "Place" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrialResult), global::Schema.TimeTrialResult.Parser, new[]{ "id", "PlayerId", "BestTime", "AttemptTimes", "BestKeystrokes" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ReportTimeTrialRequest), global::Schema.ReportTimeTrialRequest.Parser, new[]{ "id", "Keystrokes" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ReportTimeTrialResponse), global::Schema.ReportTimeTrialResponse.Parser, new[]{ "Time", "Wpm", "GlobalTimes", "RawWpmBySecond", "WpmBySecond", "Accuracy", "Mode", "ErrorsAtTime", "NumErrors", "P99Time", "P90Time", "P50Time", "P25Time" }, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.AuthenticatedAuthInfo), global::Schema.AuthenticatedAuthInfo.Parser, new[]{ "Provider", "ExternalId", "Email", "LastLoginAt" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.AnonAuthInfo), global::Schema.AnonAuthInfo.Parser, new[]{ "AuthToken", "LastLoginAt" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.Player), global::Schema.Player.Parser, new[]{ "id", "Type", "CreatedS", "AuthenticatedAuthInfo", "AnonAuthInfo" }, null, null, null)
           }));
     }
     #endregion
@@ -2262,7 +2264,7 @@ namespace Schema {
 
     /// <summary>Field number for the "mode" field.</summary>
     public const int ModeFieldNumber = 7;
-    private global::Schema.GameMode mode_ = global::Schema.GameMode.Invalid;
+    private global::Schema.GameMode mode_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Schema.GameMode Mode {
       get { return mode_; }
@@ -2326,7 +2328,7 @@ namespace Schema {
       hash ^= wpmBySecond_.GetHashCode();
       if (Wpm != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Wpm);
       if (Accuracy != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Accuracy);
-      if (Mode != global::Schema.GameMode.Invalid) hash ^= Mode.GetHashCode();
+      if (Mode != 0) hash ^= Mode.GetHashCode();
       hash ^= errorsAtTime_.GetHashCode();
       if (NumErrors != 0) hash ^= NumErrors.GetHashCode();
       if (_unknownFields != null) {
@@ -2360,7 +2362,7 @@ namespace Schema {
         output.WriteRawTag(53);
         output.WriteFloat(Accuracy);
       }
-      if (Mode != global::Schema.GameMode.Invalid) {
+      if (Mode != 0) {
         output.WriteRawTag(56);
         output.WriteEnum((int) Mode);
       }
@@ -2391,7 +2393,7 @@ namespace Schema {
       if (Accuracy != 0F) {
         size += 1 + 4;
       }
-      if (Mode != global::Schema.GameMode.Invalid) {
+      if (Mode != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Mode);
       }
       size += errorsAtTime_.CalculateSize(_repeated_errorsAtTime_codec);
@@ -2423,7 +2425,7 @@ namespace Schema {
       if (other.Accuracy != 0F) {
         Accuracy = other.Accuracy;
       }
-      if (other.Mode != global::Schema.GameMode.Invalid) {
+      if (other.Mode != 0) {
         Mode = other.Mode;
       }
       errorsAtTime_.Add(other.errorsAtTime_);
@@ -2468,7 +2470,7 @@ namespace Schema {
             break;
           }
           case 56: {
-            Mode = (global::Schema.GameMode) input.ReadEnum();
+            mode_ = (global::Schema.GameMode) input.ReadEnum();
             break;
           }
           case 66: {
@@ -2613,7 +2615,7 @@ namespace Schema {
       }
       if (other.player_ != null) {
         if (player_ == null) {
-          Player = new global::Schema.InGamePlayer();
+          player_ = new global::Schema.InGamePlayer();
         }
         Player.MergeFrom(other.Player);
       }
@@ -2633,9 +2635,9 @@ namespace Schema {
             break;
           case 10: {
             if (player_ == null) {
-              Player = new global::Schema.InGamePlayer();
+              player_ = new global::Schema.InGamePlayer();
             }
-            input.ReadMessage(Player);
+            input.ReadMessage(player_);
             break;
           }
           case 18: {
@@ -3300,7 +3302,7 @@ namespace Schema {
       id_ = other.id_;
       name_ = other.name_;
       phrase_ = other.phrase_;
-      globalTimes_ = other.globalTimes_.Clone();
+      globalWpm_ = other.globalWpm_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3342,14 +3344,14 @@ namespace Schema {
       }
     }
 
-    /// <summary>Field number for the "global_times" field.</summary>
-    public const int GlobalTimesFieldNumber = 4;
-    private static readonly pbc::MapField<uint, uint>.Codec _map_globalTimes_codec
-        = new pbc::MapField<uint, uint>.Codec(pb::FieldCodec.ForUInt32(8, 0), pb::FieldCodec.ForUInt32(16, 0), 34);
-    private readonly pbc::MapField<uint, uint> globalTimes_ = new pbc::MapField<uint, uint>();
+    /// <summary>Field number for the "global_wpm" field.</summary>
+    public const int GlobalWpmFieldNumber = 4;
+    private static readonly pbc::MapField<uint, uint>.Codec _map_globalWpm_codec
+        = new pbc::MapField<uint, uint>.Codec(pb::FieldCodec.ForUInt32(8), pb::FieldCodec.ForUInt32(16), 34);
+    private readonly pbc::MapField<uint, uint> globalWpm_ = new pbc::MapField<uint, uint>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::MapField<uint, uint> GlobalTimes {
-      get { return globalTimes_; }
+    public pbc::MapField<uint, uint> GlobalWpm {
+      get { return globalWpm_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3368,7 +3370,7 @@ namespace Schema {
       if (id != other.id) return false;
       if (Name != other.Name) return false;
       if (Phrase != other.Phrase) return false;
-      if (!GlobalTimes.Equals(other.GlobalTimes)) return false;
+      if (!GlobalWpm.Equals(other.GlobalWpm)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -3378,7 +3380,7 @@ namespace Schema {
       if (id.Length != 0) hash ^= id.GetHashCode();
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Phrase.Length != 0) hash ^= Phrase.GetHashCode();
-      hash ^= GlobalTimes.GetHashCode();
+      hash ^= GlobalWpm.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3404,7 +3406,7 @@ namespace Schema {
         output.WriteRawTag(26);
         output.WriteString(Phrase);
       }
-      globalTimes_.WriteTo(output, _map_globalTimes_codec);
+      globalWpm_.WriteTo(output, _map_globalWpm_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -3422,7 +3424,7 @@ namespace Schema {
       if (Phrase.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Phrase);
       }
-      size += globalTimes_.CalculateSize(_map_globalTimes_codec);
+      size += globalWpm_.CalculateSize(_map_globalWpm_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -3443,7 +3445,7 @@ namespace Schema {
       if (other.Phrase.Length != 0) {
         Phrase = other.Phrase;
       }
-      globalTimes_.Add(other.globalTimes_);
+      globalWpm_.Add(other.globalWpm_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -3468,7 +3470,7 @@ namespace Schema {
             break;
           }
           case 34: {
-            globalTimes_.AddEntriesFrom(input, _map_globalTimes_codec);
+            globalWpm_.AddEntriesFrom(input, _map_globalWpm_codec);
             break;
           }
         }
@@ -4248,6 +4250,10 @@ namespace Schema {
       mode_ = other.mode_;
       errorsAtTime_ = other.errorsAtTime_.Clone();
       numErrors_ = other.numErrors_;
+      p99Time_ = other.p99Time_;
+      p90Time_ = other.p90Time_;
+      p50Time_ = other.p50Time_;
+      p25Time_ = other.p25Time_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -4281,7 +4287,7 @@ namespace Schema {
     /// <summary>Field number for the "global_times" field.</summary>
     public const int GlobalTimesFieldNumber = 3;
     private static readonly pbc::MapField<uint, uint>.Codec _map_globalTimes_codec
-        = new pbc::MapField<uint, uint>.Codec(pb::FieldCodec.ForUInt32(8, 0), pb::FieldCodec.ForUInt32(16, 0), 26);
+        = new pbc::MapField<uint, uint>.Codec(pb::FieldCodec.ForUInt32(8), pb::FieldCodec.ForUInt32(16), 26);
     private readonly pbc::MapField<uint, uint> globalTimes_ = new pbc::MapField<uint, uint>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::MapField<uint, uint> GlobalTimes {
@@ -4321,7 +4327,7 @@ namespace Schema {
 
     /// <summary>Field number for the "mode" field.</summary>
     public const int ModeFieldNumber = 7;
-    private global::Schema.GameMode mode_ = global::Schema.GameMode.Invalid;
+    private global::Schema.GameMode mode_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Schema.GameMode Mode {
       get { return mode_; }
@@ -4351,6 +4357,50 @@ namespace Schema {
       }
     }
 
+    /// <summary>Field number for the "p99_time" field.</summary>
+    public const int P99TimeFieldNumber = 10;
+    private float p99Time_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float P99Time {
+      get { return p99Time_; }
+      set {
+        p99Time_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "p90_time" field.</summary>
+    public const int P90TimeFieldNumber = 11;
+    private float p90Time_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float P90Time {
+      get { return p90Time_; }
+      set {
+        p90Time_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "p50_time" field.</summary>
+    public const int P50TimeFieldNumber = 12;
+    private float p50Time_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float P50Time {
+      get { return p50Time_; }
+      set {
+        p50Time_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "p25_time" field.</summary>
+    public const int P25TimeFieldNumber = 13;
+    private float p25Time_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float P25Time {
+      get { return p25Time_; }
+      set {
+        p25Time_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as ReportTimeTrialResponse);
@@ -4373,6 +4423,10 @@ namespace Schema {
       if (Mode != other.Mode) return false;
       if(!errorsAtTime_.Equals(other.errorsAtTime_)) return false;
       if (NumErrors != other.NumErrors) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(P99Time, other.P99Time)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(P90Time, other.P90Time)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(P50Time, other.P50Time)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(P25Time, other.P25Time)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -4385,9 +4439,13 @@ namespace Schema {
       hash ^= rawWpmBySecond_.GetHashCode();
       hash ^= wpmBySecond_.GetHashCode();
       if (Accuracy != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Accuracy);
-      if (Mode != global::Schema.GameMode.Invalid) hash ^= Mode.GetHashCode();
+      if (Mode != 0) hash ^= Mode.GetHashCode();
       hash ^= errorsAtTime_.GetHashCode();
       if (NumErrors != 0) hash ^= NumErrors.GetHashCode();
+      if (P99Time != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(P99Time);
+      if (P90Time != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(P90Time);
+      if (P50Time != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(P50Time);
+      if (P25Time != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(P25Time);
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -4416,7 +4474,7 @@ namespace Schema {
         output.WriteRawTag(53);
         output.WriteFloat(Accuracy);
       }
-      if (Mode != global::Schema.GameMode.Invalid) {
+      if (Mode != 0) {
         output.WriteRawTag(56);
         output.WriteEnum((int) Mode);
       }
@@ -4424,6 +4482,22 @@ namespace Schema {
       if (NumErrors != 0) {
         output.WriteRawTag(72);
         output.WriteInt32(NumErrors);
+      }
+      if (P99Time != 0F) {
+        output.WriteRawTag(85);
+        output.WriteFloat(P99Time);
+      }
+      if (P90Time != 0F) {
+        output.WriteRawTag(93);
+        output.WriteFloat(P90Time);
+      }
+      if (P50Time != 0F) {
+        output.WriteRawTag(101);
+        output.WriteFloat(P50Time);
+      }
+      if (P25Time != 0F) {
+        output.WriteRawTag(109);
+        output.WriteFloat(P25Time);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -4445,12 +4519,24 @@ namespace Schema {
       if (Accuracy != 0F) {
         size += 1 + 4;
       }
-      if (Mode != global::Schema.GameMode.Invalid) {
+      if (Mode != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Mode);
       }
       size += errorsAtTime_.CalculateSize(_repeated_errorsAtTime_codec);
       if (NumErrors != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(NumErrors);
+      }
+      if (P99Time != 0F) {
+        size += 1 + 4;
+      }
+      if (P90Time != 0F) {
+        size += 1 + 4;
+      }
+      if (P50Time != 0F) {
+        size += 1 + 4;
+      }
+      if (P25Time != 0F) {
+        size += 1 + 4;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -4475,12 +4561,24 @@ namespace Schema {
       if (other.Accuracy != 0F) {
         Accuracy = other.Accuracy;
       }
-      if (other.Mode != global::Schema.GameMode.Invalid) {
+      if (other.Mode != 0) {
         Mode = other.Mode;
       }
       errorsAtTime_.Add(other.errorsAtTime_);
       if (other.NumErrors != 0) {
         NumErrors = other.NumErrors;
+      }
+      if (other.P99Time != 0F) {
+        P99Time = other.P99Time;
+      }
+      if (other.P90Time != 0F) {
+        P90Time = other.P90Time;
+      }
+      if (other.P50Time != 0F) {
+        P50Time = other.P50Time;
+      }
+      if (other.P25Time != 0F) {
+        P25Time = other.P25Time;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -4520,7 +4618,7 @@ namespace Schema {
             break;
           }
           case 56: {
-            Mode = (global::Schema.GameMode) input.ReadEnum();
+            mode_ = (global::Schema.GameMode) input.ReadEnum();
             break;
           }
           case 66: {
@@ -4529,6 +4627,22 @@ namespace Schema {
           }
           case 72: {
             NumErrors = input.ReadInt32();
+            break;
+          }
+          case 85: {
+            P99Time = input.ReadFloat();
+            break;
+          }
+          case 93: {
+            P90Time = input.ReadFloat();
+            break;
+          }
+          case 101: {
+            P50Time = input.ReadFloat();
+            break;
+          }
+          case 109: {
+            P25Time = input.ReadFloat();
             break;
           }
         }
@@ -4958,7 +5072,7 @@ namespace Schema {
 
     /// <summary>Field number for the "type" field.</summary>
     public const int TypeFieldNumber = 2;
-    private global::Schema.PlayerAuthType type_ = global::Schema.PlayerAuthType.InvalidAuthType;
+    private global::Schema.PlayerAuthType type_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Schema.PlayerAuthType Type {
       get { return type_; }
@@ -5025,7 +5139,7 @@ namespace Schema {
     public override int GetHashCode() {
       int hash = 1;
       if (id.Length != 0) hash ^= id.GetHashCode();
-      if (Type != global::Schema.PlayerAuthType.InvalidAuthType) hash ^= Type.GetHashCode();
+      if (Type != 0) hash ^= Type.GetHashCode();
       if (CreatedS != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(CreatedS);
       if (authenticatedAuthInfo_ != null) hash ^= AuthenticatedAuthInfo.GetHashCode();
       if (anonAuthInfo_ != null) hash ^= AnonAuthInfo.GetHashCode();
@@ -5046,7 +5160,7 @@ namespace Schema {
         output.WriteRawTag(10);
         output.WriteString(id);
       }
-      if (Type != global::Schema.PlayerAuthType.InvalidAuthType) {
+      if (Type != 0) {
         output.WriteRawTag(16);
         output.WriteEnum((int) Type);
       }
@@ -5073,7 +5187,7 @@ namespace Schema {
       if (id.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(id);
       }
-      if (Type != global::Schema.PlayerAuthType.InvalidAuthType) {
+      if (Type != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
       }
       if (CreatedS != 0D) {
@@ -5099,7 +5213,7 @@ namespace Schema {
       if (other.id.Length != 0) {
         id = other.id;
       }
-      if (other.Type != global::Schema.PlayerAuthType.InvalidAuthType) {
+      if (other.Type != 0) {
         Type = other.Type;
       }
       if (other.CreatedS != 0D) {
@@ -5107,13 +5221,13 @@ namespace Schema {
       }
       if (other.authenticatedAuthInfo_ != null) {
         if (authenticatedAuthInfo_ == null) {
-          AuthenticatedAuthInfo = new global::Schema.AuthenticatedAuthInfo();
+          authenticatedAuthInfo_ = new global::Schema.AuthenticatedAuthInfo();
         }
         AuthenticatedAuthInfo.MergeFrom(other.AuthenticatedAuthInfo);
       }
       if (other.anonAuthInfo_ != null) {
         if (anonAuthInfo_ == null) {
-          AnonAuthInfo = new global::Schema.AnonAuthInfo();
+          anonAuthInfo_ = new global::Schema.AnonAuthInfo();
         }
         AnonAuthInfo.MergeFrom(other.AnonAuthInfo);
       }
@@ -5133,7 +5247,7 @@ namespace Schema {
             break;
           }
           case 16: {
-            Type = (global::Schema.PlayerAuthType) input.ReadEnum();
+            type_ = (global::Schema.PlayerAuthType) input.ReadEnum();
             break;
           }
           case 25: {
@@ -5142,16 +5256,16 @@ namespace Schema {
           }
           case 34: {
             if (authenticatedAuthInfo_ == null) {
-              AuthenticatedAuthInfo = new global::Schema.AuthenticatedAuthInfo();
+              authenticatedAuthInfo_ = new global::Schema.AuthenticatedAuthInfo();
             }
-            input.ReadMessage(AuthenticatedAuthInfo);
+            input.ReadMessage(authenticatedAuthInfo_);
             break;
           }
           case 42: {
             if (anonAuthInfo_ == null) {
-              AnonAuthInfo = new global::Schema.AnonAuthInfo();
+              anonAuthInfo_ = new global::Schema.AnonAuthInfo();
             }
-            input.ReadMessage(AnonAuthInfo);
+            input.ReadMessage(anonAuthInfo_);
             break;
           }
         }

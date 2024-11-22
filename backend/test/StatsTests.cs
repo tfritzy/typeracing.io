@@ -25,6 +25,15 @@ public class StatsTests
     }
 
     [TestMethod]
+    public void Stats_CalculatesTimeFromWpm()
+    {
+        var time = 32;
+        var charCount = 435;
+        var wpm = Schema.Stats.GetWpm(charCount, time);
+        TH.IsApproximately(time, Schema.Stats.WpmToTime(wpm, charCount));
+    }
+
+    [TestMethod]
     public void Stats_ReturnsWpm()
     {
         var strokes = TH.GetKeystrokes("hello world", 120);

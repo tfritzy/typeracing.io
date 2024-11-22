@@ -178,6 +178,11 @@ public static class Stats
         return keystrokes.Last().Time;
     }
 
+    public static float WpmToTime(float wpm, int charCount)
+    {
+        return (charCount * 60) / (5 * wpm);
+    }
+
     public static string ParseKeystrokes(List<KeyStroke> keyStrokes)
     {
         Stack<char> wordStack = new();

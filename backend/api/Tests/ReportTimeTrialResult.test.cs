@@ -257,7 +257,7 @@ public class ReportTimeTrialResultTests
             Phrase = setup.Trial.Phrase,
             Name = setup.Trial.Name,
         };
-        expectedItem.GlobalTimes.Add((uint)Schema.Stats.GetTime(ogKeystrokes), 1);
+        expectedItem.GlobalWpm.Add((uint)Schema.Stats.GetWpm(ogKeystrokes), 1);
         setup.TrialContainer.Verify(x => x.ReplaceItemAsync(
             It.Is<TimeTrial>(tr => TestHelpers.CompareProto(expectedItem, tr)),
             setup.Trial.id,

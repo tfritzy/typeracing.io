@@ -57,7 +57,8 @@ namespace api
             }
 
             float time = Schema.Stats.GetTime(keystrokes);
-            AddTimeToGlobalStats(trial, time);
+            float wpm = Schema.Stats.GetWpm(keystrokes);
+            AddTimeToGlobalStats(trial.Resource.GlobalWpm, wpm);
             ItemRequestOptions options = new ItemRequestOptions { IfMatchEtag = trial.ETag };
             await trialContainer.ReplaceItemAsync(trial.Resource, trial.Resource.id, new PartitionKey(trial.Resource.id), options);
 
@@ -104,24 +105,35 @@ namespace api
                 Time = duration,
                 Wpm = Schema.Stats.GetWpm(typed.Length, duration),
             };
-            response.GlobalTimes.Add(trial.Resource.GlobalTimes);
+            response.GlobalTimes.Add(trial.Resource.GlobalWpm);
             response.RawWpmBySecond.Add(Stats.GetRawWpmBySecond(keystrokes));
             response.WpmBySecond.Add(Stats.GetAggWpmBySecond(keystrokes));
             response.ErrorsAtTime.Add(Stats.GetErrorCountByTime(keystrokes, trial.Resource.Phrase));
-            Console.WriteLine(Stats.GetAggWpmBySecond(keystrokes));
+            response.P99Time = Schema.Stats.WpmToTime(
+                    Percentiles.Calculate(trial.Resource.GlobalWpm, .99f),
+                    trial.Resource.Phrase.Length);
+            response.P90Time = Schema.Stats.WpmToTime(
+                    Percentiles.Calculate(trial.Resource.GlobalWpm, .90f),
+                    trial.Resource.Phrase.Length);
+            response.P50Time = Schema.Stats.WpmToTime(
+                    Percentiles.Calculate(trial.Resource.GlobalWpm, .50f),
+                    trial.Resource.Phrase.Length);
+            response.P25Time = Schema.Stats.WpmToTime(
+                    Percentiles.Calculate(trial.Resource.GlobalWpm, .25f),
+                    trial.Resource.Phrase.Length);
 
             return new ProtobufResult(response);
         }
 
-        private void AddTimeToGlobalStats(ItemResponse<TimeTrial> timeTrial, float time)
+        private void AddTimeToGlobalStats(IDictionary<uint, uint> globalWpm, float wpm)
         {
-            uint index = (uint)time;
-            if (!timeTrial.Resource.GlobalTimes.ContainsKey(index))
+            uint index = (uint)wpm;
+            if (!globalWpm.ContainsKey(index))
             {
-                timeTrial.Resource.GlobalTimes[index] = 0;
+                globalWpm[index] = 0;
             }
 
-            timeTrial.Resource.GlobalTimes[index] += 1;
+            globalWpm[index] += 1;
         }
 
         private async Task<ReportTimeTrialRequest> ValidateRequest(HttpRequest req)

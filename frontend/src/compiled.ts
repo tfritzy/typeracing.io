@@ -1468,7 +1468,7 @@ export interface TimeTrial {
   id?: string;
   name?: string;
   phrase?: string;
-  global_times?: { [key: number]: number };
+  global_wpm?: { [key: number]: number };
 }
 
 export function encodeTimeTrial(message: TimeTrial): Uint8Array {
@@ -1499,12 +1499,12 @@ function _encodeTimeTrial(message: TimeTrial, bb: ByteBuffer): void {
     writeString(bb, $phrase);
   }
 
-  // optional map<uint32, uint32> global_times = 4;
-  let map$global_times = message.global_times;
-  if (map$global_times !== undefined) {
-    for (let key in map$global_times) {
+  // optional map<uint32, uint32> global_wpm = 4;
+  let map$global_wpm = message.global_wpm;
+  if (map$global_wpm !== undefined) {
+    for (let key in map$global_wpm) {
       let nested = popByteBuffer();
-      let value = map$global_times[key];
+      let value = map$global_wpm[key];
       writeVarint32(nested, 8);
       writeVarint32(nested, +key);
       writeVarint32(nested, 16);
@@ -1549,9 +1549,9 @@ function _decodeTimeTrial(bb: ByteBuffer): TimeTrial {
         break;
       }
 
-      // optional map<uint32, uint32> global_times = 4;
+      // optional map<uint32, uint32> global_wpm = 4;
       case 4: {
-        let values = message.global_times || (message.global_times = {});
+        let values = message.global_wpm || (message.global_wpm = {});
         let outerLimit = pushTemporaryLength(bb);
         let key: number | undefined;
         let value: number | undefined;
@@ -1573,7 +1573,7 @@ function _decodeTimeTrial(bb: ByteBuffer): TimeTrial {
           }
         }
         if (key === undefined || value === undefined)
-          throw new Error("Invalid data for map: global_times");
+          throw new Error("Invalid data for map: global_wpm");
         values[key] = value;
         bb.limit = outerLimit;
         break;
@@ -1953,6 +1953,10 @@ export interface ReportTimeTrialResponse {
   mode?: GameMode;
   errors_at_time?: ErrorsAtTime[];
   num_errors?: number;
+  p99_time?: number;
+  p90_time?: number;
+  p50_time?: number;
+  p25_time?: number;
 }
 
 export function encodeReportTimeTrialResponse(message: ReportTimeTrialResponse): Uint8Array {
@@ -2051,6 +2055,34 @@ function _encodeReportTimeTrialResponse(message: ReportTimeTrialResponse, bb: By
   if ($num_errors !== undefined) {
     writeVarint32(bb, 72);
     writeVarint64(bb, intToLong($num_errors));
+  }
+
+  // optional float p99_time = 10;
+  let $p99_time = message.p99_time;
+  if ($p99_time !== undefined) {
+    writeVarint32(bb, 85);
+    writeFloat(bb, $p99_time);
+  }
+
+  // optional float p90_time = 11;
+  let $p90_time = message.p90_time;
+  if ($p90_time !== undefined) {
+    writeVarint32(bb, 93);
+    writeFloat(bb, $p90_time);
+  }
+
+  // optional float p50_time = 12;
+  let $p50_time = message.p50_time;
+  if ($p50_time !== undefined) {
+    writeVarint32(bb, 101);
+    writeFloat(bb, $p50_time);
+  }
+
+  // optional float p25_time = 13;
+  let $p25_time = message.p25_time;
+  if ($p25_time !== undefined) {
+    writeVarint32(bb, 109);
+    writeFloat(bb, $p25_time);
   }
 }
 
@@ -2164,6 +2196,30 @@ function _decodeReportTimeTrialResponse(bb: ByteBuffer): ReportTimeTrialResponse
       // optional int32 num_errors = 9;
       case 9: {
         message.num_errors = readVarint32(bb);
+        break;
+      }
+
+      // optional float p99_time = 10;
+      case 10: {
+        message.p99_time = readFloat(bb);
+        break;
+      }
+
+      // optional float p90_time = 11;
+      case 11: {
+        message.p90_time = readFloat(bb);
+        break;
+      }
+
+      // optional float p50_time = 12;
+      case 12: {
+        message.p50_time = readFloat(bb);
+        break;
+      }
+
+      // optional float p25_time = 13;
+      case 13: {
+        message.p25_time = readFloat(bb);
         break;
       }
 

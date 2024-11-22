@@ -127,7 +127,7 @@ message TimeTrial {
     string id = 1;
     string name = 2;
     string phrase = 3;
-    map<uint32, uint32> global_times = 4;
+    map<uint32, uint32> global_wpm = 4;
 }
 
 message ListTimeTrialsResponse {
@@ -165,6 +165,11 @@ message ReportTimeTrialResponse {
     GameMode mode = 7;
     repeated ErrorsAtTime errors_at_time = 8;
     int32 num_errors = 9;
+    float p99_time = 10;
+    float p90_time = 11;
+    float p50_time = 12;
+    float p25_time = 13;
+
 }
 
 message AuthenticatedAuthInfo {
