@@ -35,20 +35,15 @@ export function TrialResultsModal(props: Props) {
   ];
 
   return (
-    <div className="fixed min-w-[700px] rounded border border-base-600 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-base-900 flex flex-col items-center">
-      <div className="px-8 p-3 bg-[#ffffff11] w-full border-b border-base-600">
-        <div className="font-bold text-sm">Finish</div>
-        <div className="font-mono font-bold text-5xl">
-          {formatTime(props.results.time! * 1000)}
-        </div>
+    <div className="fixed max-w-[600px] max-h-[80vh] overflow-y-auto rounded border border-base-600 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 backdrop-blur-2xl brightness-105 flex flex-col items-center">
+      <div className="px-8 p-3 w-full border-b border-base-600">
+        <div className="font-semibold">Resuls</div>
       </div>
 
       <div className="w-full pt-4 flex flex-col space-y-4 px-4">
-        <div className="pl-4">
-          <RawStats result={props.results} phrase={props.phrase} />
-        </div>
+        <RawStats result={props.results} phrase={props.phrase} />
 
-        <div>
+        <div className="bg-base-800 px-2 py-4">
           <div className="pl-4 font-semibold">Race breakdown</div>
           <WpmOverTime
             wpm_by_second={props.results.wpm_by_second!}
@@ -56,7 +51,8 @@ export function TrialResultsModal(props: Props) {
             errors={props.results.errors_at_time!}
           />
         </div>
-        <div>
+
+        <div className="bg-base-800 px-2 py-4">
           <div className="pl-4 font-semibold">Global stats</div>
           <Carrossel views={views} />
         </div>

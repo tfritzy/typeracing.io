@@ -13,7 +13,6 @@ import { useAppSelector } from "../store/storeHooks";
 import { PlayerState } from "../store/playerSlice";
 import { RootState } from "../store/store";
 import { TrialResultsModal } from "./TrialResultsModal";
-import Timer from "../components/Timer";
 
 const apiUrl = process.env.REACT_APP_API_ADDRESS;
 
@@ -28,7 +27,6 @@ export function TimeTrial() {
   const [results, setResults] = React.useState<
     ReportTimeTrialResponse | undefined
   >(undefined);
-  const [error, setError] = React.useState<object | null>(null);
 
   React.useEffect(() => {
     if (!params.id) {
