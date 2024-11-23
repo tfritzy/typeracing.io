@@ -1,9 +1,6 @@
 import { TimeBarChart } from "../charts/TimeBarChart";
 import { ReportTimeTrialResponse } from "../compiled";
 import { RawStats } from "../charts/RawStats";
-import { WpmOverTime } from "../charts/WpmOverTimeChart";
-import { formatTime } from "../helpers/time";
-import { Carrossel } from "../components/Carrossel";
 import { PercentileBarChart } from "../charts/PercentileBarChart";
 
 type Props = {
@@ -43,7 +40,7 @@ export function TrialResultsModal(props: Props) {
       <div className="w-full pt-4 flex flex-col space-y-4 px-4">
         <RawStats result={props.results} phrase={props.phrase} />
 
-        <div className="bg-base-800 px-2 py-4">
+        {/* <div className="bg-base-800 px-2 py-4">
           <div className="pl-4 font-semibold">Race breakdown</div>
           <WpmOverTime
             wpm_by_second={props.results.wpm_by_second!}
@@ -55,7 +52,7 @@ export function TrialResultsModal(props: Props) {
         <div className="bg-base-800 px-2 py-4">
           <div className="pl-4 font-semibold">Global stats</div>
           <Carrossel views={views} />
-        </div>
+        </div> */}
       </div>
     </div>
   );

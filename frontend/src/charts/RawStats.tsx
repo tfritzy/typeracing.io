@@ -1,12 +1,53 @@
 import { ReportTimeTrialResponse } from "../compiled";
+import { formatAccuracy, formatTime, formatWpm } from "../helpers/time";
 
-type BoxProps = {
-  children: JSX.Element;
+type BarProps = {
+  percentFilled: number;
 };
 
-function Box(props: BoxProps) {
+function Bar(props: BarProps) {
   return (
-    <div className="px-4 p-2 border border-base-600">{props.children}</div>
+    <div
+      className="bg-accent h-full absolute top-0 left-0"
+      style={{ width: `${props.percentFilled}%` }}
+    />
+  );
+}
+
+type Value = {
+  format: (value: number) => string;
+  value: number;
+};
+
+type HeaderProps = {
+  text: string;
+};
+
+function Header(props: HeaderProps) {
+  return (
+    <div className="border border-base-700 w-full my-1 mx-0 p-1 px-2 rounded-lg">
+      <div className="text-sm px-1 font-semibold">{props.text}</div>
+    </div>
+  );
+}
+
+type RowProps = {
+  name: string;
+  values: Value[];
+};
+
+function Row(props: RowProps) {
+  const values = props.values.map((val) => (
+    <div className="text-sm text-center py-1 rounded-sm relative">
+      {val.format(val.value)}
+    </div>
+  ));
+
+  return (
+    <div className="grid grid-cols-5 gap-x-1 border border-base-700 p-1 px-2 mx-1 mr-2 rounded-lg mb-1">
+      <div className="text-sm py-1">{props.name}</div>
+      {values}
+    </div>
   );
 }
 
@@ -18,77 +59,147 @@ type Props = {
 export const RawStats = (props: Props) => {
   return (
     <div className="w-full">
-      <div className="grid grid-cols-5 w-full">
-        <th className="text-sm text-left">Player</th>
-        <th className="text-sm text-left">Time</th>
-        <th className="text-sm text-left">WPM</th>
-        <th className="text-sm text-left">Accuracy</th>
-        <th className="text-sm text-left">Fixing errors</th>
-      </div>
-      <div className="border border-base-600 w-full my-1 mx-0 p-1 px-2 rounded-full">
-        <div className="text-sm px-1">Your best</div>
-      </div>
-      <div className="grid grid-cols-5 border border-base-600 p-3 ml-3 mb-4">
-        <td className="text-sm">You</td>
-        <td className="text-sm">3:21</td>
-        <td className="text-sm">87</td>
-        <td className="text-sm">91%</td>
-        <td className="text-sm">00:32</td>
+      <div className="grid grid-cols-5 px-3 mx-1 mr-2">
+        <div className="text-sm text-left font-semibold">Player</div>
+        <div className="text-sm text-center font-semibold">Time</div>
+        <div className="text-sm text-center font-semibold">WPM</div>
+        <div className="text-sm text-center font-semibold">Accuracy</div>
+        <div className="text-sm text-center font-semibold">Fixing errors</div>
       </div>
 
-      <div className="border border-base-600 w-full my-1 mx-0 p-1 px-2 rounded-full">
-        <div className="text-sm px-1">Your average</div>
-      </div>
-      <div className="grid grid-cols-5 border border-base-600 p-3 ml-3 mb-4">
-        <td className="text-sm">You</td>
-        <td className="text-sm">3:21</td>
-        <td className="text-sm">87</td>
-        <td className="text-sm">91%</td>
-        <td className="text-sm">00:32</td>
-      </div>
+      <Header text="This race" />
+      <Row
+        name="You"
+        values={[
+          {
+            value: props.result.time! * 1000,
+            format: formatTime,
+          },
+          {
+            value: props.result.wpm!,
+            format: formatWpm,
+          },
+          {
+            value: props.result.accuracy!,
+            format: formatAccuracy,
+          },
+          {
+            value: 21,
+            format: formatTime,
+          },
+        ]}
+      />
+      <br />
 
-      <div className="border border-base-600 w-full my-1 mx-0 p-1 px-2 rounded-full">
-        <div className="text-sm px-1">This race</div>
-      </div>
-      <div className="grid grid-cols-5 border border-base-600 p-3 ml-3 mb-4">
-        <td className="text-sm ">You</td>
-        <td className="text-sm">3:41</td>
-        <td className="text-sm">82</td>
-        <td className="text-sm">85%</td>
-        <td className="text-sm">00:32</td>
-      </div>
+      <Header text="Your best" />
+      <Row
+        name="You"
+        values={[
+          {
+            value: props.result.best_run_time! * 1000,
+            format: formatTime,
+          },
+          {
+            value: props.result.best_run_wpm!,
+            format: formatWpm,
+          },
+          {
+            value: props.result.accuracy!,
+            format: formatAccuracy,
+          },
+          {
+            value: 21,
+            format: formatTime,
+          },
+        ]}
+      />
+      <br />
 
-      <div className="border border-base-600 w-full my-1 mx-0 p-1 px-2 rounded-full">
-        <div className="text-sm px-1">Globally</div>
-      </div>
-      <div className="grid grid-cols-5 border border-base-600 p-3 ml-3">
-        <td className="text-sm">99th percentile</td>
-        <td className="text-sm">2:41</td>
-        <td className="text-sm">146</td>
-        <td className="text-sm">99%</td>
-        <td className="text-sm">00:04</td>
-      </div>
-      <div className="grid grid-cols-5 border border-base-600 p-3 ml-3">
-        <td className="text-sm">90th percentile</td>
-        <td className="text-sm">3:21</td>
-        <td className="text-sm">61</td>
-        <td className="text-sm">91%</td>
-        <td className="text-sm">00:12</td>
-      </div>
-      <div className="grid grid-cols-5 border border-base-600 p-3 ml-3">
-        <td className="text-sm">50th percentile</td>
-        <td className="text-sm">4:24</td>
-        <td className="text-sm">44</td>
-        <td className="text-sm">85%</td>
-        <td className="text-sm">00:29</td>
-      </div>
-      <div className="grid grid-cols-5 border border-base-600 p-3 ml-3">
-        <td className="text-sm">25th percentile</td>
-        <td className="text-sm">6:03</td>
-        <td className="text-sm">24</td>
-        <td className="text-sm">80%</td>
-        <td className="text-sm">00:59</td>
-      </div>
+      <Header text="Globally" />
+      <Row
+        name="99th percentile"
+        values={[
+          {
+            value: props.result.p99_time! * 1000,
+            format: formatTime,
+          },
+          {
+            value: props.result.p99_wpm!,
+            format: formatWpm,
+          },
+          {
+            value: props.result.accuracy!,
+            format: formatAccuracy,
+          },
+          {
+            value: 21,
+            format: formatTime,
+          },
+        ]}
+      />
+      <Row
+        name="90th percentile"
+        values={[
+          {
+            value: props.result.p90_time! * 1000,
+            format: formatTime,
+          },
+          {
+            value: props.result.p90_wpm!,
+            format: formatWpm,
+          },
+          {
+            value: props.result.accuracy!,
+            format: formatAccuracy,
+          },
+          {
+            value: 21,
+            format: formatTime,
+          },
+        ]}
+      />
+      <Row
+        name="50th percentile"
+        values={[
+          {
+            value: props.result.p50_time! * 1000,
+            format: formatTime,
+          },
+          {
+            value: props.result.p50_wpm!,
+            format: formatWpm,
+          },
+          {
+            value: props.result.accuracy!,
+            format: formatAccuracy,
+          },
+          {
+            value: 21,
+            format: formatTime,
+          },
+        ]}
+      />
+      <Row
+        name="25th percentile"
+        values={[
+          {
+            value: props.result.p25_time! * 1000,
+            format: formatTime,
+          },
+          {
+            value: props.result.p25_wpm!,
+            format: formatWpm,
+          },
+          {
+            value: props.result.accuracy!,
+            format: formatAccuracy,
+          },
+          {
+            value: 21,
+            format: formatTime,
+          },
+        ]}
+      />
     </div>
   );
 };

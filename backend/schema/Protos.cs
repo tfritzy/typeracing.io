@@ -65,8 +65,8 @@ namespace Schema {
             "DwoHcmVtb3ZlZBgCIAEoCBIOCgZpc195b3UYAyABKAginQEKCVRpbWVUcmlh",
             "bBIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEg4KBnBocmFzZRgDIAEoCRI0",
             "CgpnbG9iYWxfd3BtGAQgAygLMiAuU2NoZW1hLlRpbWVUcmlhbC5HbG9iYWxX",
-            "cG1FbnRyeRowCg5HbG9iYWxXcG1FbnRyeRILCgNrZXkYASABKA0SDQoFdmFs",
-            "dWUYAiABKA06AjgBIkgKFkxpc3RUaW1lVHJpYWxzUmVzcG9uc2USLgoLdGlt",
+            "cG1FbnRyeRowCg5HbG9iYWxXcG1FbnRyeRILCgNrZXkYASABKAUSDQoFdmFs",
+            "dWUYAiABKAU6AjgBIkgKFkxpc3RUaW1lVHJpYWxzUmVzcG9uc2USLgoLdGlt",
             "ZV90cmlhbHMYASADKAsyGS5TY2hlbWEuVGltZVRyaWFsTGlzdEl0ZW0iWgoR",
             "VGltZVRyaWFsTGlzdEl0ZW0SCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIO",
             "CgZsZW5ndGgYAyABKAUSDAoEdGltZRgEIAEoBRINCgVwbGFjZRgFIAEoBSKG",
@@ -74,32 +74,37 @@ namespace Schema {
             "IAEoCRIRCgliZXN0X3RpbWUYAyABKAISFQoNYXR0ZW1wdF90aW1lcxgEIAMo",
             "AhIqCg9iZXN0X2tleXN0cm9rZXMYBSADKAsyES5TY2hlbWEuS2V5U3Ryb2tl",
             "IksKFlJlcG9ydFRpbWVUcmlhbFJlcXVlc3QSCgoCaWQYASABKAkSJQoKa2V5",
-            "c3Ryb2tlcxgCIAMoCzIRLlNjaGVtYS5LZXlTdHJva2UingMKF1JlcG9ydFRp",
-            "bWVUcmlhbFJlc3BvbnNlEgwKBHRpbWUYASABKAISCwoDd3BtGAIgASgCEkYK",
-            "DGdsb2JhbF90aW1lcxgDIAMoCzIwLlNjaGVtYS5SZXBvcnRUaW1lVHJpYWxS",
-            "ZXNwb25zZS5HbG9iYWxUaW1lc0VudHJ5EhkKEXJhd193cG1fYnlfc2Vjb25k",
-            "GAQgAygCEhUKDXdwbV9ieV9zZWNvbmQYBSADKAISEAoIYWNjdXJhY3kYBiAB",
-            "KAISHgoEbW9kZRgHIAEoDjIQLlNjaGVtYS5HYW1lTW9kZRIsCg5lcnJvcnNf",
-            "YXRfdGltZRgIIAMoCzIULlNjaGVtYS5FcnJvcnNBdFRpbWUSEgoKbnVtX2Vy",
-            "cm9ycxgJIAEoBRIQCghwOTlfdGltZRgKIAEoAhIQCghwOTBfdGltZRgLIAEo",
-            "AhIQCghwNTBfdGltZRgMIAEoAhIQCghwMjVfdGltZRgNIAEoAhoyChBHbG9i",
-            "YWxUaW1lc0VudHJ5EgsKA2tleRgBIAEoDRINCgV2YWx1ZRgCIAEoDToCOAEi",
-            "ZAoVQXV0aGVudGljYXRlZEF1dGhJbmZvEhAKCHByb3ZpZGVyGAEgASgJEhMK",
-            "C2V4dGVybmFsX2lkGAIgASgJEg0KBWVtYWlsGAMgASgJEhUKDWxhc3RfbG9n",
-            "aW5fYXQYBCABKAEiOQoMQW5vbkF1dGhJbmZvEhIKCmF1dGhfdG9rZW4YASAB",
-            "KAkSFQoNbGFzdF9sb2dpbl9hdBgCIAEoASK7AQoGUGxheWVyEgoKAmlkGAEg",
-            "ASgJEiQKBHR5cGUYAiABKA4yFi5TY2hlbWEuUGxheWVyQXV0aFR5cGUSEQoJ",
-            "Y3JlYXRlZF9zGAMgASgBEj4KF2F1dGhlbnRpY2F0ZWRfYXV0aF9pbmZvGAQg",
-            "ASgLMh0uU2NoZW1hLkF1dGhlbnRpY2F0ZWRBdXRoSW5mbxIsCg5hbm9uX2F1",
-            "dGhfaW5mbxgFIAEoCzIULlNjaGVtYS5Bbm9uQXV0aEluZm8q/AEKCEdhbWVN",
-            "b2RlEgsKB0ludmFsaWQQABIOCgpNb3N0Q29tbW9uEAESCgoGQ29tbW9uEAIS",
-            "DgoKRGljdGlvbmFyeRADEg8KC0xlYXN0Q29tbW9uEAQSDgoKQ29weVBhc3Rh",
-            "cxAFEgsKB1NwYW1UYXAQBhILCgdOdW1iZXJzEAcSDAoITWFyYXRob24QCBIL",
-            "CgdIb21lUm93EAkSDAoIVXBwZXJSb3cQChINCglSaWdodEhhbmQQCxIMCghM",
-            "ZWZ0SGFuZBAMEhMKD0FsdGVybmF0aW5nSGFuZBANEg0KCUZha2VXb3JkcxAO",
-            "EhIKDkxvbmdlc3RIdW5kcmVkEA8qRwoOUGxheWVyQXV0aFR5cGUSEwoPSW52",
-            "YWxpZEF1dGhUeXBlEAASDQoJQW5vbnltb3VzEAESEQoNQXV0aGVudGljYXRl",
-            "ZBACYgZwcm90bzM="));
+            "c3Ryb2tlcxgCIAMoCzIRLlNjaGVtYS5LZXlTdHJva2UigAUKF1JlcG9ydFRp",
+            "bWVUcmlhbFJlc3BvbnNlEgwKBHRpbWUYASABKAISCwoDd3BtGAIgASgCEhAK",
+            "CGFjY3VyYWN5GAMgASgCEhUKDWJlc3RfcnVuX3RpbWUYBCABKAISFAoMYmVz",
+            "dF9ydW5fd3BtGAUgASgCEhkKEWJlc3RfcnVuX2FjY3VyYWN5GAYgASgCEhkK",
+            "EXJhd193cG1fYnlfc2Vjb25kGAcgAygCEhUKDXdwbV9ieV9zZWNvbmQYCCAD",
+            "KAISLAoOZXJyb3JzX2F0X3RpbWUYCSADKAsyFC5TY2hlbWEuRXJyb3JzQXRU",
+            "aW1lEkYKDGdsb2JhbF90aW1lcxgKIAMoCzIwLlNjaGVtYS5SZXBvcnRUaW1l",
+            "VHJpYWxSZXNwb25zZS5HbG9iYWxUaW1lc0VudHJ5EkIKCmdsb2JhbF93cG0Y",
+            "CyADKAsyLi5TY2hlbWEuUmVwb3J0VGltZVRyaWFsUmVzcG9uc2UuR2xvYmFs",
+            "V3BtRW50cnkSEgoKbnVtX2Vycm9ycxgMIAEoBRIQCghwOTlfdGltZRgNIAEo",
+            "AhIQCghwOTBfdGltZRgOIAEoAhIQCghwNTBfdGltZRgPIAEoAhIQCghwMjVf",
+            "dGltZRgQIAEoAhIPCgdwOTlfd3BtGBEgASgCEg8KB3A5MF93cG0YEiABKAIS",
+            "DwoHcDUwX3dwbRgTIAEoAhIPCgdwMjVfd3BtGBQgASgCGjIKEEdsb2JhbFRp",
+            "bWVzRW50cnkSCwoDa2V5GAEgASgJEg0KBXZhbHVlGAIgASgFOgI4ARowCg5H",
+            "bG9iYWxXcG1FbnRyeRILCgNrZXkYASABKAUSDQoFdmFsdWUYAiABKAU6AjgB",
+            "ImQKFUF1dGhlbnRpY2F0ZWRBdXRoSW5mbxIQCghwcm92aWRlchgBIAEoCRIT",
+            "CgtleHRlcm5hbF9pZBgCIAEoCRINCgVlbWFpbBgDIAEoCRIVCg1sYXN0X2xv",
+            "Z2luX2F0GAQgASgBIjkKDEFub25BdXRoSW5mbxISCgphdXRoX3Rva2VuGAEg",
+            "ASgJEhUKDWxhc3RfbG9naW5fYXQYAiABKAEiuwEKBlBsYXllchIKCgJpZBgB",
+            "IAEoCRIkCgR0eXBlGAIgASgOMhYuU2NoZW1hLlBsYXllckF1dGhUeXBlEhEK",
+            "CWNyZWF0ZWRfcxgDIAEoARI+ChdhdXRoZW50aWNhdGVkX2F1dGhfaW5mbxgE",
+            "IAEoCzIdLlNjaGVtYS5BdXRoZW50aWNhdGVkQXV0aEluZm8SLAoOYW5vbl9h",
+            "dXRoX2luZm8YBSABKAsyFC5TY2hlbWEuQW5vbkF1dGhJbmZvKvwBCghHYW1l",
+            "TW9kZRILCgdJbnZhbGlkEAASDgoKTW9zdENvbW1vbhABEgoKBkNvbW1vbhAC",
+            "Eg4KCkRpY3Rpb25hcnkQAxIPCgtMZWFzdENvbW1vbhAEEg4KCkNvcHlQYXN0",
+            "YXMQBRILCgdTcGFtVGFwEAYSCwoHTnVtYmVycxAHEgwKCE1hcmF0aG9uEAgS",
+            "CwoHSG9tZVJvdxAJEgwKCFVwcGVyUm93EAoSDQoJUmlnaHRIYW5kEAsSDAoI",
+            "TGVmdEhhbmQQDBITCg9BbHRlcm5hdGluZ0hhbmQQDRINCglGYWtlV29yZHMQ",
+            "DhISCg5Mb25nZXN0SHVuZHJlZBAPKkcKDlBsYXllckF1dGhUeXBlEhMKD0lu",
+            "dmFsaWRBdXRoVHlwZRAAEg0KCUFub255bW91cxABEhEKDUF1dGhlbnRpY2F0",
+            "ZWQQAmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Schema.GameMode), typeof(global::Schema.PlayerAuthType), }, new pbr::GeneratedClrTypeInfo[] {
@@ -123,7 +128,7 @@ namespace Schema {
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrialListItem), global::Schema.TimeTrialListItem.Parser, new[]{ "id", "Name", "Length", "Time", "Place" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrialResult), global::Schema.TimeTrialResult.Parser, new[]{ "id", "PlayerId", "BestTime", "AttemptTimes", "BestKeystrokes" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ReportTimeTrialRequest), global::Schema.ReportTimeTrialRequest.Parser, new[]{ "id", "Keystrokes" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ReportTimeTrialResponse), global::Schema.ReportTimeTrialResponse.Parser, new[]{ "Time", "Wpm", "GlobalTimes", "RawWpmBySecond", "WpmBySecond", "Accuracy", "Mode", "ErrorsAtTime", "NumErrors", "P99Time", "P90Time", "P50Time", "P25Time" }, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ReportTimeTrialResponse), global::Schema.ReportTimeTrialResponse.Parser, new[]{ "Time", "Wpm", "Accuracy", "BestRunTime", "BestRunWpm", "BestRunAccuracy", "RawWpmBySecond", "WpmBySecond", "ErrorsAtTime", "GlobalTimes", "GlobalWpm", "NumErrors", "P99Time", "P90Time", "P50Time", "P25Time", "P99Wpm", "P90Wpm", "P50Wpm", "P25Wpm" }, null, null, new pbr::GeneratedClrTypeInfo[] { null, null, }),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.AuthenticatedAuthInfo), global::Schema.AuthenticatedAuthInfo.Parser, new[]{ "Provider", "ExternalId", "Email", "LastLoginAt" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.AnonAuthInfo), global::Schema.AnonAuthInfo.Parser, new[]{ "AuthToken", "LastLoginAt" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.Player), global::Schema.Player.Parser, new[]{ "id", "Type", "CreatedS", "AuthenticatedAuthInfo", "AnonAuthInfo" }, null, null, null)
@@ -3346,11 +3351,11 @@ namespace Schema {
 
     /// <summary>Field number for the "global_wpm" field.</summary>
     public const int GlobalWpmFieldNumber = 4;
-    private static readonly pbc::MapField<uint, uint>.Codec _map_globalWpm_codec
-        = new pbc::MapField<uint, uint>.Codec(pb::FieldCodec.ForUInt32(8), pb::FieldCodec.ForUInt32(16), 34);
-    private readonly pbc::MapField<uint, uint> globalWpm_ = new pbc::MapField<uint, uint>();
+    private static readonly pbc::MapField<int, int>.Codec _map_globalWpm_codec
+        = new pbc::MapField<int, int>.Codec(pb::FieldCodec.ForInt32(8), pb::FieldCodec.ForInt32(16), 34);
+    private readonly pbc::MapField<int, int> globalWpm_ = new pbc::MapField<int, int>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::MapField<uint, uint> GlobalWpm {
+    public pbc::MapField<int, int> GlobalWpm {
       get { return globalWpm_; }
     }
 
@@ -4243,17 +4248,24 @@ namespace Schema {
     public ReportTimeTrialResponse(ReportTimeTrialResponse other) : this() {
       time_ = other.time_;
       wpm_ = other.wpm_;
-      globalTimes_ = other.globalTimes_.Clone();
+      accuracy_ = other.accuracy_;
+      bestRunTime_ = other.bestRunTime_;
+      bestRunWpm_ = other.bestRunWpm_;
+      bestRunAccuracy_ = other.bestRunAccuracy_;
       rawWpmBySecond_ = other.rawWpmBySecond_.Clone();
       wpmBySecond_ = other.wpmBySecond_.Clone();
-      accuracy_ = other.accuracy_;
-      mode_ = other.mode_;
       errorsAtTime_ = other.errorsAtTime_.Clone();
+      globalTimes_ = other.globalTimes_.Clone();
+      globalWpm_ = other.globalWpm_.Clone();
       numErrors_ = other.numErrors_;
       p99Time_ = other.p99Time_;
       p90Time_ = other.p90Time_;
       p50Time_ = other.p50Time_;
       p25Time_ = other.p25Time_;
+      p99Wpm_ = other.p99Wpm_;
+      p90Wpm_ = other.p90Wpm_;
+      p50Wpm_ = other.p50Wpm_;
+      p25Wpm_ = other.p25Wpm_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -4284,38 +4296,8 @@ namespace Schema {
       }
     }
 
-    /// <summary>Field number for the "global_times" field.</summary>
-    public const int GlobalTimesFieldNumber = 3;
-    private static readonly pbc::MapField<uint, uint>.Codec _map_globalTimes_codec
-        = new pbc::MapField<uint, uint>.Codec(pb::FieldCodec.ForUInt32(8), pb::FieldCodec.ForUInt32(16), 26);
-    private readonly pbc::MapField<uint, uint> globalTimes_ = new pbc::MapField<uint, uint>();
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::MapField<uint, uint> GlobalTimes {
-      get { return globalTimes_; }
-    }
-
-    /// <summary>Field number for the "raw_wpm_by_second" field.</summary>
-    public const int RawWpmBySecondFieldNumber = 4;
-    private static readonly pb::FieldCodec<float> _repeated_rawWpmBySecond_codec
-        = pb::FieldCodec.ForFloat(34);
-    private readonly pbc::RepeatedField<float> rawWpmBySecond_ = new pbc::RepeatedField<float>();
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<float> RawWpmBySecond {
-      get { return rawWpmBySecond_; }
-    }
-
-    /// <summary>Field number for the "wpm_by_second" field.</summary>
-    public const int WpmBySecondFieldNumber = 5;
-    private static readonly pb::FieldCodec<float> _repeated_wpmBySecond_codec
-        = pb::FieldCodec.ForFloat(42);
-    private readonly pbc::RepeatedField<float> wpmBySecond_ = new pbc::RepeatedField<float>();
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<float> WpmBySecond {
-      get { return wpmBySecond_; }
-    }
-
     /// <summary>Field number for the "accuracy" field.</summary>
-    public const int AccuracyFieldNumber = 6;
+    public const int AccuracyFieldNumber = 3;
     private float accuracy_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public float Accuracy {
@@ -4325,29 +4307,94 @@ namespace Schema {
       }
     }
 
-    /// <summary>Field number for the "mode" field.</summary>
-    public const int ModeFieldNumber = 7;
-    private global::Schema.GameMode mode_ = 0;
+    /// <summary>Field number for the "best_run_time" field.</summary>
+    public const int BestRunTimeFieldNumber = 4;
+    private float bestRunTime_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Schema.GameMode Mode {
-      get { return mode_; }
+    public float BestRunTime {
+      get { return bestRunTime_; }
       set {
-        mode_ = value;
+        bestRunTime_ = value;
       }
     }
 
+    /// <summary>Field number for the "best_run_wpm" field.</summary>
+    public const int BestRunWpmFieldNumber = 5;
+    private float bestRunWpm_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float BestRunWpm {
+      get { return bestRunWpm_; }
+      set {
+        bestRunWpm_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "best_run_accuracy" field.</summary>
+    public const int BestRunAccuracyFieldNumber = 6;
+    private float bestRunAccuracy_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float BestRunAccuracy {
+      get { return bestRunAccuracy_; }
+      set {
+        bestRunAccuracy_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "raw_wpm_by_second" field.</summary>
+    public const int RawWpmBySecondFieldNumber = 7;
+    private static readonly pb::FieldCodec<float> _repeated_rawWpmBySecond_codec
+        = pb::FieldCodec.ForFloat(58);
+    private readonly pbc::RepeatedField<float> rawWpmBySecond_ = new pbc::RepeatedField<float>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<float> RawWpmBySecond {
+      get { return rawWpmBySecond_; }
+    }
+
+    /// <summary>Field number for the "wpm_by_second" field.</summary>
+    public const int WpmBySecondFieldNumber = 8;
+    private static readonly pb::FieldCodec<float> _repeated_wpmBySecond_codec
+        = pb::FieldCodec.ForFloat(66);
+    private readonly pbc::RepeatedField<float> wpmBySecond_ = new pbc::RepeatedField<float>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<float> WpmBySecond {
+      get { return wpmBySecond_; }
+    }
+
     /// <summary>Field number for the "errors_at_time" field.</summary>
-    public const int ErrorsAtTimeFieldNumber = 8;
+    public const int ErrorsAtTimeFieldNumber = 9;
     private static readonly pb::FieldCodec<global::Schema.ErrorsAtTime> _repeated_errorsAtTime_codec
-        = pb::FieldCodec.ForMessage(66, global::Schema.ErrorsAtTime.Parser);
+        = pb::FieldCodec.ForMessage(74, global::Schema.ErrorsAtTime.Parser);
     private readonly pbc::RepeatedField<global::Schema.ErrorsAtTime> errorsAtTime_ = new pbc::RepeatedField<global::Schema.ErrorsAtTime>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::Schema.ErrorsAtTime> ErrorsAtTime {
       get { return errorsAtTime_; }
     }
 
+    /// <summary>Field number for the "global_times" field.</summary>
+    public const int GlobalTimesFieldNumber = 10;
+    private static readonly pbc::MapField<string, int>.Codec _map_globalTimes_codec
+        = new pbc::MapField<string, int>.Codec(pb::FieldCodec.ForString(10), pb::FieldCodec.ForInt32(16), 82);
+    private readonly pbc::MapField<string, int> globalTimes_ = new pbc::MapField<string, int>();
+    /// <summary>
+    /// String key to avoid 0 key errors.
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::MapField<string, int> GlobalTimes {
+      get { return globalTimes_; }
+    }
+
+    /// <summary>Field number for the "global_wpm" field.</summary>
+    public const int GlobalWpmFieldNumber = 11;
+    private static readonly pbc::MapField<int, int>.Codec _map_globalWpm_codec
+        = new pbc::MapField<int, int>.Codec(pb::FieldCodec.ForInt32(8), pb::FieldCodec.ForInt32(16), 90);
+    private readonly pbc::MapField<int, int> globalWpm_ = new pbc::MapField<int, int>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::MapField<int, int> GlobalWpm {
+      get { return globalWpm_; }
+    }
+
     /// <summary>Field number for the "num_errors" field.</summary>
-    public const int NumErrorsFieldNumber = 9;
+    public const int NumErrorsFieldNumber = 12;
     private int numErrors_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int NumErrors {
@@ -4358,7 +4405,7 @@ namespace Schema {
     }
 
     /// <summary>Field number for the "p99_time" field.</summary>
-    public const int P99TimeFieldNumber = 10;
+    public const int P99TimeFieldNumber = 13;
     private float p99Time_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public float P99Time {
@@ -4369,7 +4416,7 @@ namespace Schema {
     }
 
     /// <summary>Field number for the "p90_time" field.</summary>
-    public const int P90TimeFieldNumber = 11;
+    public const int P90TimeFieldNumber = 14;
     private float p90Time_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public float P90Time {
@@ -4380,7 +4427,7 @@ namespace Schema {
     }
 
     /// <summary>Field number for the "p50_time" field.</summary>
-    public const int P50TimeFieldNumber = 12;
+    public const int P50TimeFieldNumber = 15;
     private float p50Time_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public float P50Time {
@@ -4391,13 +4438,57 @@ namespace Schema {
     }
 
     /// <summary>Field number for the "p25_time" field.</summary>
-    public const int P25TimeFieldNumber = 13;
+    public const int P25TimeFieldNumber = 16;
     private float p25Time_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public float P25Time {
       get { return p25Time_; }
       set {
         p25Time_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "p99_wpm" field.</summary>
+    public const int P99WpmFieldNumber = 17;
+    private float p99Wpm_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float P99Wpm {
+      get { return p99Wpm_; }
+      set {
+        p99Wpm_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "p90_wpm" field.</summary>
+    public const int P90WpmFieldNumber = 18;
+    private float p90Wpm_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float P90Wpm {
+      get { return p90Wpm_; }
+      set {
+        p90Wpm_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "p50_wpm" field.</summary>
+    public const int P50WpmFieldNumber = 19;
+    private float p50Wpm_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float P50Wpm {
+      get { return p50Wpm_; }
+      set {
+        p50Wpm_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "p25_wpm" field.</summary>
+    public const int P25WpmFieldNumber = 20;
+    private float p25Wpm_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float P25Wpm {
+      get { return p25Wpm_; }
+      set {
+        p25Wpm_ = value;
       }
     }
 
@@ -4416,17 +4507,24 @@ namespace Schema {
       }
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Time, other.Time)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Wpm, other.Wpm)) return false;
-      if (!GlobalTimes.Equals(other.GlobalTimes)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Accuracy, other.Accuracy)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(BestRunTime, other.BestRunTime)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(BestRunWpm, other.BestRunWpm)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(BestRunAccuracy, other.BestRunAccuracy)) return false;
       if(!rawWpmBySecond_.Equals(other.rawWpmBySecond_)) return false;
       if(!wpmBySecond_.Equals(other.wpmBySecond_)) return false;
-      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Accuracy, other.Accuracy)) return false;
-      if (Mode != other.Mode) return false;
       if(!errorsAtTime_.Equals(other.errorsAtTime_)) return false;
+      if (!GlobalTimes.Equals(other.GlobalTimes)) return false;
+      if (!GlobalWpm.Equals(other.GlobalWpm)) return false;
       if (NumErrors != other.NumErrors) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(P99Time, other.P99Time)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(P90Time, other.P90Time)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(P50Time, other.P50Time)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(P25Time, other.P25Time)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(P99Wpm, other.P99Wpm)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(P90Wpm, other.P90Wpm)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(P50Wpm, other.P50Wpm)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(P25Wpm, other.P25Wpm)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -4435,17 +4533,24 @@ namespace Schema {
       int hash = 1;
       if (Time != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Time);
       if (Wpm != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Wpm);
-      hash ^= GlobalTimes.GetHashCode();
+      if (Accuracy != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Accuracy);
+      if (BestRunTime != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(BestRunTime);
+      if (BestRunWpm != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(BestRunWpm);
+      if (BestRunAccuracy != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(BestRunAccuracy);
       hash ^= rawWpmBySecond_.GetHashCode();
       hash ^= wpmBySecond_.GetHashCode();
-      if (Accuracy != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Accuracy);
-      if (Mode != 0) hash ^= Mode.GetHashCode();
       hash ^= errorsAtTime_.GetHashCode();
+      hash ^= GlobalTimes.GetHashCode();
+      hash ^= GlobalWpm.GetHashCode();
       if (NumErrors != 0) hash ^= NumErrors.GetHashCode();
       if (P99Time != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(P99Time);
       if (P90Time != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(P90Time);
       if (P50Time != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(P50Time);
       if (P25Time != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(P25Time);
+      if (P99Wpm != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(P99Wpm);
+      if (P90Wpm != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(P90Wpm);
+      if (P50Wpm != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(P50Wpm);
+      if (P25Wpm != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(P25Wpm);
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -4467,37 +4572,62 @@ namespace Schema {
         output.WriteRawTag(21);
         output.WriteFloat(Wpm);
       }
-      globalTimes_.WriteTo(output, _map_globalTimes_codec);
-      rawWpmBySecond_.WriteTo(output, _repeated_rawWpmBySecond_codec);
-      wpmBySecond_.WriteTo(output, _repeated_wpmBySecond_codec);
       if (Accuracy != 0F) {
-        output.WriteRawTag(53);
+        output.WriteRawTag(29);
         output.WriteFloat(Accuracy);
       }
-      if (Mode != 0) {
-        output.WriteRawTag(56);
-        output.WriteEnum((int) Mode);
+      if (BestRunTime != 0F) {
+        output.WriteRawTag(37);
+        output.WriteFloat(BestRunTime);
       }
+      if (BestRunWpm != 0F) {
+        output.WriteRawTag(45);
+        output.WriteFloat(BestRunWpm);
+      }
+      if (BestRunAccuracy != 0F) {
+        output.WriteRawTag(53);
+        output.WriteFloat(BestRunAccuracy);
+      }
+      rawWpmBySecond_.WriteTo(output, _repeated_rawWpmBySecond_codec);
+      wpmBySecond_.WriteTo(output, _repeated_wpmBySecond_codec);
       errorsAtTime_.WriteTo(output, _repeated_errorsAtTime_codec);
+      globalTimes_.WriteTo(output, _map_globalTimes_codec);
+      globalWpm_.WriteTo(output, _map_globalWpm_codec);
       if (NumErrors != 0) {
-        output.WriteRawTag(72);
+        output.WriteRawTag(96);
         output.WriteInt32(NumErrors);
       }
       if (P99Time != 0F) {
-        output.WriteRawTag(85);
+        output.WriteRawTag(109);
         output.WriteFloat(P99Time);
       }
       if (P90Time != 0F) {
-        output.WriteRawTag(93);
+        output.WriteRawTag(117);
         output.WriteFloat(P90Time);
       }
       if (P50Time != 0F) {
-        output.WriteRawTag(101);
+        output.WriteRawTag(125);
         output.WriteFloat(P50Time);
       }
       if (P25Time != 0F) {
-        output.WriteRawTag(109);
+        output.WriteRawTag(133, 1);
         output.WriteFloat(P25Time);
+      }
+      if (P99Wpm != 0F) {
+        output.WriteRawTag(141, 1);
+        output.WriteFloat(P99Wpm);
+      }
+      if (P90Wpm != 0F) {
+        output.WriteRawTag(149, 1);
+        output.WriteFloat(P90Wpm);
+      }
+      if (P50Wpm != 0F) {
+        output.WriteRawTag(157, 1);
+        output.WriteFloat(P50Wpm);
+      }
+      if (P25Wpm != 0F) {
+        output.WriteRawTag(165, 1);
+        output.WriteFloat(P25Wpm);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -4513,16 +4643,23 @@ namespace Schema {
       if (Wpm != 0F) {
         size += 1 + 4;
       }
-      size += globalTimes_.CalculateSize(_map_globalTimes_codec);
-      size += rawWpmBySecond_.CalculateSize(_repeated_rawWpmBySecond_codec);
-      size += wpmBySecond_.CalculateSize(_repeated_wpmBySecond_codec);
       if (Accuracy != 0F) {
         size += 1 + 4;
       }
-      if (Mode != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Mode);
+      if (BestRunTime != 0F) {
+        size += 1 + 4;
       }
+      if (BestRunWpm != 0F) {
+        size += 1 + 4;
+      }
+      if (BestRunAccuracy != 0F) {
+        size += 1 + 4;
+      }
+      size += rawWpmBySecond_.CalculateSize(_repeated_rawWpmBySecond_codec);
+      size += wpmBySecond_.CalculateSize(_repeated_wpmBySecond_codec);
       size += errorsAtTime_.CalculateSize(_repeated_errorsAtTime_codec);
+      size += globalTimes_.CalculateSize(_map_globalTimes_codec);
+      size += globalWpm_.CalculateSize(_map_globalWpm_codec);
       if (NumErrors != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(NumErrors);
       }
@@ -4536,7 +4673,19 @@ namespace Schema {
         size += 1 + 4;
       }
       if (P25Time != 0F) {
-        size += 1 + 4;
+        size += 2 + 4;
+      }
+      if (P99Wpm != 0F) {
+        size += 2 + 4;
+      }
+      if (P90Wpm != 0F) {
+        size += 2 + 4;
+      }
+      if (P50Wpm != 0F) {
+        size += 2 + 4;
+      }
+      if (P25Wpm != 0F) {
+        size += 2 + 4;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -4555,16 +4704,23 @@ namespace Schema {
       if (other.Wpm != 0F) {
         Wpm = other.Wpm;
       }
-      globalTimes_.Add(other.globalTimes_);
-      rawWpmBySecond_.Add(other.rawWpmBySecond_);
-      wpmBySecond_.Add(other.wpmBySecond_);
       if (other.Accuracy != 0F) {
         Accuracy = other.Accuracy;
       }
-      if (other.Mode != 0) {
-        Mode = other.Mode;
+      if (other.BestRunTime != 0F) {
+        BestRunTime = other.BestRunTime;
       }
+      if (other.BestRunWpm != 0F) {
+        BestRunWpm = other.BestRunWpm;
+      }
+      if (other.BestRunAccuracy != 0F) {
+        BestRunAccuracy = other.BestRunAccuracy;
+      }
+      rawWpmBySecond_.Add(other.rawWpmBySecond_);
+      wpmBySecond_.Add(other.wpmBySecond_);
       errorsAtTime_.Add(other.errorsAtTime_);
+      globalTimes_.Add(other.globalTimes_);
+      globalWpm_.Add(other.globalWpm_);
       if (other.NumErrors != 0) {
         NumErrors = other.NumErrors;
       }
@@ -4579,6 +4735,18 @@ namespace Schema {
       }
       if (other.P25Time != 0F) {
         P25Time = other.P25Time;
+      }
+      if (other.P99Wpm != 0F) {
+        P99Wpm = other.P99Wpm;
+      }
+      if (other.P90Wpm != 0F) {
+        P90Wpm = other.P90Wpm;
+      }
+      if (other.P50Wpm != 0F) {
+        P50Wpm = other.P50Wpm;
+      }
+      if (other.P25Wpm != 0F) {
+        P25Wpm = other.P25Wpm;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -4599,50 +4767,78 @@ namespace Schema {
             Wpm = input.ReadFloat();
             break;
           }
-          case 26: {
-            globalTimes_.AddEntriesFrom(input, _map_globalTimes_codec);
-            break;
-          }
-          case 34:
-          case 37: {
-            rawWpmBySecond_.AddEntriesFrom(input, _repeated_rawWpmBySecond_codec);
-            break;
-          }
-          case 42:
-          case 45: {
-            wpmBySecond_.AddEntriesFrom(input, _repeated_wpmBySecond_codec);
-            break;
-          }
-          case 53: {
+          case 29: {
             Accuracy = input.ReadFloat();
             break;
           }
-          case 56: {
-            mode_ = (global::Schema.GameMode) input.ReadEnum();
+          case 37: {
+            BestRunTime = input.ReadFloat();
             break;
           }
-          case 66: {
+          case 45: {
+            BestRunWpm = input.ReadFloat();
+            break;
+          }
+          case 53: {
+            BestRunAccuracy = input.ReadFloat();
+            break;
+          }
+          case 58:
+          case 61: {
+            rawWpmBySecond_.AddEntriesFrom(input, _repeated_rawWpmBySecond_codec);
+            break;
+          }
+          case 66:
+          case 69: {
+            wpmBySecond_.AddEntriesFrom(input, _repeated_wpmBySecond_codec);
+            break;
+          }
+          case 74: {
             errorsAtTime_.AddEntriesFrom(input, _repeated_errorsAtTime_codec);
             break;
           }
-          case 72: {
+          case 82: {
+            globalTimes_.AddEntriesFrom(input, _map_globalTimes_codec);
+            break;
+          }
+          case 90: {
+            globalWpm_.AddEntriesFrom(input, _map_globalWpm_codec);
+            break;
+          }
+          case 96: {
             NumErrors = input.ReadInt32();
             break;
           }
-          case 85: {
+          case 109: {
             P99Time = input.ReadFloat();
             break;
           }
-          case 93: {
+          case 117: {
             P90Time = input.ReadFloat();
             break;
           }
-          case 101: {
+          case 125: {
             P50Time = input.ReadFloat();
             break;
           }
-          case 109: {
+          case 133: {
             P25Time = input.ReadFloat();
+            break;
+          }
+          case 141: {
+            P99Wpm = input.ReadFloat();
+            break;
+          }
+          case 149: {
+            P90Wpm = input.ReadFloat();
+            break;
+          }
+          case 157: {
+            P50Wpm = input.ReadFloat();
+            break;
+          }
+          case 165: {
+            P25Wpm = input.ReadFloat();
             break;
           }
         }

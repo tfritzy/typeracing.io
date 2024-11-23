@@ -6,6 +6,7 @@ using Schema;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Buffers;
+using Newtonsoft.Json;
 
 namespace api
 {
@@ -63,14 +64,14 @@ namespace api
             await trialContainer.ReplaceItemAsync(trial.Resource, trial.Resource.id, new PartitionKey(trial.Resource.id), options);
 
             var container = _cosmosClient.GetContainer(DB.Name, DB.TimeTrialResults);
-            TimeTrialResult? existingResult = await TimeTrialHelpers.FindResultForTrial(
+            TimeTrialResult? result = await TimeTrialHelpers.FindResultForTrial(
                 container,
                 player.id,
                 trialRequest.id);
 
-            if (existingResult == null)
+            if (result == null)
             {
-                TimeTrialResult result = new TimeTrialResult()
+                result = new TimeTrialResult()
                 {
                     id = trial.Resource.id,
                     PlayerId = player.id,
@@ -85,17 +86,17 @@ namespace api
             }
             else
             {
-                existingResult.AttemptTimes.Add(Schema.Stats.GetTime(keystrokes));
-                if (time < existingResult.BestTime)
+                result.AttemptTimes.Add(Schema.Stats.GetTime(keystrokes));
+                if (time < result.BestTime)
                 {
-                    existingResult.BestTime = time;
-                    existingResult.BestKeystrokes.Clear();
-                    existingResult.BestKeystrokes.AddRange(keystrokes);
+                    result.BestTime = time;
+                    result.BestKeystrokes.Clear();
+                    result.BestKeystrokes.AddRange(keystrokes);
                 }
                 await container.ReplaceItemAsync(
-                    existingResult,
-                    existingResult.id,
-                    new PartitionKey(existingResult.PlayerId)
+                    result,
+                    result.id,
+                    new PartitionKey(result.PlayerId)
                 );
             }
 
@@ -104,36 +105,62 @@ namespace api
             {
                 Time = duration,
                 Wpm = Schema.Stats.GetWpm(typed.Length, duration),
+
+                BestRunTime = result.BestTime,
+                BestRunWpm = Schema.Stats.GetWpm(result.BestKeystrokes),
+
+                P99Time = Schema.Stats.WpmToTime(
+                    Percentiles.Calculate(trial.Resource.GlobalWpm, .99f),
+                    trial.Resource.Phrase.Length),
+                P90Time = Schema.Stats.WpmToTime(
+                    Percentiles.Calculate(trial.Resource.GlobalWpm, .90f),
+                    trial.Resource.Phrase.Length),
+                P50Time = Schema.Stats.WpmToTime(
+                    Percentiles.Calculate(trial.Resource.GlobalWpm, .50f),
+                    trial.Resource.Phrase.Length),
+                P25Time = Schema.Stats.WpmToTime(
+                    Percentiles.Calculate(trial.Resource.GlobalWpm, .25f),
+                    trial.Resource.Phrase.Length),
+                P99Wpm = Percentiles.Calculate(trial.Resource.GlobalWpm, .99f),
+                P90Wpm = Percentiles.Calculate(trial.Resource.GlobalWpm, .90f),
+                P50Wpm = Percentiles.Calculate(trial.Resource.GlobalWpm, .50f),
+                P25Wpm = Percentiles.Calculate(trial.Resource.GlobalWpm, .25f),
             };
-            response.GlobalTimes.Add(trial.Resource.GlobalWpm);
+            response.GlobalTimes.Add(GetGlobalTimes(trial.Resource.GlobalWpm, trial.Resource.Phrase.Length));
+            response.GlobalWpm.Add(trial.Resource.GlobalWpm);
             response.RawWpmBySecond.Add(Stats.GetRawWpmBySecond(keystrokes));
             response.WpmBySecond.Add(Stats.GetAggWpmBySecond(keystrokes));
             response.ErrorsAtTime.Add(Stats.GetErrorCountByTime(keystrokes, trial.Resource.Phrase));
-            response.P99Time = Schema.Stats.WpmToTime(
-                    Percentiles.Calculate(trial.Resource.GlobalWpm, .99f),
-                    trial.Resource.Phrase.Length);
-            response.P90Time = Schema.Stats.WpmToTime(
-                    Percentiles.Calculate(trial.Resource.GlobalWpm, .90f),
-                    trial.Resource.Phrase.Length);
-            response.P50Time = Schema.Stats.WpmToTime(
-                    Percentiles.Calculate(trial.Resource.GlobalWpm, .50f),
-                    trial.Resource.Phrase.Length);
-            response.P25Time = Schema.Stats.WpmToTime(
-                    Percentiles.Calculate(trial.Resource.GlobalWpm, .25f),
-                    trial.Resource.Phrase.Length);
 
             return new ProtobufResult(response);
         }
 
-        private void AddTimeToGlobalStats(IDictionary<uint, uint> globalWpm, float wpm)
+        private void AddTimeToGlobalStats(IDictionary<int, int> globalWpm, float wpm)
         {
-            uint index = (uint)wpm;
+            int index = (int)wpm;
             if (!globalWpm.ContainsKey(index))
             {
                 globalWpm[index] = 0;
             }
 
             globalWpm[index] += 1;
+        }
+
+        private Dictionary<string, int> GetGlobalTimes(IDictionary<int, int> globalWpm, int phraseLength)
+        {
+            var times = new Dictionary<string, int>();
+            foreach (int wpm in globalWpm.Keys)
+            {
+                string time = ((int)Schema.Stats.WpmToTime(wpm, phraseLength)).ToString();
+                if (!times.ContainsKey(time))
+                {
+                    times[time] = 0;
+                }
+
+                times[time] += globalWpm[wpm];
+            }
+
+            return times;
         }
 
         private async Task<ReportTimeTrialRequest> ValidateRequest(HttpRequest req)

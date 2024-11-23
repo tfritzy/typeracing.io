@@ -127,7 +127,7 @@ message TimeTrial {
     string id = 1;
     string name = 2;
     string phrase = 3;
-    map<uint32, uint32> global_wpm = 4;
+    map<int32, int32> global_wpm = 4;
 }
 
 message ListTimeTrialsResponse {
@@ -158,18 +158,29 @@ message ReportTimeTrialRequest {
 message ReportTimeTrialResponse {
     float time = 1;
     float wpm = 2;
-    map<uint32, uint32> global_times = 3;
-    repeated float raw_wpm_by_second = 4;
-    repeated float wpm_by_second = 5;
-    float accuracy = 6;
-    GameMode mode = 7;
-    repeated ErrorsAtTime errors_at_time = 8;
-    int32 num_errors = 9;
-    float p99_time = 10;
-    float p90_time = 11;
-    float p50_time = 12;
-    float p25_time = 13;
+    float accuracy = 3;
 
+    float best_run_time = 4;
+    float best_run_wpm = 5;
+    float best_run_accuracy = 6;
+
+    repeated float raw_wpm_by_second = 7;
+    repeated float wpm_by_second = 8;
+    repeated ErrorsAtTime errors_at_time = 9;
+
+    map<string, int32> global_times = 10; // String key to avoid 0 key errors.
+    map<int32, int32> global_wpm = 11;
+
+    int32 num_errors = 12;
+    float p99_time = 13;
+    float p90_time = 14;
+    float p50_time = 15;
+    float p25_time = 16;
+
+    float p99_wpm = 17;
+    float p90_wpm = 18;
+    float p50_wpm = 19;
+    float p25_wpm = 20;
 }
 
 message AuthenticatedAuthInfo {

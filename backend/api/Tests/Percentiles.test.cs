@@ -6,7 +6,7 @@ public class PercentilesTest
     [TestMethod]
     public void Percentile_CalculatesCorrectValues()
     {
-        Dictionary<uint, uint> data = new();
+        Dictionary<int, int> data = new();
         data[50] = 752;
         data[72] = 431;
         data[81] = 345;
@@ -22,12 +22,12 @@ public class PercentilesTest
         // p90 = top 225 results. Within the 98 bucket
         // p50 = top 1125 results. Within the 72 bucket
         // p25 = top 1688 results. Within the 50 bucket
-        Assert.AreEqual(158u, Percentiles.Calculate(data, .99f));
-        Assert.AreEqual(98u, Percentiles.Calculate(data, .90f));
-        Assert.AreEqual(72u, Percentiles.Calculate(data, .50f));
-        Assert.AreEqual(50u, Percentiles.Calculate(data, .25f));
+        Assert.AreEqual(158, Percentiles.Calculate(data, .99f));
+        Assert.AreEqual(98, Percentiles.Calculate(data, .90f));
+        Assert.AreEqual(72, Percentiles.Calculate(data, .50f));
+        Assert.AreEqual(50, Percentiles.Calculate(data, .25f));
 
-        Assert.AreEqual(50u, Percentiles.Calculate(data, .000001f));
-        Assert.AreEqual(162u, Percentiles.Calculate(data, .99999f));
+        Assert.AreEqual(50, Percentiles.Calculate(data, .000001f));
+        Assert.AreEqual(162, Percentiles.Calculate(data, .99999f));
     }
 }

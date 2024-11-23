@@ -58,6 +58,7 @@ export function TimeTrial() {
         .then((response) => response.arrayBuffer())
         .then((arrayBuffer) => new Uint8Array(arrayBuffer))
         .then((data) => {
+          console.log("before parsing", data);
           setResults(decodeReportTimeTrialResponse(data));
           console.log("Results", decodeReportTimeTrialResponse(data));
         })

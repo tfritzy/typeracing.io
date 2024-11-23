@@ -21,3 +21,11 @@ export const formatTime = (delta_millis: number): string => {
 
   return `${formattedMM}:${formattedSS}:${formattedMS}`;
 };
+
+export const formatWpm = (wpm: number): string => {
+  return wpm.toFixed(1);
+};
+
+export const formatAccuracy = (accuracy: number): string => {
+  return (accuracy * 100).toFixed(1);
+};

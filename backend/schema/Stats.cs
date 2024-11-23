@@ -18,6 +18,12 @@ public static class Stats
         for (int i = 0; i < keystrokes.Count; i++)
         {
             int second = (int)Math.Floor(keystrokes[i].Time);
+
+            if (second < 0)
+            {
+                throw new InvalidOperationException("Can't be sending neagtive keystrokes. Got: " + second);
+            }
+
             while (charCountBySecond.Count <= second)
                 charCountBySecond.Add(0);
             while (wpmBySecond.Count <= second)
@@ -157,7 +163,7 @@ public static class Stats
         return errorCountByTime;
     }
 
-    public static float GetWpm(List<KeyStroke> keyStrokes)
+    public static float GetWpm(IList<KeyStroke> keyStrokes)
     {
         if (keyStrokes.Count == 0)
         {
@@ -183,7 +189,7 @@ public static class Stats
         return (charCount * 60) / (5 * wpm);
     }
 
-    public static string ParseKeystrokes(List<KeyStroke> keyStrokes)
+    public static string ParseKeystrokes(IList<KeyStroke> keyStrokes)
     {
         Stack<char> wordStack = new();
         foreach (KeyStroke keyStroke in keyStrokes)

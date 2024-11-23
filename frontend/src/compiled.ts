@@ -1499,16 +1499,16 @@ function _encodeTimeTrial(message: TimeTrial, bb: ByteBuffer): void {
     writeString(bb, $phrase);
   }
 
-  // optional map<uint32, uint32> global_wpm = 4;
+  // optional map<int32, int32> global_wpm = 4;
   let map$global_wpm = message.global_wpm;
   if (map$global_wpm !== undefined) {
     for (let key in map$global_wpm) {
       let nested = popByteBuffer();
       let value = map$global_wpm[key];
       writeVarint32(nested, 8);
-      writeVarint32(nested, +key);
+      writeVarint64(nested, intToLong(+key));
       writeVarint32(nested, 16);
-      writeVarint32(nested, value);
+      writeVarint64(nested, intToLong(value));
       writeVarint32(bb, 34);
       writeVarint32(bb, nested.offset);
       writeByteBuffer(bb, nested);
@@ -1549,7 +1549,7 @@ function _decodeTimeTrial(bb: ByteBuffer): TimeTrial {
         break;
       }
 
-      // optional map<uint32, uint32> global_wpm = 4;
+      // optional map<int32, int32> global_wpm = 4;
       case 4: {
         let values = message.global_wpm || (message.global_wpm = {});
         let outerLimit = pushTemporaryLength(bb);
@@ -1561,11 +1561,11 @@ function _decodeTimeTrial(bb: ByteBuffer): TimeTrial {
             case 0:
               break end_of_entry;
             case 1: {
-              key = readVarint32(bb) >>> 0;
+              key = readVarint32(bb);
               break;
             }
             case 2: {
-              value = readVarint32(bb) >>> 0;
+              value = readVarint32(bb);
               break;
             }
             default:
@@ -1946,17 +1946,24 @@ function _decodeReportTimeTrialRequest(bb: ByteBuffer): ReportTimeTrialRequest {
 export interface ReportTimeTrialResponse {
   time?: number;
   wpm?: number;
-  global_times?: { [key: number]: number };
+  accuracy?: number;
+  best_run_time?: number;
+  best_run_wpm?: number;
+  best_run_accuracy?: number;
   raw_wpm_by_second?: number[];
   wpm_by_second?: number[];
-  accuracy?: number;
-  mode?: GameMode;
   errors_at_time?: ErrorsAtTime[];
+  global_times?: { [key: string]: number };
+  global_wpm?: { [key: number]: number };
   num_errors?: number;
   p99_time?: number;
   p90_time?: number;
   p50_time?: number;
   p25_time?: number;
+  p99_wpm?: number;
+  p90_wpm?: number;
+  p50_wpm?: number;
+  p25_wpm?: number;
 }
 
 export function encodeReportTimeTrialResponse(message: ReportTimeTrialResponse): Uint8Array {
@@ -1980,68 +1987,65 @@ function _encodeReportTimeTrialResponse(message: ReportTimeTrialResponse, bb: By
     writeFloat(bb, $wpm);
   }
 
-  // optional map<uint32, uint32> global_times = 3;
-  let map$global_times = message.global_times;
-  if (map$global_times !== undefined) {
-    for (let key in map$global_times) {
-      let nested = popByteBuffer();
-      let value = map$global_times[key];
-      writeVarint32(nested, 8);
-      writeVarint32(nested, +key);
-      writeVarint32(nested, 16);
-      writeVarint32(nested, value);
-      writeVarint32(bb, 26);
-      writeVarint32(bb, nested.offset);
-      writeByteBuffer(bb, nested);
-      pushByteBuffer(nested);
-    }
+  // optional float accuracy = 3;
+  let $accuracy = message.accuracy;
+  if ($accuracy !== undefined) {
+    writeVarint32(bb, 29);
+    writeFloat(bb, $accuracy);
   }
 
-  // repeated float raw_wpm_by_second = 4;
+  // optional float best_run_time = 4;
+  let $best_run_time = message.best_run_time;
+  if ($best_run_time !== undefined) {
+    writeVarint32(bb, 37);
+    writeFloat(bb, $best_run_time);
+  }
+
+  // optional float best_run_wpm = 5;
+  let $best_run_wpm = message.best_run_wpm;
+  if ($best_run_wpm !== undefined) {
+    writeVarint32(bb, 45);
+    writeFloat(bb, $best_run_wpm);
+  }
+
+  // optional float best_run_accuracy = 6;
+  let $best_run_accuracy = message.best_run_accuracy;
+  if ($best_run_accuracy !== undefined) {
+    writeVarint32(bb, 53);
+    writeFloat(bb, $best_run_accuracy);
+  }
+
+  // repeated float raw_wpm_by_second = 7;
   let array$raw_wpm_by_second = message.raw_wpm_by_second;
   if (array$raw_wpm_by_second !== undefined) {
     let packed = popByteBuffer();
     for (let value of array$raw_wpm_by_second) {
       writeFloat(packed, value);
     }
-    writeVarint32(bb, 34);
+    writeVarint32(bb, 58);
     writeVarint32(bb, packed.offset);
     writeByteBuffer(bb, packed);
     pushByteBuffer(packed);
   }
 
-  // repeated float wpm_by_second = 5;
+  // repeated float wpm_by_second = 8;
   let array$wpm_by_second = message.wpm_by_second;
   if (array$wpm_by_second !== undefined) {
     let packed = popByteBuffer();
     for (let value of array$wpm_by_second) {
       writeFloat(packed, value);
     }
-    writeVarint32(bb, 42);
+    writeVarint32(bb, 66);
     writeVarint32(bb, packed.offset);
     writeByteBuffer(bb, packed);
     pushByteBuffer(packed);
   }
 
-  // optional float accuracy = 6;
-  let $accuracy = message.accuracy;
-  if ($accuracy !== undefined) {
-    writeVarint32(bb, 53);
-    writeFloat(bb, $accuracy);
-  }
-
-  // optional GameMode mode = 7;
-  let $mode = message.mode;
-  if ($mode !== undefined) {
-    writeVarint32(bb, 56);
-    writeVarint32(bb, encodeGameMode[$mode]);
-  }
-
-  // repeated ErrorsAtTime errors_at_time = 8;
+  // repeated ErrorsAtTime errors_at_time = 9;
   let array$errors_at_time = message.errors_at_time;
   if (array$errors_at_time !== undefined) {
     for (let value of array$errors_at_time) {
-      writeVarint32(bb, 66);
+      writeVarint32(bb, 74);
       let nested = popByteBuffer();
       _encodeErrorsAtTime(value, nested);
       writeVarint32(bb, nested.limit);
@@ -2050,39 +2054,101 @@ function _encodeReportTimeTrialResponse(message: ReportTimeTrialResponse, bb: By
     }
   }
 
-  // optional int32 num_errors = 9;
+  // optional map<string, int32> global_times = 10;
+  let map$global_times = message.global_times;
+  if (map$global_times !== undefined) {
+    for (let key in map$global_times) {
+      let nested = popByteBuffer();
+      let value = map$global_times[key];
+      writeVarint32(nested, 10);
+      writeString(nested, key);
+      writeVarint32(nested, 16);
+      writeVarint64(nested, intToLong(value));
+      writeVarint32(bb, 82);
+      writeVarint32(bb, nested.offset);
+      writeByteBuffer(bb, nested);
+      pushByteBuffer(nested);
+    }
+  }
+
+  // optional map<int32, int32> global_wpm = 11;
+  let map$global_wpm = message.global_wpm;
+  if (map$global_wpm !== undefined) {
+    for (let key in map$global_wpm) {
+      let nested = popByteBuffer();
+      let value = map$global_wpm[key];
+      writeVarint32(nested, 8);
+      writeVarint64(nested, intToLong(+key));
+      writeVarint32(nested, 16);
+      writeVarint64(nested, intToLong(value));
+      writeVarint32(bb, 90);
+      writeVarint32(bb, nested.offset);
+      writeByteBuffer(bb, nested);
+      pushByteBuffer(nested);
+    }
+  }
+
+  // optional int32 num_errors = 12;
   let $num_errors = message.num_errors;
   if ($num_errors !== undefined) {
-    writeVarint32(bb, 72);
+    writeVarint32(bb, 96);
     writeVarint64(bb, intToLong($num_errors));
   }
 
-  // optional float p99_time = 10;
+  // optional float p99_time = 13;
   let $p99_time = message.p99_time;
   if ($p99_time !== undefined) {
-    writeVarint32(bb, 85);
+    writeVarint32(bb, 109);
     writeFloat(bb, $p99_time);
   }
 
-  // optional float p90_time = 11;
+  // optional float p90_time = 14;
   let $p90_time = message.p90_time;
   if ($p90_time !== undefined) {
-    writeVarint32(bb, 93);
+    writeVarint32(bb, 117);
     writeFloat(bb, $p90_time);
   }
 
-  // optional float p50_time = 12;
+  // optional float p50_time = 15;
   let $p50_time = message.p50_time;
   if ($p50_time !== undefined) {
-    writeVarint32(bb, 101);
+    writeVarint32(bb, 125);
     writeFloat(bb, $p50_time);
   }
 
-  // optional float p25_time = 13;
+  // optional float p25_time = 16;
   let $p25_time = message.p25_time;
   if ($p25_time !== undefined) {
-    writeVarint32(bb, 109);
+    writeVarint32(bb, 133);
     writeFloat(bb, $p25_time);
+  }
+
+  // optional float p99_wpm = 17;
+  let $p99_wpm = message.p99_wpm;
+  if ($p99_wpm !== undefined) {
+    writeVarint32(bb, 141);
+    writeFloat(bb, $p99_wpm);
+  }
+
+  // optional float p90_wpm = 18;
+  let $p90_wpm = message.p90_wpm;
+  if ($p90_wpm !== undefined) {
+    writeVarint32(bb, 149);
+    writeFloat(bb, $p90_wpm);
+  }
+
+  // optional float p50_wpm = 19;
+  let $p50_wpm = message.p50_wpm;
+  if ($p50_wpm !== undefined) {
+    writeVarint32(bb, 157);
+    writeFloat(bb, $p50_wpm);
+  }
+
+  // optional float p25_wpm = 20;
+  let $p25_wpm = message.p25_wpm;
+  if ($p25_wpm !== undefined) {
+    writeVarint32(bb, 165);
+    writeFloat(bb, $p25_wpm);
   }
 }
 
@@ -2112,38 +2178,32 @@ function _decodeReportTimeTrialResponse(bb: ByteBuffer): ReportTimeTrialResponse
         break;
       }
 
-      // optional map<uint32, uint32> global_times = 3;
+      // optional float accuracy = 3;
       case 3: {
-        let values = message.global_times || (message.global_times = {});
-        let outerLimit = pushTemporaryLength(bb);
-        let key: number | undefined;
-        let value: number | undefined;
-        end_of_entry: while (!isAtEnd(bb)) {
-          let tag = readVarint32(bb);
-          switch (tag >>> 3) {
-            case 0:
-              break end_of_entry;
-            case 1: {
-              key = readVarint32(bb) >>> 0;
-              break;
-            }
-            case 2: {
-              value = readVarint32(bb) >>> 0;
-              break;
-            }
-            default:
-              skipUnknownField(bb, tag & 7);
-          }
-        }
-        if (key === undefined || value === undefined)
-          throw new Error("Invalid data for map: global_times");
-        values[key] = value;
-        bb.limit = outerLimit;
+        message.accuracy = readFloat(bb);
         break;
       }
 
-      // repeated float raw_wpm_by_second = 4;
+      // optional float best_run_time = 4;
       case 4: {
+        message.best_run_time = readFloat(bb);
+        break;
+      }
+
+      // optional float best_run_wpm = 5;
+      case 5: {
+        message.best_run_wpm = readFloat(bb);
+        break;
+      }
+
+      // optional float best_run_accuracy = 6;
+      case 6: {
+        message.best_run_accuracy = readFloat(bb);
+        break;
+      }
+
+      // repeated float raw_wpm_by_second = 7;
+      case 7: {
         let values = message.raw_wpm_by_second || (message.raw_wpm_by_second = []);
         if ((tag & 7) === 2) {
           let outerLimit = pushTemporaryLength(bb);
@@ -2157,8 +2217,8 @@ function _decodeReportTimeTrialResponse(bb: ByteBuffer): ReportTimeTrialResponse
         break;
       }
 
-      // repeated float wpm_by_second = 5;
-      case 5: {
+      // repeated float wpm_by_second = 8;
+      case 8: {
         let values = message.wpm_by_second || (message.wpm_by_second = []);
         if ((tag & 7) === 2) {
           let outerLimit = pushTemporaryLength(bb);
@@ -2172,20 +2232,8 @@ function _decodeReportTimeTrialResponse(bb: ByteBuffer): ReportTimeTrialResponse
         break;
       }
 
-      // optional float accuracy = 6;
-      case 6: {
-        message.accuracy = readFloat(bb);
-        break;
-      }
-
-      // optional GameMode mode = 7;
-      case 7: {
-        message.mode = decodeGameMode[readVarint32(bb)];
-        break;
-      }
-
-      // repeated ErrorsAtTime errors_at_time = 8;
-      case 8: {
+      // repeated ErrorsAtTime errors_at_time = 9;
+      case 9: {
         let limit = pushTemporaryLength(bb);
         let values = message.errors_at_time || (message.errors_at_time = []);
         values.push(_decodeErrorsAtTime(bb));
@@ -2193,33 +2241,117 @@ function _decodeReportTimeTrialResponse(bb: ByteBuffer): ReportTimeTrialResponse
         break;
       }
 
-      // optional int32 num_errors = 9;
-      case 9: {
+      // optional map<string, int32> global_times = 10;
+      case 10: {
+        let values = message.global_times || (message.global_times = {});
+        let outerLimit = pushTemporaryLength(bb);
+        let key: string | undefined;
+        let value: number | undefined;
+        end_of_entry: while (!isAtEnd(bb)) {
+          let tag = readVarint32(bb);
+          switch (tag >>> 3) {
+            case 0:
+              break end_of_entry;
+            case 1: {
+              key = readString(bb, readVarint32(bb));
+              break;
+            }
+            case 2: {
+              value = readVarint32(bb);
+              break;
+            }
+            default:
+              skipUnknownField(bb, tag & 7);
+          }
+        }
+        if (key === undefined || value === undefined)
+          throw new Error("Invalid data for map: global_times");
+        values[key] = value;
+        bb.limit = outerLimit;
+        break;
+      }
+
+      // optional map<int32, int32> global_wpm = 11;
+      case 11: {
+        let values = message.global_wpm || (message.global_wpm = {});
+        let outerLimit = pushTemporaryLength(bb);
+        let key: number | undefined;
+        let value: number | undefined;
+        end_of_entry: while (!isAtEnd(bb)) {
+          let tag = readVarint32(bb);
+          switch (tag >>> 3) {
+            case 0:
+              break end_of_entry;
+            case 1: {
+              key = readVarint32(bb);
+              break;
+            }
+            case 2: {
+              value = readVarint32(bb);
+              break;
+            }
+            default:
+              skipUnknownField(bb, tag & 7);
+          }
+        }
+        if (key === undefined || value === undefined)
+          throw new Error("Invalid data for map: global_wpm");
+        values[key] = value;
+        bb.limit = outerLimit;
+        break;
+      }
+
+      // optional int32 num_errors = 12;
+      case 12: {
         message.num_errors = readVarint32(bb);
         break;
       }
 
-      // optional float p99_time = 10;
-      case 10: {
+      // optional float p99_time = 13;
+      case 13: {
         message.p99_time = readFloat(bb);
         break;
       }
 
-      // optional float p90_time = 11;
-      case 11: {
+      // optional float p90_time = 14;
+      case 14: {
         message.p90_time = readFloat(bb);
         break;
       }
 
-      // optional float p50_time = 12;
-      case 12: {
+      // optional float p50_time = 15;
+      case 15: {
         message.p50_time = readFloat(bb);
         break;
       }
 
-      // optional float p25_time = 13;
-      case 13: {
+      // optional float p25_time = 16;
+      case 16: {
         message.p25_time = readFloat(bb);
+        break;
+      }
+
+      // optional float p99_wpm = 17;
+      case 17: {
+        message.p99_wpm = readFloat(bb);
+        break;
+      }
+
+      // optional float p90_wpm = 18;
+      case 18: {
+        message.p90_wpm = readFloat(bb);
+        break;
+      }
+
+      // optional float p50_wpm = 19;
+      case 19: {
+        message.p50_wpm = readFloat(bb);
+        break;
+      }
+
+      // optional float p25_wpm = 20;
+      case 20: {
+        message.p25_wpm = readFloat(bb);
         break;
       }
 

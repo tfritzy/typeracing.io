@@ -21,7 +21,10 @@ export function TimeTrialTypeBox(props: Props) {
       for (let i = 0; i < wordStrokes.length; i++) {
         wordStrokes[i].time! -= startTime / 1000;
       }
+      wordStrokes = wordStrokes.filter((ks) => ks.time && ks.time >= 0);
+
       keyStrokes.current.push(...wordStrokes);
+      console.log(keyStrokes);
 
       if (charIndex >= props.trial.phrase!.length) {
         setDone(true);
@@ -30,6 +33,12 @@ export function TimeTrialTypeBox(props: Props) {
     },
     [props, startTime]
   );
+
+  const reset = React.useCallback(() => {
+    setStartTime(Date.now());
+    keyStrokes.current = [];
+    console.log("Reset");
+  }, []);
 
   return (
     <div>
@@ -47,7 +56,7 @@ export function TimeTrialTypeBox(props: Props) {
         lockedCharacterIndex={lockedCharIndex}
         onWordComplete={handleWordComplete}
         isLocked={false}
-        onFirstKeystroke={() => setStartTime(Date.now())}
+        onFirstKeystroke={reset}
       />
     </div>
   );
