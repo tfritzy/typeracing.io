@@ -138,8 +138,9 @@ message TimeTrialListItem {
     string id = 1;
     string name = 2;
     int32 length = 3;
-    int32 time = 4;
-    int32 place = 5;
+    float time = 4;
+    float percentile = 5;
+    float wpm = 6;
 }
 
 message TimeTrialResult {

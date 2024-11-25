@@ -188,7 +188,7 @@ export const WpmOverTime = (props: Props) => {
       series={series}
       type="area"
       width="100%"
-      height="300"
+      height={350}
     />
   );
 };

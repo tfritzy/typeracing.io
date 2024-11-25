@@ -1,9 +1,13 @@
-export const formatTime = (delta_millis: number): string => {
-  if (delta_millis < 0) {
-    throw new Error("Time delta cannot be negative");
+export const formatTimeSeconds = (time_s: number): string => {
+  return formatTime(time_s * 1000);
+};
+
+export const formatTime = (time_ms: number): string => {
+  if (time_ms < 0) {
+    return "";
   }
 
-  let diffInHrs = delta_millis / 3600000;
+  let diffInHrs = time_ms / 3600000;
   let hh = Math.floor(diffInHrs);
 
   let diffInMin = (diffInHrs - hh) * 60;
@@ -19,13 +23,41 @@ export const formatTime = (delta_millis: number): string => {
   let formattedSS = ss.toString().padStart(2, "0");
   let formattedMS = ms.toString().padStart(2, "0");
 
-  return `${formattedMM}:${formattedSS}:${formattedMS}`;
+  return `${formattedMM}:${formattedSS}.${formattedMS}`;
 };
 
 export const formatWpm = (wpm: number): string => {
-  return wpm.toFixed(1);
+  return wpm.toFixed(0);
 };
 
 export const formatAccuracy = (accuracy: number): string => {
   return (accuracy * 100).toFixed(1);
+};
+
+export const formatDash = (accuracy: number): string => {
+  return "";
+};
+
+export const formatPercentile = (percentile: number): string => {
+  if (percentile <= 0) {
+    return "";
+  }
+
+  const number =
+    percentile <= 1 ? Math.round(percentile * 100) : Math.round(percentile);
+
+  if (number % 100 >= 11 && number % 100 <= 13) {
+    return `${number}th`;
+  }
+
+  switch (number % 10) {
+    case 1:
+      return `${number}st`;
+    case 2:
+      return `${number}nd`;
+    case 3:
+      return `${number}rd`;
+    default:
+      return `${number}th`;
+  }
 };

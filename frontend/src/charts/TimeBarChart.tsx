@@ -44,13 +44,13 @@ export const TimeBarChart: React.FC<Props> = ({ data, mostRecentTime }) => {
             fillColor:
               time === Math.floor(mostRecentTime)
                 ? "var(--accent)"
-                : "var(--base-600)",
+                : "var(--base-500)",
           }))
           .sort((a, b) => a.x - b.x),
       },
     ];
     return ser;
-  }, [formattedData]);
+  }, [formattedData, mostRecentTime]);
 
   console.log(series);
 
@@ -120,7 +120,7 @@ export const TimeBarChart: React.FC<Props> = ({ data, mostRecentTime }) => {
         options={options}
         series={series}
         type="bar"
-        height={300}
+        height={350}
       />
     </div>
   );

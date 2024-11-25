@@ -49,7 +49,7 @@ export const PercentileBarChart: React.FC<Props> = ({
             x: wpm,
             y: formattedData[wpm],
             fillColor:
-              wpm === mostRecentWpm ? "var(--accent)" : "var(--base-600)",
+              wpm === mostRecentWpm ? "var(--accent)" : "var(--base-500)",
           }))
           .sort((a, b) => b.x - a.x),
       },
@@ -94,6 +94,7 @@ export const PercentileBarChart: React.FC<Props> = ({
           style: {
             color: "var(--base-300)",
           },
+          offsetY: 4,
         },
         labels: {
           style: {
@@ -125,7 +126,7 @@ export const PercentileBarChart: React.FC<Props> = ({
         options={options}
         series={series}
         type="bar"
-        height={300}
+        height={350}
       />
     </div>
   );

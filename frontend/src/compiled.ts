@@ -1648,7 +1648,8 @@ export interface TimeTrialListItem {
   name?: string;
   length?: number;
   time?: number;
-  place?: number;
+  percentile?: number;
+  wpm?: number;
 }
 
 export function encodeTimeTrialListItem(message: TimeTrialListItem): Uint8Array {
@@ -1679,18 +1680,25 @@ function _encodeTimeTrialListItem(message: TimeTrialListItem, bb: ByteBuffer): v
     writeVarint64(bb, intToLong($length));
   }
 
-  // optional int32 time = 4;
+  // optional float time = 4;
   let $time = message.time;
   if ($time !== undefined) {
-    writeVarint32(bb, 32);
-    writeVarint64(bb, intToLong($time));
+    writeVarint32(bb, 37);
+    writeFloat(bb, $time);
   }
 
-  // optional int32 place = 5;
-  let $place = message.place;
-  if ($place !== undefined) {
-    writeVarint32(bb, 40);
-    writeVarint64(bb, intToLong($place));
+  // optional float percentile = 5;
+  let $percentile = message.percentile;
+  if ($percentile !== undefined) {
+    writeVarint32(bb, 45);
+    writeFloat(bb, $percentile);
+  }
+
+  // optional float wpm = 6;
+  let $wpm = message.wpm;
+  if ($wpm !== undefined) {
+    writeVarint32(bb, 53);
+    writeFloat(bb, $wpm);
   }
 }
 
@@ -1726,15 +1734,21 @@ function _decodeTimeTrialListItem(bb: ByteBuffer): TimeTrialListItem {
         break;
       }
 
-      // optional int32 time = 4;
+      // optional float time = 4;
       case 4: {
-        message.time = readVarint32(bb);
+        message.time = readFloat(bb);
         break;
       }
 
-      // optional int32 place = 5;
+      // optional float percentile = 5;
       case 5: {
-        message.place = readVarint32(bb);
+        message.percentile = readFloat(bb);
+        break;
+      }
+
+      // optional float wpm = 6;
+      case 6: {
+        message.wpm = readFloat(bb);
         break;
       }
 

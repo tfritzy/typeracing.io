@@ -110,21 +110,21 @@ namespace api
                 BestRunWpm = Schema.Stats.GetWpm(result.BestKeystrokes),
 
                 P99Time = Schema.Stats.WpmToTime(
-                    Percentiles.Calculate(trial.Resource.GlobalWpm, .99f),
+                    Percentiles.CalculateValueFromPercentile(trial.Resource.GlobalWpm, .99f),
                     trial.Resource.Phrase.Length),
                 P90Time = Schema.Stats.WpmToTime(
-                    Percentiles.Calculate(trial.Resource.GlobalWpm, .90f),
+                    Percentiles.CalculateValueFromPercentile(trial.Resource.GlobalWpm, .90f),
                     trial.Resource.Phrase.Length),
                 P50Time = Schema.Stats.WpmToTime(
-                    Percentiles.Calculate(trial.Resource.GlobalWpm, .50f),
+                    Percentiles.CalculateValueFromPercentile(trial.Resource.GlobalWpm, .50f),
                     trial.Resource.Phrase.Length),
                 P25Time = Schema.Stats.WpmToTime(
-                    Percentiles.Calculate(trial.Resource.GlobalWpm, .25f),
+                    Percentiles.CalculateValueFromPercentile(trial.Resource.GlobalWpm, .25f),
                     trial.Resource.Phrase.Length),
-                P99Wpm = Percentiles.Calculate(trial.Resource.GlobalWpm, .99f),
-                P90Wpm = Percentiles.Calculate(trial.Resource.GlobalWpm, .90f),
-                P50Wpm = Percentiles.Calculate(trial.Resource.GlobalWpm, .50f),
-                P25Wpm = Percentiles.Calculate(trial.Resource.GlobalWpm, .25f),
+                P99Wpm = Percentiles.CalculateValueFromPercentile(trial.Resource.GlobalWpm, .99f),
+                P90Wpm = Percentiles.CalculateValueFromPercentile(trial.Resource.GlobalWpm, .90f),
+                P50Wpm = Percentiles.CalculateValueFromPercentile(trial.Resource.GlobalWpm, .50f),
+                P25Wpm = Percentiles.CalculateValueFromPercentile(trial.Resource.GlobalWpm, .25f),
             };
             response.GlobalTimes.Add(GetGlobalTimes(trial.Resource.GlobalWpm, trial.Resource.Phrase.Length));
             response.GlobalWpm.Add(trial.Resource.GlobalWpm);

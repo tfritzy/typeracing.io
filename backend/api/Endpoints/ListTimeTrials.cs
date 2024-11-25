@@ -4,12 +4,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Schema;
 using Google.Protobuf;
+using System.Web;
+using System.Security.Claims;
 
 namespace api
 {
     public class ListTimeTrials
     {
         private readonly CosmosClient _cosmosClient;
+        private const int DEFAULT_PAGE_SIZE = 10;
+        private const int MAX_PAGE_SIZE = 20;
 
         public ListTimeTrials(CosmosClient cosmosClient)
         {
@@ -18,24 +22,58 @@ namespace api
 
         [Function("list-time-trials")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req,
+            ClaimsPrincipal? claimsPrincipal)
         {
+            Player? player = await PlayerHelpers.GetPlayer(_cosmosClient, req, claimsPrincipal);
+            if (player == null) return new UnauthorizedResult();
+
             try
             {
-                var container = _cosmosClient.GetContainer(DB.Name, DB.TimeTrials);
+                int pageSize = GetPageSize(req);
+                string? continuationToken = req.Query["continuationToken"].ToString();
 
-                ListTimeTrialsResponse trials = new ListTimeTrialsResponse();
-                var listAllTrialsQuery = new QueryDefinition($"SELECT * FROM c");
-                using var iterator = container.GetItemQueryIterator<TimeTrial>(listAllTrialsQuery);
-                while (iterator.HasMoreResults)
+                var container = _cosmosClient.GetContainer(DB.Name, DB.TimeTrials);
+                var resultsContainer = _cosmosClient.GetContainer(DB.Name, DB.TimeTrialResults);
+                var response = new ListTimeTrialsResponse();
+
+                var queryDefinition = new QueryDefinition("SELECT * FROM c");
+                var queryOptions = new QueryRequestOptions
                 {
-                    foreach (TimeTrial trial in await iterator.ReadNextAsync())
-                    {
-                        trials.TimeTrials.Add(CreateListItem(trial));
-                    }
+                    MaxItemCount = pageSize
+                };
+
+                using FeedIterator<TimeTrial> iterator = string.IsNullOrEmpty(continuationToken)
+                    ? container.GetItemQueryIterator<TimeTrial>(
+                        queryDefinition,
+                        requestOptions: queryOptions)
+                    : container.GetItemQueryIterator<TimeTrial>(
+                        queryDefinition,
+                        continuationToken: continuationToken,
+                        requestOptions: queryOptions);
+
+                FeedResponse<TimeTrial> results = await iterator.ReadNextAsync();
+
+                List<Task> embellishTasks = new();
+                foreach (var trial in results)
+                {
+                    var trialListItem = CreateListItem(trial);
+                    response.TimeTrials.Add(trialListItem);
+                    embellishTasks.Add(EmbellishListItem(resultsContainer, trial, trialListItem, player.id));
+                }
+                await Task.WhenAll(embellishTasks);
+
+                var responseWithHeaders = new ProtobufResult(response);
+
+                if (results.Count == pageSize && !string.IsNullOrEmpty(results.ContinuationToken))
+                {
+                    responseWithHeaders.Headers["x-continuation-token"] = results.ContinuationToken;
                 }
 
-                return new ProtobufResult(trials);
+                responseWithHeaders.Headers["x-page-size"] = pageSize.ToString();
+                responseWithHeaders.Headers["Access-Control-Expose-Headers"] = "x-continuation-token, x-page-size";
+
+                return responseWithHeaders;
             }
             catch (Exception ex)
             {
@@ -58,9 +96,38 @@ namespace api
                 id = trial.id,
                 Length = trial.Phrase.Split(" ").Length,
                 Name = trial.Name,
-                Place = -1,
-                Time = -1
+                Percentile = -1,
+                Time = -1,
+                Wpm = -1,
             };
+        }
+
+        private static async Task EmbellishListItem(
+            Container container,
+            TimeTrial trial,
+            TimeTrialListItem item,
+            string playerId)
+        {
+            Console.WriteLine($"Looking for result for {item.id} and {playerId}");
+            TimeTrialResult? result = await TimeTrialHelpers.FindResultForTrial(container, playerId, item.id);
+            if (result != null)
+            {
+                int wpm = (int)Schema.Stats.GetWpm(result.BestKeystrokes);
+                item.Time = result.BestTime;
+                item.Wpm = wpm;
+                item.Percentile = Percentiles.CalculatePercentile(trial.GlobalWpm, wpm);
+            }
+        }
+
+
+        private static int GetPageSize(HttpRequest req)
+        {
+            if (!int.TryParse(req.Query["pageSize"], out int pageSize))
+            {
+                pageSize = DEFAULT_PAGE_SIZE;
+            }
+
+            return Math.Min(Math.Max(1, pageSize), MAX_PAGE_SIZE);
         }
     }
 }
