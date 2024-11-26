@@ -114,7 +114,7 @@ export function TimeTrials() {
   }
 
   return (
-    <div className="flex flex-col mt-16">
+    <div className="flex flex-col grow">
       <h1 className="mb-6">Time trials</h1>
 
       {error && (

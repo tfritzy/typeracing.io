@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { TimeTrialTypeBox } from "./TimeTrialTypeBox";
 import {
   decodeReportTimeTrialResponse,
@@ -13,6 +13,7 @@ import { useAppSelector } from "../store/storeHooks";
 import { PlayerState } from "../store/playerSlice";
 import { RootState } from "../store/store";
 import { TrialResultsModal } from "./TrialResultsModal";
+import { NavArrowLeft } from "iconoir-react";
 
 const apiUrl = process.env.REACT_APP_API_ADDRESS;
 
@@ -74,14 +75,23 @@ export function TimeTrial() {
   }
 
   return (
-    <div>
-      <div className="flex flex-col min-h-[90vh] items-center justify-center">
+    <>
+      <div className="flex flex-row items-center">
+        <NavArrowLeft height={20} />
+
+        <Link to="/time-trials" className="font-medium">
+          Time trials
+        </Link>
+      </div>
+      {/* <h1 className="mb-16">{trial.name || "-"}</h1> */}
+
+      <div className="grow flex flex-col justify-center">
         <TimeTrialTypeBox trial={trial} onPhraseComplete={postResult} />
       </div>
 
       {results && (
         <TrialResultsModal results={results} phrase={trial.phrase!} />
       )}
-    </div>
+    </>
   );
 }

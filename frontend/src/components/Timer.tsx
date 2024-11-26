@@ -21,7 +21,7 @@ const Timer: React.FC<TimerProps> = ({ startTime = Date.now(), stop }) => {
   }, [animatedValue, startTime, stop]);
 
   return (
-    <div className="font-mono text-lg tabular-nums">
+    <div className="font-mono text-xl tabular-nums">
       {formatTime(animatedValue)}
     </div>
   );

@@ -1,5 +1,17 @@
 export const formatTimeSeconds = (time_s: number): string => {
-  return formatTime(time_s * 1000);
+  let diffInHrs = time_s / 3600;
+  let hh = Math.floor(diffInHrs);
+
+  let diffInMin = (diffInHrs - hh) * 60;
+  let mm = Math.floor(diffInMin);
+
+  let diffInSec = (diffInMin - mm) * 60;
+  let ss = Math.floor(diffInSec);
+
+  let formattedMM = mm.toString().padStart(2, "0");
+  let formattedSS = ss.toString().padStart(2, "0");
+
+  return `${formattedMM}:${formattedSS}`;
 };
 
 export const formatTime = (time_ms: number): string => {

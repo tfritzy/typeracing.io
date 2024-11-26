@@ -87,7 +87,7 @@ function App() {
   }, [navigate]);
 
   return (
-    <>
+    <div className="flex flex-col h-screen">
       <Logo />
       <Routes>
         <Route path="/" element={<MainMenu />} />
@@ -95,8 +95,10 @@ function App() {
         <Route path="/time-trials" element={<TimeTrials />} />
         <Route path="/time-trials/:id" element={<TimeTrial />} />
       </Routes>
-    </>
-
+      <div className="p-8">
+        <h1>Footer</h1>
+      </div>
+    </div>
   );
 }
 

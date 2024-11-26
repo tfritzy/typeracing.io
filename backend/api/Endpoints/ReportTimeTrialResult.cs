@@ -137,7 +137,7 @@ namespace api
 
         private void AddTimeToGlobalStats(IDictionary<int, int> globalWpm, float wpm)
         {
-            int index = (int)wpm;
+            int index = (int)MathF.Round(wpm);
             if (!globalWpm.ContainsKey(index))
             {
                 globalWpm[index] = 0;
