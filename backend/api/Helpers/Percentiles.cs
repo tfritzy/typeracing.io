@@ -3,7 +3,7 @@ public static class Percentiles
     public static int CalculateValueFromPercentile(IDictionary<int, int> buckets, float percentile)
     {
         long totalCount = buckets.Values.Sum(v => v);
-        int cutoff = (int)(totalCount * percentile);
+        float cutoff = totalCount * percentile;
         List<int> keys = buckets.Keys.ToList();
         keys.Sort();
         int passed = 0;

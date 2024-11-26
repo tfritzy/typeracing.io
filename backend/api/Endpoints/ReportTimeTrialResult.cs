@@ -50,7 +50,7 @@ namespace api
 
             List<KeyStroke> keystrokes = trialRequest.Keystrokes!.ToList();
             string typed = Schema.Stats.ParseKeystrokes(keystrokes);
-            Console.WriteLine($"Player typed: {typed}");
+            Console.WriteLine($"Player typed: '{typed}'");
             if (typed != trial.Resource.Phrase)
             {
                 Console.WriteLine($"Typed doesn't look right. Bailing.");
