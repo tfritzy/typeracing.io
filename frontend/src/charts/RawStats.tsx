@@ -77,6 +77,7 @@ type Props = {
 
 export const RawStats = (props: Props) => {
   const result = props.result;
+  console.log(result);
   const bestWpm = Math.max(
     result.p99_wpm!,
     result.best_run_wpm || 0,
@@ -85,6 +86,12 @@ export const RawStats = (props: Props) => {
   const bestAccuracy = result.best_run_accuracy!;
   const worstTime = Math.max(result.p25_time!, result.time!);
   const setPr = !!result.best_run_wpm && result.wpm! > result.best_run_wpm;
+  console.log(
+    "Set pr",
+    setPr,
+    result.best_run_wpm,
+    result.wpm! > result.best_run_wpm!
+  );
 
   return (
     <div className="w-full">
@@ -121,7 +128,7 @@ export const RawStats = (props: Props) => {
           ]}
         />
         <Row
-          name={setPr ? "Your best" : "Previous best"}
+          name={setPr ? "Previous best" : "Your best"}
           values={[
             {
               value: result.best_run_wpm!,

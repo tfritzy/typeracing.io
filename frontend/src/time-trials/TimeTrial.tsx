@@ -124,6 +124,7 @@ export function TimeTrial() {
         .then((data) => {
           const decoded = decodeReportTimeTrialResponse(data);
           const result = parseTimeTrialResult(decoded);
+
           if (result !== null) {
             setResults(result);
             setResultsOpen(true);
@@ -137,6 +138,8 @@ export function TimeTrial() {
     },
     [player.id, player.token, trial?.id]
   );
+
+  console.log("results", results);
 
   if (errored) {
     return <div className="grow">Womp womp</div>;
