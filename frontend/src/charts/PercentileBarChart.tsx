@@ -47,8 +47,6 @@ export const PercentileBarChart: React.FC<Props> = ({
         return currentDiff < closestDiff ? key : closest;
       });
 
-    console.log(mostRecentWpm, closestWpm, data);
-
     const ser: ApexAxisChartSeries = [
       {
         name: "Value",
@@ -64,8 +62,6 @@ export const PercentileBarChart: React.FC<Props> = ({
     ];
     return ser;
   }, [data, formattedData, mostRecentWpm]);
-
-  console.log(series);
 
   const options: ApexOptions = React.useMemo(() => {
     const opts: ApexOptions = {

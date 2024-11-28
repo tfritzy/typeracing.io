@@ -17,7 +17,7 @@ export const formatTimeSeconds = (time_s: number): string => {
 
   let formattedMM = mm.toString().padStart(2, "0");
   let formattedSS = ss.toString().padStart(2, "0");
-  let formattedMS = ms.toString().padStart(2, "0");
+  let formattedMS = ms.toString().padStart(2, "0").slice(0, 3);
 
   return `${formattedMM}:${formattedSS}.${formattedMS}`;
 };

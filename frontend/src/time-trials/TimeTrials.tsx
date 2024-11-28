@@ -159,7 +159,7 @@ export function TimeTrials() {
         <thead>
           <tr className="font-bold">
             <td className="w-max">Name</td>
-            <td className="w-max max-w-[50px]">Percentile</td>
+            <td className="w-max">Percentile</td>
             <td className="w-max">Wpm</td>
             <td className="w-max">Time</td>
           </tr>
