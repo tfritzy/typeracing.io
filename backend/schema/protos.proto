@@ -146,8 +146,8 @@ message TimeTrialListItem {
 message TimeTrialResult {
     string id = 1;
     string player_id = 2;
-    float best_time = 3;
-    repeated float attempt_times = 4;
+    float best_wpm = 3;
+    repeated float attempt_wpms = 4;
     repeated KeyStroke best_keystrokes = 5;
 }
 
@@ -182,6 +182,8 @@ message ReportTimeTrialResponse {
     float p90_wpm = 18;
     float p50_wpm = 19;
     float p25_wpm = 20;
+
+    float percentile = 21;
 }
 
 message AuthenticatedAuthInfo {

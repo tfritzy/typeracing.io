@@ -69,16 +69,21 @@ namespace api
                 player.id,
                 trialRequest.id);
 
+            float priorBestWpm = result?.BestWpm ?? 0;
+            float priorBestTime = priorBestWpm != 0 ?
+                Schema.Stats.WpmToTime(priorBestWpm, trial.Resource.Phrase.Length) :
+                0;
+
             if (result == null)
             {
                 result = new TimeTrialResult()
                 {
                     id = trial.Resource.id,
                     PlayerId = player.id,
-                    BestTime = time,
+                    BestWpm = wpm,
                 };
                 result.BestKeystrokes.Add(keystrokes);
-                result.AttemptTimes.Add(time);
+                result.AttemptWpms.Add(wpm);
                 await container.CreateItemAsync(
                     result,
                    new PartitionKey(result.PlayerId)
@@ -86,10 +91,10 @@ namespace api
             }
             else
             {
-                result.AttemptTimes.Add(Schema.Stats.GetTime(keystrokes));
-                if (time < result.BestTime)
+                result.AttemptWpms.Add(wpm);
+                if (wpm > result.BestWpm)
                 {
-                    result.BestTime = time;
+                    result.BestWpm = wpm;
                     result.BestKeystrokes.Clear();
                     result.BestKeystrokes.AddRange(keystrokes);
                 }
@@ -105,9 +110,10 @@ namespace api
             {
                 Time = duration,
                 Wpm = Schema.Stats.GetWpm(typed.Length, duration),
+                Percentile = Percentiles.CalculatePercentile(trial.Resource.GlobalWpm, (int)MathF.Round(wpm)),
 
-                BestRunTime = result.BestTime,
-                BestRunWpm = Schema.Stats.GetWpm(result.BestKeystrokes),
+                BestRunTime = priorBestTime,
+                BestRunWpm = priorBestWpm,
 
                 P99Time = Schema.Stats.WpmToTime(
                     Percentiles.CalculateValueFromPercentile(trial.Resource.GlobalWpm, .99f),

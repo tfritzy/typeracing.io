@@ -34,11 +34,11 @@ public static class Builders
         var ks = TestHelpers.GetKeystrokesForPhrase(timeTrial.Phrase, 50);
         var result = new TimeTrialResult()
         {
-            BestTime = Schema.Stats.GetTime(ks),
+            BestWpm = Schema.Stats.GetTime(ks),
             id = timeTrial.id,
             PlayerId = playerId
         };
-        result.AttemptTimes.Add(Schema.Stats.GetTime(ks));
+        result.AttemptWpms.Add(Schema.Stats.GetTime(ks));
         result.BestKeystrokes.Add(ks);
         return result;
     }

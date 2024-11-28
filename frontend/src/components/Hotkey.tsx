@@ -11,7 +11,7 @@ export const Hotkey = (props: HotkeyProps) => {
         props.large ? "text-md font-semibold px-[9px]" : " text-sm px-[6px]"
       } uppercase font-mono rounded w-min translate-y-[1px]`}
       style={{
-        backgroundColor: props.accent ? "var(--accent-200)" : "var(--base-600)",
+        backgroundColor: props.accent ? "var(--accent-200)" : "var(--base-700)",
         borderColor: props.accent
           ? "var(--accent-200)"
           : "var(--base-100)" + "20",

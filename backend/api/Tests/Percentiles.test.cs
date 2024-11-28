@@ -46,6 +46,16 @@ public class PercentilesTest
     }
 
     [TestMethod]
+    public void Percentile_WeirdResults1()
+    {
+        Dictionary<int, int> data = new();
+        data[91] = 1;
+
+        Assert.AreEqual(0, Percentiles.CalculatePercentile(data, 88));
+        Assert.AreEqual(1, Percentiles.CalculatePercentile(data, 100));
+    }
+
+    [TestMethod]
     public void Percentile_CalculatesCorrectPercentiles()
     {
         Dictionary<int, int> data = new();

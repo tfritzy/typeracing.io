@@ -3,22 +3,30 @@ import { formatTime } from "../helpers/time";
 
 interface TimerProps {
   startTime: number;
-  stop: boolean;
+  running: boolean;
 }
 
-const Timer: React.FC<TimerProps> = ({ startTime = Date.now(), stop }) => {
+const Timer: React.FC<TimerProps> = ({ startTime = Date.now(), running }) => {
   const [animatedValue, setAnimatedValue] = useState<number>(0);
 
   useEffect(() => {
     const animate = () => {
       const delta = Date.now() - startTime;
-      if (!stop) setAnimatedValue(delta);
+      if (running) setAnimatedValue(delta);
     };
 
     const interval = setInterval(animate, 0);
 
     return () => clearInterval(interval);
-  }, [animatedValue, startTime, stop]);
+  }, [startTime, running]);
+
+  useEffect(() => {
+    if (startTime === 0) {
+      setAnimatedValue(0);
+    } else {
+      setAnimatedValue(Date.now() - startTime);
+    }
+  }, [startTime]);
 
   return (
     <div className="font-mono text-xl tabular-nums">

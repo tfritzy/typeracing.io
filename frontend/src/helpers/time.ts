@@ -1,4 +1,8 @@
 export const formatTimeSeconds = (time_s: number): string => {
+  if (time_s < 0) {
+    return "";
+  }
+
   let diffInHrs = time_s / 3600;
   let hh = Math.floor(diffInHrs);
 
@@ -8,10 +12,14 @@ export const formatTimeSeconds = (time_s: number): string => {
   let diffInSec = (diffInMin - mm) * 60;
   let ss = Math.floor(diffInSec);
 
+  let diffInMs = (diffInSec - diffInMin) * 1000;
+  let ms = Math.floor(diffInMs);
+
   let formattedMM = mm.toString().padStart(2, "0");
   let formattedSS = ss.toString().padStart(2, "0");
+  let formattedMS = ms.toString().padStart(2, "0");
 
-  return `${formattedMM}:${formattedSS}`;
+  return `${formattedMM}:${formattedSS}.${formattedMS}`;
 };
 
 export const formatTime = (time_ms: number): string => {
@@ -39,7 +47,7 @@ export const formatTime = (time_ms: number): string => {
 };
 
 export const formatWpm = (wpm: number): string => {
-  return wpm.toFixed(0);
+  return wpm.toFixed(1);
 };
 
 export const formatAccuracy = (accuracy: number): string => {
@@ -51,7 +59,7 @@ export const formatDash = (accuracy: number): string => {
 };
 
 export const formatPercentile = (percentile: number): string => {
-  if (percentile <= 0) {
+  if (percentile < 0) {
     return "";
   }
 

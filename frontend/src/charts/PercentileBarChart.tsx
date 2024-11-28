@@ -1,7 +1,6 @@
 import { ApexOptions } from "apexcharts";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-import { computeWpm } from "../helpers/functions";
 
 interface Props {
   phrase: string;
@@ -31,15 +30,25 @@ export const PercentileBarChart: React.FC<Props> = ({
       .reduce((sum, val) => sum + val);
 
     for (let i = min - 5; i < max + 5; i++) {
-      const wpm = computeWpm(phrase.length, i);
+      const wpm = i;
       const percent = (((data[i] ?? 0) / totalCount) * 100).toFixed(0) + "%";
       filledIn[wpm] = percent;
     }
 
     return filledIn;
-  }, [data, phrase.length]);
+  }, [data]);
 
   const series: ApexOptions["series"] = React.useMemo(() => {
+    const closestWpm = Object.keys(data)
+      .map(Number)
+      .reduce((closest, key) => {
+        const currentDiff = Math.abs(key - mostRecentWpm);
+        const closestDiff = Math.abs(closest - mostRecentWpm);
+        return currentDiff < closestDiff ? key : closest;
+      });
+
+    console.log(mostRecentWpm, closestWpm, data);
+
     const ser: ApexAxisChartSeries = [
       {
         name: "Value",
@@ -48,14 +57,13 @@ export const PercentileBarChart: React.FC<Props> = ({
           .map((wpm) => ({
             x: wpm,
             y: formattedData[wpm],
-            fillColor:
-              wpm === mostRecentWpm ? "var(--accent)" : "var(--base-500)",
+            fillColor: wpm === closestWpm ? "var(--accent)" : "var(--base-500)",
           }))
           .sort((a, b) => b.x - a.x),
       },
     ];
     return ser;
-  }, [formattedData, mostRecentWpm]);
+  }, [data, formattedData, mostRecentWpm]);
 
   console.log(series);
 
@@ -63,10 +71,26 @@ export const PercentileBarChart: React.FC<Props> = ({
     const opts: ApexOptions = {
       chart: {
         type: "bar",
+        zoom: {
+          enabled: true,
+          type: "x",
+        },
         toolbar: {
-          show: false,
+          show: true,
+          tools: {
+            reset: true,
+            zoom: " ",
+            zoomin: false,
+            zoomout: false,
+            pan: false,
+            selection: false,
+            download: false,
+          },
         },
         selection: {
+          enabled: true,
+        },
+        animations: {
           enabled: false,
         },
       },
@@ -101,7 +125,7 @@ export const PercentileBarChart: React.FC<Props> = ({
             colors: "var(--base-300)",
           },
         },
-        type: "numeric",
+        type: "category",
       },
       yaxis: {
         tickAmount: 5,

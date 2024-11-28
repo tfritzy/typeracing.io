@@ -1,3 +1,4 @@
+import { StarSolid } from "iconoir-react";
 import { ReportTimeTrialResponse } from "../compiled";
 import { Bar } from "../components/Bar";
 import {
@@ -12,6 +13,8 @@ type Value = {
   value: number;
   maxValue?: number;
   worstValueForInverted?: number;
+  greyscale?: boolean;
+  star?: boolean;
 };
 
 type RowProps = {
@@ -33,9 +36,12 @@ function Row(props: RowProps) {
     }
     return (
       <div className="relative">
-        {percent !== undefined && <Bar percentFilled={percent * 100} />}
-        <div className="absolute left-0 top-0 w-full text-sm font-medium text-base-100 text-center py-1 rounded-sm font-mono">
-          {val.format(val.value)}
+        {percent !== undefined && (
+          <Bar greyscale={!!val.greyscale} percentFilled={percent * 100} />
+        )}
+        <div className="absolute left-0 top-0 w-full text-sm font-medium text-base-100 text-center py-1 rounded-sm font-mono flex flex-row space-x-1 items-center justify-center">
+          <span>{val.format(val.value)}</span>
+          {val.star && <StarSolid height={16} />}
         </div>
       </div>
     );
@@ -49,26 +55,43 @@ function Row(props: RowProps) {
   );
 }
 
+type PercentileGroup = "p99" | "p90" | "p50" | "p25";
+// function getPercentileGroup(result: ReportTimeTrialResponse): PercentileGroup {
+//   if (result.wpm >= thresholds.p99_wpm) {
+//     return "Elite";
+//   } else if (wpm >= thresholds.p90_wpm) {
+//     return "Advanced";
+//   } else if (wpm >= thresholds.p50_wpm) {
+//     return "Proficient";
+//   } else if (wpm >= thresholds.p25_wpm) {
+//     return "Intermediate";
+//   } else {
+//     return "Beginner";
+//   }
+// }
+
 type Props = {
   result: ReportTimeTrialResponse;
   phrase: string;
 };
 
 export const RawStats = (props: Props) => {
-  const bestTime = Math.min(
-    props.result.p99_time!,
-    props.result.best_run_time!
+  const result = props.result;
+  const bestWpm = Math.max(
+    result.p99_wpm!,
+    result.best_run_wpm || 0,
+    result.wpm!
   );
-  const bestWpm = Math.max(props.result.p99_wpm!, props.result.best_run_wpm!);
-  const bestAccuracy = props.result.best_run_accuracy!;
-  const worstTime = Math.max(props.result.p25_time!, props.result.time!);
+  const bestAccuracy = result.best_run_accuracy!;
+  const worstTime = Math.max(result.p25_time!, result.time!);
+  const setPr = !!result.best_run_wpm && result.wpm! > result.best_run_wpm;
 
   return (
     <div className="w-full">
       <div className="grid grid-cols-4 px-5 mb-1">
         <div />
-        <div className="text-sm text-center font-semibold">Time</div>
         <div className="text-sm text-center font-semibold">WPM</div>
+        <div className="text-sm text-center font-semibold">Time</div>
         <div className="text-sm text-center font-semibold">Accuracy</div>
       </div>
 
@@ -78,39 +101,41 @@ export const RawStats = (props: Props) => {
           name="This race"
           values={[
             {
-              value: props.result.time!,
-              maxValue: bestTime,
-              format: formatTimeSeconds,
-              worstValueForInverted: worstTime,
-            },
-            {
-              value: props.result.wpm!,
+              value: result.wpm!,
               maxValue: bestWpm,
               format: formatWpm,
+              star: setPr,
             },
             {
-              value: props.result.accuracy!,
+              value: result.time!,
+              // maxValue: bestTime,
+              format: formatTimeSeconds,
+              worstValueForInverted: worstTime,
+              star: setPr,
+            },
+            {
+              value: result.accuracy!,
               maxValue: bestAccuracy,
               format: formatAccuracy,
             },
           ]}
         />
         <Row
-          name="Your best"
+          name={setPr ? "Your best" : "Previous best"}
           values={[
             {
-              value: props.result.best_run_time!,
-              maxValue: bestTime,
-              format: formatTimeSeconds,
-              worstValueForInverted: worstTime,
-            },
-            {
-              value: props.result.best_run_wpm!,
+              value: result.best_run_wpm!,
               maxValue: bestWpm,
               format: formatWpm,
             },
             {
-              value: props.result.accuracy!,
+              value: result.best_run_time!,
+              // maxValue: bestTime,
+              format: formatTimeSeconds,
+              worstValueForInverted: worstTime,
+            },
+            {
+              value: result.accuracy!,
               maxValue: bestAccuracy,
               format: formatAccuracy,
             },
@@ -126,15 +151,17 @@ export const RawStats = (props: Props) => {
           name="99th percentile"
           values={[
             {
-              value: props.result.p99_time!,
-              maxValue: bestTime,
-              format: formatTimeSeconds,
-              worstValueForInverted: worstTime,
-            },
-            {
-              value: props.result.p99_wpm!,
+              value: result.p99_wpm!,
               maxValue: bestWpm,
               format: formatWpm,
+              greyscale: true,
+            },
+            {
+              value: result.p99_time!,
+              // maxValue: bestTime,
+              format: formatTimeSeconds,
+              worstValueForInverted: worstTime,
+              greyscale: true,
             },
             {
               value: 0,
@@ -146,15 +173,17 @@ export const RawStats = (props: Props) => {
           name="90th percentile"
           values={[
             {
-              value: props.result.p90_time!,
-              maxValue: bestTime,
-              format: formatTimeSeconds,
-              worstValueForInverted: worstTime,
-            },
-            {
-              value: props.result.p90_wpm!,
+              value: result.p90_wpm!,
               maxValue: bestWpm,
               format: formatWpm,
+              greyscale: true,
+            },
+            {
+              value: result.p90_time!,
+              // maxValue: bestTime,
+              format: formatTimeSeconds,
+              worstValueForInverted: worstTime,
+              greyscale: true,
             },
             {
               value: 0,
@@ -166,15 +195,17 @@ export const RawStats = (props: Props) => {
           name="50th percentile"
           values={[
             {
-              value: props.result.p50_time!,
-              maxValue: bestTime,
-              format: formatTimeSeconds,
-              worstValueForInverted: worstTime,
-            },
-            {
-              value: props.result.p50_wpm!,
+              value: result.p50_wpm!,
               maxValue: bestWpm,
               format: formatWpm,
+              greyscale: true,
+            },
+            {
+              value: result.p50_time!,
+              // maxValue: bestTime,
+              format: formatTimeSeconds,
+              worstValueForInverted: worstTime,
+              greyscale: true,
             },
             {
               value: 0,
@@ -186,15 +217,17 @@ export const RawStats = (props: Props) => {
           name="25th percentile"
           values={[
             {
-              value: props.result.p25_time!,
-              maxValue: bestTime,
-              format: formatTimeSeconds,
-              worstValueForInverted: worstTime,
-            },
-            {
-              value: props.result.p25_wpm!,
+              value: result.p25_wpm!,
               maxValue: bestWpm,
               format: formatWpm,
+              greyscale: true,
+            },
+            {
+              value: result.p25_time!,
+              // maxValue: bestTime,
+              format: formatTimeSeconds,
+              worstValueForInverted: worstTime,
+              greyscale: true,
             },
             {
               value: 0,
@@ -202,6 +235,16 @@ export const RawStats = (props: Props) => {
             },
           ]}
         />
+      </div>
+
+      {/* <div className="py-3" /> */}
+
+      <div className="pl-4">
+        <span>You did better than </span>
+        <span className="font-bold text-accent">
+          {((result.percentile || 0) * 100)?.toFixed(1)}%
+        </span>
+        <span> of players.</span>
       </div>
     </div>
   );

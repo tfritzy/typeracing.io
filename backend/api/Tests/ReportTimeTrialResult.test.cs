@@ -221,11 +221,11 @@ public class ReportTimeTrialResultTests
         {
             id = setup.Trial.id,
             PlayerId = setup.Player.id,
-            BestTime = Schema.Stats.GetTime(reqBody.Keystrokes),
+            BestWpm = Schema.Stats.GetWpm(reqBody.Keystrokes),
         };
         expectedItem.BestKeystrokes.Add(reqBody.Keystrokes);
-        expectedItem.AttemptTimes.Add(Schema.Stats.GetTime(ogKeystrokes));
-        expectedItem.AttemptTimes.Add(Schema.Stats.GetTime(reqBody.Keystrokes));
+        expectedItem.AttemptWpms.Add(Schema.Stats.GetWpm(ogKeystrokes));
+        expectedItem.AttemptWpms.Add(Schema.Stats.GetWpm(reqBody.Keystrokes));
         setup.TrialResultsContainer.Verify(x => x.ReplaceItemAsync(
             It.Is<TimeTrialResult>(tr => TestHelpers.CompareTrialResult(expectedItem, tr)),
             setup.Trial.id,
@@ -257,7 +257,7 @@ public class ReportTimeTrialResultTests
             Phrase = setup.Trial.Phrase,
             Name = setup.Trial.Name,
         };
-        expectedItem.GlobalWpm.Add((int)Schema.Stats.GetWpm(ogKeystrokes), 1);
+        expectedItem.GlobalWpm.Add((int)MathF.Round(Schema.Stats.GetWpm(ogKeystrokes)), 1);
         setup.TrialContainer.Verify(x => x.ReplaceItemAsync(
             It.Is<TimeTrial>(tr => TestHelpers.CompareProto(expectedItem, tr)),
             setup.Trial.id,
@@ -286,11 +286,11 @@ public class ReportTimeTrialResultTests
         {
             id = setup.Trial.id,
             PlayerId = setup.Player.id,
-            BestTime = result.BestTime,
+            BestWpm = result.BestWpm,
         };
         expectedItem.BestKeystrokes.Add(result.BestKeystrokes);
-        expectedItem.AttemptTimes.Add(Stats.GetTime(result.BestKeystrokes));
-        expectedItem.AttemptTimes.Add(Stats.GetTime(reqBody.Keystrokes));
+        expectedItem.AttemptWpms.Add(Stats.GetWpm(result.BestKeystrokes));
+        expectedItem.AttemptWpms.Add(Stats.GetWpm(reqBody.Keystrokes));
         setup.TrialResultsContainer.Verify(x => x.ReplaceItemAsync(
             It.Is<TimeTrialResult>(tr => TestHelpers.CompareTrialResult(expectedItem, tr)),
             setup.Trial.id,
@@ -316,9 +316,9 @@ public class ReportTimeTrialResultTests
         {
             id = setup.Trial.id,
             PlayerId = setup.Player.id,
-            BestTime = Schema.Stats.GetTime(reqBody.Keystrokes),
+            BestWpm = Schema.Stats.GetWpm(reqBody.Keystrokes),
         };
-        expectedItem.AttemptTimes.Add(Schema.Stats.GetTime(reqBody.Keystrokes));
+        expectedItem.AttemptWpms.Add(Schema.Stats.GetWpm(reqBody.Keystrokes));
         expectedItem.BestKeystrokes.Add(reqBody.Keystrokes);
         setup.TrialResultsContainer.Verify(x => x.CreateItemAsync(
             It.Is<TimeTrialResult>(tr => TestHelpers.CompareTrialResult(expectedItem, tr)),
@@ -346,9 +346,9 @@ public class ReportTimeTrialResultTests
         {
             id = setup.Trial.id,
             PlayerId = newPlayer.id,
-            BestTime = Schema.Stats.GetTime(reqBody.Keystrokes),
+            BestWpm = Schema.Stats.GetWpm(reqBody.Keystrokes),
         };
-        expectedItem.AttemptTimes.Add(Schema.Stats.GetTime(reqBody.Keystrokes));
+        expectedItem.AttemptWpms.Add(Schema.Stats.GetWpm(reqBody.Keystrokes));
         expectedItem.BestKeystrokes.Add(reqBody.Keystrokes);
         setup.TrialResultsContainer.Verify(x => x.CreateItemAsync(
             It.Is<TimeTrialResult>(tr => TestHelpers.CompareTrialResult(expectedItem, tr)),

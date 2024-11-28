@@ -112,10 +112,9 @@ namespace api
             TimeTrialResult? result = await TimeTrialHelpers.FindResultForTrial(container, playerId, item.id);
             if (result != null)
             {
-                int wpm = (int)Schema.Stats.GetWpm(result.BestKeystrokes);
-                item.Time = result.BestTime;
-                item.Wpm = wpm;
-                item.Percentile = Percentiles.CalculatePercentile(trial.GlobalWpm, wpm);
+                item.Time = Schema.Stats.GetTime(result.BestKeystrokes);
+                item.Wpm = result.BestWpm;
+                item.Percentile = Percentiles.CalculatePercentile(trial.GlobalWpm, (int)MathF.Round(result.BestWpm));
             }
         }
 

@@ -11,8 +11,40 @@ const apiUrl = process.env.REACT_APP_API_ADDRESS;
 const PAGE_SIZE = 20;
 
 interface Page {
-  items: TimeTrialListItem[];
+  items: ResolvedListItem[];
   continuationToken: string | null;
+}
+
+type ResolvedListItem = {
+  id: string;
+  name: string;
+  length: number;
+  time: number;
+  percentile: number;
+  wpm: number;
+};
+
+function parseTimeTrials(
+  result: TimeTrialListItem[] | undefined
+): ResolvedListItem[] {
+  const resolved: ResolvedListItem[] = [];
+  result?.forEach((r) => {
+    if (!r.id || !r.name || !r.wpm || !r.time) {
+      console.log("Rejecting", r);
+      return;
+    }
+
+    resolved.push({
+      id: r.id,
+      name: r.name,
+      percentile: r.percentile || 0,
+      time: r.time || 0,
+      wpm: r.wpm || 0,
+      length: r.length || 0,
+    });
+  });
+
+  return resolved;
 }
 
 export function TimeTrials() {
@@ -61,7 +93,7 @@ export function TimeTrials() {
       const decodedResponse = decodeListTimeTrialsResponse(data);
 
       const newPage: Page = {
-        items: decodedResponse.time_trials!,
+        items: parseTimeTrials(decodedResponse.time_trials),
         continuationToken: newContinuationToken || null,
       };
 
@@ -135,14 +167,14 @@ export function TimeTrials() {
         <tbody className="gap-y-4">
           {currentPage?.items.map((t, index) => (
             <tr
-              onClick={() => handleRowClick(t.id!)}
+              onClick={() => handleRowClick(t.id)}
               className="cursor-pointer hover:bg-base-800"
               role="link"
               key={t.id || index}
               tabIndex={0}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
-                  handleRowClick(t.id!);
+                  handleRowClick(t.id);
                 }
               }}
             >
@@ -151,25 +183,25 @@ export function TimeTrials() {
                 <div className="relative max-w-[80%]">
                   <div className="text-transparent">100th</div>
                   <div className="absolute left-0 top-0 w-full text-center z-10">
-                    {formatPercentile(t.percentile!)}
+                    {formatPercentile(t.percentile)}
                   </div>
                   {t.percentile !== -1 ? (
-                    <Bar percentFilled={t.percentile! * 100} />
+                    <Bar percentFilled={t.percentile * 100} />
                   ) : (
-                    <Bar percentFilled={3} />
+                    <Bar percentFilled={0} />
                   )}
                 </div>
               </td>
               <td className="py-2 font-mono text-accent">
-                {(t.wpm && t.wpm >= 0 && t.wpm?.toString()) || ""}
+                {(t.wpm && t.wpm >= 0 && t.wpm?.toFixed(1)) || ""}
               </td>
-              <td className="py-2 font-mono">{formatTimeSeconds(t.time!)}</td>
+              <td className="py-2 font-mono">{formatTimeSeconds(t.time)}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <div className="flex flex-row w-full justify-between">
+      <div className="flex flex-row w-full justify-between pt-4">
         <span className="py-2">Page {currentPageIndex + 1}</span>
 
         <div>

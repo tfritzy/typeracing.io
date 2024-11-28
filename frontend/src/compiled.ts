@@ -1763,8 +1763,8 @@ function _decodeTimeTrialListItem(bb: ByteBuffer): TimeTrialListItem {
 export interface TimeTrialResult {
   id?: string;
   player_id?: string;
-  best_time?: number;
-  attempt_times?: number[];
+  best_wpm?: number;
+  attempt_wpms?: number[];
   best_keystrokes?: KeyStroke[];
 }
 
@@ -1789,18 +1789,18 @@ function _encodeTimeTrialResult(message: TimeTrialResult, bb: ByteBuffer): void 
     writeString(bb, $player_id);
   }
 
-  // optional float best_time = 3;
-  let $best_time = message.best_time;
-  if ($best_time !== undefined) {
+  // optional float best_wpm = 3;
+  let $best_wpm = message.best_wpm;
+  if ($best_wpm !== undefined) {
     writeVarint32(bb, 29);
-    writeFloat(bb, $best_time);
+    writeFloat(bb, $best_wpm);
   }
 
-  // repeated float attempt_times = 4;
-  let array$attempt_times = message.attempt_times;
-  if (array$attempt_times !== undefined) {
+  // repeated float attempt_wpms = 4;
+  let array$attempt_wpms = message.attempt_wpms;
+  if (array$attempt_wpms !== undefined) {
     let packed = popByteBuffer();
-    for (let value of array$attempt_times) {
+    for (let value of array$attempt_wpms) {
       writeFloat(packed, value);
     }
     writeVarint32(bb, 34);
@@ -1849,15 +1849,15 @@ function _decodeTimeTrialResult(bb: ByteBuffer): TimeTrialResult {
         break;
       }
 
-      // optional float best_time = 3;
+      // optional float best_wpm = 3;
       case 3: {
-        message.best_time = readFloat(bb);
+        message.best_wpm = readFloat(bb);
         break;
       }
 
-      // repeated float attempt_times = 4;
+      // repeated float attempt_wpms = 4;
       case 4: {
-        let values = message.attempt_times || (message.attempt_times = []);
+        let values = message.attempt_wpms || (message.attempt_wpms = []);
         if ((tag & 7) === 2) {
           let outerLimit = pushTemporaryLength(bb);
           while (!isAtEnd(bb)) {
@@ -1978,6 +1978,7 @@ export interface ReportTimeTrialResponse {
   p90_wpm?: number;
   p50_wpm?: number;
   p25_wpm?: number;
+  percentile?: number;
 }
 
 export function encodeReportTimeTrialResponse(message: ReportTimeTrialResponse): Uint8Array {
@@ -2163,6 +2164,13 @@ function _encodeReportTimeTrialResponse(message: ReportTimeTrialResponse, bb: By
   if ($p25_wpm !== undefined) {
     writeVarint32(bb, 165);
     writeFloat(bb, $p25_wpm);
+  }
+
+  // optional float percentile = 21;
+  let $percentile = message.percentile;
+  if ($percentile !== undefined) {
+    writeVarint32(bb, 173);
+    writeFloat(bb, $percentile);
   }
 }
 
@@ -2366,6 +2374,12 @@ function _decodeReportTimeTrialResponse(bb: ByteBuffer): ReportTimeTrialResponse
       // optional float p25_wpm = 20;
       case 20: {
         message.p25_wpm = readFloat(bb);
+        break;
+      }
+
+      // optional float percentile = 21;
+      case 21: {
+        message.percentile = readFloat(bb);
         break;
       }
 
