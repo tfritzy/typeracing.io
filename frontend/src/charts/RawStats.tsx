@@ -106,6 +106,7 @@ export const RawStats = (props: Props) => {
         <div className="text-base-300 font-semibold">You</div>
         <Row
           name="This race"
+          key="this_race"
           values={[
             {
               value: result.wpm!,
@@ -129,6 +130,7 @@ export const RawStats = (props: Props) => {
         />
         <Row
           name={setPr ? "Previous best" : "Your best"}
+          key="best"
           values={[
             {
               value: result.best_run_wpm!,
@@ -156,6 +158,7 @@ export const RawStats = (props: Props) => {
         <div className="text-base-300 font-semibold">Globally</div>
         <Row
           name="99th percentile"
+          key="99"
           values={[
             {
               value: result.p99_wpm!,
@@ -178,6 +181,7 @@ export const RawStats = (props: Props) => {
         />
         <Row
           name="90th percentile"
+          key="90"
           values={[
             {
               value: result.p90_wpm!,
@@ -200,6 +204,7 @@ export const RawStats = (props: Props) => {
         />
         <Row
           name="50th percentile"
+          key="50"
           values={[
             {
               value: result.p50_wpm!,
@@ -222,6 +227,7 @@ export const RawStats = (props: Props) => {
         />
         <Row
           name="25th percentile"
+          key="25"
           values={[
             {
               value: result.p25_wpm!,
@@ -244,7 +250,7 @@ export const RawStats = (props: Props) => {
         />
       </div>
 
-      {/* <div className="py-3" /> */}
+      <div className="py-3" />
 
       <div className="pl-4">
         <span>You did better than </span>

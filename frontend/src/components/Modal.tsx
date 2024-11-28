@@ -1,58 +1,51 @@
-import React, { useEffect, useRef } from "react";
 import { Xmark } from "iconoir-react";
 
-type ModalProps = {
-  children: React.ReactNode;
-  title: string;
-  open: boolean;
-  onClose: () => void;
+type Props = {
+  title?: String;
+  onClose?: () => void;
+  shown: boolean;
+  children: JSX.Element;
 };
 
-export const Modal = (props: ModalProps) => {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        props.onClose();
-      }
-    };
-
-    const dialogElement = dialogRef.current;
-
-    if (props.open && dialogElement) {
-      document.body.style.overflow = "hidden";
-      dialogElement.focus();
-      window.addEventListener("keydown", handleKeyDown);
-    } else {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", handleKeyDown);
-    }
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [props.open]);
-
+export function Modal(props: Props) {
   return (
-    <dialog
-      ref={dialogRef}
-      id="modal"
-      open={props.open}
-      className="rounded-lg shadow-lg text-base-100 transition-all shadow-[#00000055] bg-base-900"
+    <div
+      className="fixed backdrop-blur-xl backdrop-brightness-[.8] shadow-2xl shadow-gray-950 overflow-y-auto rounded-lg border border-base-800 left-1/2 top-1/2"
       style={{
-        backdropFilter: "blur(5px)",
+        opacity: props.shown ? 1 : 0,
+        transform: props.shown
+          ? "translate(-50%, -50%)"
+          : "translate(-50%, calc(-50% + 20px))",
+        transition: "opacity 0.2s, transform 0.2s",
       }}
     >
-      <div className="flex flex-row justify-between w-full p-3 pl-4 font-semibold border-b border-base-300">
-        <div>{props.title}</div>
-        <button onClick={props.onClose} className="rounded-full">
-          <Xmark />
-        </button>
-      </div>
-      <div className="flex w-full flex-col justify-center p-4">
-        {props.children}
-      </div>
-    </dialog>
+      {props.title && (
+        <div className="flex flex-row justify-between px-8 p-3 w-full border-b border-base-800">
+          <div className="font-semibold">{props.title}</div>
+
+          {props.onClose && (
+            <button
+              className="text-base-200 hover:text-error-color transition-colors"
+              onClick={props.onClose}
+            >
+              <Xmark width={24} />
+            </button>
+          )}
+        </div>
+      )}
+
+      <div className="p-4">{props.children}</div>
+
+      {props.onClose && (
+        <div className="flex flex-row justify-end pl-8 p-3 w-full border-b border-base-800">
+          <button
+            className="text-accent rounded-md px-2 py-1 font-semibold"
+            onClick={props.onClose}
+          >
+            Done
+          </button>
+        </div>
+      )}
+    </div>
   );
-};
+}
