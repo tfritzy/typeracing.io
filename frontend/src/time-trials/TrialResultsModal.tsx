@@ -203,7 +203,7 @@ export function TrialResultsModal(props: Props) {
         </div>
         <div className="w-full flex flex-row justify-center space-x-2">
           <Button onClick={props.onClose}>Cancel</Button>
-          <Button primary onClick={() => postResult(props.keystrokes)}>
+          <Button type="primary" onClick={() => postResult(props.keystrokes)}>
             Retry
           </Button>
         </div>

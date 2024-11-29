@@ -6,6 +6,9 @@ import { PlayerState } from "../store/playerSlice";
 import { Bar } from "../components/Bar";
 import { formatPercentile, formatTimeSeconds } from "../helpers/time";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../components/Button";
+import { EvPlugXmark, Refresh, RefreshCircle } from "iconoir-react";
+import { Spinner } from "../components/Spinner";
 const apiUrl = process.env.REACT_APP_API_ADDRESS;
 
 const PAGE_SIZE = 20;
@@ -50,7 +53,7 @@ function parseTimeTrials(
 export function TimeTrials() {
   const [pages, setPages] = React.useState<Page[]>([]);
   const [currentPageIndex, setCurrentPageIndex] = React.useState(0);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
   const player: PlayerState = useAppSelector(
     (state: RootState) => state.player
@@ -107,8 +110,7 @@ export function TimeTrials() {
         }
       });
     } catch (err) {
-      setError("Error loading time trials. Please try again later.");
-      console.error("Error loading time trials:", err);
+      setError("Error loading time trials. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -137,10 +139,27 @@ export function TimeTrials() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [player.id]);
 
+  if (error) {
+    return (
+      <div className="grow text-error-color flex flex-col items-center space-y-4 justify-center px-4 py-3 rounded relative">
+        <div className="p-2 rounded border border-error-color">
+          <EvPlugXmark width={32} height={32} />
+        </div>
+        <div>{error}</div>
+        <Button type="error" onClick={loadPage}>
+          <div className="flex flex-row space-x-1 items-center">
+            <div>Retry</div>
+            <Refresh height={16} />
+          </div>
+        </Button>
+      </div>
+    );
+  }
+
   if (pages.length === 0 && isLoading) {
     return (
-      <div className="flex justify-center p-8">
-        <div className="animate-pulse">Loading...</div>
+      <div className="flex justify-center p-8 grow">
+        <Spinner />
       </div>
     );
   }
@@ -148,12 +167,6 @@ export function TimeTrials() {
   return (
     <div className="flex flex-col grow">
       <h1 className="mb-6">Time trials</h1>
-
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-          {error}
-        </div>
-      )}
 
       <table className="w-full">
         <thead>
