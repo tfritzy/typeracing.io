@@ -7,10 +7,16 @@ import { Bar } from "../components/Bar";
 import { formatPercentile, formatTimeSeconds } from "../helpers/time";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/Button";
-import { EvPlugXmark, Refresh, RefreshCircle } from "iconoir-react";
+import {
+  EvPlugXmark,
+  NavArrowLeft,
+  NavArrowRight,
+  Refresh,
+  RefreshCircle,
+} from "iconoir-react";
 import { Spinner } from "../components/Spinner";
-const apiUrl = process.env.REACT_APP_API_ADDRESS;
 
+const apiUrl = process.env.REACT_APP_API_ADDRESS;
 const PAGE_SIZE = 20;
 
 interface Page {
@@ -27,9 +33,10 @@ type ResolvedListItem = {
   wpm: number;
 };
 
-function parseTimeTrials(
+// Moved outside component to prevent recreation
+const parseTimeTrials = (
   result: TimeTrialListItem[] | undefined
-): ResolvedListItem[] {
+): ResolvedListItem[] => {
   const resolved: ResolvedListItem[] = [];
   result?.forEach((r) => {
     if (!r.id || !r.name || !r.wpm || !r.time) {
@@ -40,29 +47,113 @@ function parseTimeTrials(
     resolved.push({
       id: r.id,
       name: r.name,
-      percentile: r.percentile || 0,
+      percentile: !r.percentile || r.percentile === -1 ? 0 : r.percentile,
       time: r.time || 0,
-      wpm: r.wpm || 0,
+      wpm: !r.wpm || r.wpm === -1 ? 0 : r.wpm,
       length: r.length || 0,
     });
   });
 
   return resolved;
-}
+};
+
+// Memoized row component to prevent unnecessary re-renders
+const TimeTrialRow = React.memo(
+  ({
+    trial,
+    onRowClick,
+  }: {
+    trial: ResolvedListItem;
+    onRowClick: (id: string) => void;
+  }) => (
+    <tr
+      onClick={() => onRowClick(trial.id)}
+      tabIndex={0}
+      className="border-b border-base-800 hover:bg-base-800-50 cursor-pointer focus:ring-[1px] ring-accent"
+    >
+      <td className="p-4 font-medium text-base-200">{trial.name}</td>
+      <td className="p-4">
+        <div className="relative w-full h-6">
+          <span className="absolute top-0 left-1/2 -translate-x-1/2 text-xs font-mono text-emerald-500 z-10">
+            {trial.percentile ? formatPercentile(trial.percentile) : ""}
+          </span>
+          <div className="absolute bottom-0 w-full h-2 rounded-full bg-base-800 overflow-hidden">
+            <div
+              className="h-full bg-emerald-500 transition-all duration-200"
+              style={{ width: `${trial.percentile * 100}%` }}
+            />
+          </div>
+        </div>
+      </td>
+      <td className="p-4 text-right font-mono text-emerald-400">
+        {trial.wpm ? trial.wpm.toFixed(1) : ""}
+      </td>
+      <td className="p-4 text-right font-mono text-base-200">
+        {formatTimeSeconds(trial.time)}
+      </td>
+    </tr>
+  )
+);
+
+TimeTrialRow.displayName = "TimeTrialRow";
 
 export function TimeTrials() {
   const [pages, setPages] = React.useState<Page[]>([]);
   const [currentPageIndex, setCurrentPageIndex] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
-  const player: PlayerState = useAppSelector(
-    (state: RootState) => state.player
-  );
+
+  const player = useAppSelector((state: RootState) => state.player);
+  const navigate = useNavigate();
 
   const currentPage = pages[currentPageIndex];
   const hasNextPage = currentPage?.continuationToken != null;
   const hasPreviousPage = currentPageIndex > 0;
-  const navigate = useNavigate();
+
+  const loadPage = React.useCallback(
+    async (token: string | null = null, goingForward: boolean = true) => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const opts = {
+          headers: { "X-Player-Id": player.id, "X-Auth-Token": player.token },
+        };
+        const url = new URL(`${apiUrl}/api/list-time-trials`);
+        url.searchParams.append("pageSize", PAGE_SIZE.toString());
+        if (token) {
+          url.searchParams.append("continuationToken", token);
+        }
+
+        const response = await fetch(url.toString(), opts);
+        const newContinuationToken = response.headers.get(
+          "x-continuation-token"
+        );
+
+        const arrayBuffer = await response.arrayBuffer();
+        const data = new Uint8Array(arrayBuffer);
+        const decodedResponse = decodeListTimeTrialsResponse(data);
+
+        const newPage: Page = {
+          items: parseTimeTrials(decodedResponse.time_trials),
+          continuationToken: newContinuationToken || null,
+        };
+
+        setPages((prevPages) => {
+          if (goingForward) {
+            return [...prevPages, newPage];
+          } else {
+            return prevPages.slice(0, currentPageIndex).concat([newPage]);
+          }
+        });
+      } catch (err) {
+        setError("Error loading time trials. Please try again.");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [player.id, player.token, currentPageIndex]
+  );
 
   const handleRowClick = React.useCallback(
     (trialId: string) => {
@@ -71,73 +162,21 @@ export function TimeTrials() {
     [navigate]
   );
 
-  const loadPage = async (
-    token: string | null = null,
-    goingForward: boolean = true
-  ) => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const opts = {
-        headers: { "X-Player-Id": player.id, "X-Auth-Token": player.token },
-      };
-      const url = new URL(apiUrl + "/api/list-time-trials");
-      url.searchParams.append("pageSize", PAGE_SIZE.toString());
-      if (token) {
-        url.searchParams.append("continuationToken", token);
-      }
-
-      const response = await fetch(url.toString(), opts);
-      const newContinuationToken = response.headers.get("x-continuation-token");
-
-      const arrayBuffer = await response.arrayBuffer();
-      const data = new Uint8Array(arrayBuffer);
-      const decodedResponse = decodeListTimeTrialsResponse(data);
-
-      const newPage: Page = {
-        items: parseTimeTrials(decodedResponse.time_trials),
-        continuationToken: newContinuationToken || null,
-      };
-
-      setPages((prevPages) => {
-        if (goingForward) {
-          // When going forward, add the new page to the end
-          return [...prevPages, newPage];
-        } else {
-          // When going backward (refreshing current page), replace current page
-          return prevPages.slice(0, currentPageIndex).concat([newPage]);
-        }
-      });
-    } catch (err) {
-      setError("Error loading time trials. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const goToNextPage = async () => {
+  const goToNextPage = React.useCallback(async () => {
     if (!hasNextPage || isLoading) return;
-
     await loadPage(currentPage.continuationToken, true);
     setCurrentPageIndex((prev) => prev + 1);
-  };
+  }, [hasNextPage, isLoading, currentPage?.continuationToken, loadPage]);
 
-  const goToPreviousPage = () => {
+  const goToPreviousPage = React.useCallback(() => {
     if (!hasPreviousPage || isLoading) return;
     setCurrentPageIndex((prev) => prev - 1);
-  };
+  }, [hasPreviousPage, isLoading]);
 
   React.useEffect(() => {
-    if (!player.id) {
-      return;
-    }
-
-    if (pages.length === 0) {
-      loadPage();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [player.id]);
+    if (!player.id || pages.length !== 0) return;
+    loadPage();
+  }, [player.id, pages.length, loadPage]);
 
   if (error) {
     return (
@@ -146,7 +185,7 @@ export function TimeTrials() {
           <EvPlugXmark width={32} height={32} />
         </div>
         <div>{error}</div>
-        <Button type="error" onClick={loadPage}>
+        <Button type="error" onClick={() => loadPage()}>
           <div className="flex flex-row space-x-1 items-center">
             <div>Retry</div>
             <Refresh height={16} />
@@ -165,80 +204,79 @@ export function TimeTrials() {
   }
 
   return (
-    <div className="flex flex-col grow">
-      <h1 className="mb-6">Time trials</h1>
+    <div className="w-full max-w-6xl mx-auto grow">
+      <div className="">
+        <div className="p-6">
+          <div className="rounded-lg overflow-hidden border border-base-800">
+            <table className="w-full">
+              <thead>
+                <tr className="bg-base-800-50">
+                  <th className="text-left p-4 text-base-200 font-semibold">
+                    Name
+                  </th>
+                  <th className="text-left p-4 text-base-200 font-semibold w-48">
+                    Percentile
+                  </th>
+                  <th className="text-right p-4 text-base-200 font-semibold">
+                    WPM
+                  </th>
+                  <th className="text-right p-4 text-base-200 font-semibold">
+                    Time
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentPage?.items.map((trial) => (
+                  <TimeTrialRow
+                    key={trial.id}
+                    trial={trial}
+                    onRowClick={handleRowClick}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-      <table className="w-full">
-        <thead>
-          <tr className="font-bold">
-            <td className="w-max">Name</td>
-            <td className="w-max">Percentile</td>
-            <td className="w-max">Wpm</td>
-            <td className="w-max">Time</td>
-          </tr>
-        </thead>
-        <tbody className="gap-y-4">
-          {currentPage?.items.map((t, index) => (
-            <tr
-              onClick={() => handleRowClick(t.id)}
-              className="cursor-pointer hover:bg-base-800"
-              role="link"
-              key={t.id || index}
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  handleRowClick(t.id);
-                }
-              }}
-            >
-              <td className="py-2">{t.name || "-"}</td>
-              <td className="py-2 h-full font-mono">
-                <div className="relative max-w-[80%]">
-                  <div className="text-transparent">100th</div>
-                  <div className="absolute left-0 top-0 w-full text-center z-10">
-                    {formatPercentile(t.percentile)}
-                  </div>
-                  {t.percentile !== -1 ? (
-                    <Bar percentFilled={t.percentile * 100} />
-                  ) : (
-                    <Bar percentFilled={0} />
-                  )}
-                </div>
-              </td>
-              <td className="py-2 font-mono text-accent">
-                {(t.wpm && t.wpm >= 0 && t.wpm?.toFixed(1)) || ""}
-              </td>
-              <td className="py-2 font-mono">{formatTimeSeconds(t.time)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+          {error && (
+            <div className="flex items-center justify-center p-8 text-red-400 gap-2">
+              <EvPlugXmark className="h-5 w-5" />
+              <p>{error}</p>
+              <Button type="secondary" onClick={() => loadPage()}>
+                <RefreshCircle className="h-4 w-4" />
+                Retry
+              </Button>
+            </div>
+          )}
 
-      <div className="flex flex-row w-full justify-between pt-4">
-        <span className="py-2">Page {currentPageIndex + 1}</span>
+          {isLoading && (
+            <div className="flex justify-center p-8">
+              <Spinner />
+            </div>
+          )}
 
-        <div>
-          <button
-            onClick={goToPreviousPage}
-            disabled={!hasPreviousPage || isLoading}
-            className="px-3 py-1 font-medium rounded-md border border-base-200 text-sm mr-2"
-            style={{
-              opacity: !hasPreviousPage || isLoading ? 0.5 : 1,
-            }}
-          >
-            Previous
-          </button>
-
-          <button
-            onClick={goToNextPage}
-            disabled={!hasNextPage || isLoading}
-            className="px-3 py-1 font-medium rounded-md border border-base-200 text-sm"
-            style={{
-              opacity: !hasNextPage || isLoading ? 0.5 : 1,
-            }}
-          >
-            Next
-          </button>
+          <div className="flex justify-between items-center mt-6 px-2">
+            <span className="text-sm text-base-400">
+              Page {currentPageIndex + 1}
+            </span>
+            <div className="flex gap-2">
+              <button
+                className="flex items-center gap-1 px-3 py-1 text-sm font-medium rounded bg-base-800 hover:bg-base-700 disabled:opacity-50 transition-colors"
+                onClick={goToPreviousPage}
+                disabled={!hasPreviousPage || isLoading}
+              >
+                <NavArrowLeft className="h-4 w-4" />
+                Previous
+              </button>
+              <button
+                className="flex items-center gap-1 px-3 py-1 text-sm font-medium rounded bg-base-800 hover:bg-base-700 disabled:opacity-50 transition-colors"
+                onClick={goToNextPage}
+                disabled={!hasNextPage || isLoading}
+              >
+                Next
+                <NavArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

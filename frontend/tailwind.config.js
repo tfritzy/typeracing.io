@@ -26,6 +26,7 @@ module.exports = {
         "base-600": "var(--base-600)",
         "base-700": "var(--base-700)",
         "base-800": "var(--base-800)",
+        "base-800-50": "var(--base-800-50)",
         "base-900": "var(--base-900)",
         accent: "var(--accent)",
         "accent-600": "var(--accent-600)",

@@ -53,7 +53,7 @@ export function TimeTrialTypeBox(props: Props) {
     <div>
       <div
         className="transition-opacity mb-2"
-        style={{ color: startTime > 0 ? "var(--base-200)" : "var(--base-500)" }}
+        style={{ color: startTime > 0 ? "var(--accent)" : "var(--base-500)" }}
       >
         <Timer startTime={startTime || Date.now()} running={!done} />
       </div>

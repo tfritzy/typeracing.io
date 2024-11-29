@@ -1,7 +1,7 @@
 type Type = "primary" | "secondary" | "error";
 
 type Props = {
-  children: JSX.Element | String;
+  children: any;
   onClick: () => void;
   type?: Type;
 };

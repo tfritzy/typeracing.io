@@ -143,6 +143,18 @@ export const TypeBox = (props: TypeBoxProps) => {
     }
   }, [phrase, phraseRef.current?.clientWidth]);
 
+  const ignorePaste = React.useCallback((event: any) => {
+    event.preventDefault();
+  }, []);
+
+  const onFocus = React.useCallback((event: any) => {
+    setFocused(true);
+  }, []);
+
+  const onBlur = React.useCallback((event: any) => {
+    setFocused(false);
+  }, []);
+
   const ignoreArrows = React.useCallback((event: React.KeyboardEvent) => {
     if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
       event.preventDefault();
@@ -162,10 +174,10 @@ export const TypeBox = (props: TypeBoxProps) => {
         hasError = true;
         text.push(
           <span className="relative underline underline-offset-[6px]">
-            <span className="base-300-color opacity-25">
+            <span className="text-error-color">
               {phrase[lockedCharacterIndex + i]}
             </span>
-            <span className="absolute text-error-color top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <span className="absolute text-error-color opacity-25 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               {currentWord[i]}
             </span>
           </span>
@@ -202,7 +214,10 @@ export const TypeBox = (props: TypeBoxProps) => {
     }
 
     return { text, hasError };
-  }, [currentWord, lockedCharacterIndex, phrase]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentWord]);
+
+  const showFixAll = hasError && currentWord.length > 12;
 
   const handleInput = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -354,7 +369,7 @@ export const TypeBox = (props: TypeBoxProps) => {
         {errorBorder}
         <input
           value={currentWord}
-          onPaste={(e) => e.preventDefault()}
+          onPaste={ignorePaste}
           onChange={handleInput}
           onKeyDown={ignoreArrows}
           id="type-box"
@@ -370,8 +385,8 @@ export const TypeBox = (props: TypeBoxProps) => {
             outline: "none",
           }}
           autoFocus
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
         <Cursor
           disabled={!focused || lockedCharacterIndex >= phrase.length}
@@ -381,6 +396,14 @@ export const TypeBox = (props: TypeBoxProps) => {
           phrase={phrase}
         />
       </div>
+      {showFixAll && (
+        <div
+          className="absolute -top-4 text-error-color text-lg w-full text-center"
+          style={{ lineHeight: 0 }}
+        >
+          You must fix all errors
+        </div>
+      )}
     </div>
   );
 };
