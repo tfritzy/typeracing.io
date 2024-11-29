@@ -37,6 +37,8 @@ namespace api
                 return new BadRequestObjectResult(e.Message);
             }
 
+            Console.WriteLine($"Posting result for " + trialRequest.id);
+
             Container trialContainer = _cosmosClient.GetContainer(DB.Name, DB.TimeTrials);
             ItemResponse<TimeTrial>? trial = await TimeTrialHelpers.FindTrial(
                 trialContainer,
