@@ -63,15 +63,14 @@ export function TimeTrial() {
 
   const onComplete = React.useCallback((keystrokes: KeyStroke[]) => {
     setKeystrokes(keystrokes);
+    setResultsOpen(true);
   }, []);
-
-  console.log("results", results);
 
   if (errored) {
     return <div className="grow">Womp womp</div>;
   }
 
-  if (!trial) {
+  if (!trial?.id) {
     return <div className="grow"></div>;
   }
 
@@ -100,15 +99,12 @@ export function TimeTrial() {
         </div>
       </div>
 
-      <Modal shown>
-        <div>Example modal</div>
-      </Modal>
-
       <TrialResultsModal
         keystrokes={keystrokes}
         phrase={trial.phrase!}
         onClose={() => setResultsOpen(false)}
-        shown={resultsOpen && !!results}
+        shown={resultsOpen}
+        trialId={trial.id}
       />
     </>
   );

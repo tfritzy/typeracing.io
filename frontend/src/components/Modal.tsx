@@ -34,18 +34,7 @@ export function Modal(props: Props) {
         </div>
       )}
 
-      <div className="p-4">{props.children}</div>
-
-      {props.onClose && (
-        <div className="flex flex-row justify-end pl-8 p-3 w-full border-b border-base-800">
-          <button
-            className="text-accent rounded-md px-2 py-1 font-semibold"
-            onClick={props.onClose}
-          >
-            Done
-          </button>
-        </div>
-      )}
+      <div className="">{props.children}</div>
     </div>
   );
 }

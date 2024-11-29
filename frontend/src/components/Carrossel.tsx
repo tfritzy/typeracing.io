@@ -18,14 +18,6 @@ export const Carrossel: React.FC<CarrosselProps> = ({ views }) => {
     itemsRef.current = Array(views.length).fill(null);
   }
 
-  const getDirectionalIndex = React.useCallback(
-    (direction: "next" | "prev") =>
-      direction === "next"
-        ? (index + 1) % views.length
-        : (index - 1 + views.length) % views.length,
-    [index, views.length]
-  );
-
   const handleNavigation = useCallback((newIndex: number): void => {
     setIndex(newIndex);
 
@@ -43,6 +35,7 @@ export const Carrossel: React.FC<CarrosselProps> = ({ views }) => {
     <div
       className="transition-opacity"
       ref={(el) => (itemsRef.current[i] = el)}
+      key={v.id}
       style={{
         opacity: i === index ? 1 : 0.25,
         minWidth: itemWidth,

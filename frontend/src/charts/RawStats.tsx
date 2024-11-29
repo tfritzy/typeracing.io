@@ -7,6 +7,7 @@ import {
   formatTimeSeconds,
   formatWpm,
 } from "../helpers/time";
+import { ResolvedTimeTrialResult } from "../time-trials/TrialResultsModal";
 
 type Value = {
   format: (value: number) => string;
@@ -23,7 +24,7 @@ type RowProps = {
 };
 
 function Row(props: RowProps) {
-  const values = props.values.map((val) => {
+  const values = props.values.map((val, i) => {
     let percent;
     if (val.maxValue && !!val.worstValueForInverted) {
       const distFromBottom = val.value - val.worstValueForInverted;
@@ -35,7 +36,7 @@ function Row(props: RowProps) {
       percent = Math.max(0.03, percent);
     }
     return (
-      <div className="relative">
+      <div key={i} className="relative">
         {percent !== undefined && (
           <Bar greyscale={!!val.greyscale} percentFilled={percent * 100} />
         )}
@@ -49,7 +50,9 @@ function Row(props: RowProps) {
 
   return (
     <div className="grid grid-cols-4 gap-x-2 shadow-base-900">
-      <div className="text-sm font-medium text-base-300 py-1">{props.name}</div>
+      <div key="name" className="text-sm font-medium text-base-300 py-1">
+        {props.name}
+      </div>
       {values}
     </div>
   );
@@ -71,7 +74,7 @@ type PercentileGroup = "p99" | "p90" | "p50" | "p25";
 // }
 
 type Props = {
-  result: ReportTimeTrialResponse;
+  result: ResolvedTimeTrialResult;
   phrase: string;
 };
 
@@ -79,12 +82,12 @@ export const RawStats = (props: Props) => {
   const result = props.result;
   console.log(result);
   const bestWpm = Math.max(
-    result.p99_wpm!,
+    result.p99_wpm,
     result.best_run_wpm || 0,
     result.wpm!
   );
   const bestAccuracy = result.best_run_accuracy!;
-  const worstTime = Math.max(result.p25_time!, result.time!);
+  const worstTime = Math.max(result.p25_time, result.time!);
   const setPr = !!result.best_run_wpm && result.wpm! > result.best_run_wpm;
   console.log(
     "Set pr",
@@ -109,20 +112,19 @@ export const RawStats = (props: Props) => {
           key="this_race"
           values={[
             {
-              value: result.wpm!,
+              value: result.wpm || 0,
               maxValue: bestWpm,
               format: formatWpm,
               star: setPr,
             },
             {
-              value: result.time!,
+              value: result.time || 0,
               // maxValue: bestTime,
               format: formatTimeSeconds,
               worstValueForInverted: worstTime,
-              star: setPr,
             },
             {
-              value: result.accuracy!,
+              value: result.accuracy || 0,
               maxValue: bestAccuracy,
               format: formatAccuracy,
             },
@@ -133,18 +135,18 @@ export const RawStats = (props: Props) => {
           key="best"
           values={[
             {
-              value: result.best_run_wpm!,
+              value: result.best_run_wpm || 0,
               maxValue: bestWpm,
               format: formatWpm,
             },
             {
-              value: result.best_run_time!,
+              value: result.best_run_time || 0,
               // maxValue: bestTime,
               format: formatTimeSeconds,
               worstValueForInverted: worstTime,
             },
             {
-              value: result.accuracy!,
+              value: result.accuracy || 0,
               maxValue: bestAccuracy,
               format: formatAccuracy,
             },
@@ -161,13 +163,13 @@ export const RawStats = (props: Props) => {
           key="99"
           values={[
             {
-              value: result.p99_wpm!,
+              value: result.p99_wpm,
               maxValue: bestWpm,
               format: formatWpm,
               greyscale: true,
             },
             {
-              value: result.p99_time!,
+              value: result.p99_time,
               // maxValue: bestTime,
               format: formatTimeSeconds,
               worstValueForInverted: worstTime,
@@ -184,13 +186,13 @@ export const RawStats = (props: Props) => {
           key="90"
           values={[
             {
-              value: result.p90_wpm!,
+              value: result.p90_wpm,
               maxValue: bestWpm,
               format: formatWpm,
               greyscale: true,
             },
             {
-              value: result.p90_time!,
+              value: result.p90_time,
               // maxValue: bestTime,
               format: formatTimeSeconds,
               worstValueForInverted: worstTime,
@@ -207,13 +209,13 @@ export const RawStats = (props: Props) => {
           key="50"
           values={[
             {
-              value: result.p50_wpm!,
+              value: result.p50_wpm,
               maxValue: bestWpm,
               format: formatWpm,
               greyscale: true,
             },
             {
-              value: result.p50_time!,
+              value: result.p50_time,
               // maxValue: bestTime,
               format: formatTimeSeconds,
               worstValueForInverted: worstTime,
@@ -230,13 +232,13 @@ export const RawStats = (props: Props) => {
           key="25"
           values={[
             {
-              value: result.p25_wpm!,
+              value: result.p25_wpm,
               maxValue: bestWpm,
               format: formatWpm,
               greyscale: true,
             },
             {
-              value: result.p25_time!,
+              value: result.p25_time,
               // maxValue: bestTime,
               format: formatTimeSeconds,
               worstValueForInverted: worstTime,
