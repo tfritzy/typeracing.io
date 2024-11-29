@@ -9,6 +9,7 @@ type Props = {
 };
 
 export function TimeTrialTypeBox(props: Props) {
+  const { onPhraseComplete, trial } = props;
   const [lockedCharIndex, setLockedCharIndex] = React.useState<number>(0);
   const keyStrokes = React.useRef<KeyStroke[]>([]);
   const [startTime, setStartTime] = React.useState<number>(0);
@@ -39,13 +40,13 @@ export function TimeTrialTypeBox(props: Props) {
       keyStrokes.current.push(...wordStrokes);
       console.log(keyStrokes);
 
-      if (charIndex >= props.trial.phrase!.length) {
+      if (charIndex >= trial.phrase!.length) {
         setDone(true);
-        props.onPhraseComplete(keyStrokes.current);
+        onPhraseComplete(keyStrokes.current);
         stop();
       }
     },
-    [props, startTime, stop]
+    [trial, onPhraseComplete, startTime, stop]
   );
 
   return (
@@ -57,7 +58,7 @@ export function TimeTrialTypeBox(props: Props) {
         <Timer startTime={startTime || Date.now()} running={!done} />
       </div>
       <TypeBox
-        phrase={props.trial.phrase!}
+        phrase={trial.phrase!}
         lockedCharacterIndex={lockedCharIndex}
         onWordComplete={handleWordComplete}
         isLocked={false}

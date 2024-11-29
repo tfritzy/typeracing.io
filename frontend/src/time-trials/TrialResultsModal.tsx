@@ -10,13 +10,18 @@ import { RawStats } from "../charts/RawStats";
 import { PercentileBarChart } from "../charts/PercentileBarChart";
 import { Carrossel } from "../components/Carrossel";
 import { WpmOverTime } from "../charts/WpmOverTimeChart";
-import { Xmark } from "iconoir-react";
+import { WifiXmark, Xmark } from "iconoir-react";
 import React from "react";
 import { PlayerState } from "../store/playerSlice";
 import { RootState } from "../store/store";
 import { useAppSelector } from "../store/storeHooks";
+import { Modal } from "../components/Modal";
+import { Spinner } from "../components/Spinner";
+import { Button } from "../components/Button";
 
-type Result = {
+const apiUrl = process.env.REACT_APP_API_ADDRESS;
+
+export type ResolvedTimeTrialResult = {
   time?: number;
   wpm?: number;
   accuracy?: number;
@@ -42,7 +47,7 @@ type Result = {
 
 function parseTimeTrialResult(
   response: ReportTimeTrialResponse
-): Result | null {
+): ResolvedTimeTrialResult | null {
   if (
     !response.errors_at_time ||
     !response.global_times ||
@@ -90,7 +95,10 @@ export function TrialResultsModal(props: Props) {
     (state: RootState) => state.player
   );
   const [errored, setErrored] = React.useState<boolean>(false);
-  const [result, setResult] = React.useState<Result | null>(null);
+  const [result, setResult] = React.useState<ResolvedTimeTrialResult | null>(
+    null
+  );
+  const [pending, setPending] = React.useState<boolean>(false);
   const onClose = React.useCallback(() => {
     document.getElementById("type-box")?.focus();
     props.onClose();
@@ -106,6 +114,7 @@ export function TrialResultsModal(props: Props) {
           keystrokes: keystrokes,
         }),
       };
+      setPending(true);
       fetch(apiUrl + "/api/time-trial-result", opts)
         .then((response) => response.arrayBuffer())
         .then((arrayBuffer) => new Uint8Array(arrayBuffer))
@@ -114,88 +123,114 @@ export function TrialResultsModal(props: Props) {
           const result = parseTimeTrialResult(decoded);
 
           if (result !== null) {
+            setErrored(false);
             setResult(result);
           } else {
             setErrored(true);
           }
+
+          setPending(false);
         })
         .catch((error) => {
-          console.log(error);
+          setPending(false);
+          setErrored(true);
         });
     },
-    [player.id, player.token, trial?.id]
+    [player.id, player.token, props.trialId]
   );
 
-  const views = [
-    {
-      id: "Performance",
-      render: () => <RawStats result={results} phrase={props.phrase} />,
-    },
-    {
-      id: "WPM Distribution",
-      render: () => (
-        <PercentileBarChart
-          data={results.global_wpm!}
-          phrase={props.phrase}
-          mostRecentWpm={results.wpm!}
-        />
-      ),
-    },
-    {
-      id: "Time Distribution",
-      render: () => (
-        <TimeBarChart
-          data={results.global_times!}
-          mostRecentTime={results.time!}
-        />
-      ),
-    },
-    {
-      id: "Race",
-      render: () => (
-        <WpmOverTime
-          errors={results.errors_at_time!}
-          raw_wpm_by_second={results.raw_wpm_by_second!}
-          wpm_by_second={results.wpm_by_second!}
-        />
-      ),
-    },
-  ];
+  React.useEffect(() => {
+    if (props.keystrokes.length) {
+      postResult(props.keystrokes);
+    }
+  }, [postResult, props.keystrokes]);
+
+  const views = React.useMemo(() => {
+    if (!result) {
+      return [];
+    }
+
+    return [
+      {
+        id: "Performance",
+        render: () => <RawStats result={result} phrase={props.phrase} />,
+      },
+      {
+        id: "WPM Distribution",
+        render: () => (
+          <PercentileBarChart
+            data={result.global_wpm!}
+            phrase={props.phrase}
+            mostRecentWpm={result.wpm!}
+          />
+        ),
+      },
+      {
+        id: "Time Distribution",
+        render: () => (
+          <TimeBarChart
+            data={result.global_times!}
+            mostRecentTime={result.time!}
+          />
+        ),
+      },
+      {
+        id: "Race",
+        render: () => (
+          <WpmOverTime
+            errors={result.errors_at_time!}
+            raw_wpm_by_second={result.raw_wpm_by_second!}
+            wpm_by_second={result.wpm_by_second!}
+          />
+        ),
+      },
+    ];
+  }, [props.phrase, result]);
+
+  let content;
+  if (pending) {
+    content = (
+      <div className="p-8">
+        <Spinner />
+      </div>
+    );
+  } else if (errored) {
+    content = (
+      <div>
+        <div className="px-12 mb-4 text-error-color flex flex-col items-center">
+          <WifiXmark width={48} height={48} />
+          <div>Failed to post result</div>
+        </div>
+        <div className="w-full flex flex-row justify-center space-x-2">
+          <Button onClick={props.onClose}>Cancel</Button>
+          <Button primary onClick={() => postResult(props.keystrokes)}>
+            Retry
+          </Button>
+        </div>
+      </div>
+    );
+  } else {
+    content = (
+      <div>
+        <div className="p-4">
+          <Carrossel views={views} />
+        </div>
+        {props.onClose && (
+          <div className="flex flex-row justify-end pl-8 p-3 w-full border-t border-base-800">
+            <Button onClick={props.onClose}>Done</Button>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
-    <div
-      className="fixed backdrop-blur-xl backdrop-brightness-[.8] shadow-2xl shadow-gray-950 overflow-y-auto rounded-lg border border-base-800 left-1/2 top-1/2"
-      style={{
-        opacity: props.shown ? 1 : 0,
-        transform: props.shown
-          ? "translate(-50%, -50%)"
-          : "translate(-50%, calc(-50% + 20px))",
-        transition: "opacity 0.2s, transform 0.2s",
-      }}
+    <Modal
+      title={!!pending ? undefined : "Results"}
+      onClose={!!pending ? undefined : props.onClose}
+      shown={props.shown}
     >
-      <div className="flex flex-row justify-between pl-8 p-3 w-full border-b border-base-800">
-        <div className="font-semibold">Resuls</div>
-
-        <button
-          className="text-base-200 hover:text-error-color transition-colors"
-          onClick={onClose}
-        >
-          <Xmark width={24} />
-        </button>
-      </div>
-
-      <div className="p-4">
-        <Carrossel views={views} />
-      </div>
-
-      <div className="flex flex-row justify-end pl-8 p-3 w-full border-b border-base-800">
-        <button
-          className="text-accent rounded-md px-2 py-1 font-semibold"
-          onClick={onClose}
-        >
-          Done
-        </button>
-      </div>
-    </div>
+      {content}
+    </Modal>
   );
 }

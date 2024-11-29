@@ -247,7 +247,7 @@ export const TypeBox = (props: TypeBoxProps) => {
     ]
   );
 
-  const handleWordUpdate = React.useCallback(() => {
+  useEffect(() => {
     if (lockedCharacterIndex >= phrase.length) {
       return;
     }
@@ -308,10 +308,6 @@ export const TypeBox = (props: TypeBoxProps) => {
       keyStrokes.current.compositeSize = 0;
     }
   }, [currentWord, lockedCharacterIndex, onWordComplete, phrase]);
-
-  useEffect(() => {
-    handleWordUpdate();
-  }, [currentWord, handleWordUpdate]);
 
   const refocusMessage = React.useMemo(() => {
     return (

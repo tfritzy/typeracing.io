@@ -28,7 +28,7 @@ import { Countdown } from "./Countdown";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useConnectionContext } from "../ConnectionProvider";
 import { sendFindGameRequest } from "../helpers/functions";
-import { LoadingSpinner } from "../components/LoadingSpinner";
+import { Spinner } from "../components/Spinner";
 import {
   useAppSelector,
   useGameDispatch,
@@ -131,8 +131,7 @@ export const InGame = () => {
   const handleWordComplete = React.useCallback(
     (newLockIndex: number, keyStrokes: KeyStroke[], errors: number) => {
       const word = phrase.slice(lockCharIndex, newLockIndex).trim();
-      for (let i = 0; i < keyStrokes.length; i++)
-      {
+      for (let i = 0; i < keyStrokes.length; i++) {
         keyStrokes[i].time = keyStrokes[i].time! - startTime;
       }
 
@@ -153,7 +152,7 @@ export const InGame = () => {
   );
 
   if (!gameState.id) {
-    return <LoadingSpinner />;
+    return <Spinner />;
   }
 
   return (
