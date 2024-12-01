@@ -2,7 +2,6 @@ import React from "react";
 import { decodeListTimeTrialsResponse, TimeTrialListItem } from "../compiled";
 import { useAppSelector } from "../store/storeHooks";
 import { RootState } from "../store/store";
-import { formatPercentile } from "../helpers/time";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/Button";
 import { EvPlugXmark, Refresh, RefreshCircle } from "iconoir-react";
@@ -36,13 +35,13 @@ function Difficulty(props: { difficulty: number }): JSX.Element {
   const dots = React.useMemo(() => {
     switch (difficulty) {
       case 1:
-        return <span className="text-green-500">Easy</span>;
+        return <span className="text-base-300">Easy</span>;
       case 2:
-        return <span className="text-yellow-400">Medium</span>;
+        return <span className="text-base-300">Medium</span>;
       case 3:
-        return <span className="text-red-500">Hard</span>;
+        return <span className="text-base-300">Hard</span>;
       case 4:
-        return <span className="text-purple-500">Not worth it</span>;
+        return <span className="text-base-300">Not worth it</span>;
     }
   }, [difficulty]);
 
@@ -107,16 +106,11 @@ const TimeTrialRow = React.memo(
           <Difficulty difficulty={trial.difficulty} />
         </td>
         <td className="py-3">
-          <div className="relative w-full h-6">
-            <span className="absolute top-0 left-1/2 -translate-x-1/2 text-xs font-mono text-emerald-500 z-10">
-              {trial.percentile ? formatPercentile(trial.percentile) : ""}
-            </span>
-            <div className="absolute bottom-0 w-full h-2 rounded-full bg-base-800 overflow-hidden">
-              <div
-                className="h-full bg-emerald-500 transition-all duration-200"
-                style={{ width: `${trial.percentile * 100}%` }}
-              />
-            </div>
+          <div className="w-full h-2 bg-base-800 rounded-full">
+            <div
+              className="w-full h-full rounded-full bg-gradient-to-r  from-emerald-600 to-emerald-500"
+              style={{ width: `${trial.percentile * 100}%` }}
+            />
           </div>
         </td>
         <td className="py-3 text-right font-mono text-emerald-400">
