@@ -52,7 +52,7 @@ export const WpmOverTime = (props: Props) => {
           xAxis.push({
             x: errors_at_time[i].time,
             x2: errors_at_time[indexBackToZero].time,
-            fillColor: "#dc2626",
+            fillColor: "red",
             opacity: 0.15,
             borderColor: "var(--base-700)",
             strokeDashArray: 0,

@@ -29,9 +29,7 @@ const Timer: React.FC<TimerProps> = ({ startTime = Date.now(), running }) => {
   }, [startTime]);
 
   return (
-    <div className="font-mono text-xl tabular-nums">
-      {formatTime(animatedValue)}
-    </div>
+    <div className="font-mono tabular-nums">{formatTime(animatedValue)}</div>
   );
 };
 

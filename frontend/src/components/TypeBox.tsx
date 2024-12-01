@@ -97,7 +97,7 @@ const Cursor = (props: CursorProps) => {
 
   return (
     <span
-      className={`h-[26px] w-[1px] bg-base-100 fixed ${
+      className={`h-[20px] w-[1px] bg-base-100 fixed ${
         props.pulsing ? "cursor" : ""
       }`}
       style={{
@@ -173,7 +173,7 @@ export const TypeBox = (props: TypeBoxProps) => {
       if (currentWord[i] !== phrase[lockedCharacterIndex + i]) {
         hasError = true;
         text.push(
-          <span className="relative underline underline-offset-[6px]">
+          <span className="relative underline underline-offset-[4px]">
             <span className="text-error-color">
               {phrase[lockedCharacterIndex + i]}
             </span>
@@ -184,7 +184,7 @@ export const TypeBox = (props: TypeBoxProps) => {
         );
       } else {
         text.push(
-          <span className="underline underline-offset-[6px] text-base-100">
+          <span className="underline underline-offset-[4px] text-base-100">
             {currentWord[i]}
           </span>
         );
@@ -203,7 +203,7 @@ export const TypeBox = (props: TypeBoxProps) => {
       nextSpaceIndex
     );
     text.push(
-      <span className="underline underline-offset-[6px] text-base-500">
+      <span className="underline underline-offset-[4px] text-base-500">
         {remainderOfWord}
       </span>
     );
@@ -353,7 +353,7 @@ export const TypeBox = (props: TypeBoxProps) => {
   }, [hasError]);
 
   return (
-    <div className="relative">
+    <div className="relative select-none">
       <div className="text-2xl type-box">
         <div
           className="rounded-lg transition-colors whitespace-pre-wrap"
@@ -373,7 +373,7 @@ export const TypeBox = (props: TypeBoxProps) => {
           onChange={handleInput}
           onKeyDown={ignoreArrows}
           id="type-box"
-          className="w-full outline-none typebox rounded-lg absolute top-0 left-0 bg-transparent text-transparent max-w-full max-h-full h-full"
+          className="w-full min-h-full outline-none typebox rounded-lg absolute top-0 left-0 bg-transparent text-transparent"
           ref={inputRef}
           autoCorrect="false"
           autoCapitalize="none"

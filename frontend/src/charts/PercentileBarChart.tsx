@@ -28,10 +28,19 @@ export const PercentileBarChart: React.FC<Props> = ({
     const totalCount = Object.values(data)
       .map(Number)
       .reduce((sum, val) => sum + val);
+    const stepSize = Math.floor((max + 10 - min - 10) / 30);
 
-    for (let i = min - 5; i < max + 5; i++) {
+    for (let i = min - 10; i < max + 10; i += stepSize) {
+      let count = 0;
+
+      for (let j = i; j < i + stepSize; j++) {
+        count += data[j] ?? 0;
+      }
+
       const wpm = i;
-      const percent = (((data[i] ?? 0) / totalCount) * 100).toFixed(0) + "%";
+      const percent = !!count
+        ? ((count / totalCount) * 100).toFixed(0) + "%"
+        : "0%";
       filledIn[wpm] = percent;
     }
 
@@ -39,13 +48,11 @@ export const PercentileBarChart: React.FC<Props> = ({
   }, [data]);
 
   const series: ApexOptions["series"] = React.useMemo(() => {
-    const closestWpm = Object.keys(data)
+    const closestWpm = Object.keys(formattedData)
       .map(Number)
-      .reduce((closest, key) => {
-        const currentDiff = Math.abs(key - mostRecentWpm);
-        const closestDiff = Math.abs(closest - mostRecentWpm);
-        return currentDiff < closestDiff ? key : closest;
-      });
+      .sort(
+        (a, b) => Math.abs(a - mostRecentWpm) - Math.abs(b - mostRecentWpm)
+      )[0];
 
     const ser: ApexAxisChartSeries = [
       {
@@ -82,9 +89,6 @@ export const PercentileBarChart: React.FC<Props> = ({
             selection: false,
             download: false,
           },
-        },
-        selection: {
-          enabled: true,
         },
         animations: {
           enabled: false,
@@ -133,7 +137,26 @@ export const PercentileBarChart: React.FC<Props> = ({
         },
       },
       tooltip: {
-        enabled: false,
+        enabled: true,
+        marker: {
+          show: false, // Hide the marker dot
+        },
+        y: {
+          formatter: (val) => val + "% of players", // Format the percentage
+          title: {
+            formatter: () => "", // Remove the "Value" prefix
+          },
+        },
+        x: {
+          formatter: (val) => val + " WPM",
+        },
+        shared: true,
+        intersect: false,
+        custom: undefined,
+        theme: "dark",
+        style: {
+          fontSize: "12px",
+        },
       },
     };
 
