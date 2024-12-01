@@ -6,12 +6,14 @@ interface Props {
   phrase: string;
   data: { [key: number]: number };
   mostRecentWpm: number;
+  percentile: number;
 }
 
 export const PercentileBarChart: React.FC<Props> = ({
   data,
   phrase,
   mostRecentWpm,
+  percentile,
 }) => {
   const formattedData: { [key: number]: string } = React.useMemo(() => {
     if (Object.keys(data).length === 0) {
@@ -28,7 +30,7 @@ export const PercentileBarChart: React.FC<Props> = ({
     const totalCount = Object.values(data)
       .map(Number)
       .reduce((sum, val) => sum + val);
-    const stepSize = Math.floor((max + 10 - min - 10) / 30);
+    const stepSize = Math.max(Math.floor((max + 10 - min - 10) / 30), 1);
 
     for (let i = min - 10; i < max + 10; i += stepSize) {
       let count = 0;
@@ -68,7 +70,7 @@ export const PercentileBarChart: React.FC<Props> = ({
       },
     ];
     return ser;
-  }, [data, formattedData, mostRecentWpm]);
+  }, [formattedData, mostRecentWpm]);
 
   const options: ApexOptions = React.useMemo(() => {
     const opts: ApexOptions = {
@@ -165,6 +167,13 @@ export const PercentileBarChart: React.FC<Props> = ({
 
   return (
     <div className="w-full">
+      <div className="pl-4">
+        <span>You did better than </span>
+        <span className="font-bold text-accent">
+          {((percentile || 0) * 100)?.toFixed(1)}%
+        </span>
+        <span> of players.</span>
+      </div>
       <ReactApexChart
         options={options}
         series={series}

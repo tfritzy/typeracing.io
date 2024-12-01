@@ -1,5 +1,4 @@
 import { StarSolid } from "iconoir-react";
-import { ReportTimeTrialResponse } from "../compiled";
 import { Bar } from "../components/Bar";
 import {
   formatAccuracy,
@@ -7,7 +6,7 @@ import {
   formatTimeSeconds,
   formatWpm,
 } from "../helpers/time";
-import { ResolvedTimeTrialResult } from "../time-trials/TrialResultsModal";
+import { ResolvedTimeTrialResult } from "../time-trials/TrialResults";
 
 type Value = {
   format: (value: number) => string;
@@ -98,14 +97,14 @@ export const RawStats = (props: Props) => {
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-4 px-5 mb-1">
+      <div className="grid grid-cols-4 mb-1">
         <div />
         <div className="text-sm text-center font-semibold">WPM</div>
         <div className="text-sm text-center font-semibold">Time</div>
         <div className="text-sm text-center font-semibold">Accuracy</div>
       </div>
 
-      <div className="relative p-4 pt-2 rounded-lg flex flex-col space-y-2">
+      <div className="relative pt-2 rounded-lg flex flex-col space-y-2">
         <div className="text-base-300 font-semibold">You</div>
         <Row
           name="This race"
@@ -119,7 +118,6 @@ export const RawStats = (props: Props) => {
             },
             {
               value: result.time || 0,
-              // maxValue: bestTime,
               format: formatTimeSeconds,
               worstValueForInverted: worstTime,
             },
@@ -156,7 +154,7 @@ export const RawStats = (props: Props) => {
 
       <div className="py-3" />
 
-      <div className="relative p-4 pt-2 rounded-lg flex flex-col space-y-2">
+      <div className="relative pt-2 rounded-lg flex flex-col space-y-2">
         <div className="text-base-300 font-semibold">Globally</div>
         <Row
           name="99th percentile"
@@ -170,7 +168,6 @@ export const RawStats = (props: Props) => {
             },
             {
               value: result.p99_time,
-              // maxValue: bestTime,
               format: formatTimeSeconds,
               worstValueForInverted: worstTime,
               greyscale: true,
@@ -193,7 +190,6 @@ export const RawStats = (props: Props) => {
             },
             {
               value: result.p90_time,
-              // maxValue: bestTime,
               format: formatTimeSeconds,
               worstValueForInverted: worstTime,
               greyscale: true,
@@ -216,7 +212,6 @@ export const RawStats = (props: Props) => {
             },
             {
               value: result.p50_time,
-              // maxValue: bestTime,
               format: formatTimeSeconds,
               worstValueForInverted: worstTime,
               greyscale: true,
@@ -239,7 +234,6 @@ export const RawStats = (props: Props) => {
             },
             {
               value: result.p25_time,
-              // maxValue: bestTime,
               format: formatTimeSeconds,
               worstValueForInverted: worstTime,
               greyscale: true,
@@ -250,16 +244,6 @@ export const RawStats = (props: Props) => {
             },
           ]}
         />
-      </div>
-
-      <div className="py-3" />
-
-      <div className="pl-4">
-        <span>You did better than </span>
-        <span className="font-bold text-accent">
-          {((result.percentile || 0) * 100)?.toFixed(1)}%
-        </span>
-        <span> of players.</span>
       </div>
     </div>
   );

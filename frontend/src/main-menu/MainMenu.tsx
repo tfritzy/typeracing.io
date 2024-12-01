@@ -42,14 +42,12 @@ export const MainMenu = (props: MainMenuProps) => {
   }, []);
 
   return (
-    <div>
-      <div className="relative h-screen flex flex-col space-y-32 items-center justify-center point">
-        <div className="absolute left-0 top-0 w-full flex flex-row justify-end py-2">
-          <Profile />
-        </div>
-        <TypeBoxButton phrase={phrase} onPhraseComplete={findGame} />
-        <GameConfig onClose={focusTypeBox} />
+    <div className="relative h-full flex flex-col space-y-32 items-center justify-center point">
+      <div className="absolute left-0 top-0 w-full flex flex-row justify-end py-2">
+        <Profile />
       </div>
+      <TypeBoxButton phrase={phrase} onPhraseComplete={findGame} />
+      <GameConfig onClose={focusTypeBox} />
     </div>
   );
 };

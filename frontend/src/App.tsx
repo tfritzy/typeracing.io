@@ -89,14 +89,16 @@ function App() {
   return (
     <div className="flex flex-col h-screen">
       <Logo />
-      <Routes>
-        <Route path="/" element={<MainMenu />} />
-        <Route path="/in-game" element={<Game />} />
-        <Route path="/time-trials" element={<TimeTrials />} />
-        <Route path="/time-trials/:id" element={<TimeTrial />} />
-      </Routes>
-      <div className="p-8">
-        <h1>Footer</h1>
+      <div className="grow overflow-y-auto overflow-x-hidden">
+        <Routes>
+          <Route path="/" element={<MainMenu />} />
+          <Route path="/in-game" element={<Game />} />
+          <Route path="/time-trials" element={<TimeTrials />} />
+          <Route path="/time-trials/:id" element={<TimeTrial />} />
+        </Routes>
+      </div>
+      <div className="pb-8">
+        <div>Footer</div>
       </div>
     </div>
   );

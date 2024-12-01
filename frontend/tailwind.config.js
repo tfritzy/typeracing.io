@@ -11,6 +11,7 @@ module.exports = {
       },
       boxShadow: {
         centered: "0 0 3px 5px rgba(0, 0, 0, 0.5)",
+        "hard-sm": "0px 1.5px 0 rgb(0 0 0 / 0.4)",
       },
       animation: {
         "pulse-full": "pulseFull 1s cubic-bezier(0.4, 0, 0.6, 1) infinite",

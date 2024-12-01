@@ -8,7 +8,6 @@ interface CarrosselProps {
   views: View[];
 }
 const itemWidth = 700;
-const containerWidth = 700;
 export const Carrossel: React.FC<CarrosselProps> = ({ views }) => {
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   const itemsRef = React.useRef<(HTMLDivElement | null)[]>([]);
@@ -60,7 +59,7 @@ export const Carrossel: React.FC<CarrosselProps> = ({ views }) => {
   );
 
   return (
-    <div className="w-full" style={{ maxWidth: containerWidth }}>
+    <div className="w-full">
       <div className="flex flex-row space-x-2 mb-2">{buttons}</div>
       <div
         className="relative flex flex-row space-x-3 pt-3 pb-3 overflow-x-scroll scrollbar-hide touch-action-none"

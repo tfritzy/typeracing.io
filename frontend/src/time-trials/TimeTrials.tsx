@@ -2,8 +2,6 @@ import React from "react";
 import { decodeListTimeTrialsResponse, TimeTrialListItem } from "../compiled";
 import { useAppSelector } from "../store/storeHooks";
 import { RootState } from "../store/store";
-import { PlayerState } from "../store/playerSlice";
-import { Bar } from "../components/Bar";
 import { formatPercentile, formatTimeSeconds } from "../helpers/time";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/Button";
@@ -33,10 +31,10 @@ type ResolvedListItem = {
   wpm: number;
 };
 
-// Moved outside component to prevent recreation
 const parseTimeTrials = (
   result: TimeTrialListItem[] | undefined
 ): ResolvedListItem[] => {
+  console.log(result);
   const resolved: ResolvedListItem[] = [];
   result?.forEach((r) => {
     if (!r.id || !r.name || !r.wpm || !r.time) {
@@ -57,7 +55,6 @@ const parseTimeTrials = (
   return resolved;
 };
 
-// Memoized row component to prevent unnecessary re-renders
 const TimeTrialRow = React.memo(
   ({
     trial,
@@ -69,10 +66,10 @@ const TimeTrialRow = React.memo(
     <tr
       onClick={() => onRowClick(trial.id)}
       tabIndex={0}
-      className="border-b border-base-800 hover:bg-base-800-50 cursor-pointer focus:ring-[1px] ring-accent"
+      className="hover:bg-base-800-50 cursor-pointer"
     >
-      <td className="p-4 font-medium text-base-200">{trial.name}</td>
-      <td className="p-4">
+      <td className="p-3 font-medium text-base-200">{trial.name}</td>
+      <td className="p-3">
         <div className="relative w-full h-6">
           <span className="absolute top-0 left-1/2 -translate-x-1/2 text-xs font-mono text-emerald-500 z-10">
             {trial.percentile ? formatPercentile(trial.percentile) : ""}
@@ -85,12 +82,13 @@ const TimeTrialRow = React.memo(
           </div>
         </div>
       </td>
-      <td className="p-4 text-right font-mono text-emerald-400">
+      <td className="p-3 text-right font-mono text-emerald-400">
         {trial.wpm ? trial.wpm.toFixed(1) : ""}
       </td>
-      <td className="p-4 text-right font-mono text-base-200">
+      <td className="p-3 text-right font-mono text-base-200">
         {formatTimeSeconds(trial.time)}
       </td>
+      <td className="p-3 font-medium text-error-color">hard</td>
     </tr>
   )
 );
@@ -204,10 +202,10 @@ export function TimeTrials() {
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto grow">
+    <div className="w-full mx-auto grow">
       <div className="">
-        <div className="p-6">
-          <div className="rounded-lg overflow-hidden border border-base-800">
+        <div className="">
+          <div className="overflow-hidden border border-base-800">
             <table className="w-full">
               <thead>
                 <tr className="bg-base-800-50">
@@ -222,6 +220,9 @@ export function TimeTrials() {
                   </th>
                   <th className="text-right p-4 text-base-200 font-semibold">
                     Time
+                  </th>
+                  <th className="text-left p-4 text-base-200 font-semibold">
+                    Difficulty
                   </th>
                 </tr>
               </thead>

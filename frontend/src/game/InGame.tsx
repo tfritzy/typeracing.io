@@ -23,7 +23,7 @@ import {
 } from "../store/gameSlice";
 import { Results } from "./Results";
 import { Players } from "./Players";
-import { ActionBar } from "./ActionBar";
+import { GameActionBar } from "./GameActionBar";
 import { Countdown } from "./Countdown";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useConnectionContext } from "../ConnectionProvider";
@@ -177,7 +177,7 @@ export const InGame = () => {
         )}
         {isGameOver && <Results />}
         {isGameOver && (
-          <ActionBar sendRequest={sendRequest} resetState={resetState} />
+          <GameActionBar sendRequest={sendRequest} resetState={resetState} />
         )}
       </div>
       {Date.now() < startTime + 1500 && (

@@ -50,7 +50,7 @@ export function TimeTrialTypeBox(props: Props) {
   );
 
   return (
-    <div>
+    <div className="p-3">
       <div
         className="transition-opacity text-center w-full text-3xl mb-8"
         style={{ color: startTime > 0 ? "var(--base-100)" : "var(--base-500)" }}

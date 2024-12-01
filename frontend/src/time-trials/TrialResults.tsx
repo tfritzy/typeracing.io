@@ -1,4 +1,3 @@
-import { TimeBarChart } from "../charts/TimeBarChart";
 import {
   decodeReportTimeTrialResponse,
   encodeReportTimeTrialRequest,
@@ -8,16 +7,17 @@ import {
 } from "../compiled";
 import { RawStats } from "../charts/RawStats";
 import { PercentileBarChart } from "../charts/PercentileBarChart";
-import { Carrossel } from "../components/Carrossel";
 import { WpmOverTime } from "../charts/WpmOverTimeChart";
-import { WifiXmark, Xmark } from "iconoir-react";
+import { WifiXmark } from "iconoir-react";
 import React from "react";
 import { PlayerState } from "../store/playerSlice";
 import { RootState } from "../store/store";
 import { useAppSelector } from "../store/storeHooks";
-import { Modal } from "../components/Modal";
 import { Spinner } from "../components/Spinner";
 import { Button } from "../components/Button";
+import { ActionBar } from "../components/ActionBar";
+import { useNavigate } from "react-router-dom";
+import { Carrossel } from "../components/Carrossel";
 
 const apiUrl = process.env.REACT_APP_API_ADDRESS;
 
@@ -90,7 +90,7 @@ type Props = {
   shown: boolean;
 };
 
-export function TrialResultsModal(props: Props) {
+export function TrialResults(props: Props) {
   const player: PlayerState = useAppSelector(
     (state: RootState) => state.player
   );
@@ -99,10 +99,20 @@ export function TrialResultsModal(props: Props) {
     null
   );
   const [pending, setPending] = React.useState<boolean>(false);
-  const onClose = React.useCallback(() => {
-    document.getElementById("type-box")?.focus();
-    props.onClose();
-  }, [props]);
+  const navigate = useNavigate();
+
+  const onClose = React.useCallback(
+    (event: Event) => {
+      event.preventDefault();
+      props.onClose();
+      document.getElementById("type-box")?.focus();
+    },
+    [props]
+  );
+
+  const returnToTimeTrials = React.useCallback(() => {
+    navigate("/time-trials");
+  }, [navigate]);
 
   const postResult = React.useCallback(
     (keystrokes: KeyStroke[]) => {
@@ -152,25 +162,13 @@ export function TrialResultsModal(props: Props) {
 
     return [
       {
-        id: "Performance",
-        render: () => <RawStats result={result} phrase={props.phrase} />,
-      },
-      {
-        id: "WPM Distribution",
+        id: "Distribution",
         render: () => (
           <PercentileBarChart
             data={result.global_wpm!}
             phrase={props.phrase}
             mostRecentWpm={result.wpm!}
-          />
-        ),
-      },
-      {
-        id: "Time Distribution",
-        render: () => (
-          <TimeBarChart
-            data={result.global_times!}
-            mostRecentTime={result.time!}
+            percentile={result.percentile!}
           />
         ),
       },
@@ -187,8 +185,21 @@ export function TrialResultsModal(props: Props) {
     ];
   }, [props.phrase, result]);
 
+  const actionBarOptions = [
+    {
+      name: "Time trials",
+      hotkey: "t",
+      onPress: returnToTimeTrials,
+    },
+    {
+      name: "Play again",
+      hotkey: "p",
+      onPress: onClose,
+    },
+  ];
+
   let content;
-  if (pending) {
+  if (pending || !result) {
     content = (
       <div className="p-8">
         <Spinner />
@@ -211,26 +222,23 @@ export function TrialResultsModal(props: Props) {
     );
   } else {
     content = (
-      <div>
-        <div className="p-4">
-          <Carrossel views={views} />
-        </div>
-        {props.onClose && (
-          <div className="flex flex-row justify-end pl-8 p-3 w-full border-t border-base-800">
-            <Button onClick={props.onClose}>Done</Button>
-          </div>
-        )}
+      <div className="h-full flex flex-col space-y-4 pb-4">
+        <h1>Finish!</h1>
+
+        <h2>Stats</h2>
+        <RawStats result={result} phrase={props.phrase} />
+
+        <br />
+
+        <h2>Charts</h2>
+        <Carrossel views={views} />
+
+        <br />
+
+        <ActionBar options={actionBarOptions} />
       </div>
     );
   }
 
-  return (
-    <Modal
-      title={!!pending ? undefined : "Results"}
-      onClose={!!pending ? undefined : props.onClose}
-      shown={props.shown}
-    >
-      {content}
-    </Modal>
-  );
+  return content;
 }
