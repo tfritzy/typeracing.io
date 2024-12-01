@@ -62,50 +62,50 @@ namespace Schema {
             "ZW5BZGRlZFRvR2FtZRIPCgdnYW1lX2lkGAEgASgJEi0KD2N1cnJlbnRfcGxh",
             "eWVycxgCIAMoCzIULlNjaGVtYS5JbkdhbWVQbGF5ZXISDgoGcGhyYXNlGAMg",
             "ASgJIkgKElBsYXllckRpc2Nvbm5lY3RlZBIRCglwbGF5ZXJfaWQYASABKAkS",
-            "DwoHcmVtb3ZlZBgCIAEoCBIOCgZpc195b3UYAyABKAginQEKCVRpbWVUcmlh",
+            "DwoHcmVtb3ZlZBgCIAEoCBIOCgZpc195b3UYAyABKAgisQEKCVRpbWVUcmlh",
             "bBIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEg4KBnBocmFzZRgDIAEoCRI0",
             "CgpnbG9iYWxfd3BtGAQgAygLMiAuU2NoZW1hLlRpbWVUcmlhbC5HbG9iYWxX",
-            "cG1FbnRyeRowCg5HbG9iYWxXcG1FbnRyeRILCgNrZXkYASABKAUSDQoFdmFs",
-            "dWUYAiABKAU6AjgBIkgKFkxpc3RUaW1lVHJpYWxzUmVzcG9uc2USLgoLdGlt",
-            "ZV90cmlhbHMYASADKAsyGS5TY2hlbWEuVGltZVRyaWFsTGlzdEl0ZW0ibAoR",
-            "VGltZVRyaWFsTGlzdEl0ZW0SCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIO",
-            "CgZsZW5ndGgYAyABKAUSDAoEdGltZRgEIAEoAhISCgpwZXJjZW50aWxlGAUg",
-            "ASgCEgsKA3dwbRgGIAEoAiKEAQoPVGltZVRyaWFsUmVzdWx0EgoKAmlkGAEg",
-            "ASgJEhEKCXBsYXllcl9pZBgCIAEoCRIQCghiZXN0X3dwbRgDIAEoAhIUCgxh",
-            "dHRlbXB0X3dwbXMYBCADKAISKgoPYmVzdF9rZXlzdHJva2VzGAUgAygLMhEu",
-            "U2NoZW1hLktleVN0cm9rZSJLChZSZXBvcnRUaW1lVHJpYWxSZXF1ZXN0EgoK",
-            "AmlkGAEgASgJEiUKCmtleXN0cm9rZXMYAiADKAsyES5TY2hlbWEuS2V5U3Ry",
-            "b2tlIpQFChdSZXBvcnRUaW1lVHJpYWxSZXNwb25zZRIMCgR0aW1lGAEgASgC",
-            "EgsKA3dwbRgCIAEoAhIQCghhY2N1cmFjeRgDIAEoAhIVCg1iZXN0X3J1bl90",
-            "aW1lGAQgASgCEhQKDGJlc3RfcnVuX3dwbRgFIAEoAhIZChFiZXN0X3J1bl9h",
-            "Y2N1cmFjeRgGIAEoAhIZChFyYXdfd3BtX2J5X3NlY29uZBgHIAMoAhIVCg13",
-            "cG1fYnlfc2Vjb25kGAggAygCEiwKDmVycm9yc19hdF90aW1lGAkgAygLMhQu",
-            "U2NoZW1hLkVycm9yc0F0VGltZRJGCgxnbG9iYWxfdGltZXMYCiADKAsyMC5T",
-            "Y2hlbWEuUmVwb3J0VGltZVRyaWFsUmVzcG9uc2UuR2xvYmFsVGltZXNFbnRy",
-            "eRJCCgpnbG9iYWxfd3BtGAsgAygLMi4uU2NoZW1hLlJlcG9ydFRpbWVUcmlh",
-            "bFJlc3BvbnNlLkdsb2JhbFdwbUVudHJ5EhIKCm51bV9lcnJvcnMYDCABKAUS",
-            "EAoIcDk5X3RpbWUYDSABKAISEAoIcDkwX3RpbWUYDiABKAISEAoIcDUwX3Rp",
-            "bWUYDyABKAISEAoIcDI1X3RpbWUYECABKAISDwoHcDk5X3dwbRgRIAEoAhIP",
-            "CgdwOTBfd3BtGBIgASgCEg8KB3A1MF93cG0YEyABKAISDwoHcDI1X3dwbRgU",
-            "IAEoAhISCgpwZXJjZW50aWxlGBUgASgCGjIKEEdsb2JhbFRpbWVzRW50cnkS",
-            "CwoDa2V5GAEgASgJEg0KBXZhbHVlGAIgASgFOgI4ARowCg5HbG9iYWxXcG1F",
-            "bnRyeRILCgNrZXkYASABKAUSDQoFdmFsdWUYAiABKAU6AjgBImQKFUF1dGhl",
-            "bnRpY2F0ZWRBdXRoSW5mbxIQCghwcm92aWRlchgBIAEoCRITCgtleHRlcm5h",
-            "bF9pZBgCIAEoCRINCgVlbWFpbBgDIAEoCRIVCg1sYXN0X2xvZ2luX2F0GAQg",
-            "ASgBIjkKDEFub25BdXRoSW5mbxISCgphdXRoX3Rva2VuGAEgASgJEhUKDWxh",
-            "c3RfbG9naW5fYXQYAiABKAEiuwEKBlBsYXllchIKCgJpZBgBIAEoCRIkCgR0",
-            "eXBlGAIgASgOMhYuU2NoZW1hLlBsYXllckF1dGhUeXBlEhEKCWNyZWF0ZWRf",
-            "cxgDIAEoARI+ChdhdXRoZW50aWNhdGVkX2F1dGhfaW5mbxgEIAEoCzIdLlNj",
-            "aGVtYS5BdXRoZW50aWNhdGVkQXV0aEluZm8SLAoOYW5vbl9hdXRoX2luZm8Y",
-            "BSABKAsyFC5TY2hlbWEuQW5vbkF1dGhJbmZvKvwBCghHYW1lTW9kZRILCgdJ",
-            "bnZhbGlkEAASDgoKTW9zdENvbW1vbhABEgoKBkNvbW1vbhACEg4KCkRpY3Rp",
-            "b25hcnkQAxIPCgtMZWFzdENvbW1vbhAEEg4KCkNvcHlQYXN0YXMQBRILCgdT",
-            "cGFtVGFwEAYSCwoHTnVtYmVycxAHEgwKCE1hcmF0aG9uEAgSCwoHSG9tZVJv",
-            "dxAJEgwKCFVwcGVyUm93EAoSDQoJUmlnaHRIYW5kEAsSDAoITGVmdEhhbmQQ",
-            "DBITCg9BbHRlcm5hdGluZ0hhbmQQDRINCglGYWtlV29yZHMQDhISCg5Mb25n",
-            "ZXN0SHVuZHJlZBAPKkcKDlBsYXllckF1dGhUeXBlEhMKD0ludmFsaWRBdXRo",
-            "VHlwZRAAEg0KCUFub255bW91cxABEhEKDUF1dGhlbnRpY2F0ZWQQAmIGcHJv",
-            "dG8z"));
+            "cG1FbnRyeRISCgpkaWZmaWN1bHR5GAUgASgFGjAKDkdsb2JhbFdwbUVudHJ5",
+            "EgsKA2tleRgBIAEoBRINCgV2YWx1ZRgCIAEoBToCOAEiSAoWTGlzdFRpbWVU",
+            "cmlhbHNSZXNwb25zZRIuCgt0aW1lX3RyaWFscxgBIAMoCzIZLlNjaGVtYS5U",
+            "aW1lVHJpYWxMaXN0SXRlbSKAAQoRVGltZVRyaWFsTGlzdEl0ZW0SCgoCaWQY",
+            "ASABKAkSDAoEbmFtZRgCIAEoCRIOCgZsZW5ndGgYAyABKAUSDAoEdGltZRgE",
+            "IAEoAhISCgpwZXJjZW50aWxlGAUgASgCEgsKA3dwbRgGIAEoAhISCgpkaWZm",
+            "aWN1bHR5GAcgASgFIoQBCg9UaW1lVHJpYWxSZXN1bHQSCgoCaWQYASABKAkS",
+            "EQoJcGxheWVyX2lkGAIgASgJEhAKCGJlc3Rfd3BtGAMgASgCEhQKDGF0dGVt",
+            "cHRfd3BtcxgEIAMoAhIqCg9iZXN0X2tleXN0cm9rZXMYBSADKAsyES5TY2hl",
+            "bWEuS2V5U3Ryb2tlIksKFlJlcG9ydFRpbWVUcmlhbFJlcXVlc3QSCgoCaWQY",
+            "ASABKAkSJQoKa2V5c3Ryb2tlcxgCIAMoCzIRLlNjaGVtYS5LZXlTdHJva2Ui",
+            "lAUKF1JlcG9ydFRpbWVUcmlhbFJlc3BvbnNlEgwKBHRpbWUYASABKAISCwoD",
+            "d3BtGAIgASgCEhAKCGFjY3VyYWN5GAMgASgCEhUKDWJlc3RfcnVuX3RpbWUY",
+            "BCABKAISFAoMYmVzdF9ydW5fd3BtGAUgASgCEhkKEWJlc3RfcnVuX2FjY3Vy",
+            "YWN5GAYgASgCEhkKEXJhd193cG1fYnlfc2Vjb25kGAcgAygCEhUKDXdwbV9i",
+            "eV9zZWNvbmQYCCADKAISLAoOZXJyb3JzX2F0X3RpbWUYCSADKAsyFC5TY2hl",
+            "bWEuRXJyb3JzQXRUaW1lEkYKDGdsb2JhbF90aW1lcxgKIAMoCzIwLlNjaGVt",
+            "YS5SZXBvcnRUaW1lVHJpYWxSZXNwb25zZS5HbG9iYWxUaW1lc0VudHJ5EkIK",
+            "Cmdsb2JhbF93cG0YCyADKAsyLi5TY2hlbWEuUmVwb3J0VGltZVRyaWFsUmVz",
+            "cG9uc2UuR2xvYmFsV3BtRW50cnkSEgoKbnVtX2Vycm9ycxgMIAEoBRIQCghw",
+            "OTlfdGltZRgNIAEoAhIQCghwOTBfdGltZRgOIAEoAhIQCghwNTBfdGltZRgP",
+            "IAEoAhIQCghwMjVfdGltZRgQIAEoAhIPCgdwOTlfd3BtGBEgASgCEg8KB3A5",
+            "MF93cG0YEiABKAISDwoHcDUwX3dwbRgTIAEoAhIPCgdwMjVfd3BtGBQgASgC",
+            "EhIKCnBlcmNlbnRpbGUYFSABKAIaMgoQR2xvYmFsVGltZXNFbnRyeRILCgNr",
+            "ZXkYASABKAkSDQoFdmFsdWUYAiABKAU6AjgBGjAKDkdsb2JhbFdwbUVudHJ5",
+            "EgsKA2tleRgBIAEoBRINCgV2YWx1ZRgCIAEoBToCOAEiZAoVQXV0aGVudGlj",
+            "YXRlZEF1dGhJbmZvEhAKCHByb3ZpZGVyGAEgASgJEhMKC2V4dGVybmFsX2lk",
+            "GAIgASgJEg0KBWVtYWlsGAMgASgJEhUKDWxhc3RfbG9naW5fYXQYBCABKAEi",
+            "OQoMQW5vbkF1dGhJbmZvEhIKCmF1dGhfdG9rZW4YASABKAkSFQoNbGFzdF9s",
+            "b2dpbl9hdBgCIAEoASK7AQoGUGxheWVyEgoKAmlkGAEgASgJEiQKBHR5cGUY",
+            "AiABKA4yFi5TY2hlbWEuUGxheWVyQXV0aFR5cGUSEQoJY3JlYXRlZF9zGAMg",
+            "ASgBEj4KF2F1dGhlbnRpY2F0ZWRfYXV0aF9pbmZvGAQgASgLMh0uU2NoZW1h",
+            "LkF1dGhlbnRpY2F0ZWRBdXRoSW5mbxIsCg5hbm9uX2F1dGhfaW5mbxgFIAEo",
+            "CzIULlNjaGVtYS5Bbm9uQXV0aEluZm8q/AEKCEdhbWVNb2RlEgsKB0ludmFs",
+            "aWQQABIOCgpNb3N0Q29tbW9uEAESCgoGQ29tbW9uEAISDgoKRGljdGlvbmFy",
+            "eRADEg8KC0xlYXN0Q29tbW9uEAQSDgoKQ29weVBhc3RhcxAFEgsKB1NwYW1U",
+            "YXAQBhILCgdOdW1iZXJzEAcSDAoITWFyYXRob24QCBILCgdIb21lUm93EAkS",
+            "DAoIVXBwZXJSb3cQChINCglSaWdodEhhbmQQCxIMCghMZWZ0SGFuZBAMEhMK",
+            "D0FsdGVybmF0aW5nSGFuZBANEg0KCUZha2VXb3JkcxAOEhIKDkxvbmdlc3RI",
+            "dW5kcmVkEA8qRwoOUGxheWVyQXV0aFR5cGUSEwoPSW52YWxpZEF1dGhUeXBl",
+            "EAASDQoJQW5vbnltb3VzEAESEQoNQXV0aGVudGljYXRlZBACYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Schema.GameMode), typeof(global::Schema.PlayerAuthType), }, new pbr::GeneratedClrTypeInfo[] {
@@ -124,9 +124,9 @@ namespace Schema {
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.WordFinished), global::Schema.WordFinished.Parser, new[]{ "PlayerId", "PercentComplete", "VelocityKmS", "PositionKm", "CharCompletionTimes", "Wpm" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.YouveBeenAddedToGame), global::Schema.YouveBeenAddedToGame.Parser, new[]{ "GameId", "CurrentPlayers", "Phrase" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.PlayerDisconnected), global::Schema.PlayerDisconnected.Parser, new[]{ "PlayerId", "Removed", "IsYou" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrial), global::Schema.TimeTrial.Parser, new[]{ "id", "Name", "Phrase", "GlobalWpm" }, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrial), global::Schema.TimeTrial.Parser, new[]{ "id", "Name", "Phrase", "GlobalWpm", "Difficulty" }, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ListTimeTrialsResponse), global::Schema.ListTimeTrialsResponse.Parser, new[]{ "TimeTrials" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrialListItem), global::Schema.TimeTrialListItem.Parser, new[]{ "id", "Name", "Length", "Time", "Percentile", "Wpm" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrialListItem), global::Schema.TimeTrialListItem.Parser, new[]{ "id", "Name", "Length", "Time", "Percentile", "Wpm", "Difficulty" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.TimeTrialResult), global::Schema.TimeTrialResult.Parser, new[]{ "id", "PlayerId", "BestWpm", "AttemptWpms", "BestKeystrokes" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ReportTimeTrialRequest), global::Schema.ReportTimeTrialRequest.Parser, new[]{ "id", "Keystrokes" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Schema.ReportTimeTrialResponse), global::Schema.ReportTimeTrialResponse.Parser, new[]{ "Time", "Wpm", "Accuracy", "BestRunTime", "BestRunWpm", "BestRunAccuracy", "RawWpmBySecond", "WpmBySecond", "ErrorsAtTime", "GlobalTimes", "GlobalWpm", "NumErrors", "P99Time", "P90Time", "P50Time", "P25Time", "P99Wpm", "P90Wpm", "P50Wpm", "P25Wpm", "Percentile" }, null, null, new pbr::GeneratedClrTypeInfo[] { null, null, }),
@@ -3309,6 +3309,7 @@ namespace Schema {
       name_ = other.name_;
       phrase_ = other.phrase_;
       globalWpm_ = other.globalWpm_.Clone();
+      difficulty_ = other.difficulty_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3360,6 +3361,17 @@ namespace Schema {
       get { return globalWpm_; }
     }
 
+    /// <summary>Field number for the "difficulty" field.</summary>
+    public const int DifficultyFieldNumber = 5;
+    private int difficulty_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Difficulty {
+      get { return difficulty_; }
+      set {
+        difficulty_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as TimeTrial);
@@ -3377,6 +3389,7 @@ namespace Schema {
       if (Name != other.Name) return false;
       if (Phrase != other.Phrase) return false;
       if (!GlobalWpm.Equals(other.GlobalWpm)) return false;
+      if (Difficulty != other.Difficulty) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -3387,6 +3400,7 @@ namespace Schema {
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Phrase.Length != 0) hash ^= Phrase.GetHashCode();
       hash ^= GlobalWpm.GetHashCode();
+      if (Difficulty != 0) hash ^= Difficulty.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3413,6 +3427,10 @@ namespace Schema {
         output.WriteString(Phrase);
       }
       globalWpm_.WriteTo(output, _map_globalWpm_codec);
+      if (Difficulty != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(Difficulty);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -3431,6 +3449,9 @@ namespace Schema {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Phrase);
       }
       size += globalWpm_.CalculateSize(_map_globalWpm_codec);
+      if (Difficulty != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Difficulty);
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -3452,6 +3473,9 @@ namespace Schema {
         Phrase = other.Phrase;
       }
       globalWpm_.Add(other.globalWpm_);
+      if (other.Difficulty != 0) {
+        Difficulty = other.Difficulty;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -3477,6 +3501,10 @@ namespace Schema {
           }
           case 34: {
             globalWpm_.AddEntriesFrom(input, _map_globalWpm_codec);
+            break;
+          }
+          case 40: {
+            Difficulty = input.ReadInt32();
             break;
           }
         }
@@ -3637,6 +3665,7 @@ namespace Schema {
       time_ = other.time_;
       percentile_ = other.percentile_;
       wpm_ = other.wpm_;
+      difficulty_ = other.difficulty_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3711,6 +3740,17 @@ namespace Schema {
       }
     }
 
+    /// <summary>Field number for the "difficulty" field.</summary>
+    public const int DifficultyFieldNumber = 7;
+    private int difficulty_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Difficulty {
+      get { return difficulty_; }
+      set {
+        difficulty_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as TimeTrialListItem);
@@ -3730,6 +3770,7 @@ namespace Schema {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Time, other.Time)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Percentile, other.Percentile)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Wpm, other.Wpm)) return false;
+      if (Difficulty != other.Difficulty) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -3742,6 +3783,7 @@ namespace Schema {
       if (Time != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Time);
       if (Percentile != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Percentile);
       if (Wpm != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Wpm);
+      if (Difficulty != 0) hash ^= Difficulty.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3779,6 +3821,10 @@ namespace Schema {
         output.WriteRawTag(53);
         output.WriteFloat(Wpm);
       }
+      if (Difficulty != 0) {
+        output.WriteRawTag(56);
+        output.WriteInt32(Difficulty);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -3804,6 +3850,9 @@ namespace Schema {
       }
       if (Wpm != 0F) {
         size += 1 + 4;
+      }
+      if (Difficulty != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Difficulty);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -3833,6 +3882,9 @@ namespace Schema {
       }
       if (other.Wpm != 0F) {
         Wpm = other.Wpm;
+      }
+      if (other.Difficulty != 0) {
+        Difficulty = other.Difficulty;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -3867,6 +3919,10 @@ namespace Schema {
           }
           case 53: {
             Wpm = input.ReadFloat();
+            break;
+          }
+          case 56: {
+            Difficulty = input.ReadInt32();
             break;
           }
         }

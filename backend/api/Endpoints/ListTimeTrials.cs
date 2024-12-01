@@ -99,6 +99,7 @@ namespace api
                 Percentile = -1,
                 Time = -1,
                 Wpm = -1,
+                Difficulty = trial.Difficulty
             };
         }
 

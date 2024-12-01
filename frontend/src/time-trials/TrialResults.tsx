@@ -173,6 +173,10 @@ export function TrialResults(props: Props) {
         ),
       },
       {
+        id: "Stats",
+        render: () => <RawStats result={result} phrase={props.phrase} />,
+      },
+      {
         id: "Race",
         render: () => (
           <WpmOverTime
@@ -222,20 +226,15 @@ export function TrialResults(props: Props) {
     );
   } else {
     content = (
-      <div className="h-full flex flex-col space-y-4 pb-4">
+      <div className="h-full flex flex-col">
         <h1>Finish!</h1>
+        <div className="grow flex flex-col justify-center space-y-8">
+          <Carrossel views={views} />
 
-        <h2>Stats</h2>
-        <RawStats result={result} phrase={props.phrase} />
+          <br />
 
-        <br />
-
-        <h2>Charts</h2>
-        <Carrossel views={views} />
-
-        <br />
-
-        <ActionBar options={actionBarOptions} />
+          <ActionBar options={actionBarOptions} />
+        </div>
       </div>
     );
   }

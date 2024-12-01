@@ -177,7 +177,12 @@ export const TypeBox = (props: TypeBoxProps) => {
             <span className="text-error-color">
               {phrase[lockedCharacterIndex + i]}
             </span>
-            <span className="absolute text-error-color opacity-25 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <span
+              className="absolute text-error-color top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              style={{
+                opacity: phrase[lockedCharacterIndex + i] === " " ? 1 : 0.25,
+              }}
+            >
               {currentWord[i]}
             </span>
           </span>

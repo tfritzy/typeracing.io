@@ -11,7 +11,7 @@ const TextButton = ({
   return (
     <button
       onClick={onClick as any}
-      className="flex w-32 text-base-200 flex-row space-x-2 items-center justify-center rounded-full p-2 hover:text-accent outline-none font-semibold"
+      className="flex w-32 text-base-200 flex-row space-x-2 items-center justify-center rounded-full p-2 hover:text-accent outline-none"
     >
       {children}
     </button>

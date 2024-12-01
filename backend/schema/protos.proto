@@ -128,6 +128,7 @@ message TimeTrial {
     string name = 2;
     string phrase = 3;
     map<int32, int32> global_wpm = 4;
+    int32 difficulty = 5;
 }
 
 message ListTimeTrialsResponse {
@@ -141,6 +142,7 @@ message TimeTrialListItem {
     float time = 4;
     float percentile = 5;
     float wpm = 6;
+    int32 difficulty = 7;
 }
 
 message TimeTrialResult {

@@ -14,6 +14,7 @@ import { useAppDispatch } from "./store/storeHooks";
 import { TimeTrials } from "./time-trials/TimeTrials";
 import { Logo } from "./components/Logo";
 import { TimeTrial } from "./time-trials/TimeTrial";
+import { Todo } from "./todo/Todo";
 
 function App() {
   const navigate = useNavigate();
@@ -95,6 +96,7 @@ function App() {
           <Route path="/in-game" element={<Game />} />
           <Route path="/time-trials" element={<TimeTrials />} />
           <Route path="/time-trials/:id" element={<TimeTrial />} />
+          <Route path="/todo" element={<Todo />} />
         </Routes>
       </div>
       <div className="pb-8">

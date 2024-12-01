@@ -61,6 +61,13 @@ namespace api
 
             float time = Schema.Stats.GetTime(keystrokes);
             float wpm = Schema.Stats.GetWpm(keystrokes);
+
+            if (wpm > 400)
+            {
+                Console.WriteLine($"Typed doesn't look right. Bailing.");
+                return new OkResult();
+            }
+
             AddTimeToGlobalStats(trial.Resource.GlobalWpm, wpm);
             ItemRequestOptions options = new ItemRequestOptions { IfMatchEtag = trial.ETag };
             await trialContainer.ReplaceItemAsync(trial.Resource, trial.Resource.id, new PartitionKey(trial.Resource.id), options);
@@ -74,6 +81,9 @@ namespace api
             float priorBestWpm = result?.BestWpm ?? 0;
             float priorBestTime = priorBestWpm != 0 ?
                 Schema.Stats.WpmToTime(priorBestWpm, trial.Resource.Phrase.Length) :
+                0;
+            float priorBestAccuracy = result?.BestKeystrokes.Count > 0 ?
+                Schema.Stats.CalculateAccuracy(result.BestKeystrokes, trial.Resource.Phrase) :
                 0;
 
             if (result == null)
@@ -113,9 +123,11 @@ namespace api
                 Time = duration,
                 Wpm = Schema.Stats.GetWpm(typed.Length, duration),
                 Percentile = Percentiles.CalculatePercentile(trial.Resource.GlobalWpm, (int)MathF.Round(wpm)),
+                Accuracy = Schema.Stats.CalculateAccuracy(keystrokes, trial.Resource.Phrase),
 
                 BestRunTime = priorBestTime,
                 BestRunWpm = priorBestWpm,
+                BestRunAccuracy = priorBestAccuracy,
 
                 P99Time = Schema.Stats.WpmToTime(
                     Percentiles.CalculateValueFromPercentile(trial.Resource.GlobalWpm, .99f),

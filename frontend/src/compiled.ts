@@ -1469,6 +1469,7 @@ export interface TimeTrial {
   name?: string;
   phrase?: string;
   global_wpm?: { [key: number]: number };
+  difficulty?: number;
 }
 
 export function encodeTimeTrial(message: TimeTrial): Uint8Array {
@@ -1514,6 +1515,13 @@ function _encodeTimeTrial(message: TimeTrial, bb: ByteBuffer): void {
       writeByteBuffer(bb, nested);
       pushByteBuffer(nested);
     }
+  }
+
+  // optional int32 difficulty = 5;
+  let $difficulty = message.difficulty;
+  if ($difficulty !== undefined) {
+    writeVarint32(bb, 40);
+    writeVarint64(bb, intToLong($difficulty));
   }
 }
 
@@ -1576,6 +1584,12 @@ function _decodeTimeTrial(bb: ByteBuffer): TimeTrial {
           throw new Error("Invalid data for map: global_wpm");
         values[key] = value;
         bb.limit = outerLimit;
+        break;
+      }
+
+      // optional int32 difficulty = 5;
+      case 5: {
+        message.difficulty = readVarint32(bb);
         break;
       }
 
@@ -1650,6 +1664,7 @@ export interface TimeTrialListItem {
   time?: number;
   percentile?: number;
   wpm?: number;
+  difficulty?: number;
 }
 
 export function encodeTimeTrialListItem(message: TimeTrialListItem): Uint8Array {
@@ -1700,6 +1715,13 @@ function _encodeTimeTrialListItem(message: TimeTrialListItem, bb: ByteBuffer): v
     writeVarint32(bb, 53);
     writeFloat(bb, $wpm);
   }
+
+  // optional int32 difficulty = 7;
+  let $difficulty = message.difficulty;
+  if ($difficulty !== undefined) {
+    writeVarint32(bb, 56);
+    writeVarint64(bb, intToLong($difficulty));
+  }
 }
 
 export function decodeTimeTrialListItem(binary: Uint8Array): TimeTrialListItem {
@@ -1749,6 +1771,12 @@ function _decodeTimeTrialListItem(bb: ByteBuffer): TimeTrialListItem {
       // optional float wpm = 6;
       case 6: {
         message.wpm = readFloat(bb);
+        break;
+      }
+
+      // optional int32 difficulty = 7;
+      case 7: {
+        message.difficulty = readVarint32(bb);
         break;
       }
 

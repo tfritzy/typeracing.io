@@ -1,11 +1,6 @@
 import { StarSolid } from "iconoir-react";
 import { Bar } from "../components/Bar";
-import {
-  formatAccuracy,
-  formatDash,
-  formatTimeSeconds,
-  formatWpm,
-} from "../helpers/time";
+import { formatAccuracy, formatDash, formatWpm } from "../helpers/time";
 import { ResolvedTimeTrialResult } from "../time-trials/TrialResults";
 
 type Value = {
@@ -85,22 +80,14 @@ export const RawStats = (props: Props) => {
     result.best_run_wpm || 0,
     result.wpm!
   );
-  const bestAccuracy = result.best_run_accuracy!;
-  const worstTime = Math.max(result.p25_time, result.time!);
+  const bestAccuracy = result.best_run_accuracy;
   const setPr = !!result.best_run_wpm && result.wpm! > result.best_run_wpm;
-  console.log(
-    "Set pr",
-    setPr,
-    result.best_run_wpm,
-    result.wpm! > result.best_run_wpm!
-  );
 
   return (
     <div className="w-full">
       <div className="grid grid-cols-4 mb-1">
         <div />
         <div className="text-sm text-center font-semibold">WPM</div>
-        <div className="text-sm text-center font-semibold">Time</div>
         <div className="text-sm text-center font-semibold">Accuracy</div>
       </div>
 
@@ -115,11 +102,6 @@ export const RawStats = (props: Props) => {
               maxValue: bestWpm,
               format: formatWpm,
               star: setPr,
-            },
-            {
-              value: result.time || 0,
-              format: formatTimeSeconds,
-              worstValueForInverted: worstTime,
             },
             {
               value: result.accuracy || 0,
@@ -138,13 +120,7 @@ export const RawStats = (props: Props) => {
               format: formatWpm,
             },
             {
-              value: result.best_run_time || 0,
-              // maxValue: bestTime,
-              format: formatTimeSeconds,
-              worstValueForInverted: worstTime,
-            },
-            {
-              value: result.accuracy || 0,
+              value: bestAccuracy || 0,
               maxValue: bestAccuracy,
               format: formatAccuracy,
             },
@@ -167,12 +143,6 @@ export const RawStats = (props: Props) => {
               greyscale: true,
             },
             {
-              value: result.p99_time,
-              format: formatTimeSeconds,
-              worstValueForInverted: worstTime,
-              greyscale: true,
-            },
-            {
               value: 0,
               format: formatDash,
             },
@@ -186,12 +156,6 @@ export const RawStats = (props: Props) => {
               value: result.p90_wpm,
               maxValue: bestWpm,
               format: formatWpm,
-              greyscale: true,
-            },
-            {
-              value: result.p90_time,
-              format: formatTimeSeconds,
-              worstValueForInverted: worstTime,
               greyscale: true,
             },
             {
@@ -211,12 +175,6 @@ export const RawStats = (props: Props) => {
               greyscale: true,
             },
             {
-              value: result.p50_time,
-              format: formatTimeSeconds,
-              worstValueForInverted: worstTime,
-              greyscale: true,
-            },
-            {
               value: 0,
               format: formatDash,
             },
@@ -230,12 +188,6 @@ export const RawStats = (props: Props) => {
               value: result.p25_wpm,
               maxValue: bestWpm,
               format: formatWpm,
-              greyscale: true,
-            },
-            {
-              value: result.p25_time,
-              format: formatTimeSeconds,
-              worstValueForInverted: worstTime,
               greyscale: true,
             },
             {

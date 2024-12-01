@@ -51,7 +51,7 @@ export const formatWpm = (wpm: number): string => {
 };
 
 export const formatAccuracy = (accuracy: number): string => {
-  return (accuracy * 100).toFixed(1);
+  return (accuracy * 100).toFixed(1) + "%";
 };
 
 export const formatDash = (accuracy: number): string => {

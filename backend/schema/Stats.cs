@@ -163,6 +163,40 @@ public static class Stats
         return errorCountByTime;
     }
 
+    public static float CalculateAccuracy(IList<KeyStroke> strokes, string phrase)
+    {
+        int errors = GetErrorCount(strokes, phrase);
+        return 1 - errors / (float)phrase.Length;
+    }
+
+    public static int GetErrorCount(IList<KeyStroke> keyStrokes, string phrase)
+    {
+        Stack<char> typedStack = new();
+        int errorCount = 0;
+
+        foreach (KeyStroke stroke in keyStrokes)
+        {
+            if (stroke.Character == "\b")
+            {
+                if (typedStack.Count > 0)
+                {
+                    typedStack.Pop();
+                }
+            }
+            else
+            {
+                typedStack.Push(stroke.Character[0]);
+
+                if (typedStack.Count > phrase.Length || typedStack.Peek() != phrase[typedStack.Count - 1])
+                {
+                    errorCount++;
+                }
+            }
+        }
+
+        return errorCount;
+    }
+
     public static float GetWpm(IList<KeyStroke> keyStrokes)
     {
         if (keyStrokes.Count == 0)

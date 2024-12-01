@@ -1,3 +1,5 @@
+using Schema;
+
 public static class Percentiles
 {
     public static int CalculateValueFromPercentile(IDictionary<int, int> buckets, float percentile)
