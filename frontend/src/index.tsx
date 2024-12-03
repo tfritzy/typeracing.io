@@ -11,13 +11,11 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <>
-    <div className="text-base-100">
-      <StoreProvider store={store} context={AppContext}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </StoreProvider>
-    </div>
-  </>
+  <div className="text-base-100">
+    <StoreProvider store={store} context={AppContext}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </StoreProvider>
+  </div>
 );

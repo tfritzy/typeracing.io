@@ -1,8 +1,10 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { TimeTrialTypeBox } from "./TimeTrialTypeBox";
 import { decodeTimeTrial, KeyStroke } from "../compiled";
 import type { TimeTrial as TimeTrialData } from "../compiled";
+import { NavArrowLeft } from "iconoir-react";
+import { Hotkey } from "../components/Hotkey";
 import { TrialResults } from "./TrialResults";
 
 const apiUrl = process.env.REACT_APP_API_ADDRESS;
@@ -36,6 +38,21 @@ export function TimeTrial() {
   const [resultsOpen, setResultsOpen] = React.useState<boolean>(false);
   const [errored, setErrored] = React.useState<boolean>(false);
   const [keystrokes, setKeystrokes] = React.useState<KeyStroke[]>([]);
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const handleHotkeys = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        navigate("/time-trials");
+      }
+    };
+
+    document.addEventListener("keydown", handleHotkeys);
+
+    return () => {
+      document.removeEventListener("keydown", handleHotkeys);
+    };
+  }, [navigate]);
 
   React.useEffect(() => {
     if (!params.id) {
@@ -73,10 +90,14 @@ export function TimeTrial() {
   }
 
   return (
-    <>
+    <div className="relative h-full flex flex-col">
+      <div className="flex flex-row space-x-1 items-center">
+        <NavArrowLeft width={20} />
+        <Hotkey code="Esc" />
+      </div>
       {!resultsOpen && (
         <div
-          className="h-full flex flex-col justify-center"
+          className="grow flex flex-col justify-center"
           style={{
             opacity: resultsOpen ? 0 : 1,
           }}
@@ -85,13 +106,7 @@ export function TimeTrial() {
         </div>
       )}
       {resultsOpen && (
-        <div
-          className="transition-all duration-500 h-full"
-          style={{
-            opacity: resultsOpen ? 1 : 0,
-            transform: resultsOpen ? "translate(0px)" : "translate(100px)",
-          }}
-        >
+        <div className="grow">
           <TrialResults
             keystrokes={keystrokes}
             phrase={trial.phrase!}
@@ -101,6 +116,6 @@ export function TimeTrial() {
           />
         </div>
       )}
-    </>
+    </div>
   );
 }

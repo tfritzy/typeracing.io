@@ -13,7 +13,6 @@ import React from "react";
 import { PlayerState } from "../store/playerSlice";
 import { RootState } from "../store/store";
 import { useAppSelector } from "../store/storeHooks";
-import { Spinner } from "../components/Spinner";
 import { Button } from "../components/Button";
 import { ActionBar } from "../components/ActionBar";
 import { useNavigate } from "react-router-dom";
@@ -91,6 +90,7 @@ type Props = {
 };
 
 export function TrialResults(props: Props) {
+  const { shown } = props;
   const player: PlayerState = useAppSelector(
     (state: RootState) => state.player
   );
@@ -100,6 +100,8 @@ export function TrialResults(props: Props) {
   );
   const [pending, setPending] = React.useState<boolean>(false);
   const navigate = useNavigate();
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = React.useState<number>(0);
 
   const onClose = React.useCallback(
     (event: Event) => {
@@ -155,6 +157,27 @@ export function TrialResults(props: Props) {
     }
   }, [postResult, props.keystrokes]);
 
+  React.useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.clientWidth);
+      }
+    };
+
+    updateWidth();
+
+    const resizeObserver = new ResizeObserver(updateWidth);
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        resizeObserver.unobserve(containerRef.current);
+      }
+    };
+  }, []);
+
   const views = React.useMemo(() => {
     if (!result) {
       return [];
@@ -163,6 +186,7 @@ export function TrialResults(props: Props) {
     return [
       {
         id: "Distribution",
+        hotkey: "d",
         render: () => (
           <PercentileBarChart
             data={result.global_wpm!}
@@ -174,10 +198,12 @@ export function TrialResults(props: Props) {
       },
       {
         id: "Stats",
+        hotkey: "s",
         render: () => <RawStats result={result} phrase={props.phrase} />,
       },
       {
         id: "Race",
+        hotkey: "r",
         render: () => (
           <WpmOverTime
             errors={result.errors_at_time!}
@@ -204,11 +230,7 @@ export function TrialResults(props: Props) {
 
   let content;
   if (pending || !result) {
-    content = (
-      <div className="p-8">
-        <Spinner />
-      </div>
-    );
+    content = <div />;
   } else if (errored) {
     content = (
       <div>
@@ -227,9 +249,13 @@ export function TrialResults(props: Props) {
   } else {
     content = (
       <div className="h-full flex flex-col">
-        <h1>Finish!</h1>
-        <div className="grow flex flex-col justify-center space-y-8">
-          <Carrossel views={views} />
+        <div className="grow flex flex-col justify-center space-y-8 w-full">
+          <h1>Finish!</h1>
+          <Carrossel
+            views={views}
+            disabled={!shown}
+            containerWidth={containerWidth}
+          />
 
           <br />
 
@@ -239,5 +265,9 @@ export function TrialResults(props: Props) {
     );
   }
 
-  return content;
+  return (
+    <div className="h-full w-full" ref={containerRef}>
+      {content}
+    </div>
+  );
 }

@@ -1,48 +1,31 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import { ToggleButton } from "./ToggleButton";
+import { Hotkey } from "./Hotkey";
 
 type View = {
   id: string;
+  hotkey: string;
   render: () => React.ReactElement;
 };
 
 interface CarrosselProps {
   views: View[];
+  disabled: boolean;
+  containerWidth: number;
 }
 
-export const Carrossel: React.FC<CarrosselProps> = ({ views }) => {
+export const Carrossel: React.FC<CarrosselProps> = ({
+  views,
+  disabled,
+  containerWidth,
+}) => {
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   const itemsRef = React.useRef<(HTMLDivElement | null)[]>([]);
   const [index, setIndex] = React.useState<number>(0);
-  const [containerWidth, setContainerWidth] = useState<number>(0);
 
   if (itemsRef.current.length !== views.length) {
     itemsRef.current = Array(views.length).fill(null);
   }
-
-  useEffect(() => {
-    const updateWidth = () => {
-      if (scrollContainerRef.current) {
-        setContainerWidth(scrollContainerRef.current.clientWidth);
-      }
-    };
-
-    // Initial width
-    updateWidth();
-
-    // Add resize listener
-    const resizeObserver = new ResizeObserver(updateWidth);
-    if (scrollContainerRef.current) {
-      resizeObserver.observe(scrollContainerRef.current);
-    }
-
-    // Cleanup
-    return () => {
-      if (scrollContainerRef.current) {
-        resizeObserver.unobserve(scrollContainerRef.current);
-      }
-    };
-  }, []);
 
   const handleNavigation = useCallback((newIndex: number): void => {
     setIndex(newIndex);
@@ -55,6 +38,26 @@ export const Carrossel: React.FC<CarrosselProps> = ({ views }) => {
       });
     }
   }, []);
+
+  React.useEffect(() => {
+    const handleHotkeys = (event: KeyboardEvent) => {
+      if (disabled) {
+        return;
+      }
+
+      views.forEach((v, i) => {
+        if (v.hotkey === event.key) {
+          handleNavigation(i);
+        }
+      });
+    };
+
+    document.addEventListener("keydown", handleHotkeys);
+
+    return () => {
+      document.removeEventListener("keydown", handleHotkeys);
+    };
+  }, [disabled, handleNavigation, views]);
 
   const rendered = views.map((v, i) => (
     <div
@@ -79,7 +82,10 @@ export const Carrossel: React.FC<CarrosselProps> = ({ views }) => {
           selected={index === i}
           key={i}
         >
-          {v.id}
+          <div className="flex flex-row space-x-2 items-center">
+            <div>{v.id}</div>
+            <Hotkey code={v.hotkey} accent={index === i} />
+          </div>
         </ToggleButton>
       )),
     [handleNavigation, index, views]

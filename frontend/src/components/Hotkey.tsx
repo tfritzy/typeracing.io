@@ -11,13 +11,10 @@ export const Hotkey = (props: HotkeyProps) => {
         props.large
           ? "h-6 text-md font-semibold px-[9px]"
           : "h-5 text-sm px-[6px]"
-      } font-mono rounded inline-flex items-center justify-center min-w-[20px]`}
+      } font-mono uppercase rounded-sm inline-flex items-center justify-center min-w-[20px]`}
       style={{
-        backgroundColor: props.accent ? "var(--accent-200)" : "var(--base-700)",
-        borderColor: props.accent
-          ? "var(--accent-200)"
-          : "var(--base-100)" + "20",
-        color: props.accent ? "var(--accent)" : "var(--base-200)",
+        backgroundColor: props.accent ? "var(--accent-800)" : "var(--base-700)",
+        color: props.accent ? "var(--base-100)" : "var(--base-200)",
         lineHeight: 1,
       }}
     >

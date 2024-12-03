@@ -258,12 +258,12 @@ export const TypeBox = (props: TypeBoxProps) => {
       setCurrentWord(event.target.value);
     },
     [
-      currentWord.length,
-      hasError,
-      lockedCharacterIndex,
-      phrase.length,
       isLocked,
-      props.onFirstKeystroke,
+      currentWord.length,
+      lockedCharacterIndex,
+      hasError,
+      phrase.length,
+      props,
     ]
   );
 

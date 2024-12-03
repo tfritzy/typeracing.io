@@ -16,10 +16,6 @@ interface Page {
   continuationToken: string | null;
 }
 
-function Bullet() {
-  return <div className="w-2 h-2 rounded-full bg-base-500" />;
-}
-
 type ResolvedListItem = {
   id: string;
   name: string;
@@ -271,78 +267,75 @@ export function TimeTrials() {
   }
 
   return (
-    <div className="w-full mx-auto grow">
-      <div className="">
-        <div className="">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-t border-base-700">
-                <th className="text-left py-3 text-base-200 font-semibold">
-                  Name
-                </th>
-                <th className="text-left py-3 text-base-200 font-semibold">
-                  Difficulty
-                </th>
-                <th className="text-left py-3 text-base-200 font-semibold w-48">
-                  Percentile
-                </th>
-                <th className="text-right py-3 text-base-200 font-semibold">
-                  WPM
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentPage?.items.map((trial, i) => (
-                <TimeTrialRow
-                  key={trial.id}
-                  trial={trial}
-                  onRowClick={handleRowClick}
-                  index={i}
-                />
-              ))}
-            </tbody>
-          </table>
+    <div className="w-full mx-auto grow flex flex-col">
+      <h1 className="mb-4">Time trials</h1>
+      <table className="w-full">
+        <thead>
+          <tr className="border-b border-base-400">
+            <th className="text-left text-lg py-3 text-base-200 font-semibold">
+              Name
+            </th>
+            <th className="text-left text-lg py-3 text-base-200 font-semibold">
+              Difficulty
+            </th>
+            <th className="text-left text-lg py-3 text-base-200 font-semibold w-48">
+              Percentile
+            </th>
+            <th className="text-right text-lg py-3 text-base-200 font-semibold">
+              WPM
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentPage?.items.map((trial, i) => (
+            <TimeTrialRow
+              key={trial.id}
+              trial={trial}
+              onRowClick={handleRowClick}
+              index={i}
+            />
+          ))}
+        </tbody>
+      </table>
 
-          {error && (
-            <div className="flex items-center justify-center p-8 text-red-400 gap-2">
-              <EvPlugXmark className="h-5 w-5" />
-              <p>{error}</p>
-              <Button type="secondary" onClick={() => loadPage()}>
-                <RefreshCircle className="h-4 w-4" />
-                Retry
-              </Button>
-            </div>
-          )}
+      {error && (
+        <div className="flex items-center justify-center p-8 text-red-400 gap-2">
+          <EvPlugXmark className="h-5 w-5" />
+          <p>{error}</p>
+          <Button type="secondary" onClick={() => loadPage()}>
+            <RefreshCircle className="h-4 w-4" />
+            Retry
+          </Button>
+        </div>
+      )}
 
-          {isLoading && (
-            <div className="flex justify-center p-8">
-              <Spinner />
-            </div>
-          )}
+      {isLoading && (
+        <div className="absolute w-9 h-9 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <Spinner />
+        </div>
+      )}
 
-          <div className="flex justify-between items-center mt-6 px-2">
-            <span className="text-sm text-base-400">
-              Page {currentPageIndex + 1}
-            </span>
-            <div className="flex gap-2">
-              <button
-                className="flex flex-row space-x-1 items-center gap-1 px-3 py-1 text-sm font-medium rounded bg-base-800 hover:bg-base-700 disabled:opacity-50 transition-colors"
-                onClick={goToPreviousPage}
-                disabled={!hasPreviousPage || isLoading}
-              >
-                <Hotkey code="," />
-                <span>Previous</span>
-              </button>
-              <button
-                className="flex flex-row space-x-1 items-center gap-1 px-3 py-1 text-sm font-medium rounded bg-base-800 hover:bg-base-700 disabled:opacity-50 transition-colors"
-                onClick={goToNextPage}
-                disabled={!hasNextPage || isLoading}
-              >
-                <Hotkey code="." />
-                <span>Next</span>
-              </button>
-            </div>
-          </div>
+      <div className="flex justify-between items-center mt-6 px-2">
+        <span className="text-sm text-base-400">
+          Page {currentPageIndex + 1}
+        </span>
+        <div className="flex gap-2">
+          <button
+            className="flex flex-row space-x-1 items-center gap-1 px-3 py-1 text-sm font-medium rounded bg-base-800 hover:bg-base-700 disabled:opacity-50 transition-colors"
+            onClick={goToPreviousPage}
+            disabled={!hasPreviousPage || isLoading}
+          >
+            <Hotkey code="," />
+            <span>Previous</span>
+          </button>
+          <button
+            className="flex flex-row space-x-1 items-center gap-1 px-3 py-1 text-sm font-medium rounded bg-base-800 hover:bg-base-700 disabled:opacity-50 transition-colors"
+            onClick={goToNextPage}
+            disabled={!hasNextPage || isLoading}
+          >
+            <Hotkey code="." />
+            <span>Next</span>
+          </button>
         </div>
       </div>
     </div>

@@ -35,10 +35,11 @@ export function TimeTrialTypeBox(props: Props) {
       for (let i = 0; i < wordStrokes.length; i++) {
         wordStrokes[i].time! -= startTime / 1000;
       }
-      wordStrokes = wordStrokes.filter((ks) => ks.time && ks.time >= 0);
+      wordStrokes = wordStrokes.filter(
+        (ks) => ks.time !== undefined && ks.time >= 0
+      );
 
       keyStrokes.current.push(...wordStrokes);
-      console.log(keyStrokes);
 
       if (charIndex >= trial.phrase!.length) {
         setDone(true);

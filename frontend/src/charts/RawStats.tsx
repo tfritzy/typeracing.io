@@ -74,7 +74,6 @@ type Props = {
 
 export const RawStats = (props: Props) => {
   const result = props.result;
-  console.log(result);
   const bestWpm = Math.max(
     result.p99_wpm,
     result.best_run_wpm || 0,
@@ -110,22 +109,24 @@ export const RawStats = (props: Props) => {
             },
           ]}
         />
-        <Row
-          name={setPr ? "Previous best" : "Your best"}
-          key="best"
-          values={[
-            {
-              value: result.best_run_wpm || 0,
-              maxValue: bestWpm,
-              format: formatWpm,
-            },
-            {
-              value: bestAccuracy || 0,
-              maxValue: bestAccuracy,
-              format: formatAccuracy,
-            },
-          ]}
-        />
+        {result.best_run_wpm && (
+          <Row
+            name={setPr ? "Previous best" : "Your best"}
+            key="best"
+            values={[
+              {
+                value: result.best_run_wpm || 0,
+                maxValue: bestWpm,
+                format: formatWpm,
+              },
+              {
+                value: bestAccuracy || 0,
+                maxValue: bestAccuracy,
+                format: formatAccuracy,
+              },
+            ]}
+          />
+        )}
       </div>
 
       <div className="py-3" />

@@ -7,14 +7,16 @@ import {
   updateToken,
 } from "./store/playerSlice";
 import { MainMenu } from "./main-menu/MainMenu";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Game } from "./game/Game";
 import { useAppDispatch } from "./store/storeHooks";
 import { TimeTrials } from "./time-trials/TimeTrials";
-import { Logo } from "./components/Logo";
+import { Header } from "./components/Header";
 import { TimeTrial } from "./time-trials/TimeTrial";
-import { Todo } from "./todo/Todo";
+import { Footer } from "./components/Footer";
+import { RoadMap } from "./roadmap/Roadmap";
+import { PrivacyPolicy } from "./privacy-policy/PrivacyPolicy";
 
 function App() {
   const navigate = useNavigate();
@@ -88,20 +90,20 @@ function App() {
   }, [navigate]);
 
   return (
-    <div className="flex flex-col h-screen">
-      <Logo />
-      <div className="grow overflow-y-auto overflow-x-hidden">
+    <div className="h-screen flex flex-col">
+      <Header />
+      <div className="content w-full grow overflow-y-auto overflow-x-hidden">
         <Routes>
-          <Route path="/" element={<MainMenu />} />
+          <Route path="/race" element={<MainMenu />} />
           <Route path="/in-game" element={<Game />} />
           <Route path="/time-trials" element={<TimeTrials />} />
           <Route path="/time-trials/:id" element={<TimeTrial />} />
-          <Route path="/todo" element={<Todo />} />
+          <Route path="/roadmap" element={<RoadMap />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="*" element={<Navigate to="/race" />} />
         </Routes>
       </div>
-      <div className="pb-8">
-        <div>Footer</div>
-      </div>
+      <Footer />
     </div>
   );
 }
