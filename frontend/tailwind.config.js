@@ -32,7 +32,6 @@ module.exports = {
         accent: "var(--accent)",
         "accent-600": "var(--accent-600)",
         "accent-800": "var(--accent-800)",
-        "accent-dark": "var(--accent-dark)",
         "accent-200": "var(--accent-200)",
         "white-900": "var(--white-900)",
         "error-color": "var(--error-color)",

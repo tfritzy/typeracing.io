@@ -132,7 +132,7 @@ export const InGame = () => {
     (newLockIndex: number, keyStrokes: KeyStroke[], errors: number) => {
       const word = phrase.slice(lockCharIndex, newLockIndex).trim();
       for (let i = 0; i < keyStrokes.length; i++) {
-        keyStrokes[i].time = keyStrokes[i].time! - startTime;
+        keyStrokes[i].time = keyStrokes[i].time! / 1000 - startTime;
       }
 
       const finishedWordRequest: OneofRequest = {
@@ -156,8 +156,8 @@ export const InGame = () => {
   }
 
   return (
-    <div>
-      <div className="relative flex flex-col space-y-8 justify-center font-thin h-screen">
+    <div className="relative h-full">
+      <div className="relative flex flex-col space-y-8 justify-center h-full">
         <div
           className="relative flex flex-col justify-end"
           style={{ flexGrow: !isGameOver ? "1" : undefined }}

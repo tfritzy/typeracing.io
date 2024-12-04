@@ -1,7 +1,6 @@
 import React from "react";
 import { GameConfig } from "./GameConfig";
 import { TypeBoxButton } from "../components/TypeBoxButton";
-import { Profile } from "./Profile";
 import { useNavigate } from "react-router-dom";
 
 const phrases = [
@@ -42,10 +41,8 @@ export const MainMenu = (props: MainMenuProps) => {
   }, []);
 
   return (
-    <div className="relative h-full flex flex-col space-y-32 items-center justify-center point">
-      <div className="absolute left-0 top-0 w-full flex flex-row justify-end py-2">
-        <Profile />
-      </div>
+    <div className="h-full flex flex-col space-y-32 items-center justify-center point">
+      <div />
       <TypeBoxButton phrase={phrase} onPhraseComplete={findGame} />
       <GameConfig onClose={focusTypeBox} />
     </div>

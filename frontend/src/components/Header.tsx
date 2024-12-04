@@ -1,11 +1,6 @@
-import {
-  Clock,
-  ClockSolid,
-  ProfileCircle,
-  WhiteFlag,
-  WhiteFlagSolid,
-} from "iconoir-react";
+import { Clock, ClockSolid, WhiteFlag, WhiteFlagSolid } from "iconoir-react";
 import { Link, useMatch } from "react-router-dom";
+import { Profile } from "../main-menu/Profile";
 
 export const Header = () => {
   const onTimeTrials = useMatch("/time-trials/*");
@@ -13,9 +8,12 @@ export const Header = () => {
 
   return (
     <div className="p-2 flex flex-row space-x-1 items-center justify-center bg-base-800-50 border-b border-base-600">
-      <div className="max-w-[900px] w-full flex flex-row justify-between text-lg">
+      <div className="max-w-[900px] w-full flex flex-row justify-between text-md">
         <div className="flex flex-row space-x-2 items-center">
-          <Link to="/" className="font-bold flex flex-row logo px-2">
+          <Link
+            to="/"
+            className="font-bold flex flex-row logo px-2 py-1 rounded-lg text-lg"
+          >
             <span className="">type</span>
             <span className="">racing</span>
             <span className="text-accent">.io</span>
@@ -25,7 +23,7 @@ export const Header = () => {
 
           <Link
             to="/race"
-            className="font-semibold px-2 py-1 rounded-lg text-center flex flex-row space-x-2 items-center justify-center"
+            className="font-semibold px-2 py-1 rounded-lg text-center flex flex-row space-x-1 items-center justify-center"
             style={{
               color: onRace ? "var(--accent)" : "var(--base-300)",
             }}
@@ -42,7 +40,7 @@ export const Header = () => {
 
           <Link
             to="/time-trials"
-            className="font-semibold px-2 py-1 rounded-lg flex flex-row space-x-2 items-center justify-center"
+            className="font-semibold px-2 py-1 rounded-lg flex flex-row space-x-1 items-center justify-center"
             style={{
               color: onTimeTrials ? "var(--accent)" : "var(--base-300)",
             }}
@@ -56,9 +54,7 @@ export const Header = () => {
           </Link>
         </div>
 
-        <div>
-          <ProfileCircle />
-        </div>
+        <Profile />
       </div>
     </div>
   );

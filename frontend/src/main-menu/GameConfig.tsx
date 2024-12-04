@@ -129,7 +129,7 @@ const ModeButton = (props: ModeButtonProps) => {
           ? {
               backgroundColor: "var(--accent-200)",
               color: "var(--accent)",
-              borderColor: "var(--accent-dark)",
+              borderColor: "var(--accent-800)",
               borderWidth: "1px",
             }
           : {
@@ -192,7 +192,7 @@ const ModeCheckboxes = () => {
         className="flex flex-row items-center space-x-2 border rounded-md p-2"
         style={{
           backgroundColor: isEnabled ? "var(--accent-200)" : "transparent",
-          borderColor: isEnabled ? "var(--accent-dark)" : "var(--base-600)",
+          borderColor: isEnabled ? "var(--accent-800)" : "var(--base-600)",
           color: isEnabled ? "var(--accent)" : "var(--base-200)",
         }}
         onClick={() => selectGameMode(key, dispatch)}

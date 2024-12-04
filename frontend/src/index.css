@@ -20,7 +20,7 @@
   --error-color: #f43f5e;
   --shadow-color: #1c1c1c;
   --player-color: var(--accent);
-  --other-player-color: var(--accent-dark);
+  --other-player-color: var(--base-600);
 }
 
 @layer utilities {
@@ -50,7 +50,6 @@ body {
   padding: 20px 20px;
 }
 
-
 h1 {
   font-size: 2rem;
   font-weight: 700;
@@ -66,7 +65,8 @@ h3 {
   font-weight: 500;
 }
 
-ul, ol {
+ul,
+ol {
   padding-left: 20px;
   list-style-type: disc;
 }
