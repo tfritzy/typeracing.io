@@ -18,7 +18,6 @@ type ResolvedTimeTrial = {
 
 function parseTimeTrial(trial: TimeTrialData): ResolvedTimeTrial | null {
   if (!trial.id || !trial.name || !trial.phrase) {
-    console.log("rejecting", trial);
     return null;
   }
 

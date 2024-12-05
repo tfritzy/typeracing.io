@@ -169,7 +169,11 @@ export const PercentileBarChart: React.FC<Props> = ({
   return (
     <div className="w-full">
       <div className="pl-4">
-        <span>You did better than </span>
+        <span>Completed with </span>
+        <span className="font-bold text-accent">
+          {mostRecentWpm?.toFixed(1)}
+        </span>
+        <span> wpm. You did better than </span>
         <span className="font-bold text-accent">
           {((percentile || 0) * 100)?.toFixed(1)}%
         </span>

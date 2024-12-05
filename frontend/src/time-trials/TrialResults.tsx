@@ -52,7 +52,6 @@ function parseTimeTrialResult(
     !response.global_times ||
     !response.global_wpm
   ) {
-    console.log("rejecting", response);
     return null;
   }
 

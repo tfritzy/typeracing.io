@@ -120,7 +120,6 @@ export const InGame = () => {
   // Reset state on exit
   useEffect(() => {
     return () => {
-      console.log("Reset");
       resetState();
       dispatch(reset());
     };
@@ -140,7 +139,6 @@ export const InGame = () => {
   const handleWordComplete = React.useCallback(
     (newLockIndex: number, keyStrokes: KeyStroke[], errors: number) => {
       const word = phrase.slice(lockCharIndex, newLockIndex).trim();
-      console.log(keyStrokes);
       for (let i = 0; i < keyStrokes.length; i++) {
         keyStrokes[i].time = keyStrokes[i].time! - startTime / 1000;
       }

@@ -47,11 +47,9 @@ function Difficulty(props: { difficulty: number }): JSX.Element {
 const parseTimeTrials = (
   result: TimeTrialListItem[] | undefined
 ): ResolvedListItem[] => {
-  console.log(result);
   const resolved: ResolvedListItem[] = [];
   result?.forEach((r) => {
     if (!r.id || !r.name || !r.wpm || !r.time) {
-      console.log("Rejecting", r);
       return;
     }
 
@@ -81,7 +79,6 @@ const TimeTrialRow = React.memo(
   }) => {
     const handleKeyDown = (event: React.KeyboardEvent) => {
       if (event.key === "Enter" || event.key === " ") {
-        console.log("handle key down");
         event.preventDefault();
         onRowClick(trial.id);
       }
