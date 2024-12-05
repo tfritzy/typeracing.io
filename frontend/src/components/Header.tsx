@@ -30,11 +30,11 @@ export const Header = () => {
             }}
           >
             <div>Race</div>
-            {onRace ? (
+            {/* {onRace ? (
               <WhiteFlagSolid className="w-4 h-4" />
             ) : (
               <WhiteFlag className="w-4 h-4" />
-            )}
+            )} */}
           </Link>
 
           <div className="h-3/4 border-r border-base-700 w-[1px]" />
@@ -47,11 +47,11 @@ export const Header = () => {
             }}
           >
             <div>Time trials</div>
-            {onTimeTrials ? (
+            {/* {onTimeTrials ? (
               <ClockSolid className="w-4 h-4" />
             ) : (
               <Clock className="w-4 h-4" />
-            )}
+            )} */}
           </Link>
         </div>
 
