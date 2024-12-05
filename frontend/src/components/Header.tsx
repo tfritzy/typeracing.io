@@ -5,6 +5,7 @@ import { Profile } from "../main-menu/Profile";
 export const Header = () => {
   const onTimeTrials = useMatch("/time-trials/*");
   const onRace = useMatch("/race/*");
+  const onMainMenu = useMatch("/race");
 
   return (
     <div className="p-2 flex flex-row space-x-1 items-center justify-center bg-base-800-50 border-b border-base-600">
@@ -54,7 +55,7 @@ export const Header = () => {
           </Link>
         </div>
 
-        <Profile />
+        {onMainMenu && <Profile />}
       </div>
     </div>
   );

@@ -257,8 +257,6 @@ export function TrialResults(props: Props) {
             containerWidth={containerWidth}
           />
 
-          <br />
-
           <ActionBar options={actionBarOptions} />
         </div>
       </div>

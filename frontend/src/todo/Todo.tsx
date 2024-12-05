@@ -4,6 +4,7 @@ export const Todo = () => {
       <h2>Time trials</h2>
       <ul>
         <li>Choose step size better</li>
+        <li>In game name edit</li>
         <li className="line-through">Fix timer starting time</li>
         <li className="line-through">Show reset for wpmOverTime chart</li>
         <li className="line-through">Profile</li>
