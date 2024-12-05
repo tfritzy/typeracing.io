@@ -71,7 +71,7 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
           }}
         />
         <div
-          className="h-1 transition-all duration-350 ease-in-out rounded-full bg-base-600"
+          className="h-1 transition-all duration-350 ease-in-out rounded-full bg-base-800"
           style={{
             width: `${(1 - (player?.progress || 0)) * 100}%`,
           }}

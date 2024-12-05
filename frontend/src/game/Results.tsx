@@ -5,6 +5,7 @@ import { PlayerData } from "../store/gameSlice";
 import ConfettiExplosion from "react-confetti-explosion";
 import { useAppSelector, useGameSelector } from "../store/storeHooks";
 import { GameStoreState } from "../store/gameStore";
+import { StarSolid } from "iconoir-react";
 
 export const Results = () => {
   const players = useGameSelector(
@@ -57,8 +58,7 @@ export const Results = () => {
     if (place === 0) {
       return (
         <span>
-          <span>1</span>
-          <span className="text-sm align-super">st</span>
+          <StarSolid className="h-8 w-8" />
         </span>
       );
     } else if (place === 1) {
@@ -97,6 +97,24 @@ export const Results = () => {
     }
   }, []);
 
+  const chart = useMemo(() => {
+    if (
+      !self?.wpm_by_second ||
+      !self?.raw_wpm_by_second ||
+      !self?.errors_at_time
+    ) {
+      return null;
+    }
+
+    return (
+      <WpmOverTime
+        wpm_by_second={self.wpm_by_second}
+        raw_wpm_by_second={self.raw_wpm_by_second}
+        errors={self.errors_at_time}
+      />
+    );
+  }, [self?.errors_at_time, self?.raw_wpm_by_second, self?.wpm_by_second]);
+
   if (!finishedPlayers.length) {
     return null;
   }
@@ -126,20 +144,20 @@ export const Results = () => {
               colors={["#fed7aa", "#fde68a", "#bae6fd", "#c7d2fe", "#f5d0fe"]}
             />
           )}
-          <div className="text-xs text-base-300">PLACE</div>
+          <div className="text-xs">PLACE</div>
           <div
-            className={`text-3xl border-none font-mono mx-auto ${getClassForPlacement(
+            className={`text-3xl border-none font-mono mx-auto flex flex-row space-x-1 items-center ${getClassForPlacement(
               placement
             )}`}
           >
-            {getStringForPlacement(placement)}
+            <div>{getStringForPlacement(placement)}</div>
           </div>
         </div>
 
         <div
           className={`p-3 py-2 min-w-24 rounded-lg ${getClassForWpm(finalWpm)}`}
         >
-          <div className="text-xs text-base-300">WPM</div>
+          <div className="text-xs">WPM</div>
           <div
             className={`text-3xl border-none font-mono mx-auto ${getClassForWpm(
               finalWpm
@@ -154,7 +172,7 @@ export const Results = () => {
             self?.accuracy || 0
           )}`}
         >
-          <div className="text-xs text-base-300">ACCURACY</div>
+          <div className="text-xs">ACCURACY</div>
           <div className={"text-3xl border-none font-mono"}>
             {((self?.accuracy || 0) * 100).toFixed(0)}%
           </div>
@@ -181,24 +199,9 @@ export const Results = () => {
           <div className="text-xs text-base-300">CHARACTERS</div>
           <div className="text-xl font-mono base-100">{numCharacters}</div>
         </div>
-
-        <div className="p-3 px-6">
-          <div className="text-xs text-base-300">CHARACTERS/S</div>
-          <div className="text-xl font-mono base-100">
-            {(numCharacters / duration).toFixed(1)}
-          </div>
-        </div>
       </div>
 
-      {self?.wpm_by_second &&
-        self?.raw_wpm_by_second &&
-        self?.errors_at_time && (
-          <WpmOverTime
-            wpm_by_second={self.wpm_by_second}
-            raw_wpm_by_second={self.raw_wpm_by_second}
-            errors={self.errors_at_time}
-          />
-        )}
+      {chart}
     </div>
   );
 };

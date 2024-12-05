@@ -46,11 +46,5 @@ export const GameActionBar = (props: ActionBarProps) => {
     ];
   }, [findGame, mainMenu]);
 
-  return (
-    <div className="flex flex-col items-center">
-      <div className="flex flex-row rounded-full px-2 bg-base-800 border border-base-600 shadow-sm shadow-shadow-color">
-        <ActionBar options={options} />
-      </div>
-    </div>
-  );
+  return <ActionBar options={options} />;
 };
