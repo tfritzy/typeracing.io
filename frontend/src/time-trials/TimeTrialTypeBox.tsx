@@ -51,12 +51,12 @@ export function TimeTrialTypeBox(props: Props) {
   );
 
   return (
-    <div className="p-3">
+    <div className="p-3 relative">
       <div
-        className="transition-opacity text-center w-full text-xl mb-4"
+        className="absolute -top-10 transition-opacity text-center w-full text-xl mb-6"
         style={{ color: startTime > 0 ? "var(--base-100)" : "var(--base-500)" }}
       >
-        <Timer startTime={startTime || Date.now()} running={!done} />
+        <Timer startTime={startTime || 0} running={!done} />
       </div>
       <TypeBox
         phrase={trial.phrase!}

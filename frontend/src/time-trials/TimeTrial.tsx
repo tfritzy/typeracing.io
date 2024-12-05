@@ -40,10 +40,14 @@ export function TimeTrial() {
   const [keystrokes, setKeystrokes] = React.useState<KeyStroke[]>([]);
   const navigate = useNavigate();
 
+  const escape = React.useCallback(() => {
+    navigate("/time-trials");
+  }, [navigate]);
+
   React.useEffect(() => {
     const handleHotkeys = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        navigate("/time-trials");
+        escape();
       }
     };
 
@@ -52,7 +56,7 @@ export function TimeTrial() {
     return () => {
       document.removeEventListener("keydown", handleHotkeys);
     };
-  }, [navigate]);
+  }, [escape, navigate]);
 
   React.useEffect(() => {
     if (!params.id) {
@@ -91,13 +95,16 @@ export function TimeTrial() {
 
   return (
     <div className="relative h-full flex flex-col">
-      <div className="flex flex-row space-x-1 items-center">
+      <button
+        className="flex flex-row space-x-1 items-center w-min"
+        onClick={escape}
+      >
         <NavArrowLeft width={20} />
         <Hotkey code="Esc" />
-      </div>
+      </button>
       {!resultsOpen && (
         <div
-          className="grow flex flex-col justify-center"
+          className="grow-[3] flex flex-col justify-center"
           style={{
             opacity: resultsOpen ? 0 : 1,
           }}

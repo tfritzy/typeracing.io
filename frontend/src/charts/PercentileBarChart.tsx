@@ -52,6 +52,7 @@ export const PercentileBarChart: React.FC<Props> = ({
   const series: ApexOptions["series"] = React.useMemo(() => {
     const closestWpm = Object.keys(formattedData)
       .map(Number)
+      .filter((wpm) => formattedData[wpm] !== "0%")
       .sort(
         (a, b) => Math.abs(a - mostRecentWpm) - Math.abs(b - mostRecentWpm)
       )[0];

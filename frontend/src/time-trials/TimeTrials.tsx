@@ -81,6 +81,7 @@ const TimeTrialRow = React.memo(
   }) => {
     const handleKeyDown = (event: React.KeyboardEvent) => {
       if (event.key === "Enter" || event.key === " ") {
+        console.log("handle key down");
         event.preventDefault();
         onRowClick(trial.id);
       }
@@ -220,7 +221,11 @@ export function TimeTrials() {
 
       if (currentPage?.items) {
         const index = key.charCodeAt(0) - 97;
-        if (index >= 0 && index < currentPage.items.length) {
+        if (
+          key.length === 1 &&
+          index >= 0 &&
+          index < currentPage.items.length
+        ) {
           handleRowClick(currentPage.items[index].id);
         }
       }
@@ -268,7 +273,7 @@ export function TimeTrials() {
       <h1 className="mb-4">Time trials</h1>
       <table className="w-full">
         <thead>
-          <tr className="border-b border-base-400">
+          <tr className="border-b border-base-600">
             <th className="text-left text-lg py-3 text-base-200 font-semibold">
               Name
             </th>

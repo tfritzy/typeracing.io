@@ -3,11 +3,9 @@ export const Todo = () => {
     <div>
       <h2>Time trials</h2>
       <ul>
-        <li>Forgive small errors in submit</li>
-        <li>Fix timer starting time</li>
-        <li>Show reset for wpmOverTime chart</li>
-        <li>Ghost cursor</li>
         <li>Choose step size better</li>
+        <li className="line-through">Fix timer starting time</li>
+        <li className="line-through">Show reset for wpmOverTime chart</li>
         <li className="line-through">Profile</li>
         <li className="line-through">Header that links to all the stuff</li>
         <li className="line-through">Don't show best on first run</li>
@@ -23,7 +21,7 @@ export const Todo = () => {
       <h2>General</h2>
       <ul>
         <li>New logo</li>
-        <li>Implement footer</li>
+        <li className="line-through">Implement footer</li>
       </ul>
     </div>
   );

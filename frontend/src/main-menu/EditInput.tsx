@@ -13,7 +13,7 @@ export const EditInput = ({ value, onChange }: InputWithIconProps) => {
         type="text"
         value={value}
         onChange={onChange}
-        className="pl-3 pr-8 py-1 rounded-lg w-[160px] bg-base-900"
+        className="pl-3 pr-8 py-1 rounded-lg w-[200px] bg-base-900"
       />
       <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
         <EditPencil width={16} height={16} />
