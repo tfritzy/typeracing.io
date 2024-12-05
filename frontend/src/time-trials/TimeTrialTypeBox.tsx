@@ -53,7 +53,7 @@ export function TimeTrialTypeBox(props: Props) {
   return (
     <div className="p-3">
       <div
-        className="transition-opacity text-center w-full text-xl mb-8"
+        className="transition-opacity text-center w-full text-xl mb-4"
         style={{ color: startTime > 0 ? "var(--base-100)" : "var(--base-500)" }}
       >
         <Timer startTime={startTime || Date.now()} running={!done} />

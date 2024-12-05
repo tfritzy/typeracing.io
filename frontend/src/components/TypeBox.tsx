@@ -317,15 +317,17 @@ export const TypeBox = (props: TypeBoxProps) => {
     }
 
     if (newEndIndex !== -1) {
-      onWordComplete(
-        newEndIndex,
-        keyStrokes.current.strokes,
-        wordErrorsCount.current
-      );
-      setCurrentWord("");
-      wordErrorsCount.current = 0;
-      keyStrokes.current.strokes = [];
-      keyStrokes.current.compositeSize = 0;
+      React.startTransition(() => {
+        onWordComplete(
+          newEndIndex,
+          keyStrokes.current.strokes,
+          wordErrorsCount.current
+        );
+        setCurrentWord("");
+        wordErrorsCount.current = 0;
+        keyStrokes.current.strokes = [];
+        keyStrokes.current.compositeSize = 0;
+      });
     }
   }, [currentWord, lockedCharacterIndex, onWordComplete, phrase]);
 

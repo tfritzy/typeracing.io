@@ -52,7 +52,7 @@ const PlayerRow = ({ player }: { player?: PlayerData }) => {
 
   return (
     <div className="h-md relative">
-      <div className="flex flex-row items-center justify-between space-x-2 w-full mb-2">
+      <div className="flex flex-row items-center justify-between space-x-2 w-full mb-1">
         <div className="flex text-base-200 flex-row space-x-2 items-center">
           <span>{playerName}</span>
           <span>{place !== -1 ? placementText[place] : ""} </span>
@@ -100,13 +100,13 @@ export const Players = () => {
   const playerElements = useMemo(() => {
     if (viewportHeight < 600) {
       return (
-        <div className="h-full flex flex-col space-y-8">
+        <div className="h-full flex flex-col space-y-4">
           <PlayerRow player={players[selfIndex]} />
         </div>
       );
     } else {
       return (
-        <div className="h-full flex flex-col space-y-8">
+        <div className="h-full flex flex-col space-y-6">
           {players.map((player, index) => (
             <PlayerRow key={player.id} player={player} />
           ))}

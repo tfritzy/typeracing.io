@@ -58,7 +58,8 @@ export const Results = () => {
     if (place === 0) {
       return (
         <span>
-          <StarSolid className="h-8 w-8" />
+          <span>1</span>
+          <span className="text-sm align-super">st</span>
         </span>
       );
     } else if (place === 1) {

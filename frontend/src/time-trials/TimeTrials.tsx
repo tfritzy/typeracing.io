@@ -98,9 +98,6 @@ const TimeTrialRow = React.memo(
           <Hotkey code={String.fromCharCode(97 + index)} />
           <span>{trial.name}</span>
         </td>
-        <td className="py-3 font-medium">
-          <Difficulty difficulty={trial.difficulty} />
-        </td>
         <td className="py-3">
           <div className="w-full h-2 bg-base-800 rounded-full">
             <div
@@ -274,9 +271,6 @@ export function TimeTrials() {
           <tr className="border-b border-base-400">
             <th className="text-left text-lg py-3 text-base-200 font-semibold">
               Name
-            </th>
-            <th className="text-left text-lg py-3 text-base-200 font-semibold">
-              Difficulty
             </th>
             <th className="text-left text-lg py-3 text-base-200 font-semibold w-48">
               Percentile

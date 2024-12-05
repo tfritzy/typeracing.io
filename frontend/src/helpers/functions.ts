@@ -26,7 +26,7 @@ export const returnToMainMenu = (
   navigate: NavigateFunction,
   dispatch: Dispatch
 ) => {
-  navigate("/", { replace: true });
+  navigate("/");
   dispatch(reset());
 };
 

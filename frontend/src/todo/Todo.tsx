@@ -8,7 +8,7 @@ export const Todo = () => {
         <li>Show reset for wpmOverTime chart</li>
         <li>Ghost cursor</li>
         <li>Choose step size better</li>
-        <li>Profile</li>
+        <li className="line-through">Profile</li>
         <li className="line-through">Header that links to all the stuff</li>
         <li className="line-through">Don't show best on first run</li>
         <li className="line-through">Back button from time trial</li>

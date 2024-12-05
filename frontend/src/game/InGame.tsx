@@ -117,6 +117,15 @@ export const InGame = () => {
     setLockCharIndex(0);
   }, []);
 
+  // Reset state on exit
+  useEffect(() => {
+    return () => {
+      console.log("Reset");
+      resetState();
+      dispatch(reset());
+    };
+  }, [dispatch, resetState]);
+
   useEffect(() => {
     if (player.id) {
       sendFindGameRequest(sendRequest, player);

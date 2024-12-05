@@ -69,7 +69,16 @@ export const WpmOverTime = (props: Props) => {
         id: "simple-line",
         background: "transparent",
         toolbar: {
-          show: false,
+          show: true,
+          tools: {
+            reset: true,
+            zoom: " ",
+            zoomin: false,
+            zoomout: false,
+            pan: false,
+            selection: false,
+            download: false,
+          },
         },
         animations: {
           enabled: false,
