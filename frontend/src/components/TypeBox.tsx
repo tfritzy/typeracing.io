@@ -173,17 +173,9 @@ export const TypeBox = (props: TypeBoxProps) => {
       if (currentWord[i] !== phrase[lockedCharacterIndex + i]) {
         hasError = true;
         text.push(
-          <span className="relative underline underline-offset-[4px]">
+          <span className="relative underline underline-offset-[4px] decoration-error-color">
             <span className="text-error-color">
               {phrase[lockedCharacterIndex + i]}
-            </span>
-            <span
-              className="absolute text-error-color top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-              style={{
-                opacity: phrase[lockedCharacterIndex + i] === " " ? 1 : 0.25,
-              }}
-            >
-              {currentWord[i]}
             </span>
           </span>
         );
