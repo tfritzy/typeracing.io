@@ -14,6 +14,7 @@ type ResolvedTimeTrial = {
   name: string;
   phrase: string;
   global_wpm: { [key: number]: number };
+  author: string | undefined;
 };
 
 function parseTimeTrial(trial: TimeTrialData): ResolvedTimeTrial | null {
@@ -26,6 +27,7 @@ function parseTimeTrial(trial: TimeTrialData): ResolvedTimeTrial | null {
     id: trial.id,
     name: trial.name,
     phrase: trial.phrase,
+    author: trial.author,
   };
 }
 
@@ -109,6 +111,9 @@ export function TimeTrial() {
           }}
         >
           <TimeTrialTypeBox trial={trial} onPhraseComplete={onComplete} />
+          <div className="text-right text-lg w-full text-base-500 pr-16">
+            {trial.author && "— " + trial.author}
+          </div>
         </div>
       )}
       {resultsOpen && (

@@ -109,7 +109,6 @@ namespace api
             TimeTrialListItem item,
             string playerId)
         {
-            Console.WriteLine($"Looking for result for {item.id} and {playerId}");
             TimeTrialResult? result = await TimeTrialHelpers.FindResultForTrial(container, playerId, item.id);
             if (result != null)
             {
@@ -118,7 +117,6 @@ namespace api
                 item.Percentile = Percentiles.CalculatePercentile(trial.GlobalWpm, (int)MathF.Round(result.BestWpm));
             }
         }
-
 
         private static int GetPageSize(HttpRequest req)
         {

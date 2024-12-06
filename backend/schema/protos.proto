@@ -129,6 +129,7 @@ message TimeTrial {
     string phrase = 3;
     map<int32, int32> global_wpm = 4;
     int32 difficulty = 5;
+    string author = 6;
 }
 
 message ListTimeTrialsResponse {

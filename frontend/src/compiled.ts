@@ -1470,6 +1470,7 @@ export interface TimeTrial {
   phrase?: string;
   global_wpm?: { [key: number]: number };
   difficulty?: number;
+  author?: string;
 }
 
 export function encodeTimeTrial(message: TimeTrial): Uint8Array {
@@ -1522,6 +1523,13 @@ function _encodeTimeTrial(message: TimeTrial, bb: ByteBuffer): void {
   if ($difficulty !== undefined) {
     writeVarint32(bb, 40);
     writeVarint64(bb, intToLong($difficulty));
+  }
+
+  // optional string author = 6;
+  let $author = message.author;
+  if ($author !== undefined) {
+    writeVarint32(bb, 50);
+    writeString(bb, $author);
   }
 }
 
@@ -1590,6 +1598,12 @@ function _decodeTimeTrial(bb: ByteBuffer): TimeTrial {
       // optional int32 difficulty = 5;
       case 5: {
         message.difficulty = readVarint32(bb);
+        break;
+      }
+
+      // optional string author = 6;
+      case 6: {
+        message.author = readString(bb, readVarint32(bb));
         break;
       }
 
