@@ -111,7 +111,7 @@ export function TimeTrial() {
           }}
         >
           <TimeTrialTypeBox trial={trial} onPhraseComplete={onComplete} />
-          <div className="text-right text-lg w-full text-base-500 pr-16">
+          <div className="text-right italic text-lg w-full text-base-500 pr-16">
             {trial.author && "— " + trial.author}
           </div>
         </div>
