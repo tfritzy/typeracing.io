@@ -11,6 +11,7 @@ var host = new HostBuilder()
         services.ConfigureFunctionsApplicationInsights();
         services.AddSingleton((s) => new CosmosClient(Environment.GetEnvironmentVariable("CosmosDBConnectionString")));
         services.AddHttpClient();
+        services.AddLogging();
     })
     .Build();
 

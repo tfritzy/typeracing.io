@@ -1,4 +1,5 @@
 using Schema;
+using typeracing.io;
 
 namespace Tests;
 

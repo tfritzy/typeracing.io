@@ -1,4 +1,5 @@
-﻿using LightspeedTyperacing;
+﻿
+using typeracing.io;
 
 Server server = new();
 server.StartAcceptingConnections();

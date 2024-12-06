@@ -3,7 +3,7 @@ import { PlayerState } from "./store/playerSlice";
 import { RootState } from "./store/store";
 import { encodeOneofRequest, OneofRequest } from "./compiled";
 import { DisconnectedModal } from "./DisconnectedModal";
-import { LoadingSpinner } from "./LoadingSpinner";
+import { Spinner } from "./components/Spinner";
 import { useAppSelector } from "./store/storeHooks";
 
 const apiUrl = process.env.REACT_APP_API_ADDRESS;
@@ -82,7 +82,7 @@ export const ConnectionProvider: React.FC<ConnectionProviderProps> = ({
   }
 
   if (!ws || wsState !== WebSocket.OPEN) {
-    return <LoadingSpinner />;
+    return <Spinner />;
   }
 
   const value: ContextState = {

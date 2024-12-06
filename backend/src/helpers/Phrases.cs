@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.Json;
 using Schema;
 
-namespace LightspeedTyperacing;
+namespace typeracing.io;
 
 public static class Phrases
 {

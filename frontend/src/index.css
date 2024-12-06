@@ -3,21 +3,35 @@
 @tailwind utilities;
 
 :root {
-  --accent: #a7f3d0;
-  --accent-100: #bfdbfe50;
-  --accent-200: #bfdbfe10;
-  --accent-secondary: #fde68a;
-  --text-primary: #e6ede6;
-  --text-secondary: #adbac7;
-  --text-tertiary: #7d8590;
-  --background-color: #1c2128;
-  --neutral-color: #1c2128;
-  --border-color: #3a414a;
-  --border-color-100: #3a414a77;
+  --accent: #34d399;
+  --accent-600: #059669;
+  --accent-800: #065f46;
+  --accent-secondary: #fef08a;
+  --base-100: #f3f4f6;
+  --base-200: #e5e7eb;
+  --base-300: #d1d5db;
+  --base-400: #9ca3af;
+  --base-500: #6b7280;
+  --base-600: #4b5563;
+  --base-700: #374151;
+  --base-800: #1f2937;
+  --base-800-50: #1f293788;
+  --base-900: #111827;
   --error-color: #f43f5e;
   --shadow-color: #1c1c1c;
   --player-color: var(--accent);
-  --other-player-color: var(--accent-100);
+  --other-player-color: var(--base-500);
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 body {
@@ -28,20 +42,37 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 200;
+}
 
-  max-width: 1100px;
+.content {
+  max-width: 900px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 20px 20px;
 }
 
 h1 {
   font-size: 2rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 h2 {
+  font-size: 1.75rem;
+  font-weight: 500;
+}
+
+h3 {
   font-size: 1.25rem;
   font-weight: 500;
+}
+
+ul,
+ol {
+  padding-left: 20px;
+  list-style-type: disc;
+}
+li {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .typebox::selection {
@@ -50,22 +81,28 @@ h2 {
 
 .type-box {
   font-family: Consolas, Lucida Console, monospace;
-  font-size: 1.5rem;
-  /* line-height: 40px;
-  letter-spacing: 0.04em;
+  font-size: 1.25rem;
+  /* line-height: 40px; */
+  /* letter-spacing: 0.04em;
   word-spacing: 0.08em; */
 }
 
 .apexcharts-tooltip {
-  background: rgba(0, 0, 0, 0.9) !important; /* Your desired background color */
-  box-shadow: none !important; /* Removes the shadow */
+  background: rgba(0, 0, 0, 0.9) !important;
+  /* Your desired background color */
+  box-shadow: none !important;
+  /* Removes the shadow */
 }
 
 .center-column {
-  width: 100%; /* Takes full width of the container */
-  max-width: 1000px; /* Maximum width in pixels */
-  margin: 0 auto; /* Centers the div in the container */
-  box-sizing: border-box; /* Includes padding and border in the width */
+  width: 100%;
+  /* Takes full width of the container */
+  max-width: 1000px;
+  /* Maximum width in pixels */
+  margin: 0 auto;
+  /* Centers the div in the container */
+  box-sizing: border-box;
+  /* Includes padding and border in the width */
 }
 
 /* Remove default focus ring */
@@ -75,8 +112,10 @@ h2 {
 
 /* Style focus ring */
 :focus-visible {
-  outline: 1px solid #ffffff55; /* Change color and size as desired */
-  outline-offset: 0px; /* Adjust offset to prevent overlap with element */
+  outline: 1px solid #ffffff55;
+  /* Change color and size as desired */
+  outline-offset: 0px;
+  /* Adjust offset to prevent overlap with element */
 }
 
 .flip-horizontal {
@@ -84,17 +123,21 @@ h2 {
   -webkit-transform: scaleX(-1);
   -o-transform: scaleX(-1);
   transform: scaleX(-1);
-  -ms-filter: fliph; /*IE*/
-  filter: fliph; /*IE*/
+  -ms-filter: fliph;
+  /*IE*/
+  filter: fliph;
+  /*IE*/
 }
 
 @keyframes gradientAnimation {
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
@@ -104,9 +147,11 @@ h2 {
   0% {
     opacity: 1;
   }
+
   50% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -127,13 +172,18 @@ h2 {
   color: #dfe3e8;
   padding: 5px;
   border-radius: 3px;
-  white-space: normal; /* Allow text to wrap */
-  max-width: 300px; /* Set a reasonable max width */
-  width: max-content; /* Tooltip will take only the necessary width */
-  z-index: 1000; /* Ensure it stays above other content */
+  white-space: normal;
+  /* Allow text to wrap */
+  max-width: 300px;
+  /* Set a reasonable max width */
+  width: max-content;
+  /* Tooltip will take only the necessary width */
+  z-index: 1000;
+  /* Ensure it stays above other content */
   visibility: visible;
   opacity: 1;
   transition: opacity 0.3s;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add a slight shadow */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* Optional: Add a slight shadow */
   font-size: 1rem;
 }

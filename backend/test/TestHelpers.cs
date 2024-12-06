@@ -1,4 +1,5 @@
 using Schema;
+using typeracing.io;
 
 namespace Tests;
 
@@ -29,13 +30,13 @@ public static class TH
         return GetKeystrokes(word, wpm);
     }
 
-    public static void TypeWholePhrase(Galaxy galaxy, Game game, InGamePlayer player, int wpm = 60)
+    public static void TypeWholePhrase(Galaxy galaxy, Game game, typeracing.io.InGamePlayer player, int wpm = 60)
     {
         var keystrokes = GetKeystrokes(game.Phrase, wpm);
         Api.TypeWord(keystrokes, player, galaxy);
     }
 
-    public static void TypeRemainderOfPhrase(Galaxy galaxy, Game game, InGamePlayer player, int wpm = 60)
+    public static void TypeRemainderOfPhrase(Galaxy galaxy, Game game, typeracing.io.InGamePlayer player, int wpm = 60)
     {
         var keystrokes = GetKeystrokes(game.Phrase.Substring(player.PhraseIndex), wpm);
         Api.TypeWord(keystrokes, player, galaxy);
@@ -56,7 +57,7 @@ public static class TH
         galaxy.Update();
     }
 
-    public static Game FindGameOfPlayer(Galaxy galaxy, InGamePlayer player)
+    public static Game FindGameOfPlayer(Galaxy galaxy, typeracing.io.InGamePlayer player)
     {
         string gameId = galaxy.PlayerGameMap[player.Id];
 
@@ -75,7 +76,7 @@ public static class TH
 
     public static void IsApproximately(float expected, float actual, float tolerance = 0.001f)
     {
-        Assert.IsTrue(Math.Abs(expected - actual) < tolerance);
+        Assert.IsTrue(Math.Abs(expected - actual) < tolerance, $"{expected} not within {tolerance} of {actual}");
     }
 
     public static void AssertErrorCountsEqual(List<ErrorsAtTime> expected, List<ErrorsAtTime> actual)

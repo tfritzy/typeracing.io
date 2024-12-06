@@ -1,0 +1,217 @@
+syntax = "proto3";
+
+package Schema;
+
+enum GameMode {
+    Invalid = 0;
+    MostCommon = 1;
+    Common = 2;
+    Dictionary = 3;
+    LeastCommon = 4;
+    CopyPastas = 5;
+    SpamTap = 6;
+    Numbers = 7;
+    Marathon = 8;
+    HomeRow = 9;
+    UpperRow = 10;
+    RightHand = 11;
+    LeftHand = 12;
+    AlternatingHand = 13;
+    FakeWords = 14;
+    LongestHundred = 15;
+}
+
+message InGamePlayer {
+    string name = 1;
+    string id = 2;
+    bool is_bot = 3;
+    bool is_you = 4;
+}
+
+message OneofRequest {
+    string sender_id = 1;
+    string sender_token = 2;
+    oneof request {
+        FindGameRequest find_game = 3;
+        TypeWordRequest type_word = 4;
+    }
+}
+
+message FindGameRequest {
+    string player_name = 1;
+    repeated GameMode game_modes = 2;
+    bool private_game = 3;
+}
+
+message KeyStroke {
+    string character = 1;
+    float time = 2;
+}
+
+message TypeWordRequest {
+    string word = 1;
+    repeated KeyStroke key_strokes = 2;
+    int32 num_errors = 3;
+}
+
+message OneofUpdate {
+    string recipient_id = 1;
+    string game_id = 2;
+    oneof update {
+        GameOver game_over = 3;
+        GameStarted game_started = 4;
+        GameStarting game_starting = 5;
+        PlayerCompleted player_completed = 6;
+        PlayerJoinedGame player_joined_game = 7;
+        WordFinished word_finished = 8;
+        YouveBeenAddedToGame youve_been_added_to_game = 9;
+        PlayerDisconnected player_disconnected = 10;
+    }
+}
+
+message GameOver {    
+    float end_time_s = 1;
+}
+
+message GameStarted {
+}
+
+message GameStarting {
+    float countdown = 1;
+}
+
+message ErrorsAtTime {
+    float time = 1;
+    int32 error_count = 2;
+}
+
+message PlayerCompleted {
+    string player_id = 1;
+    int32 place = 2;
+    repeated float raw_wpm_by_second = 3;
+    repeated float wpm_by_second = 4;
+    float wpm = 5;
+    float accuracy = 6;
+    GameMode mode = 7;
+    repeated ErrorsAtTime errors_at_time = 8;
+    int32 num_errors = 9;
+}
+
+message PlayerJoinedGame {
+    InGamePlayer player = 1;
+    string game_id = 2;
+}
+
+message WordFinished {
+    string player_id = 1;
+    float percent_complete = 2;
+    float velocity_km_s = 3;
+    float position_km = 4;
+    repeated float char_completion_times = 5;
+    float wpm = 6;
+}
+
+message YouveBeenAddedToGame {
+    string game_id = 1;
+    repeated InGamePlayer current_players = 2;
+    string phrase = 3;
+}
+
+message PlayerDisconnected {
+    string player_id = 1;
+    bool removed = 2;
+    bool is_you = 3;
+}
+
+message TimeTrial {
+    string id = 1;
+    string name = 2;
+    string phrase = 3;
+    map<int32, int32> global_wpm = 4;
+    int32 difficulty = 5;
+    string author = 6;
+}
+
+message ListTimeTrialsResponse {
+    repeated TimeTrialListItem time_trials = 1;
+}
+
+message TimeTrialListItem {
+    string id = 1;
+    string name = 2;
+    int32 length = 3;
+    float time = 4;
+    float percentile = 5;
+    float wpm = 6;
+    int32 difficulty = 7;
+}
+
+message TimeTrialResult {
+    string id = 1;
+    string player_id = 2;
+    float best_wpm = 3;
+    repeated float attempt_wpms = 4;
+    repeated KeyStroke best_keystrokes = 5;
+}
+
+message ReportTimeTrialRequest {
+    string id = 1;
+    repeated KeyStroke keystrokes = 2;
+}
+
+message ReportTimeTrialResponse {
+    float time = 1;
+    float wpm = 2;
+    float accuracy = 3;
+
+    float best_run_time = 4;
+    float best_run_wpm = 5;
+    float best_run_accuracy = 6;
+
+    repeated float raw_wpm_by_second = 7;
+    repeated float wpm_by_second = 8;
+    repeated ErrorsAtTime errors_at_time = 9;
+
+    map<string, int32> global_times = 10; // String key to avoid 0 key errors.
+    map<int32, int32> global_wpm = 11;
+
+    int32 num_errors = 12;
+    float p99_time = 13;
+    float p90_time = 14;
+    float p50_time = 15;
+    float p25_time = 16;
+
+    float p99_wpm = 17;
+    float p90_wpm = 18;
+    float p50_wpm = 19;
+    float p25_wpm = 20;
+
+    float percentile = 21;
+}
+
+message AuthenticatedAuthInfo {
+    string provider = 1;
+    string external_id = 2;
+    string email = 3;
+    double last_login_at = 4;
+}
+
+message AnonAuthInfo {
+    string auth_token = 1;
+    double last_login_at = 2;
+}
+
+enum PlayerAuthType {
+    InvalidAuthType = 0;
+    Anonymous = 1;
+    Authenticated = 2;
+}
+
+message Player
+{
+    string id = 1;
+    PlayerAuthType type = 2;
+    double created_s = 3;
+    AuthenticatedAuthInfo authenticated_auth_info = 4;
+    AnonAuthInfo anon_auth_info = 5;
+}

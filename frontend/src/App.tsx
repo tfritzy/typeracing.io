@@ -1,18 +1,22 @@
 import React from "react";
-import { generateRandomName } from "./generateRandomName";
+import { generateRandomName } from "./helpers/generateRandomName";
 import {
   setRaceResults,
   updatePlayerId,
   updatePlayerName,
   updateToken,
 } from "./store/playerSlice";
-import { MainMenu } from "./MainMenu";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { MainMenu } from "./main-menu/MainMenu";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { Game } from "./Game";
+import { Game } from "./game/Game";
 import { useAppDispatch } from "./store/storeHooks";
-import { Footer } from "./Footer";
-import { RoadMap } from "./Roadmap";
+import { TimeTrials } from "./time-trials/TimeTrials";
+import { Header } from "./components/Header";
+import { TimeTrial } from "./time-trials/TimeTrial";
+import { Footer } from "./components/Footer";
+import { RoadMap } from "./roadmap/Roadmap";
+import { PrivacyPolicy } from "./privacy-policy/PrivacyPolicy";
 
 function App() {
   const navigate = useNavigate();
@@ -86,14 +90,21 @@ function App() {
   }, [navigate]);
 
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<MainMenu />} />
-        <Route path="/in-game" element={<Game />} />
-        <Route path="/roadmap" element={<RoadMap />} />
-      </Routes>
+    <div className="h-screen flex flex-col">
+      <Header />
+      <div className="content w-full grow overflow-y-auto overflow-x-hidden">
+        <Routes>
+          <Route path="/race" element={<MainMenu />} />
+          <Route path="/in-game" element={<Game />} />
+          <Route path="/time-trials" element={<TimeTrials />} />
+          <Route path="/time-trials/:id" element={<TimeTrial />} />
+          <Route path="/roadmap" element={<RoadMap />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="*" element={<Navigate to="/race" />} />
+        </Routes>
+      </div>
       <Footer />
-    </>
+    </div>
   );
 }
 

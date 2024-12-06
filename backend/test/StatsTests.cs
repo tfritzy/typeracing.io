@@ -1,5 +1,5 @@
 using System.Runtime.ExceptionServices;
-using Schema;
+using typeracing.io;
 
 namespace Tests;
 
@@ -25,23 +25,32 @@ public class StatsTests
     }
 
     [TestMethod]
+    public void Stats_CalculatesTimeFromWpm()
+    {
+        var time = 32;
+        var charCount = 435;
+        var wpm = Schema.Stats.GetWpm(charCount, time);
+        TH.IsApproximately(time, Schema.Stats.WpmToTime(wpm, charCount));
+    }
+
+    [TestMethod]
     public void Stats_ReturnsWpm()
     {
         var strokes = TH.GetKeystrokes("hello world", 120);
 
-        TH.IsApproximately(120, Stats.GetWpm(strokes));
+        TH.IsApproximately(120, Schema.Stats.GetWpm(strokes));
 
-        strokes.Insert(0, new KeyStroke { Character = "h", Time = 0f });
-        strokes.Insert(0, new KeyStroke { Character = "j", Time = 0f });
-        strokes.Insert(2, new KeyStroke { Character = "\b", Time = 0f });
-        strokes.Insert(2, new KeyStroke { Character = "\b", Time = 0f });
+        strokes.Insert(0, new Schema.KeyStroke { Character = "h", Time = 0f });
+        strokes.Insert(0, new Schema.KeyStroke { Character = "j", Time = 0f });
+        strokes.Insert(2, new Schema.KeyStroke { Character = "\b", Time = 0f });
+        strokes.Insert(2, new Schema.KeyStroke { Character = "\b", Time = 0f });
 
-        TH.IsApproximately(120, Stats.GetWpm(strokes));
+        TH.IsApproximately(120, Schema.Stats.GetWpm(strokes));
 
-        strokes.Insert(0, new KeyStroke { Character = "h", Time = 0f });
-        strokes.Insert(0, new KeyStroke { Character = "j", Time = 0f });
+        strokes.Insert(0, new Schema.KeyStroke { Character = "h", Time = 0f });
+        strokes.Insert(0, new Schema.KeyStroke { Character = "j", Time = 0f });
 
-        TH.IsApproximately(141.81819f, Stats.GetWpm(strokes));
+        TH.IsApproximately(141.81819f, Schema.Stats.GetWpm(strokes));
     }
 
     [TestMethod]
@@ -49,25 +58,25 @@ public class StatsTests
     {
         var strokes = TH.GetKeystrokes("hello", 120);
         CollectionAssert.AreEqual(
-            new List<ErrorsAtTime>
+            new List<Schema.ErrorsAtTime>
             {
-                new ErrorsAtTime { Time = 0f, ErrorCount = 0 },
+                new Schema.ErrorsAtTime { Time = 0f, ErrorCount = 0 },
             },
-            Stats.GetErrorCountByTime(strokes, "hello"));
+            Schema.Stats.GetErrorCountByTime(strokes, "hello"));
 
         int i;
         for (i = 1; i < 8; i++)
         {
-            strokes.Insert(i, new KeyStroke { Character = "h", Time = .15f + .01f * i });
+            strokes.Insert(i, new Schema.KeyStroke { Character = "h", Time = .15f + .01f * i });
         }
 
         for (; i < 15; i++)
         {
-            strokes.Insert(i, new KeyStroke { Character = "\b", Time = .15f + .01f * i });
+            strokes.Insert(i, new Schema.KeyStroke { Character = "\b", Time = .15f + .01f * i });
         }
 
         TH.AssertErrorCountsEqual(
-            new List<ErrorsAtTime>
+            new List<Schema.ErrorsAtTime>
             {
                 new() { Time = 0f, ErrorCount = 0 },
                 new() { Time = .16f, ErrorCount = 1 },
@@ -86,6 +95,6 @@ public class StatsTests
                 new() { Time = .29f, ErrorCount = 0 },
 
             },
-            Stats.GetErrorCountByTime(strokes, "hello"));
+            Schema.Stats.GetErrorCountByTime(strokes, "hello"));
     }
 }
