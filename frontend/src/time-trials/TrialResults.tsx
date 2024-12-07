@@ -82,6 +82,7 @@ function parseTimeTrialResult(
 
 type Props = {
   trialId: string;
+  trialName: string;
   keystrokes: KeyStroke[];
   phrase: string;
   onClose: () => void;
@@ -249,7 +250,7 @@ export function TrialResults(props: Props) {
     content = (
       <div className="h-full flex flex-col">
         <div className="grow flex flex-col justify-center space-y-8 w-full">
-          <h1>Finish!</h1>
+          <h1>{props.trialName}</h1>
           <Carrossel
             views={views}
             disabled={!shown}

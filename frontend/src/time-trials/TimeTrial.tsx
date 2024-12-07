@@ -120,6 +120,7 @@ export function TimeTrial() {
         <div className="grow">
           <TrialResults
             keystrokes={keystrokes}
+            trialName={trial.name!}
             phrase={trial.phrase!}
             onClose={() => setResultsOpen(false)}
             shown={resultsOpen}
