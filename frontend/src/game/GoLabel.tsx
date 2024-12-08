@@ -11,7 +11,7 @@ export const GoLabel = (props: GoLabelProps) => {
     return (
       <img
         src="/bufo-lets-goo.gif"
-        className="w-10 h-10 inline transition-colors"
+        className="w-8 h-8 inline transition-colors"
         aria-label="Go!"
         style={{
           transform: "scaleX(-1)",
@@ -23,7 +23,7 @@ export const GoLabel = (props: GoLabelProps) => {
     return (
       <img
         src="/bufo-lets-goo.gif"
-        className="w-10 h-10 inline transition-colors"
+        className="w-8 h-8 inline transition-colors"
         aria-label="Go!"
         style={{
           transform: "scaleX(-1)",

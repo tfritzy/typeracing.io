@@ -174,7 +174,10 @@ export const InGame = () => {
         </div>
 
         {!isGameOver && (
-          <div className="grow-[2] px-2">
+          <div className="relative grow-[2] px-2">
+            <div className="absolute -left-8 top-0">
+              <GoLabel startTime={startTime} />
+            </div>
             <TypeBox
               phrase={phrase}
               lockedCharacterIndex={lockCharIndex}
@@ -193,10 +196,6 @@ export const InGame = () => {
           <Countdown startTime={startTime} />
         </div>
       )}
-
-      <div className="absolute -left-16 top-2">
-        <GoLabel startTime={startTime} />
-      </div>
     </div>
   );
 };
