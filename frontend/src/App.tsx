@@ -94,6 +94,7 @@ function App() {
       <Header />
       <div className="content w-full grow overflow-y-auto overflow-x-visible">
         <Routes>
+          <Route path="/" element={<MainMenu />} />
           <Route path="/race" element={<MainMenu />} />
           <Route path="/in-game" element={<Game />} />
           <Route path="/time-trials" element={<TimeTrials />} />
