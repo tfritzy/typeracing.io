@@ -1,6 +1,7 @@
 {
-  "short_name": "typeracing.io - Live type racing",
-  "name": "Test your typing skills against real live people from all over the world. Compete against your friends, track your wpm, and improve your skills.",
+  "name": "typeracing.io",
+  "short_name": "typeracing.io",
+  "description": "Test your typing skills against real live people from all over the world. Compete against your friends, track your wpm, and improve your skills.",
   "icons": [
     {
       "src": "/favicon-16x16.png",
