@@ -200,14 +200,14 @@ export const TypeBox = (props: TypeBoxProps) => {
       nextSpaceIndex
     );
     text.push(
-      <span className="underline underline-offset-[4px] text-base-500">
+      <span className="underline underline-offset-[4px] text-base-400">
         {remainderOfWord}
       </span>
     );
 
     if (nextSpaceIndex !== -1) {
       let remainingText = phrase.slice(nextSpaceIndex);
-      text.push(<span className="text-base-500">{remainingText}</span>);
+      text.push(<span className="text-base-400">{remainingText}</span>);
     }
 
     return { text, hasError };
