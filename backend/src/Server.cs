@@ -26,18 +26,22 @@ public class Server
 
     public async void Update()
     {
-        float deltaTime_s = (Environment.TickCount64 - lastTime) / 1000f;
-        lastTime = Environment.TickCount64;
+        var startTime = Environment.TickCount64;
+
+        float deltaTime_s = (startTime - lastTime) / 1000f;
+        lastTime = startTime;
 
         Tick(deltaTime_s);
         await ProcessOutbox();
         await ReRegisterPeriodically(deltaTime_s);
 
-        var nextTick = DateTime.Now.AddMilliseconds(interval);
+        var elapsedMs = Environment.TickCount64 - startTime;
+        var delayMs = interval - elapsedMs;
 
-        int delay = (int)(nextTick - DateTime.Now).TotalMilliseconds;
-        if (delay > 0)
-            Thread.Sleep(delay);
+        if (delayMs > 0)
+        {
+            await Task.Delay((int)delayMs);
+        }
     }
 
     public void Tick(float deltaTime_s)
