@@ -103,6 +103,8 @@ export function TimeTrial() {
         <NavArrowLeft width={20} />
         <Hotkey code="Esc" />
       </button>
+
+      <h1>{trial.name}</h1>
       {!resultsOpen && (
         <div
           className="grow-[3] flex flex-col justify-center"
