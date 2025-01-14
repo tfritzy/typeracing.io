@@ -63,8 +63,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./backend # Assuming Dockerfile is in the backend directory
-          file: ./backend/Dockerfile # Path to your Dockerfile
+          context: ./backend/src # Assuming Dockerfile is in the backend directory
+          file: ./backend/src/Dockerfile # Path to your Dockerfile
           push: true
           tags: registry.digitalocean.com/typeracingio/typeracer:latest
           cache-from: type=registry,ref=registry.digitalocean.com/typeracingio/typeracer:buildcache

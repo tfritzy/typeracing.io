@@ -31,7 +31,7 @@ namespace api
         {
             HttpResponseData response;
             var container = _cosmosClient.GetContainer(DB.Name, DB.Hosts);
-            var queryDefinition = new QueryDefinition("SELECT * FROM c ORDER BY c.color");
+            var queryDefinition = new QueryDefinition("SELECT * FROM c ORDER BY c.color desc");
             List<string> deadHostIds = [];
             try
             {
