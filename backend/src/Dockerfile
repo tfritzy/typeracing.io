@@ -2,17 +2,18 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /backend
 
-# Copy the solution file
-COPY *.sln .
-# Copy all project files first
-COPY src/*.csproj src/
-COPY schema/*.csproj schema/
+# Copy project files first
+COPY backend/src/*.csproj src/
+COPY backend/schema/*.csproj schema/
+
+# Copy solution file
+COPY lightspeedtyping.sln .
 
 # Restore dependencies for all projects
 RUN dotnet restore
 
 # Copy everything else
-COPY . .
+COPY backend/ .
 
 # Build and publish
 WORKDIR /backend/src
