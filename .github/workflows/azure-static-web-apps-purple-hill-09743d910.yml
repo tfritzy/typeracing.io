@@ -1,5 +1,4 @@
 name: Azure Static Web Apps CI/CD
-
 on:
   push:
     branches:
@@ -8,7 +7,6 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - master
-
 jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
@@ -24,14 +22,11 @@ jobs:
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_PURPLE_HILL_09743D910 }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
-          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "/frontend" # App source code path
-          api_location: "" # Api source code path - optional
-          output_location: "" # Built app content directory - optional
-          ###### End of Repository/Build Configurations ######
+          app_location: "/frontend"
+          api_location: ""
+          output_location: ""
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -45,7 +40,8 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_PURPLE_HILL_09743D910 }}
           action: "close"
 
-  build:
+  build_and_deploy_backend:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -69,3 +65,26 @@ jobs:
           tags: registry.digitalocean.com/typeracingio/typeracer:latest
           cache-from: type=registry,ref=registry.digitalocean.com/typeracingio/typeracer:buildcache
           cache-to: type=registry,ref=registry.digitalocean.com/typeracingio/typeracer:buildcache,mode=max
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Deploy to droplet
+        run: |
+          # Get the droplet ID (replace blue with your actual droplet name)
+          DROPLET_ID=$(doctl compute droplet list --format ID,Name --no-header | grep blue | awk '{print $1}')
+
+          # Execute commands on the droplet
+          doctl compute ssh $DROPLET_ID --ssh-command '
+            docker pull registry.digitalocean.com/typeracingio/typeracer:latest && \
+            docker stop typeracingio || true && \
+            docker rm typeracingio || true && \
+            docker run -d \
+              --name typeracingio \
+              --restart unless-stopped \
+              -p 8080:8080 \
+              -v /etc/letsencrypt:/etc/letsencrypt:ro \
+              registry.digitalocean.com/typeracingio/typeracer:latest
+          '
