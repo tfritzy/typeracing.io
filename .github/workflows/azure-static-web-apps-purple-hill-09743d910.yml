@@ -66,25 +66,36 @@ jobs:
           cache-from: type=registry,ref=registry.digitalocean.com/typeracingio/typeracer:buildcache
           cache-to: type=registry,ref=registry.digitalocean.com/typeracingio/typeracer:buildcache,mode=max
 
+      - name: Create deployment script
+        run: |
+          echo '#!/bin/bash
+          docker pull registry.digitalocean.com/typeracingio/typeracer:latest
+          docker stop typeracingio || true
+          docker rm typeracingio || true
+          docker run -d \
+            --name typeracingio \
+            --restart unless-stopped \
+            -p 8080:8080 \
+            -v /etc/letsencrypt:/etc/letsencrypt:ro \
+            registry.digitalocean.com/typeracingio/typeracer:latest' > deploy.sh
+          chmod +x deploy.sh
+
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: Deploy to droplet
+      - name: Copy and execute deployment script
         run: |
-          # Get the droplet ID (replace blue with your actual droplet name)
+          # Get droplet ID
           DROPLET_ID=$(doctl compute droplet list --format ID,Name --no-header | grep blue | awk '{print $1}')
 
-          # Execute commands on the droplet
-          doctl compute ssh $DROPLET_ID --ssh-command '
-            docker pull registry.digitalocean.com/typeracingio/typeracer:latest && \
-            docker stop typeracingio || true && \
-            docker rm typeracingio || true && \
-            docker run -d \
-              --name typeracingio \
-              --restart unless-stopped \
-              -p 8080:8080 \
-              -v /etc/letsencrypt:/etc/letsencrypt:ro \
-              registry.digitalocean.com/typeracingio/typeracer:latest
-          '
+          # Copy the script to the droplet using the API
+          SCRIPT_CONTENT=$(cat deploy.sh | base64 -w 0)
+
+          # Use the DigitalOcean API to write the script
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"command\": \"echo $SCRIPT_CONTENT | base64 -d > /root/deploy.sh && chmod +x /root/deploy.sh && /root/deploy.sh\"}" \
+            "https://api.digitalocean.com/v2/droplets/$DROPLET_ID/actions"
