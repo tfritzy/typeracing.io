@@ -72,5 +72,3 @@
    docker compose pull
    docker compose up -d
    ```
-
-You could even automate the pull and restart with a simple webhook! Want me to show you how to set that up?

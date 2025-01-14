@@ -16,10 +16,10 @@ WORKDIR /app
 COPY --from=build /app .
 
 # Create non-root user
-RUN useradd -r -s /bin/false typeracer && \
-    chown -R typeracer:typeracer /app
+RUN useradd -r -s /bin/false typeracingio && \
+    chown -R typeracingio:typeracingio /app
 
-USER typeracer
+USER typeracingio
 
 # Set environment variable
 ENV ENVIRONMENT=Production
