@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  typeracer:
+    build: .
+    container_name: typeracer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env.production
+    networks:
+      - typeracer-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: typeracer-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    depends_on:
+      - typeracer
+    networks:
+      - typeracer-network
+
+  certbot:
+    image: certbot/certbot
+    container_name: typeracer-certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+    depends_on:
+      - nginx
+    command: certonly --webroot --webroot-path=/var/www/html --email tfritzy@gmail.com --agree-tos --no-eff-email --staging -d typeracing.io
+
+volumes:
+  certbot-etc:
+  certbot-var:
+  web-root:
+
+networks:
+  typeracer-network:
+    driver: bridge
