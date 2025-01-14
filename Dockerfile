@@ -1,13 +1,15 @@
 # Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /app
+WORKDIR /build
 
 # Copy solution file first
 COPY lightspeedtyping.sln .
 
-# Copy project files first
+# Copy all project files first
 COPY backend/src/*.csproj backend/src/
 COPY backend/schema/*.csproj backend/schema/
+COPY backend/test/*.csproj backend/test/
+COPY backend/api/*.csproj backend/api/
 
 # Restore dependencies for all projects
 RUN dotnet restore
@@ -16,17 +18,17 @@ RUN dotnet restore
 COPY backend/ backend/
 
 # Build and publish
-WORKDIR /app/backend/src
-RUN dotnet publish -c Release -o /app/out
+WORKDIR /build/backend/src
+RUN dotnet publish -c Release -o /dist
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
-WORKDIR /app
-COPY --from=build /app/out .
+WORKDIR /dist
+COPY --from=build /dist .
 
 # Create non-root user
 RUN useradd -r -s /bin/false typeracingio && \
-    chown -R typeracingio:typeracingio /app
+    chown -R typeracingio:typeracingio /dist
 USER typeracingio
 
 # Set environment variable
