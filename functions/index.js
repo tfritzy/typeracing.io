@@ -156,7 +156,7 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
         const gameRef = db.collection("games").doc(gameId);
 
         // Use a transaction to safely update the players
-        const botIds = await db.runTransaction(async (transaction) => {
+        await db.runTransaction(async (transaction) => {
           const gameDoc = await transaction.get(gameRef);
 
           if (!gameDoc.exists) {
@@ -179,12 +179,11 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
           }
 
           // Generate bot players
-          const botPlayers = [];
-          const addedBotIds = [];
+          const botPlayers = {};
           const now = Timestamp.now();
           for (let i = 0; i < botsNeeded; i++) {
             const botId = `bot-${Date.now()}-${i}`;
-            botPlayers.push({
+            botPlayers[botId] = {
               progress: 0,
               wpm: 0,
               id: botId,
@@ -192,21 +191,17 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
               isBot: true,
               name: `Bot ${i + 1}`,
               targetWpm: Math.floor(Math.random() * 70 + 30),
-            });
-            addedBotIds.push(botId);
+            };
           }
 
           transaction.update(gameRef, {
             status: "in_progress",
             bots: botPlayers,
           });
-
-          return addedBotIds;
         });
 
         res.json({
-          message: `Added ${botIds.length} bots to the game`,
-          botIds,
+          message: "thumbs up",
         });
         break;
       }

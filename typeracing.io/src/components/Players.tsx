@@ -2,20 +2,24 @@ import { useMemo } from "react";
 import { Bot, Player } from "../types";
 import { DotSpinner } from "./DotSpinner";
 import { Timestamp } from "firebase/firestore";
+import { User } from "firebase/auth";
 
 type Props = {
   players: Player[];
   bots: Bot[];
+  user: User;
 };
 
 function PlayerComponent({
   name,
   wpm,
   progress,
+  isSelf,
 }: {
   name: string | JSX.Element;
   wpm: number;
   progress: number;
+  isSelf: boolean;
 }) {
   return (
     <div className="text-stone-300">
@@ -25,7 +29,9 @@ function PlayerComponent({
       </div>
       <div className="flex flex-row">
         <div
-          className="bg-amber-400 rounded-full h-[5px] transition-all ease-in-out"
+          className={`rounded-full h-[5px] transition-all ease-in-out ${
+            isSelf ? "bg-amber-400" : "bg-amber-400/40"
+          }`}
           style={{ width: progress + "%" }}
         />
         <div
@@ -37,13 +43,13 @@ function PlayerComponent({
   );
 }
 
-export function Players({ players, bots }: Props) {
+export function Players({ players, bots, user }: Props) {
   const totalPlayers = players.length + bots.length;
   const playerList = useMemo(() => {
     const allPlayers = [...players];
     for (let i = totalPlayers; i < 4; i++) {
       allPlayers.push({
-        id: "loading",
+        id: "loading" + i,
         name: <DotSpinner />,
         progress: 0,
         wpm: 0,
@@ -59,6 +65,7 @@ export function Players({ players, bots }: Props) {
             wpm={p.wpm}
             key={p.id}
             progress={p.progress}
+            isSelf={p.id === user.uid}
           />
         ))}
         {bots.map((p) => (
@@ -67,6 +74,7 @@ export function Players({ players, bots }: Props) {
             wpm={p.wpm}
             key={p.id}
             progress={p.progress}
+            isSelf={false}
           />
         ))}
       </div>

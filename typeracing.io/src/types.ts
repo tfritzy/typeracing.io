@@ -19,7 +19,7 @@ export type Game = {
   id: string;
   createdAt: Timestamp;
   players: { [playerId: string]: Player };
-  bots: Bot[];
+  bots: { [botId: string]: Bot };
   phrase: string;
   status: "in_progress" | "waiting";
   startTime: Timestamp;

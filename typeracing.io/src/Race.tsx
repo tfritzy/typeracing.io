@@ -103,6 +103,7 @@ function RaceInner({ db, user }: Props) {
     if (game?.startTime?.seconds) {
       const timeUntilStart = game.startTime.seconds - Timestamp.now().seconds;
       const fillTime = timeUntilStart - game.countdownDuration_s - 2;
+      console.log("fill time", fillTime);
 
       if (fillTime > 0) {
         const timeoutId = setTimeout(fillGame, fillTime * 1000);
@@ -122,18 +123,20 @@ function RaceInner({ db, user }: Props) {
 
       const elapsedSeconds = Timestamp.now().seconds - game.startTime.seconds;
       if (elapsedSeconds > 0) {
-        for (const b of game.bots) {
+        for (const b of Object.values(game.bots)) {
           const expectedCharacterCount =
             (elapsedSeconds / 60) * b.targetWpm * 5;
           const expectedProgress = Math.min(
             (expectedCharacterCount / game.phrase.length) * 100,
             100
           );
-          console.log("bot should be at characters", expectedProgress);
-          if (expectedProgress - b.progress > 5) {
+          if (
+            expectedProgress - b.progress > 5 ||
+            (expectedProgress === 100 && b.progress !== 100)
+          ) {
             const updateObject = {
-              [`players.${b.id}.progress`]: expectedProgress,
-              [`players.${b.id}.wpm`]: b.targetWpm,
+              [`bots.${b.id}.progress`]: expectedProgress,
+              [`bots.${b.id}.wpm`]: b.targetWpm,
             };
 
             updateDoc(docRef, updateObject).catch((error) => {
@@ -142,7 +145,7 @@ function RaceInner({ db, user }: Props) {
           }
         }
       }
-    }, 5000);
+    }, 100);
 
     return () => clearInterval(intervalId);
   }, [
@@ -174,16 +177,16 @@ function RaceInner({ db, user }: Props) {
   }
 
   const isLocked = Timestamp.now() < game.startTime;
-
   return (
     <div className="p-4 flex flex-col space-y-6" key={gameId}>
-      {JSON.stringify(game)}
-
       <Players
         players={Object.values(game.players).sort(
           (a, b) => a.joinTime.seconds - b.joinTime.seconds
         )}
-        bots={game.bots}
+        bots={Object.values(game.bots).sort(
+          (a, b) => a.joinTime.seconds - b.joinTime.seconds
+        )}
+        user={user}
       />
 
       <div className="">
