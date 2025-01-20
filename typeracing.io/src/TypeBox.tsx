@@ -9,7 +9,7 @@ function lerp(start: number, end: number, alpha: number) {
   return start + (end - start) * alpha;
 }
 
-const cursorYOffset = 3;
+const cursorYOffset = 6;
 const cursorXOffset = -2;
 const cursorStartPos = -100;
 
@@ -101,7 +101,7 @@ const Cursor = (props: CursorProps) => {
 
   return (
     <span
-      className={`h-[24px] w-[2px] bg-stone-100 fixed ${
+      className={`h-[32px] w-[2px] bg-stone-400 fixed rounded-full ${
         props.pulsing ? "cursor" : ""
       }`}
       style={{
@@ -167,7 +167,7 @@ export const TypeBox = (props: TypeBoxProps) => {
 
   const { text, hasError } = React.useMemo(() => {
     const text = [
-      <span className="text-stone-100">
+      <span className="text-stone-600" key="completed">
         {phrase.slice(0, lockedCharacterIndex)}
       </span>,
     ];
@@ -177,15 +177,18 @@ export const TypeBox = (props: TypeBoxProps) => {
       if (currentWord[i] !== phrase[lockedCharacterIndex + i]) {
         hasError = true;
         text.push(
-          <span className="relative underline underline-offset-[4px] decoration-purple-500">
-            <span className="text-purple-500">
+          <span
+            className="relative decoration-amber-400"
+            key={lockedCharacterIndex + i}
+          >
+            <span className="text-amber-400">
               {phrase[lockedCharacterIndex + i]}
             </span>
           </span>
         );
       } else {
         text.push(
-          <span className="underline underline-offset-[4px] text-stone-100">
+          <span key={i} className=" text-stone-200">
             {currentWord[i]}
           </span>
         );
@@ -204,14 +207,18 @@ export const TypeBox = (props: TypeBoxProps) => {
       nextSpaceIndex
     );
     text.push(
-      <span className="underline underline-offset-[4px] text-stone-400">
+      <span key="word-remainder" className="text-stone-400">
         {remainderOfWord}
       </span>
     );
 
     if (nextSpaceIndex !== -1) {
       const remainingText = phrase.slice(nextSpaceIndex);
-      text.push(<span className="text-stone-400">{remainingText}</span>);
+      text.push(
+        <span key="remaining" className="text-stone-400">
+          {remainingText}
+        </span>
+      );
     }
 
     return { text, hasError };
@@ -330,7 +337,7 @@ export const TypeBox = (props: TypeBoxProps) => {
   const refocusMessage = React.useMemo(() => {
     return (
       <div
-        className="absolute top-1/2 left-1/2 transform -translate-x-[50%] -translate-y-[50%] cursor-pointer transition-opacity pointer-events-none text-stone w-max text-stone-200"
+        className="absolute top-1/2 left-1/2 transform -translate-x-[50%] -translate-y-[50%] cursor-pointer transition-opacity pointer-events-none text-stone w-max text-stone-200 text-sm"
         style={{
           opacity: !focused ? 1 : 0,
         }}
@@ -350,16 +357,16 @@ export const TypeBox = (props: TypeBoxProps) => {
           left: -10,
           top: -5,
         }}
-        className="absolute border border-purple-500 rounded-lg z-[-1] transition-opacity"
+        className="absolute border border-amber-400 rounded-lg z-[-1] transition-opacity"
       />
     );
   }, [hasError]);
 
   return (
     <div className="relative select-none">
-      <div className="text-2xl type-box">
+      <div className="text-3xl type-box">
         <div
-          className="rounded-lg transition-colors whitespace-pre-wrap"
+          className="rounded-lg transition-colors whitespace-pre-wrap text-start"
           style={{
             filter: focused ? "blur(0)" : "blur(2px)",
             opacity: focused && !isLocked ? 1 : 0.5,
@@ -392,7 +399,9 @@ export const TypeBox = (props: TypeBoxProps) => {
           onBlur={onBlur}
         />
         <Cursor
-          disabled={!focused || lockedCharacterIndex >= phrase.length}
+          disabled={
+            isLocked || !focused || lockedCharacterIndex >= phrase.length
+          }
           pulsing={cursorPulsing}
           targetObject={cursorRef}
           currentWord={currentWord}
