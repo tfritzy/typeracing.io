@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import {
   doc,
   Firestore,
@@ -16,6 +16,9 @@ import { ActionBar } from "./components/ActionBar";
 import { FILL_GAME } from "./constants";
 import { Countdown } from "./components/Countdown";
 import { GoLabel } from "./components/GoLabel";
+import { WpmOverTime } from "./components/WpmOverTimeChart";
+import { KeyStroke } from "./stats";
+import { Modal } from "./components/Modal";
 
 // Props type
 interface Props {
@@ -25,11 +28,13 @@ interface Props {
 
 function RaceInner({ db, user }: Props) {
   const setRerender = useState<number>(0)[1];
+  const [statsClosed, setStatsClosed] = useState<boolean>(true);
   const [lockedCharacterIndex, setLockedCharacterIndex] = useState<number>(0);
+  const keystrokes = useRef<KeyStroke[]>([]);
   const [game, setGame] = useState<Game | null>(null);
   const { gameId } = useParams();
   const self = game?.players[user.uid];
-  const isComplete = self?.progress && self.progress >= 100;
+  const isComplete = !!self?.progress && self.progress >= 100;
 
   const docRef = useMemo(() => {
     return gameId ? doc(db, "games", gameId) : null;
@@ -50,8 +55,24 @@ function RaceInner({ db, user }: Props) {
     return () => unsubscribe();
   }, [db, docRef]);
 
+  const closeStats = useCallback(() => {
+    setStatsClosed(true);
+  }, []);
+
+  const toggleStats = useCallback(() => {
+    setStatsClosed(!statsClosed);
+  }, [statsClosed]);
+
   const handleWordComplete = useCallback(
-    (charIndex: number) => {
+    (charIndex: number, keyStrokes: KeyStroke[]) => {
+      for (let i = 0; i < keyStrokes.length; i++) {
+        keyStrokes[i].time = new Timestamp(
+          keyStrokes[i].time!.seconds - game!.startTime.seconds,
+          keyStrokes[i].time!.nanoseconds
+        );
+      }
+
+      keystrokes.current.push(...keyStrokes);
       setLockedCharacterIndex(charIndex);
 
       if (!docRef || !game) return;
@@ -188,7 +209,6 @@ function RaceInner({ db, user }: Props) {
         )}
         user={user}
       />
-
       <div className="">
         <div className="bg-stone-700 max-w-fit rounded-t-lg px-4 text-stone-400 font-bold py-[2px]">
           {message}
@@ -207,9 +227,19 @@ function RaceInner({ db, user }: Props) {
         </div>
       </div>
 
+      <Modal
+        title="Stats"
+        shown={isComplete && !statsClosed}
+        onClose={closeStats}
+      >
+        <div className="pr-4">
+          <WpmOverTime keystrokes={keystrokes.current} phrase={game.phrase} />
+        </div>
+      </Modal>
+
       {isComplete ? (
         <div className="flex flex-col items-center">
-          <ActionBar user={user} />
+          <ActionBar user={user} showStats={toggleStats} />
         </div>
       ) : null}
     </div>

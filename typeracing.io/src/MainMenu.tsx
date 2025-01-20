@@ -22,7 +22,7 @@ export function MainMenu(props: Props) {
   }, [navigate, props.user]);
 
   return (
-    <div>
+    <div className="">
       <TypeBoxButton phrase="find game" onPhraseComplete={createGame} />
     </div>
   );

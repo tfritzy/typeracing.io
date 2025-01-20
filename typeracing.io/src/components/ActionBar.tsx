@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Hotkey } from "./Hotkey";
 import { findGame } from "../helpers";
 import { useNavigate } from "react-router-dom";
@@ -6,18 +6,32 @@ import { User } from "firebase/auth";
 
 type Props = {
   user: User;
+  showStats: () => void;
 };
 
 export function ActionBar(props: Props) {
   const navigate = useNavigate();
+
+  const playAgain = useCallback(async () => {
+    await findGame(props.user, navigate);
+  }, [navigate, props.user]);
+
+  const returnToMainMenu = useCallback(async () => {
+    navigate("/");
+  }, [navigate]);
+
   useEffect(() => {
     const handleHotkeys = async (event: KeyboardEvent) => {
       if (event.key === "p") {
-        await findGame(props.user, navigate);
+        await playAgain();
       }
 
       if (event.key === "m") {
-        navigate("/");
+        returnToMainMenu();
+      }
+
+      if (event.key === "s") {
+        props.showStats();
       }
     };
 
@@ -26,17 +40,30 @@ export function ActionBar(props: Props) {
     return () => {
       document.removeEventListener("keydown", handleHotkeys);
     };
-  }, [navigate, props.user]);
+  }, [navigate, playAgain, props, props.user, returnToMainMenu]);
 
   return (
     <div className="flex flex-row bg-stone-800 border-2 border-stone-700 rounded-full text-stone-400 w-min py-2 px-4 space-x-4 shadow-md ">
-      <div className="w-max flex flex-row space-x-2 items-baseline">
+      <button
+        className="w-max flex flex-row space-x-2 items-baseline rounded-lg"
+        onClick={playAgain}
+      >
         <Hotkey code="m" /> <div>Main Menu</div>
-      </div>
-      <div className="w-[2px] bg-stone-500" />
-      <div className="w-max flex flex-row space-x-2 items-baseline">
+      </button>
+      <div className="w-[2px] bg-stone-600" />
+      <button
+        className="w-max flex flex-row space-x-2 items-baseline rounded-lg"
+        onClick={returnToMainMenu}
+      >
         <Hotkey code="p" /> <div>Play Again</div>
-      </div>
+      </button>
+      <div className="w-[2px] bg-stone-600" />
+      <button
+        className="w-max flex flex-row space-x-2 items-baseline rounded-lg"
+        onClick={props.showStats}
+      >
+        <Hotkey code="s" /> <div>Show stats</div>
+      </button>
     </div>
   );
 }

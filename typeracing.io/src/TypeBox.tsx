@@ -1,9 +1,6 @@
 import React, { RefObject, useEffect, useState } from "react";
-
-type KeyStroke = {
-  character: string;
-  time: number;
-};
+import { KeyStroke } from "./stats";
+import { Timestamp } from "firebase/firestore";
 
 function lerp(start: number, end: number, alpha: number) {
   return start + (end - start) * alpha;
@@ -286,7 +283,7 @@ export const TypeBox = (props: TypeBoxProps) => {
     while (keyStrokes.current.compositeSize > currentWord.length) {
       keyStrokes.current.strokes.push({
         character: "\b",
-        time: Date.now() / 1000,
+        time: Timestamp.now(),
       });
       keyStrokes.current.compositeSize--;
     }
@@ -294,7 +291,7 @@ export const TypeBox = (props: TypeBoxProps) => {
     while (keyStrokes.current.compositeSize < currentWord.length) {
       keyStrokes.current.strokes.push({
         character: currentWord[keyStrokes.current.compositeSize],
-        time: Date.now() / 1000,
+        time: Timestamp.now(),
       });
       keyStrokes.current.compositeSize++;
     }
