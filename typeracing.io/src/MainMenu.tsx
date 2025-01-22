@@ -44,7 +44,7 @@ export function MainMenu(props: Props) {
   }, [navigate, props.user]);
 
   return (
-    <div className="">
+    <div className="bg-base-800 border border-b-2 border-accent rounded-xl p-4 px-8 shadow-accent">
       <TypeBoxButton phrase={phrase} onPhraseComplete={createGame} />
     </div>
   );
