@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   doc,
   Firestore,
@@ -7,7 +7,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { User } from "firebase/auth";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { Game } from "./types";
 import { Spinner } from "./components/Spinner";
 import { TypeBox } from "./TypeBox";
@@ -16,9 +16,8 @@ import { ActionBar } from "./components/ActionBar";
 import { FILL_GAME } from "./constants";
 import { Countdown } from "./components/Countdown";
 import { GoLabel } from "./components/GoLabel";
-import { WpmOverTime } from "./components/WpmOverTimeChart";
 import { KeyStroke } from "./stats";
-import { Modal } from "./components/Modal";
+import { StatsModal } from "./StatsModal";
 
 // Props type
 interface Props {
@@ -28,10 +27,10 @@ interface Props {
 
 function RaceInner({ db, user }: Props) {
   const setRerender = useState<number>(0)[1];
-  const [statsClosed, setStatsClosed] = useState<boolean>(true);
+  const [statsClosed, setStatsClosed] = useState<boolean>(false);
   const [lockedCharacterIndex, setLockedCharacterIndex] = useState<number>(0);
-  const keystrokes = useRef<KeyStroke[]>([]);
-  const [game, setGame] = useState<Game | null>(null);
+  const [keystrokes, setKeystrokes] = useState<KeyStroke[]>([]);
+  const [game, setGame] = useState<Game | null | undefined>(undefined);
   const { gameId } = useParams();
   const self = game?.players[user.uid];
   const isComplete = !!self?.progress && self.progress >= 100;
@@ -49,6 +48,8 @@ function RaceInner({ db, user }: Props) {
           id: doc.id,
           ...(doc.data() as Omit<Game, "id">),
         });
+      } else {
+        setGame(null);
       }
     });
 
@@ -64,15 +65,15 @@ function RaceInner({ db, user }: Props) {
   }, [statsClosed]);
 
   const handleWordComplete = useCallback(
-    (charIndex: number, keyStrokes: KeyStroke[]) => {
-      for (let i = 0; i < keyStrokes.length; i++) {
-        keyStrokes[i].time = new Timestamp(
-          keyStrokes[i].time!.seconds - game!.startTime.seconds,
-          keyStrokes[i].time!.nanoseconds
+    (charIndex: number, newKeystrokes: KeyStroke[]) => {
+      for (let i = 0; i < newKeystrokes.length; i++) {
+        newKeystrokes[i].time = new Timestamp(
+          newKeystrokes[i].time!.seconds - game!.startTime.seconds,
+          newKeystrokes[i].time!.nanoseconds
         );
       }
 
-      keystrokes.current.push(...keyStrokes);
+      setKeystrokes([...keystrokes, ...newKeystrokes]);
       setLockedCharacterIndex(charIndex);
 
       if (!docRef || !game) return;
@@ -90,11 +91,19 @@ function RaceInner({ db, user }: Props) {
         [`players.${user.uid}.wpm`]: wpm,
       };
 
+      if (charIndex >= game.phrase.length) {
+        const highestPlace = Math.max(
+          ...Object.values(game.players).map((p) => p.place),
+          ...Object.values(game.bots).map((b) => b.place)
+        );
+        updateObject[`players.${user.uid}.place`] = highestPlace + 1;
+      }
+
       updateDoc(docRef, updateObject).catch((error) => {
         console.error("Error updating player progress:", error);
       });
     },
-    [docRef, game, user.uid]
+    [docRef, game, keystrokes, user.uid]
   );
 
   const fillGame = useCallback(async () => {
@@ -121,24 +130,32 @@ function RaceInner({ db, user }: Props) {
   }, [game, user]);
 
   useEffect(() => {
-    if (game?.startTime?.seconds) {
-      const timeUntilStart = game.startTime.seconds - Timestamp.now().seconds;
-      const fillTime = timeUntilStart - game.countdownDuration_s - 2;
-      console.log("fill time", fillTime);
+    if (game?.status === "waiting" && game?.botFillTime) {
+      const now = Timestamp.now();
+      const timeUntilFill = game.botFillTime.seconds - now.seconds;
 
-      if (fillTime > 0) {
-        const timeoutId = setTimeout(fillGame, fillTime * 1000);
-        return () => clearTimeout(timeoutId);
+      if (timeUntilFill <= 0) {
+        fillGame();
+      } else {
+        const timerId = setTimeout(() => {
+          if (game.status === "waiting") {
+            fillGame();
+          }
+        }, timeUntilFill * 1000);
+
+        return () => clearTimeout(timerId);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [game?.startTime]);
+  }, [fillGame, game?.botFillTime, game?.status]);
 
   useEffect(() => {
     if (!game?.startTime || !docRef) return;
 
     const intervalId = setInterval(() => {
-      if (Timestamp.now().seconds < game.startTime.seconds + 3) {
+      if (
+        Timestamp.now() > game.startTime &&
+        Timestamp.now().seconds === game.startTime.seconds
+      ) {
         setRerender(Math.random());
       }
 
@@ -160,13 +177,21 @@ function RaceInner({ db, user }: Props) {
               [`bots.${b.id}.wpm`]: b.targetWpm,
             };
 
+            if (expectedProgress >= 100) {
+              const highestPlace = Math.max(
+                ...Object.values(game.players).map((p) => p.place),
+                ...Object.values(game.bots).map((b) => b.place)
+              );
+              updateObject[`bots.${b.id}.place`] = highestPlace + 1;
+            }
+
             updateDoc(docRef, updateObject).catch((error) => {
               console.error("Error updating player progress:", error);
             });
           }
         }
       }
-    }, 100);
+    }, 250);
 
     return () => clearInterval(intervalId);
   }, [
@@ -178,12 +203,8 @@ function RaceInner({ db, user }: Props) {
     setRerender,
   ]);
 
-  if (!game)
-    return (
-      <div>
-        <Spinner />
-      </div>
-    );
+  if (game === null) return <Navigate to="/" />;
+  if (game === undefined) return <Spinner />;
 
   let message;
   switch (game.status) {
@@ -197,7 +218,8 @@ function RaceInner({ db, user }: Props) {
       message = "";
   }
 
-  const isLocked = Timestamp.now() < game.startTime;
+  const isLocked = Timestamp.now() < game.startTime || isComplete;
+  console.log(isComplete);
   return (
     <div className="p-4 flex flex-col space-y-6" key={gameId}>
       <Players
@@ -210,10 +232,10 @@ function RaceInner({ db, user }: Props) {
         user={user}
       />
       <div className="">
-        <div className="bg-stone-700 max-w-fit rounded-t-lg px-4 text-stone-400 font-bold py-[2px]">
+        <div className="bg-base-700 max-w-fit rounded-t-lg px-4 text-base-400 font-bold py-[2px]">
           {message}
         </div>
-        <div className="relative border-4 rounded-b-lg rounded-r-lg border-stone-700 px-4 py-3">
+        <div className="relative border-4 rounded-b-lg rounded-r-lg border-base-700 px-4 py-3">
           <div className="absolute -left-12 top-0">
             <GoLabel startTime={game.startTime} />
           </div>
@@ -227,15 +249,13 @@ function RaceInner({ db, user }: Props) {
         </div>
       </div>
 
-      <Modal
-        title="Stats"
-        shown={isComplete && !statsClosed}
+      <StatsModal
+        keystrokes={keystrokes}
         onClose={closeStats}
-      >
-        <div className="pr-4">
-          <WpmOverTime keystrokes={keystrokes.current} phrase={game.phrase} />
-        </div>
-      </Modal>
+        shown={isComplete && !statsClosed}
+        phrase={game.phrase}
+        place={game.players[user.uid].place}
+      />
 
       {isComplete ? (
         <div className="flex flex-col items-center">

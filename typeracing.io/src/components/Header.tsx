@@ -6,7 +6,7 @@ export const Header = () => {
       <div className="w-full max-w-[1190px] min-w-max">
         <Link
           to="/"
-          className="font-bold flex flex-row px-2 py-1 rounded-lg text-lg text-stone-400 w-min"
+          className="font-bold flex flex-row px-2 py-1 rounded-lg text-lg text-base-400 w-min"
         >
           <span className="">type</span>
           <span className="">racing</span>

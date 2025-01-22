@@ -3,6 +3,7 @@ import { Bot, Player } from "../types";
 import { DotSpinner } from "./DotSpinner";
 import { Timestamp } from "firebase/firestore";
 import { User } from "firebase/auth";
+import { placeToString } from "../helpers";
 
 type Props = {
   players: Player[];
@@ -15,27 +16,44 @@ function PlayerComponent({
   wpm,
   progress,
   isSelf,
+  place,
 }: {
   name: string | JSX.Element;
   wpm: number;
   progress: number;
   isSelf: boolean;
+  place: number;
 }) {
   return (
-    <div className="text-stone-300">
+    <div className="text-base-300">
       <div className="flex flex-row justify-between items-end mb-2 pl-3 pr-5">
-        <div>{name || "Unknown player"}</div>
+        <div className="flex flex-row space-x-2">
+          <div>
+            {name || "Unknown player"} {isSelf && <span>(You)</span>}
+          </div>
+
+          {place >= 0 && (
+            <div
+              className="font-bold"
+              style={{
+                color: place === 0 ? "var(--accent)" : "var(--base-300)",
+              }}
+            >
+              {placeToString(place)}
+            </div>
+          )}
+        </div>
         <div>{wpm} WPM</div>
       </div>
       <div className="flex flex-row">
         <div
           className={`rounded-full h-[5px] transition-all ease-in-out ${
-            isSelf ? "bg-amber-400" : "bg-amber-400/40"
+            isSelf ? "bg-accent" : "bg-accent/40"
           }`}
           style={{ width: progress + "%" }}
         />
         <div
-          className="w-full bg-stone-700 rounded-full h-[5px] transition-all ease-in-out"
+          className="w-full bg-base-700 rounded-full h-[5px] transition-all ease-in-out"
           style={{ width: 100 - progress + "%" }}
         />
       </div>
@@ -51,6 +69,7 @@ export function Players({ players, bots, user }: Props) {
       allPlayers.push({
         id: "loading" + i,
         name: <DotSpinner />,
+        place: -1,
         progress: 0,
         wpm: 0,
         joinTime: Timestamp.now(),
@@ -66,6 +85,7 @@ export function Players({ players, bots, user }: Props) {
             key={p.id}
             progress={p.progress}
             isSelf={p.id === user.uid}
+            place={p.place}
           />
         ))}
         {bots.map((p) => (
@@ -75,11 +95,12 @@ export function Players({ players, bots, user }: Props) {
             key={p.id}
             progress={p.progress}
             isSelf={false}
+            place={p.place}
           />
         ))}
       </div>
     );
-  }, [bots, players, totalPlayers]);
+  }, [bots, players, totalPlayers, user.uid]);
 
   return playerList;
 }

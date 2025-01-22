@@ -1,13 +1,7 @@
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import React from "react";
-import {
-  ErrorsAtTime,
-  getAggWpmBySecond,
-  getErrorCountByTime,
-  getRawWpmBySecond,
-  KeyStroke,
-} from "../stats";
+import { ErrorsAtTime } from "../stats";
 
 const secondaryColor = "#57534e";
 const areaColor = "#00000033";
@@ -18,41 +12,30 @@ export type Series = {
   data: number[];
 };
 
-type Data = {
+type Props = {
   wpm_by_second: number[];
   raw_wpm_by_second: number[];
   errors: ErrorsAtTime[];
 };
 
-type Props = {
-  keystrokes: KeyStroke[];
-  phrase: string;
-};
-
-export const WpmOverTime = (props: Props) => {
-  console.log(props.keystrokes);
-  const data: Data = React.useMemo(() => {
-    return {
-      wpm_by_second: getRawWpmBySecond(props.keystrokes),
-      raw_wpm_by_second: getAggWpmBySecond(props.keystrokes),
-      errors: getErrorCountByTime(props.keystrokes, props.phrase),
-    };
-  }, [props.keystrokes, props.phrase]);
-  console.log(data);
-
+export const WpmOverTime = ({
+  wpm_by_second,
+  raw_wpm_by_second,
+  errors,
+}: Props) => {
   const series = React.useMemo(() => {
     const newWpmData: Series[] = [];
     newWpmData.push({
       name: "raw",
-      data: data.raw_wpm_by_second,
+      data: raw_wpm_by_second,
     });
 
     newWpmData.push({
       name: "wpm",
-      data: data.wpm_by_second,
+      data: wpm_by_second,
     });
     return newWpmData;
-  }, [data.raw_wpm_by_second, data.wpm_by_second]);
+  }, [raw_wpm_by_second, wpm_by_second]);
 
   const getOptions = (
     yMax: number,
@@ -155,7 +138,7 @@ export const WpmOverTime = (props: Props) => {
       },
       yaxis: {
         title: {
-          // text: "",
+          text: "WPM",
           style: {
             color: textColor,
             fontWeight: 300,
@@ -170,6 +153,8 @@ export const WpmOverTime = (props: Props) => {
           style: {
             colors: textColor,
           },
+          padding: 0,
+          align: "right",
         },
         axisBorder: {
           show: false,
@@ -179,7 +164,7 @@ export const WpmOverTime = (props: Props) => {
       },
       xaxis: {
         title: {
-          // text: "",
+          text: "Time (s)",
           offsetY: -8,
           style: {
             color: textColor,
@@ -209,7 +194,7 @@ export const WpmOverTime = (props: Props) => {
 
   const highestY = Math.max(...series.map((s) => Math.max(...s.data)));
 
-  const fullOptions = getOptions(highestY + 20, data.errors);
+  const fullOptions = getOptions(highestY + 20, errors);
 
   return (
     <Chart

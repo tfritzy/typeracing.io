@@ -52,6 +52,7 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
           });
         });
 
+        const now = Timestamp.now();
         let gameId;
         if (games.length) {
           gameId = games[0].id;
@@ -67,6 +68,10 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
 
             await transaction.update(gameRef, {
               status: playerCount >= 4 ? "in_progress" : gameData.status,
+              startTime:
+                playerCount >= 4
+                  ? new Timestamp(now.seconds + 3, now.nanoseconds)
+                  : gameData.startTime,
               players: {
                 ...gameData.players,
                 [uid]: {
@@ -74,24 +79,26 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
                   wpm: 0,
                   id: uid,
                   joinTime: Timestamp.now(),
+                  place: -1,
                 },
               },
             });
           });
         } else {
-          const now = Timestamp.now();
           const game = await db.collection("games").add({
             createdBy: uid,
-            startTime: new Timestamp(now.seconds + 10, now.nanoseconds),
-            countdownDuration_s: 3,
+            botFillTime: new Timestamp(now.seconds + 7, now.nanoseconds),
+            startTime: new Timestamp(now.seconds + 10000, now.nanoseconds),
             status: "waiting",
             bots: [],
             players: {
               [uid]: {
+                // player
                 progress: 0,
                 wpm: 0,
                 id: uid,
                 joinTime: now,
+                place: -1,
               },
             },
             phrase: phrase,
@@ -132,14 +139,12 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
       return;
     }
 
-    // Get the authorization token
     const authHeader = req.headers.authorization;
     if (!authHeader?.startsWith("Bearer ")) {
       res.status(401).json({ error: "No token provided" });
       return;
     }
 
-    // Verify the token
     const token = authHeader.split("Bearer ")[1];
     const decodedToken = await auth.verifyIdToken(token);
     const uid = decodedToken.uid;
@@ -152,10 +157,8 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
           return;
         }
 
-        // Get game reference
         const gameRef = db.collection("games").doc(gameId);
 
-        // Use a transaction to safely update the players
         await db.runTransaction(async (transaction) => {
           const gameDoc = await transaction.get(gameRef);
 
@@ -165,12 +168,10 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
 
           const gameData = gameDoc.data();
 
-          // Check if user is in game
           if (!gameData.players[uid]) {
             throw new Error("Must be in game to make this request");
           }
 
-          // Count current players
           const currentPlayerCount = Object.keys(gameData.players || {}).length;
           const botsNeeded = 4 - currentPlayerCount;
 
@@ -178,15 +179,16 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
             throw new Error("Game is already full");
           }
 
-          // Generate bot players
           const botPlayers = {};
           const now = Timestamp.now();
           for (let i = 0; i < botsNeeded; i++) {
             const botId = `bot-${Date.now()}-${i}`;
             botPlayers[botId] = {
+              // player
               progress: 0,
               wpm: 0,
               id: botId,
+              place: -1,
               joinTime: new Timestamp(now.seconds + i, now.nanoseconds),
               isBot: true,
               name: `Bot ${i + 1}`,
@@ -196,6 +198,7 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
 
           transaction.update(gameRef, {
             status: "in_progress",
+            startTime: new Timestamp(now.seconds + 3, now.nanoseconds),
             bots: botPlayers,
           });
         });

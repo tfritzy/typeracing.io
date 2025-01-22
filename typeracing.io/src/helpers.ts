@@ -19,3 +19,18 @@ export async function findGame(user: User, navigate: NavigateFunction) {
   const data = await response.json();
   navigate("/race/" + data.id, { replace: true });
 }
+
+export function placeToString(place: number) {
+  switch (place) {
+    case 0:
+      return "1st";
+    case 1:
+      return "2nd";
+    case 2:
+      return "3rd";
+    case 3:
+      return "4th";
+    default:
+      return "";
+  }
+}

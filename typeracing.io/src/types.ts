@@ -10,6 +10,7 @@ export type Player = {
   progress: number;
   wpm: number;
   joinTime: Timestamp;
+  place: number;
   botConfig?: BotConfig;
 };
 
@@ -22,6 +23,7 @@ export type Game = {
   bots: { [botId: string]: Bot };
   phrase: string;
   status: "in_progress" | "waiting";
+  botFillTime: Timestamp;
   startTime: Timestamp;
   countdownDuration_s: number;
 };

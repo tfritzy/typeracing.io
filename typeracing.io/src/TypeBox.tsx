@@ -98,7 +98,7 @@ const Cursor = (props: CursorProps) => {
 
   return (
     <span
-      className={`h-[32px] w-[2px] bg-stone-400 fixed rounded-full ${
+      className={`h-[32px] w-[2px] bg-base-400 fixed rounded-full ${
         props.pulsing ? "cursor" : ""
       }`}
       style={{
@@ -164,7 +164,7 @@ export const TypeBox = (props: TypeBoxProps) => {
 
   const { text, hasError } = React.useMemo(() => {
     const text = [
-      <span className="text-stone-600" key="completed">
+      <span className="text-base-600" key="completed">
         {phrase.slice(0, lockedCharacterIndex)}
       </span>,
     ];
@@ -175,17 +175,17 @@ export const TypeBox = (props: TypeBoxProps) => {
         hasError = true;
         text.push(
           <span
-            className="relative decoration-amber-400"
+            className="relative decoration-accent"
             key={lockedCharacterIndex + i}
           >
-            <span className="text-amber-400">
+            <span className="text-accent">
               {phrase[lockedCharacterIndex + i]}
             </span>
           </span>
         );
       } else {
         text.push(
-          <span key={i} className=" text-stone-200">
+          <span key={i} className=" text-base-200">
             {currentWord[i]}
           </span>
         );
@@ -204,7 +204,7 @@ export const TypeBox = (props: TypeBoxProps) => {
       nextSpaceIndex
     );
     text.push(
-      <span key="word-remainder" className="text-stone-400">
+      <span key="word-remainder" className="text-base-400">
         {remainderOfWord}
       </span>
     );
@@ -212,7 +212,7 @@ export const TypeBox = (props: TypeBoxProps) => {
     if (nextSpaceIndex !== -1) {
       const remainingText = phrase.slice(nextSpaceIndex);
       text.push(
-        <span key="remaining" className="text-stone-400">
+        <span key="remaining" className="text-base-400">
           {remainingText}
         </span>
       );
@@ -334,7 +334,7 @@ export const TypeBox = (props: TypeBoxProps) => {
   const refocusMessage = React.useMemo(() => {
     return (
       <div
-        className="absolute top-1/2 left-1/2 transform -translate-x-[50%] -translate-y-[50%] cursor-pointer transition-opacity pointer-events-none text-stone w-max text-stone-200 text-sm"
+        className="absolute top-1/2 left-1/2 transform -translate-x-[50%] -translate-y-[50%] cursor-pointer transition-opacity pointer-events-none text-stone w-max text-base-200 text-sm"
         style={{
           opacity: !focused ? 1 : 0,
         }}
@@ -354,7 +354,7 @@ export const TypeBox = (props: TypeBoxProps) => {
           left: -10,
           top: -5,
         }}
-        className="absolute border border-amber-400 rounded-lg z-[-1] transition-opacity"
+        className="absolute border border-error rounded-lg z-[-1] transition-opacity"
       />
     );
   }, [hasError]);
