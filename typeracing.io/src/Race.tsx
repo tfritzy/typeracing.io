@@ -152,15 +152,19 @@ function RaceInner({ db, user }: Props) {
     if (!game?.startTime || !docRef) return;
 
     const intervalId = setInterval(() => {
-      if (
-        Timestamp.now() > game.startTime &&
-        Timestamp.now().seconds === game.startTime.seconds
-      ) {
-        setRerender(Math.random());
-      }
-
       const elapsedSeconds = Timestamp.now().seconds - game.startTime.seconds;
+
       if (elapsedSeconds > 0) {
+        const updateObject: {
+          [key: `bots.${string}.progress`]: number;
+          [key: `bots.${string}.wpm`]: number;
+          [key: `bots.${string}.place`]: number;
+        } = {};
+        let highestPlace = Math.max(
+          ...Object.values(game.players).map((p) => p.place),
+          ...Object.values(game.bots).map((b) => b.place)
+        );
+
         for (const b of Object.values(game.bots)) {
           const expectedCharacterCount =
             (elapsedSeconds / 60) * b.targetWpm * 5;
@@ -168,40 +172,47 @@ function RaceInner({ db, user }: Props) {
             (expectedCharacterCount / game.phrase.length) * 100,
             100
           );
+
           if (
             expectedProgress - b.progress > 5 ||
             (expectedProgress === 100 && b.progress !== 100)
           ) {
-            const updateObject = {
-              [`bots.${b.id}.progress`]: expectedProgress,
-              [`bots.${b.id}.wpm`]: b.targetWpm,
-            };
+            updateObject[`bots.${b.id}.progress`] = expectedProgress;
+            updateObject[`bots.${b.id}.wpm`] = b.targetWpm;
 
             if (expectedProgress >= 100) {
-              const highestPlace = Math.max(
-                ...Object.values(game.players).map((p) => p.place),
-                ...Object.values(game.bots).map((b) => b.place)
-              );
-              updateObject[`bots.${b.id}.place`] = highestPlace + 1;
+              highestPlace++;
+              updateObject[`bots.${b.id}.place`] = highestPlace;
             }
-
-            updateDoc(docRef, updateObject).catch((error) => {
-              console.error("Error updating player progress:", error);
-            });
           }
+        }
+
+        // Only make the update request if there are changes to make
+        if (Object.keys(updateObject).length > 0) {
+          updateDoc(docRef, updateObject).catch((error) => {
+            console.error("Error updating bot progress:", error);
+          });
         }
       }
     }, 250);
 
     return () => clearInterval(intervalId);
-  }, [
-    docRef,
-    game?.bots,
-    game?.phrase.length,
-    game?.players,
-    game?.startTime,
-    setRerender,
-  ]);
+  }, [game?.startTime, docRef, game?.bots, game?.players, game?.phrase.length]);
+
+  useEffect(() => {
+    if (!game?.startTime || !docRef) return;
+
+    const intervalId = setInterval(() => {
+      if (
+        Timestamp.now() > game.startTime &&
+        Timestamp.now().seconds === game.startTime.seconds
+      ) {
+        setRerender(Math.random());
+      }
+    }, 250);
+
+    return () => clearInterval(intervalId);
+  }, [docRef, game?.startTime, setRerender]);
 
   if (game === null) return <Navigate to="/" />;
   if (game === undefined) return <Spinner />;
@@ -219,7 +230,6 @@ function RaceInner({ db, user }: Props) {
   }
 
   const isLocked = Timestamp.now() < game.startTime || isComplete;
-  console.log(isComplete);
   return (
     <div className="p-4 flex flex-col space-y-6" key={gameId}>
       <Players

@@ -12,6 +12,7 @@ import {
   KeyStroke,
 } from "./stats";
 import { placeToString } from "./helpers";
+import { Confettii } from "./components/Confettii";
 
 type Props = {
   shown: boolean;
@@ -43,45 +44,52 @@ export function StatsModal(props: Props) {
   }
 
   return (
-    <Modal title="Finish!" shown={props.shown} onClose={props.onClose}>
-      <div className="px-2 pt-4">
-        <div className="flex flex-row space-x-3 items-center mb-2 pl-4">
-          <Box
-            name="Place"
-            gold={props.place === 0}
-            value={placeToString(props.place)}
-            key="place"
-          />
-          <Box
-            name="WPM"
-            gold={data.wpm >= 100}
-            value={data.wpm.toFixed(1)}
-            key="wpm"
-          />
-          <Box
-            name="Accuracy"
-            gold={data.accuracy >= 1}
-            value={`${(data.accuracy * 100).toFixed(0)}%`}
-            key="accuracy"
-          />
-          <div className="w-[1px] h-12 bg-base-600" />
-          <SmolBox name="Time" value={`${data.time}s`} />
-          <SmolBox name="Errors" value={data.errorCount.toString()} />
-          <SmolBox name="Words" value={`${props.phrase.split(" ").length}`} />
-          <SmolBox
-            name="char/s"
-            value={`${(props.phrase.length / data.time).toFixed(2)}`}
-          />
+    <>
+      <Modal
+        title="Finish!"
+        shown={props.shown}
+        onClose={props.onClose}
+        betweenChildren={props.place === 0 ? <Confettii /> : undefined}
+      >
+        <div className="px-2 pt-4">
+          <div className="flex flex-row space-x-3 items-center mb-2 pl-4">
+            <Box
+              name="Place"
+              gold={props.place === 0}
+              value={placeToString(props.place)}
+              key="place"
+            />
+            <Box
+              name="WPM"
+              gold={data.wpm >= 100}
+              value={data.wpm.toFixed(1)}
+              key="wpm"
+            />
+            <Box
+              name="Accuracy"
+              gold={data.accuracy >= 1}
+              value={`${(data.accuracy * 100).toFixed(0)}%`}
+              key="accuracy"
+            />
+            <div className="w-[1px] h-12 bg-base-600" />
+            <SmolBox name="Time" value={`${data.time}s`} />
+            <SmolBox name="Errors" value={data.errorCount.toString()} />
+            <SmolBox name="Words" value={`${props.phrase.split(" ").length}`} />
+            <SmolBox
+              name="char/s"
+              value={`${(props.phrase.length / data.time).toFixed(2)}`}
+            />
+          </div>
+          <div className="">
+            <WpmOverTime
+              raw_wpm_by_second={data.raw_wpm_by_second}
+              wpm_by_second={data.wpm_by_second}
+              errors={data.errors}
+            />
+          </div>
         </div>
-        <div className="">
-          <WpmOverTime
-            raw_wpm_by_second={data.raw_wpm_by_second}
-            wpm_by_second={data.wpm_by_second}
-            errors={data.errors}
-          />
-        </div>
-      </div>
-    </Modal>
+      </Modal>
+    </>
   );
 }
 

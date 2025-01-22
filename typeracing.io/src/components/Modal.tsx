@@ -3,10 +3,17 @@ import { useEffect } from "react";
 type Props = {
   title: string;
   children: JSX.Element;
+  betweenChildren?: JSX.Element;
   onClose: () => void;
   shown: boolean;
 };
-export function Modal({ title, children, onClose, shown }: Props) {
+export function Modal({
+  title,
+  children,
+  betweenChildren,
+  onClose,
+  shown,
+}: Props) {
   useEffect(() => {
     const handleHotkeys = async (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -24,17 +31,19 @@ export function Modal({ title, children, onClose, shown }: Props) {
   return (
     <>
       <div
-        className={`fixed -top-6 left-0 w-screen h-screen bg-black/40 transition-opacity duration-300 ${
+        className={`fixed -top-6 left-0 w-screen h-screen bg-black/40 transition-opacity duration-300 z-0 ${
           shown ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
       />
 
+      {shown && betweenChildren}
+
       <div
         className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-base-800 border-base-700 border rounded-lg w-[800px] max-w-900px transition-all duration-300 ${
           shown
             ? "opacity-100 -translate-y-1/2"
-            : "opacity-0 pointer-events-none -translate-y-[40%]"
+            : "opacity-0 pointer-events-none -translate-y-[47%]"
         }`}
       >
         <div className="flex flex-row justify-between w-full border-b border-base-700 text-base-400 font-semibold text-xl px-2 pl-4 py-1">
