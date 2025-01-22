@@ -14,7 +14,7 @@ export default {
         "base-800": "var(--base-800)",
         accent: "var(--accent)",
         "accent/40": "var(--accent-40)",
-        error: "var(--error-color)",
+        error: "var(--error)",
       },
     },
   },

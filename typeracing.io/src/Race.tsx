@@ -200,19 +200,18 @@ function RaceInner({ db, user }: Props) {
   }, [game?.startTime, docRef, game?.bots, game?.players, game?.phrase.length]);
 
   useEffect(() => {
-    if (!game?.startTime || !docRef) return;
+    if (!game?.startTime) return;
 
-    const intervalId = setInterval(() => {
-      if (
-        Timestamp.now() > game.startTime &&
-        Timestamp.now().seconds === game.startTime.seconds
-      ) {
-        setRerender(Math.random());
-      }
-    }, 250);
+    const now = Timestamp.now();
+    const delayMs =
+      (game.startTime.seconds - now.seconds) * 1000 +
+      (game.startTime.nanoseconds - now.nanoseconds) / 1000000;
 
-    return () => clearInterval(intervalId);
-  }, [docRef, game?.startTime, setRerender]);
+    const hideTimer = setTimeout(() => setRerender(Math.random()), delayMs);
+    return () => {
+      clearTimeout(hideTimer);
+    };
+  }, [game?.startTime, setRerender]);
 
   if (game === null) return <Navigate to="/" />;
   if (game === undefined) return <Spinner />;
@@ -227,6 +226,10 @@ function RaceInner({ db, user }: Props) {
       break;
     default:
       message = "";
+  }
+
+  if (isComplete) {
+    message = "Finished";
   }
 
   const isLocked = Timestamp.now() < game.startTime || isComplete;
@@ -260,6 +263,7 @@ function RaceInner({ db, user }: Props) {
       </div>
 
       <StatsModal
+        user={user}
         keystrokes={keystrokes}
         onClose={closeStats}
         shown={isComplete && !statsClosed}

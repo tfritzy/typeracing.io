@@ -30,7 +30,7 @@ export function ActionBar(props: Props) {
         returnToMainMenu();
       }
 
-      if (event.key === "s") {
+      if (event.key === "r") {
         props.showStats();
       }
     };
@@ -46,23 +46,23 @@ export function ActionBar(props: Props) {
     <div className="flex flex-row bg-base-800 border-2 border-base-700 rounded-full text-base-400 w-min py-2 px-4 space-x-4 shadow-md ">
       <button
         className="w-max flex flex-row space-x-2 items-baseline rounded-lg"
-        onClick={playAgain}
+        onClick={returnToMainMenu}
       >
         <Hotkey code="m" /> <div>Main Menu</div>
       </button>
-      <div className="w-[2px] bg-base-600" />
+      <div className="w-[1px] bg-base-600" />
       <button
         className="w-max flex flex-row space-x-2 items-baseline rounded-lg"
-        onClick={returnToMainMenu}
+        onClick={playAgain}
       >
         <Hotkey code="p" /> <div>Play Again</div>
       </button>
-      <div className="w-[2px] bg-base-600" />
+      <div className="w-[1px] bg-base-600" />
       <button
         className="w-max flex flex-row space-x-2 items-baseline rounded-lg"
         onClick={props.showStats}
       >
-        <Hotkey code="s" /> <div>Show stats</div>
+        <Hotkey code="r" /> <div>Results</div>
       </button>
     </div>
   );

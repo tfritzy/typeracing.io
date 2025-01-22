@@ -17,7 +17,7 @@ class SnowConductor extends Conductor {
           x: Math.random(),
           y: 0,
         },
-        colors: [colors[Math.floor(Math.random() * colors.length)]],
+        colors: ["#fbbf24"],
         shapes: ["circle", "square"],
       })
     );

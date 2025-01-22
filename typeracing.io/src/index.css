@@ -26,7 +26,7 @@
   --base-600: #57534e;
   --base-700: #44403c;
   --base-800: #242424;
-  --error-color: #fbbf24;
+  --error: #f43f5e;
 }
 
 .typebox::selection {
@@ -37,6 +37,24 @@
   word-spacing: 0em;
   /* line-height: 40px; */
   letter-spacing: 0.04em;
+}
+
+@keyframes fadeBlink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.cursor {
+  animation: fadeBlink 1s cubic-bezier(0.1, 0, 0, 1) infinite;
 }
 
 a {

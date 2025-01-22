@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Modal } from "./components/Modal";
 import { WpmOverTime } from "./components/WpmOverTimeChart";
 import {
@@ -11,8 +11,11 @@ import {
   getWpm,
   KeyStroke,
 } from "./stats";
-import { placeToString } from "./helpers";
+import { findGame, placeToString } from "./helpers";
 import { Confettii } from "./components/Confettii";
+import { Hotkey } from "./components/Hotkey";
+import { User } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   shown: boolean;
@@ -20,9 +23,20 @@ type Props = {
   keystrokes: KeyStroke[];
   phrase: string;
   place: number;
+  user: User;
 };
 
 export function StatsModal(props: Props) {
+  const navigate = useNavigate();
+
+  const playAgain = useCallback(async () => {
+    await findGame(props.user, navigate);
+  }, [navigate, props.user]);
+
+  const returnToMainMenu = useCallback(async () => {
+    navigate("/");
+  }, [navigate]);
+
   const data = React.useMemo(() => {
     if (!props.keystrokes.length) {
       return undefined;
@@ -51,7 +65,7 @@ export function StatsModal(props: Props) {
         onClose={props.onClose}
         betweenChildren={props.place === 0 ? <Confettii /> : undefined}
       >
-        <div className="px-2 pt-4">
+        <div className="px-2 py-4">
           <div className="flex flex-row space-x-3 items-center mb-2 pl-4">
             <Box
               name="Place"
@@ -86,6 +100,23 @@ export function StatsModal(props: Props) {
               wpm_by_second={data.wpm_by_second}
               errors={data.errors}
             />
+          </div>
+
+          <div className="flex flex-row justify-center">
+            <div className="flex flex-row justify-center bg-base-800 rounded-full text-base-400 w-min py-2 px-4 space-x-4">
+              <button
+                className="w-max flex flex-row space-x-2 items-baseline rounded-lg"
+                onClick={returnToMainMenu}
+              >
+                <Hotkey code="m" /> <div>Main Menu</div>
+              </button>
+              <button
+                className="w-max flex flex-row space-x-2 items-baseline rounded-lg"
+                onClick={playAgain}
+              >
+                <Hotkey code="p" /> <div>Play Again</div>
+              </button>
+            </div>
           </div>
         </div>
       </Modal>

@@ -175,10 +175,10 @@ export const TypeBox = (props: TypeBoxProps) => {
         hasError = true;
         text.push(
           <span
-            className="relative decoration-accent"
+            className="relative decoration-error"
             key={lockedCharacterIndex + i}
           >
-            <span className="text-accent">
+            <span className="text-error">
               {phrase[lockedCharacterIndex + i]}
             </span>
           </span>
@@ -396,9 +396,7 @@ export const TypeBox = (props: TypeBoxProps) => {
           onBlur={onBlur}
         />
         <Cursor
-          disabled={
-            isLocked || !focused || lockedCharacterIndex >= phrase.length
-          }
+          disabled={!focused || lockedCharacterIndex >= phrase.length}
           pulsing={cursorPulsing}
           targetObject={cursorRef}
           currentWord={currentWord}
@@ -407,7 +405,7 @@ export const TypeBox = (props: TypeBoxProps) => {
       </div>
       {showFixAll && (
         <div
-          className="absolute -top-4 text-orange-400 text-lg w-full text-center"
+          className="absolute -top-4 text-error text-lg w-full text-center"
           style={{ lineHeight: 0 }}
         >
           You must fix all errors
