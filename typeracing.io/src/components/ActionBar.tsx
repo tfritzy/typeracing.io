@@ -1,11 +1,8 @@
 import { useCallback, useEffect } from "react";
 import { Hotkey } from "./Hotkey";
-import { findGame } from "../helpers";
 import { useNavigate } from "react-router-dom";
-import { User } from "firebase/auth";
 
 type Props = {
-  user: User;
   showStats: () => void;
 };
 
@@ -13,21 +10,28 @@ export function ActionBar(props: Props) {
   const navigate = useNavigate();
 
   const playAgain = useCallback(async () => {
-    await findGame(props.user, navigate);
-  }, [navigate, props.user]);
-
-  const returnToMainMenu = useCallback(async () => {
-    navigate("/");
+    navigate("/race");
   }, [navigate]);
 
+  const returnToMainMenu = useCallback(
+    async (e: { preventDefault: () => void }) => {
+      navigate("/");
+      e.preventDefault();
+    },
+    [navigate]
+  );
+
   useEffect(() => {
-    const handleHotkeys = async (event: KeyboardEvent) => {
+    const handleHotkeys = async (event: {
+      key: string;
+      preventDefault: () => void;
+    }) => {
       if (event.key === "p") {
         await playAgain();
       }
 
       if (event.key === "m") {
-        returnToMainMenu();
+        returnToMainMenu(event);
       }
 
       if (event.key === "r") {
@@ -40,7 +44,7 @@ export function ActionBar(props: Props) {
     return () => {
       document.removeEventListener("keydown", handleHotkeys);
     };
-  }, [navigate, playAgain, props, props.user, returnToMainMenu]);
+  }, [navigate, playAgain, props, returnToMainMenu]);
 
   return (
     <div className="flex flex-row bg-base-800 border-2 border-base-700 rounded-full text-base-400 w-min py-2 px-4 space-x-4 shadow-md ">

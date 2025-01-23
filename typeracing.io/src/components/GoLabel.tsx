@@ -9,43 +9,39 @@ export const GoLabel = (props: GoLabelProps) => {
   const [shown, setShown] = useState(false);
 
   useEffect(() => {
-    const now = Timestamp.now();
-    const delayMs =
-      (props.startTime.seconds - now.seconds) * 1000 +
-      (props.startTime.nanoseconds - now.nanoseconds) / 1000000;
+    const start = () => {
+      const now = Timestamp.now();
+      const delayMs =
+        (props.startTime.seconds - now.seconds) * 1000 +
+        (props.startTime.nanoseconds - now.nanoseconds) / 1000000;
 
-    if (delayMs < -1500) return;
+      if (delayMs < -1501) return;
 
-    const hideTimer = setTimeout(() => setShown(false), delayMs + 1500);
-    return () => {
-      clearTimeout(hideTimer);
+      const showTimer = setTimeout(() => setShown(true), Math.max(0, delayMs));
+      const hideTimer = setTimeout(
+        () => setShown(false),
+        Math.max(0, delayMs + 1500 + 50)
+      );
+
+      return { showTimer, hideTimer };
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.startTime.seconds]);
 
-  useEffect(() => {
-    const now = Timestamp.now();
-    const delayMs =
-      (props.startTime.seconds - now.seconds) * 1000 +
-      (props.startTime.nanoseconds - now.nanoseconds) / 1000000;
+    const timers = start();
+    if (!timers) return;
 
-    if (delayMs < 0) return;
-
-    const timer = setTimeout(() => setShown(true), delayMs);
     return () => {
-      clearTimeout(timer);
+      clearTimeout(timers.showTimer);
+      clearTimeout(timers.hideTimer);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.startTime.seconds]);
+  }, [props.startTime.nanoseconds, props.startTime.seconds]);
 
   return shown ? (
     <img
       src="/bufo-lets-goo.gif"
-      className="w-10 h-10 inline transition-opacity"
+      className="w-10 h-10 inline"
       aria-label="Go!"
       style={{
         transform: "scaleX(-1)",
-        opacity: 1,
       }}
     />
   ) : null;

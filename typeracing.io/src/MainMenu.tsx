@@ -1,9 +1,6 @@
 import React from "react";
 import { TypeBoxButton } from "./TypeBoxButton";
-import { Firestore } from "firebase/firestore";
-import { User } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { findGame } from "./helpers";
 
 const phrases = [
   "glhf",
@@ -24,28 +21,19 @@ const phrases = [
   "put me in coach",
 ];
 
-type Props = {
-  db: Firestore;
-  user: User;
-};
-
-export function MainMenu(props: Props) {
+export function MainMenu() {
+  const navigate = useNavigate();
   const [phrase] = React.useState(
     phrases[Math.floor(Math.random() * phrases.length)]
   );
-  const navigate = useNavigate();
 
-  const createGame = React.useCallback(async () => {
-    try {
-      findGame(props.user, navigate);
-    } catch (err) {
-      console.error(err);
-    }
-  }, [navigate, props.user]);
+  const goToRoute = React.useCallback(() => {
+    navigate("/race");
+  }, [navigate]);
 
   return (
     <div className="bg-base-800 border border-b-2 border-accent rounded-xl p-4 px-8 shadow-accent">
-      <TypeBoxButton phrase={phrase} onPhraseComplete={createGame} />
+      <TypeBoxButton phrase={phrase} onPhraseComplete={goToRoute} />
     </div>
   );
 }

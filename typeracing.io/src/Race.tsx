@@ -263,7 +263,6 @@ function RaceInner({ db, user }: Props) {
       </div>
 
       <StatsModal
-        user={user}
         keystrokes={keystrokes}
         onClose={closeStats}
         shown={isComplete && !statsClosed}
@@ -273,7 +272,7 @@ function RaceInner({ db, user }: Props) {
 
       {isComplete ? (
         <div className="flex flex-col items-center">
-          <ActionBar user={user} showStats={toggleStats} />
+          <ActionBar showStats={toggleStats} />
         </div>
       ) : null}
     </div>

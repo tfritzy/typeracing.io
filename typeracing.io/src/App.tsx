@@ -13,6 +13,7 @@ import { Spinner } from "./components/Spinner";
 import { Routes, Route, BrowserRouter } from "react-router";
 import { Race } from "./Race";
 import { Header } from "./components/Header";
+import { FindRace } from "./FindRace";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC-G5Zk64LNnZ7q7awmIcdT2I0Rys8EZp0",
@@ -80,7 +81,8 @@ function App() {
       <Header />
       <div className="flex flex-col justify-between items-center">
         <Routes>
-          <Route path="/" element={<MainMenu db={db} user={user} />} />
+          <Route path="/" element={<MainMenu />} />
+          <Route path="/race/" element={<FindRace user={user} />} />
           <Route path="/race/:gameId" element={<Race db={db} user={user} />} />
         </Routes>
         <div />

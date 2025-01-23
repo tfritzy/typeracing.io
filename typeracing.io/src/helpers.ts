@@ -1,10 +1,12 @@
 import { NavigateFunction } from "react-router-dom";
 import { FIND_GAME } from "./constants";
 import { User } from "firebase/auth";
+import Cookies from "js-cookie";
 
 export async function findGame(user: User, navigate: NavigateFunction) {
   const token = await user.getIdToken();
 
+  const name = Cookies.get("name");
   const response = await fetch(FIND_GAME, {
     method: "POST",
     headers: {
@@ -12,12 +14,14 @@ export async function findGame(user: User, navigate: NavigateFunction) {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
-      displayName: "Test User",
+      displayName: name,
     }),
   });
 
+  console.log("Made request");
+
   const data = await response.json();
-  navigate("/race/" + data.id, { replace: true });
+  navigate("/race/" + data.id);
 }
 
 export function placeToString(place: number) {

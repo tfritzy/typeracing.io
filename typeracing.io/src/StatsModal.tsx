@@ -11,10 +11,9 @@ import {
   getWpm,
   KeyStroke,
 } from "./stats";
-import { findGame, placeToString } from "./helpers";
+import { placeToString } from "./helpers";
 import { Confettii } from "./components/Confettii";
 import { Hotkey } from "./components/Hotkey";
-import { User } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
@@ -23,15 +22,14 @@ type Props = {
   keystrokes: KeyStroke[];
   phrase: string;
   place: number;
-  user: User;
 };
 
 export function StatsModal(props: Props) {
   const navigate = useNavigate();
 
   const playAgain = useCallback(async () => {
-    await findGame(props.user, navigate);
-  }, [navigate, props.user]);
+    navigate("/race");
+  }, [navigate]);
 
   const returnToMainMenu = useCallback(async () => {
     navigate("/");

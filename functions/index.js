@@ -3,7 +3,7 @@ import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import { onRequest } from "firebase-functions/v2/https";
 import { getAuth } from "firebase-admin/auth";
 import { words } from "./words.js";
-import {BotNames} from './botNameGenerator.js'
+import { BotNames } from "./botNameGenerator.js";
 
 export const getRandomElements = (arr, n) =>
   arr.sort(() => Math.random() - 0.5).slice(0, n);
@@ -24,6 +24,8 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
       res.status(204).send("");
       return;
     }
+
+    const { displayName } = req.body;
 
     // Get the authorization token
     const authHeader = req.headers.authorization;
@@ -81,6 +83,7 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
                   id: uid,
                   joinTime: Timestamp.now(),
                   place: -1,
+                  name: displayName,
                 },
               },
             });
@@ -100,6 +103,7 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
                 id: uid,
                 joinTime: now,
                 place: -1,
+                name: displayName,
               },
             },
             phrase: phrase,
@@ -184,7 +188,7 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
           const now = Timestamp.now();
           for (let i = 0; i < botsNeeded; i++) {
             const botId = `bot-${Date.now()}-${i}`;
-            const targetWpm = Math.floor((Math.random() - .5) * 40 + 50);
+            const targetWpm = Math.floor((Math.random() - 0.5) * 40 + 50);
             botPlayers[botId] = {
               // player
               progress: 0,
