@@ -144,15 +144,15 @@ export const TypeBox = (props: TypeBoxProps) => {
     }
   }, [phrase, phraseRef.current?.clientWidth]);
 
-  const ignorePaste = React.useCallback((event: any) => {
+  const ignorePaste = React.useCallback((event: React.ClipboardEvent) => {
     event.preventDefault();
   }, []);
 
-  const onFocus = React.useCallback((event: any) => {
+  const onFocus = React.useCallback(() => {
     setFocused(true);
   }, []);
 
-  const onBlur = React.useCallback((event: any) => {
+  const onBlur = React.useCallback(() => {
     setFocused(false);
   }, []);
 
