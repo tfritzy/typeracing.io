@@ -3,6 +3,7 @@ import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import { onRequest } from "firebase-functions/v2/https";
 import { getAuth } from "firebase-admin/auth";
 import { words } from "./words.js";
+import {BotNames} from './botNameGenerator.js'
 
 export const getRandomElements = (arr, n) =>
   arr.sort(() => Math.random() - 0.5).slice(0, n);
@@ -183,6 +184,7 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
           const now = Timestamp.now();
           for (let i = 0; i < botsNeeded; i++) {
             const botId = `bot-${Date.now()}-${i}`;
+            const targetWpm = Math.floor((Math.random() - .5) * 40 + 50);
             botPlayers[botId] = {
               // player
               progress: 0,
@@ -191,8 +193,8 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
               place: -1,
               joinTime: new Timestamp(now.seconds + i, now.nanoseconds),
               isBot: true,
-              name: `Bot ${i + 1}`,
-              targetWpm: Math.floor(Math.random() * 70 + 30),
+              name: BotNames.generateName(targetWpm),
+              targetWpm: targetWpm,
             };
           }
 

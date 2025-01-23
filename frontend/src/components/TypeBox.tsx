@@ -353,7 +353,7 @@ export const TypeBox = (props: TypeBoxProps) => {
 
   return (
     <div className="relative select-none">
-      <div className="text-2xl type-box">
+      <div className="text-xl type-box">
         <div
           className="rounded-lg transition-colors whitespace-pre-wrap"
           style={{
