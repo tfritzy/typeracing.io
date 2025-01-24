@@ -40,12 +40,14 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
     const uid = decodedToken.uid;
 
     const phrase = getRandomElements(words, 20).join(" ");
+    const thirtySecondsAgo = Timestamp.fromDate(new Date(Date.now() - 30000));
 
     switch (req.method) {
       case "POST": {
         const querySnapshot = await db
           .collection("games")
           .where("status", "==", "waiting")
+          .where("createdTime", ">=", thirtySecondsAgo)
           .get();
         const games = [];
         querySnapshot.forEach((doc) => {
@@ -91,6 +93,7 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
         } else {
           const game = await db.collection("games").add({
             createdBy: uid,
+            createdTime: Timestamp.now(),
             botFillTime: new Timestamp(now.seconds + 7, now.nanoseconds),
             startTime: new Timestamp(now.seconds + 10000, now.nanoseconds),
             status: "waiting",

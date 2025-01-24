@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Conductor from "react-canvas-confetti/dist/conductor";
 import Preset from "react-canvas-confetti/dist/presets";
 
@@ -23,5 +24,15 @@ class SnowConductor extends Conductor {
 }
 
 export function Confettii() {
+  const [isVisible, setIsVisible] = useState(!document.hidden);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => setIsVisible(!document.hidden);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
+
+  if (!isVisible) return null;
   return <Preset autorun={{ speed: 10 }} Conductor={SnowConductor} />;
 }

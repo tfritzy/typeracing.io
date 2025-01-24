@@ -31,7 +31,7 @@ export function Modal({
   return (
     <>
       <div
-        className={`fixed -top-6 left-0 w-screen h-screen bg-black/40 transition-opacity duration-300 z-0 ${
+        className={`fixed -top-6 left-0 w-screen h-screen bg-black/20 transition-opacity duration-300 z-0 ${
           shown ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}

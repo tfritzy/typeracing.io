@@ -12,7 +12,6 @@ const phrases = [
   "fortune favors the bold",
   "let's get into the fight",
   "systems primed",
-  "hit it",
   "bring it",
   "oh, it's on",
   "let's do this",
@@ -32,7 +31,7 @@ export function MainMenu() {
   }, [navigate]);
 
   return (
-    <div className="bg-base-800 border border-b-2 border-accent rounded-xl p-4 px-8 shadow-accent">
+    <div className="bg-base-800 border-2 border-b-3 border-base-400 rounded-xl p-4 px-8 shadow-accent">
       <TypeBoxButton phrase={phrase} onPhraseComplete={goToRoute} />
     </div>
   );

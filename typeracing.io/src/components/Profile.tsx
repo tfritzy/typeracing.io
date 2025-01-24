@@ -32,7 +32,7 @@ export const Profile = () => {
 
   return (
     <input
-      className="pl-2 p-1 bg-base-600 rounded-md border border-base-500 focus:outline outline-accent"
+      className="pl-2 p-1 bg-base-700 rounded-md border border-base-500 focus:outline outline-accent"
       value={name}
       onChange={updateName}
     />
