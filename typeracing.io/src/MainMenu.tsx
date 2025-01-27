@@ -31,7 +31,7 @@ export function MainMenu() {
   }, [navigate]);
 
   return (
-    <div className="bg-base-800 border-2 border-b-3 border-base-400 rounded-xl p-4 px-8 shadow-accent">
+    <div className="border-b-2 border-base-700 p-2 shadow-accent">
       <TypeBoxButton phrase={phrase} onPhraseComplete={goToRoute} />
     </div>
   );

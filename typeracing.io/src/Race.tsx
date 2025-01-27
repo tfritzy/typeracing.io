@@ -18,14 +18,15 @@ import { Countdown } from "./components/Countdown";
 import { GoLabel } from "./components/GoLabel";
 import { KeyStroke } from "./stats";
 import { StatsModal } from "./StatsModal";
+import { Analytics, logEvent } from "firebase/analytics";
 
-// Props type
 interface Props {
   db: Firestore;
   user: User;
+  analytics: Analytics;
 }
 
-function RaceInner({ db, user }: Props) {
+function RaceInner({ db, user, analytics }: Props) {
   const setRerender = useState<number>(0)[1];
   const [statsClosed, setStatsClosed] = useState<boolean>(false);
   const [lockedCharacterIndex, setLockedCharacterIndex] = useState<number>(0);
@@ -64,6 +65,10 @@ function RaceInner({ db, user }: Props) {
     setStatsClosed(!statsClosed);
   }, [statsClosed]);
 
+  const onFirstKeystroke = useCallback(() => {
+    logEvent(analytics, "race_started");
+  }, [analytics]);
+
   const handleWordComplete = useCallback(
     (charIndex: number, newKeystrokes: KeyStroke[]) => {
       for (let i = 0; i < newKeystrokes.length; i++) {
@@ -97,13 +102,14 @@ function RaceInner({ db, user }: Props) {
           ...Object.values(game.bots).map((b) => b.place)
         );
         updateObject[`players.${user.uid}.place`] = highestPlace + 1;
+        logEvent(analytics, "race_finished", { place: highestPlace + 1 });
       }
 
       updateDoc(docRef, updateObject).catch((error) => {
         console.error("Error updating player progress:", error);
       });
     },
-    [docRef, game, keystrokes, user.uid]
+    [analytics, docRef, game, keystrokes, user.uid]
   );
 
   const fillGame = useCallback(async () => {
@@ -214,7 +220,7 @@ function RaceInner({ db, user }: Props) {
   }, [game?.startTime, setRerender]);
 
   if (game === null) return <Navigate to="/" />;
-  if (game === undefined) return <Spinner />;
+  if (game === undefined) return <Spinner text="Found game" />;
 
   let message;
   switch (game.status) {
@@ -258,6 +264,7 @@ function RaceInner({ db, user }: Props) {
             lockedCharacterIndex={lockedCharacterIndex}
             onWordComplete={handleWordComplete}
             key={gameId}
+            onFirstKeystroke={onFirstKeystroke}
           />
         </div>
       </div>
@@ -279,7 +286,7 @@ function RaceInner({ db, user }: Props) {
   );
 }
 
-export function Race({ db, user }: Props) {
+export function Race({ db, user, analytics }: Props) {
   const { gameId } = useParams();
-  return <RaceInner db={db} user={user} key={gameId} />;
+  return <RaceInner db={db} user={user} key={gameId} analytics={analytics} />;
 }

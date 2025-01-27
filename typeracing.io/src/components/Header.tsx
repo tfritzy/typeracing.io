@@ -1,22 +1,245 @@
 import { Link, useMatch } from "react-router-dom";
 import { Profile } from "./Profile";
 
+const KeyboardIcon = () => (
+  <svg viewBox="0 0 72 72" className="w-8 h-8">
+    <g id="color">
+      <path
+        transform="translate(0 .408)"
+        fill="none"
+        d="m5 18.09h62v35.82h-62z"
+      />
+      <rect
+        x="9"
+        y="25"
+        width="3"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="60"
+        y="25"
+        width="3"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="16.29"
+        y="25"
+        width="3"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="23.57"
+        y="25"
+        width="3"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="30.86"
+        y="25"
+        width="3"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="38.14"
+        y="25"
+        width="3"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="45.43"
+        y="25"
+        width="3"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="52.71"
+        y="25"
+        width="3"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="20.5"
+        y="34.5"
+        width="3"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="48.5"
+        y="34.5"
+        width="3"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="9"
+        y="44"
+        width="3"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="16"
+        y="44"
+        width="3"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="53"
+        y="44"
+        width="3"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="60"
+        y="44"
+        width="3"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="41.5"
+        y="34.5"
+        width="3"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="34.5"
+        y="34.5"
+        width="3"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="27.5"
+        y="34.5"
+        width="3"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="22.93"
+        y="44"
+        width="26.14"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="9"
+        y="34.5"
+        width="7.5"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        x="55.5"
+        y="34.5"
+        width="7.5"
+        height="3"
+        fill-rule="evenodd"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+    </g>
+    <g id="line">
+      <path
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-miterlimit="10"
+        stroke-width="3"
+        //"m[start-x] [start-y]h[width]v[height]h[-width]z"
+        d="m4 17.5h64v36h-64z"
+      />
+    </g>
+  </svg>
+);
+
 export const Header = () => {
   const onRace = useMatch("/race/*");
-
   return (
     <div className="fixed top-2 left-0 w-screen flex flex-row justify-center">
       <div className="flex flex-row justify-between w-full max-w-[1190px] min-w-max">
         <Link
           to="/"
-          className="font-bold flex flex-row space-x-1 px-2 py-1 rounded-lg text-lg text-base-400 w-min focus:outline outline-accent"
+          className="font-bold flex flex-row space-x-1 px-2 py-1 rounded-lg text-lg text-base-400 w-min focus:text-accent hover:text-accent focus:stroke-accent hover:stroke-accent outline-none fill-base-400 stroke-base-400"
         >
-          <span className="">⌨</span>
-          <span className="">typeracing.io</span>
+          <KeyboardIcon />
+          <span>typeracing.io</span>
         </Link>
-
         {!onRace && <Profile />}
       </div>
     </div>
   );
 };
+
+export default Header;

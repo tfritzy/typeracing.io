@@ -10,10 +10,11 @@ import {
   User,
 } from "firebase/auth";
 import { Spinner } from "./components/Spinner";
-import { Routes, Route, BrowserRouter } from "react-router";
+import { Routes, Route, BrowserRouter, Navigate } from "react-router";
 import { Race } from "./Race";
 import { Header } from "./components/Header";
 import { FindRace } from "./FindRace";
+import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC-G5Zk64LNnZ7q7awmIcdT2I0Rys8EZp0",
@@ -22,11 +23,13 @@ const firebaseConfig = {
   storageBucket: "typeracing-io.firebasestorage.app",
   messagingSenderId: "135412260528",
   appId: "1:135412260528:web:c080f77b9b1ae4394c6575",
+  measurementId: "G-Q913VW55CC",
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const analytics = getAnalytics(app);
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -82,8 +85,15 @@ function App() {
       <div className="flex flex-col justify-between items-center">
         <Routes>
           <Route path="/" element={<MainMenu />} />
-          <Route path="/race/" element={<FindRace user={user} />} />
-          <Route path="/race/:gameId" element={<Race db={db} user={user} />} />
+          <Route
+            path="/race/"
+            element={<FindRace user={user} analytics={analytics} />}
+          />
+          <Route
+            path="/race/:gameId"
+            element={<Race db={db} user={user} analytics={analytics} />}
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         <div />
       </div>
