@@ -48,7 +48,7 @@ function PlayerComponent({
       <div className="flex flex-row">
         <div
           className={`rounded-full h-[5px] transition-all ease-in-out ${
-            isSelf ? "bg-accent" : "bg-accent/40"
+            isSelf ? "bg-accent" : "bg-base-500"
           }`}
           style={{ width: progress + "%" }}
         />

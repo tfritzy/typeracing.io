@@ -27,6 +27,7 @@ interface Props {
 }
 
 function RaceInner({ db, user, analytics }: Props) {
+  const [hasCompletedRace, setHasCompletedRace] = useState(false);
   const setRerender = useState<number>(0)[1];
   const [statsClosed, setStatsClosed] = useState<boolean>(false);
   const [lockedCharacterIndex, setLockedCharacterIndex] = useState<number>(0);
@@ -71,6 +72,8 @@ function RaceInner({ db, user, analytics }: Props) {
 
   const handleWordComplete = useCallback(
     (charIndex: number, newKeystrokes: KeyStroke[]) => {
+      if (hasCompletedRace) return;
+
       for (let i = 0; i < newKeystrokes.length; i++) {
         newKeystrokes[i].time = new Timestamp(
           newKeystrokes[i].time!.seconds - game!.startTime.seconds,
@@ -97,6 +100,7 @@ function RaceInner({ db, user, analytics }: Props) {
       };
 
       if (charIndex >= game.phrase.length) {
+        setHasCompletedRace(true);
         const highestPlace = Math.max(
           ...Object.values(game.players).map((p) => p.place),
           ...Object.values(game.bots).map((b) => b.place)
@@ -109,7 +113,7 @@ function RaceInner({ db, user, analytics }: Props) {
         console.error("Error updating player progress:", error);
       });
     },
-    [analytics, docRef, game, keystrokes, user.uid]
+    [analytics, docRef, game, hasCompletedRace, keystrokes, user.uid]
   );
 
   const fillGame = useCallback(async () => {
