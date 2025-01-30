@@ -1,4 +1,10 @@
-import React, { RefObject, useEffect, useState } from "react";
+import React, {
+  RefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { KeyStroke } from "./stats";
 import { Timestamp } from "firebase/firestore";
 
@@ -19,95 +25,89 @@ type CursorProps = {
 };
 
 const Cursor = (props: CursorProps) => {
-  const [cursorXPos, setCursorXPos] = useState(cursorStartPos);
-  const [cursorYPos, setCursorYPos] = useState(cursorStartPos);
-  const [targetCursorXPos, setTargetCursorXPos] = useState(cursorStartPos);
-  const [targetCursorYPos, setTargetCursorYPos] = useState(cursorStartPos);
+  const [cursorPos, setCursorPos] = useState({
+    current: { x: cursorStartPos, y: cursorStartPos },
+    target: { x: cursorStartPos, y: cursorStartPos },
+  });
 
-  const resetPos = React.useCallback(() => {
-    if (props.targetObject.current) {
-      const cursorRect = props.targetObject.current.getBoundingClientRect();
-      setTargetCursorXPos(cursorRect.left + cursorXOffset);
-      setTargetCursorYPos(cursorRect.top + cursorYOffset);
-      setCursorXPos(cursorRect.left + cursorXOffset);
-      setCursorYPos(cursorRect.top + cursorYOffset);
-    }
-  }, [props.targetObject]);
+  const updateCursorPositions = useCallback(
+    (immediate = false) => {
+      if (props.targetObject.current) {
+        const cursorRect = props.targetObject.current.getBoundingClientRect();
+        const newPos = {
+          x: cursorRect.left + cursorXOffset,
+          y: cursorRect.top + cursorYOffset,
+        };
+
+        setCursorPos((prev) => ({
+          current: immediate ? newPos : prev.current,
+          target: newPos,
+        }));
+      }
+    },
+    [props.targetObject]
+  );
 
   useEffect(() => {
     let frameId: number;
 
     const animate = () => {
-      setCursorXPos((prevX) => lerp(prevX, targetCursorXPos, 0.4));
-      setCursorYPos((prevY) => lerp(prevY, targetCursorYPos, 0.4));
-
-      if (props.targetObject.current) {
-        const cursorRect = props.targetObject.current.getBoundingClientRect();
-        setTargetCursorXPos(cursorRect.left + cursorXOffset);
-        setTargetCursorYPos(cursorRect.top + cursorYOffset);
+      if (
+        Math.abs(cursorPos.target.y - cursorPos.current.y) < 0.05 &&
+        Math.abs(cursorPos.target.x - cursorPos.current.x) < 0.05
+      ) {
+        return;
       }
 
+      setCursorPos((prev) => ({
+        current: {
+          x: lerp(prev.current.x, prev.target.x, 0.4),
+          y: lerp(prev.current.y, prev.target.y, 0.4),
+        },
+        target: prev.target,
+      }));
+
+      updateCursorPositions();
       frameId = requestAnimationFrame(animate);
     };
 
     frameId = requestAnimationFrame(animate);
-
-    return () => {
-      cancelAnimationFrame(frameId);
-    };
-  }, [targetCursorXPos, targetCursorYPos]);
+    return () => cancelAnimationFrame(frameId);
+  }, [cursorPos, updateCursorPositions]);
 
   useEffect(() => {
-    function handleResize() {
-      resetPos();
-    }
-
+    const handleResize = () => updateCursorPositions(true);
     window.addEventListener("resize", handleResize);
     handleResize();
-
     return () => window.removeEventListener("resize", handleResize);
-  }, [resetPos]);
+  }, [updateCursorPositions]);
 
   useEffect(() => {
-    if (props.targetObject.current) {
-      const cursorRect = props.targetObject.current.getBoundingClientRect();
-      setTargetCursorXPos(cursorRect.left + cursorXOffset);
-      setTargetCursorYPos(cursorRect.top + cursorYOffset);
-    }
-  }, [props.currentWord]);
+    updateCursorPositions(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.currentWord, props.targetObject.current, updateCursorPositions]);
 
   useEffect(() => {
-    if (props.targetObject.current) {
-      const cursorRect = props.targetObject.current.getBoundingClientRect();
-      setTargetCursorXPos(cursorRect.left + cursorXOffset);
-      setTargetCursorYPos(cursorRect.top + cursorYOffset);
-      setCursorXPos(cursorRect.left + cursorXOffset);
-      setCursorYPos(cursorRect.top + cursorYOffset);
-    }
-  }, [props.targetObject.current]);
+    updateCursorPositions(true);
+  }, [props.phrase, updateCursorPositions]);
 
-  useEffect(() => {
-    if (props.targetObject.current) {
-      const cursorRect = props.targetObject.current.getBoundingClientRect();
-      setTargetCursorXPos(cursorRect.left + cursorXOffset);
-      setTargetCursorYPos(cursorRect.top + cursorYOffset);
-      setCursorXPos(cursorRect.left + cursorXOffset);
-      setCursorYPos(cursorRect.top + cursorYOffset);
-    }
-  }, [props.phrase]);
-
-  return (
-    <span
-      className={`h-[32px] w-[2px] bg-base-400 fixed rounded-full ${
-        props.pulsing ? "cursor" : ""
-      }`}
-      style={{
-        top: cursorYPos,
-        left: cursorXPos,
-      }}
-      hidden={props.disabled}
-    />
+  const cursor = useMemo(
+    () => (
+      <span
+        className={`h-8 w-0.5 bg-base-400 fixed rounded-full ${
+          props.pulsing ? "cursor" : ""
+        }`}
+        style={{
+          top: cursorPos.current.y,
+          left: cursorPos.current.x,
+        }}
+        hidden={props.disabled}
+      />
+    ),
+    [cursorPos, props.disabled, props.pulsing]
   );
+
+  return cursor;
 };
 
 type TypeBoxProps = {
@@ -122,8 +122,13 @@ type TypeBoxProps = {
   onFirstKeystroke?: () => void;
 };
 
-export const TypeBox = (props: TypeBoxProps) => {
-  const { phrase, lockedCharacterIndex, onWordComplete, isLocked } = props;
+export const TypeBox = ({
+  phrase,
+  lockedCharacterIndex,
+  onWordComplete,
+  isLocked,
+  onFirstKeystroke,
+}: TypeBoxProps) => {
   const [focused, setFocused] = useState(true);
   const [currentWord, setCurrentWord] = useState("");
   const [inputWidth, setInputWidth] = useState(0);
@@ -231,7 +236,7 @@ export const TypeBox = (props: TypeBoxProps) => {
       }
 
       if (currentWord.length === 0 && lockedCharacterIndex === 0) {
-        props.onFirstKeystroke?.();
+        onFirstKeystroke?.();
       }
 
       if (currentWord.length < event.target.value.length) {
@@ -263,7 +268,7 @@ export const TypeBox = (props: TypeBoxProps) => {
       lockedCharacterIndex,
       hasError,
       phrase.length,
-      props,
+      onFirstKeystroke,
     ]
   );
 
