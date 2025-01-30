@@ -2,18 +2,13 @@ import { initializeApp } from "firebase-admin/app";
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import { onRequest } from "firebase-functions/v2/https";
 import { getAuth } from "firebase-admin/auth";
-import { words } from "./words.js";
 import { BotNames } from "./botNameGenerator.js";
+import { getPhrase } from "./getPhrase.js";
 
-export const getRandomElements = (arr, n) =>
-  arr.sort(() => Math.random() - 0.5).slice(0, n);
-
-// Initialize Firebase Admin
 initializeApp();
 const db = getFirestore();
 const auth = getAuth();
 
-// HTTP endpoint
 export const findGame = onRequest({ cors: true }, async (req, res) => {
   try {
     // Handle preflight requests
@@ -25,7 +20,7 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
       return;
     }
 
-    const { displayName } = req.body;
+    const { displayName, mode } = req.body;
 
     // Get the authorization token
     const authHeader = req.headers.authorization;
@@ -39,7 +34,7 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
     const decodedToken = await auth.verifyIdToken(token);
     const uid = decodedToken.uid;
 
-    const phrase = getRandomElements(words, 20).join(" ");
+    const phrase = getPhrase(mode).join(" ");
     const thirtySecondsAgo = Timestamp.fromDate(new Date(Date.now() - 30000));
 
     switch (req.method) {

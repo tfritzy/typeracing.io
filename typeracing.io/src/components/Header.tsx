@@ -15,9 +15,9 @@ const KeyboardIcon = () => (
         width="3"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="60"
@@ -25,9 +25,9 @@ const KeyboardIcon = () => (
         width="3"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="16.29"
@@ -35,9 +35,9 @@ const KeyboardIcon = () => (
         width="3"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="23.57"
@@ -45,9 +45,9 @@ const KeyboardIcon = () => (
         width="3"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="30.86"
@@ -55,9 +55,9 @@ const KeyboardIcon = () => (
         width="3"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="38.14"
@@ -65,9 +65,9 @@ const KeyboardIcon = () => (
         width="3"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="45.43"
@@ -75,9 +75,9 @@ const KeyboardIcon = () => (
         width="3"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="52.71"
@@ -85,9 +85,9 @@ const KeyboardIcon = () => (
         width="3"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="20.5"
@@ -95,9 +95,9 @@ const KeyboardIcon = () => (
         width="3"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="48.5"
@@ -105,9 +105,9 @@ const KeyboardIcon = () => (
         width="3"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="9"
@@ -115,9 +115,9 @@ const KeyboardIcon = () => (
         width="3"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="16"
@@ -125,9 +125,9 @@ const KeyboardIcon = () => (
         width="3"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="53"
@@ -135,9 +135,9 @@ const KeyboardIcon = () => (
         width="3"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="60"
@@ -145,9 +145,9 @@ const KeyboardIcon = () => (
         width="3"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="41.5"
@@ -155,9 +155,9 @@ const KeyboardIcon = () => (
         width="3"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="34.5"
@@ -165,9 +165,9 @@ const KeyboardIcon = () => (
         width="3"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="27.5"
@@ -175,9 +175,9 @@ const KeyboardIcon = () => (
         width="3"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="22.93"
@@ -185,9 +185,9 @@ const KeyboardIcon = () => (
         width="26.14"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="9"
@@ -195,9 +195,9 @@ const KeyboardIcon = () => (
         width="7.5"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
       <rect
         x="55.5"
@@ -205,18 +205,18 @@ const KeyboardIcon = () => (
         width="7.5"
         height="3"
         fill-rule="evenodd"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
     </g>
     <g id="line">
       <path
         fill="none"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-miterlimit="10"
-        stroke-width="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeMiterlimit="10"
+        strokeWidth="3"
         //"m[start-x] [start-y]h[width]v[height]h[-width]z"
         d="m4 17.5h64v36h-64z"
       />
@@ -227,7 +227,7 @@ const KeyboardIcon = () => (
 export const Header = () => {
   const onRace = useMatch("/race/*");
   return (
-    <div className="fixed top-2 left-0 w-screen flex flex-row justify-center">
+    <div className="w-screen flex flex-row justify-center">
       <div className="flex flex-row justify-between w-full max-w-[1190px] min-w-max">
         <Link
           to="/"

@@ -1,4 +1,3 @@
-import "./App.css";
 import React, { useEffect, useState } from "react";
 import { MainMenu } from "./MainMenu";
 import { FirebaseError, initializeApp } from "firebase/app";

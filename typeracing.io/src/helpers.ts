@@ -1,8 +1,15 @@
 import { NavigateFunction } from "react-router-dom";
-import { FIND_GAME } from "./constants";
 import { User } from "firebase/auth";
 import Cookies from "js-cookie";
 import { Analytics, logEvent } from "firebase/analytics";
+
+function getFindGameUrl() {
+  if (process.env.NODE_ENV === "development") {
+    return "http://127.0.0.1:5001/typeracing-io/us-central1/findGame";
+  } else {
+    return "https://findgame-ifdmb3m76a-uc.a.run.app";
+  }
+}
 
 export async function findGame(
   user: User,
@@ -12,9 +19,8 @@ export async function findGame(
   const token = await user.getIdToken();
 
   logEvent(analytics, "find_race");
-
   const name = Cookies.get("name");
-  const response = await fetch(FIND_GAME, {
+  const response = await fetch(getFindGameUrl(), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

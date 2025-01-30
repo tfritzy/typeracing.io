@@ -31,8 +31,17 @@ export function MainMenu() {
   }, [navigate]);
 
   return (
-    <div className="border-b-2 border-base-700 p-2 shadow-accent">
-      <TypeBoxButton phrase={phrase} onPhraseComplete={goToRoute} />
+    <div className="flex flex-col items-center justify-between h-screen">
+      <div className="flex flex-col space-y-4 text-stone-500">
+        <h1>English 200</h1>
+        <p className="text-stone-600">200 most common english words</p>
+      </div>
+
+      <div className="border-b-2 border-base-700 p-2 shadow-accent w-max">
+        <TypeBoxButton phrase={phrase} onPhraseComplete={goToRoute} />
+      </div>
+
+      <div />
     </div>
   );
 }
