@@ -27,6 +27,7 @@ interface Props {
 }
 
 function RaceInner({ db, user, analytics }: Props) {
+  const [hasCompletedRace, setHasCompletedRace] = useState(false);
   const setRerender = useState<number>(0)[1];
   const [statsClosed, setStatsClosed] = useState<boolean>(false);
   const [lockedCharacterIndex, setLockedCharacterIndex] = useState<number>(0);
@@ -71,6 +72,8 @@ function RaceInner({ db, user, analytics }: Props) {
 
   const handleWordComplete = useCallback(
     (charIndex: number, newKeystrokes: KeyStroke[]) => {
+      if (hasCompletedRace) return;
+
       for (let i = 0; i < newKeystrokes.length; i++) {
         newKeystrokes[i].time = new Timestamp(
           newKeystrokes[i].time!.seconds - game!.startTime.seconds,
@@ -97,6 +100,7 @@ function RaceInner({ db, user, analytics }: Props) {
       };
 
       if (charIndex >= game.phrase.length) {
+        setHasCompletedRace(true);
         const highestPlace = Math.max(
           ...Object.values(game.players).map((p) => p.place),
           ...Object.values(game.bots).map((b) => b.place)
@@ -109,7 +113,7 @@ function RaceInner({ db, user, analytics }: Props) {
         console.error("Error updating player progress:", error);
       });
     },
-    [analytics, docRef, game, keystrokes, user.uid]
+    [analytics, docRef, game, hasCompletedRace, keystrokes, user.uid]
   );
 
   const fillGame = useCallback(async () => {
@@ -219,6 +223,34 @@ function RaceInner({ db, user, analytics }: Props) {
     };
   }, [game?.startTime, setRerender]);
 
+  const stats = useMemo(() => {
+    if (!game) {
+      return null;
+    }
+
+    return (
+      <StatsModal
+        keystrokes={keystrokes}
+        onClose={closeStats}
+        shown={isComplete && !statsClosed}
+        phrase={game.phrase}
+        place={game.players[user.uid].place}
+      />
+    );
+  }, [closeStats, game, isComplete, keystrokes, statsClosed, user.uid]);
+
+  const actionBar = useMemo(() => {
+    if (!isComplete) {
+      return null;
+    }
+
+    return (
+      <div className="flex flex-col items-center">
+        <ActionBar showStats={toggleStats} />
+      </div>
+    );
+  }, [isComplete, toggleStats]);
+
   if (game === null) return <Navigate to="/" />;
   if (game === undefined) return <Spinner text="Found game" />;
 
@@ -269,19 +301,9 @@ function RaceInner({ db, user, analytics }: Props) {
         </div>
       </div>
 
-      <StatsModal
-        keystrokes={keystrokes}
-        onClose={closeStats}
-        shown={isComplete && !statsClosed}
-        phrase={game.phrase}
-        place={game.players[user.uid].place}
-      />
+      {stats}
 
-      {isComplete ? (
-        <div className="flex flex-col items-center">
-          <ActionBar showStats={toggleStats} />
-        </div>
-      ) : null}
+      {actionBar}
     </div>
   );
 }
