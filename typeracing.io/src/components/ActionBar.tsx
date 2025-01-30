@@ -6,7 +6,7 @@ type Props = {
   showStats: () => void;
 };
 
-export function ActionBar(props: Props) {
+export function ActionBar({ showStats }: Props) {
   const navigate = useNavigate();
 
   const playAgain = useCallback(async () => {
@@ -35,7 +35,7 @@ export function ActionBar(props: Props) {
       }
 
       if (event.key === "r") {
-        props.showStats();
+        showStats();
       }
     };
 
@@ -44,7 +44,7 @@ export function ActionBar(props: Props) {
     return () => {
       document.removeEventListener("keydown", handleHotkeys);
     };
-  }, [navigate, playAgain, props, returnToMainMenu]);
+  }, [navigate, playAgain, returnToMainMenu, showStats]);
 
   return (
     <div className="flex flex-row bg-base-800 border-2 border-base-700 rounded-full text-base-400 w-min py-2 px-4 space-x-4 shadow-md ">
@@ -64,7 +64,7 @@ export function ActionBar(props: Props) {
       <div className="w-[1px] bg-base-600" />
       <button
         className="w-max flex flex-row space-x-2 items-baseline rounded-lg"
-        onClick={props.showStats}
+        onClick={showStats}
       >
         <Hotkey code="r" /> <div>Results</div>
       </button>

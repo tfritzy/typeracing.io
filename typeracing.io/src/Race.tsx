@@ -219,6 +219,34 @@ function RaceInner({ db, user, analytics }: Props) {
     };
   }, [game?.startTime, setRerender]);
 
+  const stats = useMemo(() => {
+    if (!game) {
+      return null;
+    }
+
+    return (
+      <StatsModal
+        keystrokes={keystrokes}
+        onClose={closeStats}
+        shown={isComplete && !statsClosed}
+        phrase={game.phrase}
+        place={game.players[user.uid].place}
+      />
+    );
+  }, [closeStats, game, isComplete, keystrokes, statsClosed, user.uid]);
+
+  const actionBar = useMemo(() => {
+    if (!isComplete) {
+      return null;
+    }
+
+    return (
+      <div className="flex flex-col items-center">
+        <ActionBar showStats={toggleStats} />
+      </div>
+    );
+  }, [isComplete, toggleStats]);
+
   if (game === null) return <Navigate to="/" />;
   if (game === undefined) return <Spinner text="Found game" />;
 
@@ -269,19 +297,9 @@ function RaceInner({ db, user, analytics }: Props) {
         </div>
       </div>
 
-      <StatsModal
-        keystrokes={keystrokes}
-        onClose={closeStats}
-        shown={isComplete && !statsClosed}
-        phrase={game.phrase}
-        place={game.players[user.uid].place}
-      />
+      {stats}
 
-      {isComplete ? (
-        <div className="flex flex-col items-center">
-          <ActionBar showStats={toggleStats} />
-        </div>
-      ) : null}
+      {actionBar}
     </div>
   );
 }
