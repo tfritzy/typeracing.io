@@ -223,18 +223,37 @@ const KeyboardIcon = () => (
   </svg>
 );
 
+function Group({
+  children,
+  href,
+}: {
+  children: JSX.Element | string;
+  href: string;
+}) {
+  return (
+    <a href={href} className="text-lg font-semibold text-base-500">
+      {children}
+    </a>
+  );
+}
+
 export const Header = () => {
   const onRace = useMatch("/race/*");
   return (
-    <div className="w-screen flex flex-row justify-center">
-      <div className="flex flex-row justify-between w-full max-w-[1280px] min-w-max px-2 py-2 bg-base-800 border-b border-base-700 shadow-sm">
-        <Link
-          to="/"
-          className="font-bold flex flex-row space-x-1 rounded-lg text-lg text-base-400 w-min focus:text-accent hover:text-accent focus:stroke-accent hover:stroke-accent outline-none fill-base-400 stroke-base-400"
-        >
-          <KeyboardIcon />
-          <span>typeracing.io</span>
-        </Link>
+    <div className="w-screen flex flex-row justify-center border-b border-base-700 shadow-sm">
+      <div className="flex flex-row justify-between w-full max-w-[1280px] min-w-max px-2 py-2 bg-base-800 ">
+        <div className="flex flex-row items-center space-x-6">
+          <Link
+            to="/"
+            className="font-bold flex flex-row space-x-1 rounded-lg text-lg text-base-400 w-min focus:text-accent hover:text-accent focus:stroke-accent hover:stroke-accent outline-none fill-base-400 stroke-base-400"
+          >
+            <KeyboardIcon />
+            <span>typeracing.io</span>
+          </Link>
+          <Group href="/languages">Languages</Group>
+          <Group href="/phrases">Phrases</Group>
+          <Group href="/code">Code</Group>
+        </div>
         {!onRace && <Profile />}
       </div>
     </div>

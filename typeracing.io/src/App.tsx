@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { MainMenu } from "./MainMenu";
 import { FirebaseError, initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import {
@@ -10,10 +9,11 @@ import {
 } from "firebase/auth";
 import { Spinner } from "./components/Spinner";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router";
-import { Race } from "./Race";
 import { Header } from "./components/Header";
 import { FindRace } from "./FindRace";
 import { getAnalytics } from "firebase/analytics";
+import { HelmetProvider } from "react-helmet-async";
+import { FrenchPage, HomePage, LanguagesPage, RacePage } from "./Pages";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC-G5Zk64LNnZ7q7awmIcdT2I0Rys8EZp0",
@@ -79,24 +79,30 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <Header />
-      <div className="relative flex flex-1 max-w-[1280px] mx-2 place-items-center justify-center">
-        <Routes>
-          <Route path="/" element={<MainMenu />} />
-          <Route
-            path="/race/"
-            element={<FindRace user={user} analytics={analytics} />}
-          />
-          <Route
-            path="/race/:gameId"
-            element={<Race db={db} user={user} analytics={analytics} />}
-          />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-        <div />
-      </div>
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <Header />
+        <div className="relative flex flex-1 flex-col max-w-[1280px] w-screen mx-2 place-items-center justify-center m-auto">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+
+            <Route
+              path="/race/"
+              element={<FindRace user={user} analytics={analytics} />}
+            />
+            <Route
+              path="/race/:gameId"
+              element={<RacePage db={db} user={user} analytics={analytics} />}
+            />
+
+            <Route path="/languages" element={<LanguagesPage />} />
+            <Route path="/languages/français" element={<FrenchPage />} />
+
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 
