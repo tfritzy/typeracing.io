@@ -1,19 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 24.1.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 513 342">
-<rect fill="#007C30" width="513" height="342"/>
-<polyline fill="#CE1720" points="0,230 513,230 513,0 513,0 0,0 0,0 "/>
-<polygon fill="#FFFFFF" points="100,230 100,215.1 100,0 0,0 0,342 513,342 513,342 100,342 "/>
-<g fill="#CE1720">
-<polygon points="28,159.6 8.6,128.2 28,97.4 47.3,128.2 "/>
-<polygon points="72.6,159.6 53.3,128.2 72.6,97.4 92,128.2 "/>
-<polygon points="28,241.2 8.6,209.8 28,179 47.3,209.8 "/>
-<polygon points="72.6,241.2 53.3,209.8 72.6,179 92,209.8 "/>
-</g>
-<g fill="none" stroke="#CE1720" stroke-width="7">
-<polygon points="28,73.8 11.9,47.8 28,22.2 44,47.8 "/>
-<polygon points="72.6,73.8 56.6,47.8 72.6,22.2 88.7,47.8 "/>
-<polygon points="28,318 11.9,291.9 28,266.3 44,291.9 "/>
-<polygon points="72.6,318 56.6,291.9 72.6,266.3 88.7,291.9 "/>
-</g>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" id="flag-icons-by" viewBox="0 0 512 512">
+  <defs>
+    <clipPath id="by-a">
+      <path d="M0 0h200v608h8v284l-8 8H0Z"/>
+    </clipPath>
+  </defs>
+  <path fill="#ce1720" d="M0 0h512v512H0Z"/>
+  <g fill="#fff" clip-path="url(#by-a)" transform="matrix(.5625 0 0 .56889 5 0)">
+    <g id="by-c">
+      <path id="by-b" d="M36 0v14h-9v14H16v16H8v13H-8V24H8V6H-8V0Zm26 77v15h-8v12h-8V92h-8V77h-8V57h8V42h8V30h8v12h8v15h8v20Zm-17-1h10V58H45ZM19 183h8v-18h-8zm54 0h8v-18h-8ZM-8 305H6v13h6v16h9v15h12v-15h9v-16h8v-13H38v-15h21v10h13v17h11v19h-8v14h-7v13h-6v14h-9v12h-7v11h-9v14H24v-15h-9v-14H8v-9H-8v-23H8v-20H-8Z"/>
+      <use xlink:href="#by-b" transform="matrix(-1 0 0 1 200 0)"/>
+      <path d="M96 0v32h8V0h32v14h-8v14h-12v16h-8v13H92V44h-8V28H72V14h-8V0Zm-2 274v-11h-6v-13h-7v-14h-8v-14h-8v-10h-9v-14H44v14h-9v10h-7v14h-8v14h-6v13H8v17H-8v-44H8v-20H-8v-33H8v14h10v14h10v-14h10v-14h8v-18h-8v-14H28v-14H18v14H8v14H-8v-41H8v-19H-8V77H8v13h8v16h11v13h9v15h7v12h14v-12h7v-15h9v-13h11V90h8V77h16v13h8v16h11v13h9v15h7v12h14v-12h7v-15h9v-13h11V90h8V77h16v28h-16v19h16v41h-16v-14h-10v-14h-10v14h-10v14h-8v18h8v14h10v14h10v-14h10v-14h16v33h-16v20h16v44h-16v-17h-6v-13h-6v-14h-8v-14h-7v-10h-9v-14h-12v14h-9v10h-8v14h-8v14h-7v13h-6v11zm2-167v27h8v-27zm-4 58v-14H82v-14H72v14H62v14h-8v18h8v14h10v14h10v-14h10v-14h16v14h10v14h10v-14h10v-14h8v-18h-8v-14h-10v-14h-10v14h-10v14zm4 46v27h8v-27z"/>
+    </g>
+    <use xlink:href="#by-c" transform="matrix(1 0 0 -1 0 900)"/>
+    <path d="M-8 408H8v14h7v8h8v14h7v12h-7v14h-8v8H8v14H-8Zm216 0v84h-16v-14h-7v-8h-8v-14h-7v-12h7v-14h8v-8h7v-14ZM62 459h8v-18h-8zm76 0v-18h-8v18zm-42-59h8v-18h-8zm0 100v18h8v-18Zm-50-75h14v-11h10v-10h5v-10h6v-14h8v-14h4v-13h14v13h4v14h8v14h6v10h5v10h10v11h14v50h-14v11h-10v10h-5v10h-6v14h-8v14h-4v13H93v-13h-4v-14h-8v-14h-6v-10h-5v-10H60v-11H46Zm50 9v-15h-8v-10h-8v25h8v9h5v14h-5v9h-8v25h8v-10h8v-15h8v15h8v10h8v-25h-8v-9h-5v-14h5v-9h8v-25h-8v10h-8v15z"/>
+  </g>
+  <path fill="#007c30" d="M117.3 341.3h395V512h-395z"/>
 </svg>

@@ -96,7 +96,7 @@ function App() {
             />
 
             <Route path="/languages" element={<LanguagesPage />} />
-            <Route path="/languages/français" element={<FrenchPage />} />
+            <Route path="/français" element={<FrenchPage />} />
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

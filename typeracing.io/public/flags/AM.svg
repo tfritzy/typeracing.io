@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 513 342">
-<rect y="0" fill="#0052B4" width="513" height="342"/>
-<rect y="0" fill="#D80027" width="513" height="114"/>
-<rect y="228" fill="#FF9811" width="513" height="114"/>
+<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-am" viewBox="0 0 512 512">
+  <path fill="#d90012" d="M0 0h512v170.7H0z"/>
+  <path fill="#0033a0" d="M0 170.7h512v170.6H0z"/>
+  <path fill="#f2a800" d="M0 341.3h512V512H0z"/>
 </svg>

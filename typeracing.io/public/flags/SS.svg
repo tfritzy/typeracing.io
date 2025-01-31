@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 85.333 512 341.333">
-<rect y="85.337" fill="#FFFFFF" width="512" height="341.326"/>
-<rect y="322.783" fill="#496E2D" width="512" height="103.88"/>
-<rect y="85.337" fill="#000" width="512" height="104.515"/>
-<rect y="210.877" fill="#A2001D" width="512" height="89.656"/>
-<polygon fill="#0052B4" points="256,256.006 0,426.668 0,85.331 "/>
-<polygon fill="#FFDA44" points="73.178,209.188 94.009,238.255 128.093,227.425 106.886,256.22 127.716,285.289   93.777,274.018 72.569,302.812 72.803,267.05 38.863,255.777 72.946,244.947 "/>
+<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-ss" viewBox="0 0 512 512">
+  <path fill="#078930" d="M0 358.4h512V512H0z"/>
+  <path fill="#fff" d="M0 153.6h512v204.8H0z"/>
+  <path fill="#000001" d="M0 0h512v153.6H0z"/>
+  <path fill="#da121a" d="M0 179.2h512v153.6H0z"/>
+  <path fill="#0f47af" d="m0 0 433 256L0 512z"/>
+  <path fill="#fcdd09" d="M209 207.8 64.4 256l144.8 48.1-89.5-126v155.8z"/>
 </svg>

@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 513 342">
-<rect y="0" fill="#3d944f" width="513" height="342"/>
-<rect y="0" fill="#ef2b2d" width="513" height="171"/>
-<polygon fill="#FFDA44" points="256,102.6 272.9,154.6 327.6,154.6 283.4,186.8 300.2,238.8 256,206.7 211.8,238.8 228.6,186.8
-  184.4,154.6 239.1,154.6 "/>
+<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-bf" viewBox="0 0 512 512">
+  <g fill-rule="evenodd">
+    <path fill="#de0000" d="M512 511.6H.5V0H512z"/>
+    <path fill="#35a100" d="M511.8 512H0V256.2h511.7z"/>
+  </g>
+  <path fill="#fff300" fill-rule="evenodd" d="m389 223.8-82.9 56.5 31.7 91.6-82.7-56.7-82.8 56.7 31.7-91.6-82.8-56.6 102.3.2 31.6-91.7 31.5 91.6"/>
 </svg>
