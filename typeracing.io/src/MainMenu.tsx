@@ -31,17 +31,30 @@ export function MainMenu() {
   }, [navigate]);
 
   return (
-    <div className="flex flex-col items-center justify-between h-screen">
-      <div className="flex flex-col space-y-4 text-stone-500">
-        <h1>English 200</h1>
-        <p className="text-stone-600">200 most common english words</p>
+    <div className="">
+      <div className="absolute top-2 left-0 text-stone-500">
+        <div>
+          <div className="flex flex-row space-x-2 items-baseline">
+            <img
+              src="/flags/gb.svg"
+              className="w-8 h-8 border border-base-600 rounded"
+            />
+            <h1 className="text-md font-semibold mb-2">English </h1>
+            <button className="text-lg border border-base-700 text-base-500 px-2 py-1 rounded-md">
+              <div className="leading-none text-lg font-mono text-center">
+                /
+              </div>
+            </button>
+          </div>
+          <p className="text-stone-600 max-w-72">
+            500 most common english words
+          </p>
+        </div>
       </div>
 
       <div className="border-b-2 border-base-700 p-2 shadow-accent w-max">
         <TypeBoxButton phrase={phrase} onPhraseComplete={goToRoute} />
       </div>
-
-      <div />
     </div>
   );
 }

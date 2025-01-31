@@ -29,6 +29,12 @@
   --error: #f43f5e;
 }
 
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .typebox::selection {
   background-color: transparent;
 }
@@ -64,14 +70,6 @@ a {
 }
 a:hover {
   color: #fbbf24;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {

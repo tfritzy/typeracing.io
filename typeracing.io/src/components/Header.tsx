@@ -227,10 +227,10 @@ export const Header = () => {
   const onRace = useMatch("/race/*");
   return (
     <div className="w-screen flex flex-row justify-center">
-      <div className="flex flex-row justify-between w-full max-w-[1190px] min-w-max">
+      <div className="flex flex-row justify-between w-full max-w-[1280px] min-w-max px-2 py-2 bg-base-800 border-b border-base-700 shadow-sm">
         <Link
           to="/"
-          className="font-bold flex flex-row space-x-1 px-2 py-1 rounded-lg text-lg text-base-400 w-min focus:text-accent hover:text-accent focus:stroke-accent hover:stroke-accent outline-none fill-base-400 stroke-base-400"
+          className="font-bold flex flex-row space-x-1 rounded-lg text-lg text-base-400 w-min focus:text-accent hover:text-accent focus:stroke-accent hover:stroke-accent outline-none fill-base-400 stroke-base-400"
         >
           <KeyboardIcon />
           <span>typeracing.io</span>

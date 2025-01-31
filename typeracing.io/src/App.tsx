@@ -81,7 +81,7 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <div className="flex flex-col justify-between items-center">
+      <div className="relative flex flex-1 max-w-[1280px] mx-2 place-items-center justify-center">
         <Routes>
           <Route path="/" element={<MainMenu />} />
           <Route
