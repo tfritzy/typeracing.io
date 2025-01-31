@@ -1,4 +1,3 @@
-import { Clock, ClockSolid, WhiteFlag, WhiteFlagSolid } from "iconoir-react";
 import { Link, useMatch } from "react-router-dom";
 import { Profile } from "../main-menu/Profile";
 

@@ -67,7 +67,6 @@ function App() {
     dispatch(updateToken(token));
   }, [dispatch]);
 
-  // Global hotkeys
   React.useEffect(() => {
     const handleHotkeys = (event: KeyboardEvent) => {
       if (event.key === "t") {

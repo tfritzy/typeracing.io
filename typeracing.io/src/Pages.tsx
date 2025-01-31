@@ -4,7 +4,6 @@ import { Firestore } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { Analytics } from "firebase/analytics";
 import { MainMenu } from "./MainMenu";
-import { ModeListPage } from "./ModeListPage";
 
 export function HomePage() {
   return (
@@ -87,17 +86,6 @@ export function RacePage({
   );
 }
 
-export function LanguagesPage() {
-  return (
-    <ModeListPage
-      modeTypes={["english", "français"]}
-      title="typeracing.io - Languages"
-      ogDescription="Select a language to race in."
-      description="Select a language to race against other players in. Phrase is generated from top 500 most common words of the selected language."
-    />
-  );
-}
-
 export function FrenchPage() {
   return (
     <>
@@ -117,6 +105,405 @@ export function FrenchPage() {
         />
       </Helmet>
       <MainMenu modeType="français" />
+    </>
+  );
+}
+
+export function SpanishPage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - Español</title>
+        <meta
+          name="description"
+          content="Pon a prueba tus habilidades de mecanografía contra personas reales de todo el mundo. Compite contra tus amigos, realiza un seguimiento de tus palabras por minuto y mejora tus habilidades."
+        />
+        <meta
+          name="keywords"
+          content="juegos de mecanografía gratuitos, mecanografía, mecanografía, palabras por minuto, software de mecanografía, juego de mecanografía, práctica de mecanografía, programa de mecanografía gratuito, habilidades de mecanografía"
+        />
+        <meta
+          property="og:description"
+          content="Competición de carreras tipo vivo."
+        />
+      </Helmet>
+      <MainMenu modeType="español" />
+    </>
+  );
+}
+
+export function GermanPage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - Deutsch</title>
+        <meta
+          name="description"
+          content="Teste deine Tippfähigkeiten gegen echte Menschen aus der ganzen Welt. Tritt gegen deine Freunde an, verfolge deine WPM und verbessere deine Fähigkeiten."
+        />
+        <meta
+          name="keywords"
+          content="kostenlose Tippspiele, Tippen, Tastaturschreiben, WPM, Tippsoftware, Tippspiel, Tippübung, kostenloses Tippprogramm, Tippfähigkeiten"
+        />
+        <meta property="og:description" content="Live-Typeracing-Wettbewerb" />
+      </Helmet>
+      <MainMenu modeType="deutsch" />
+    </>
+  );
+}
+
+export function ItalianPage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - Italiano</title>
+        <meta
+          name="description"
+          content="Metti alla prova le tue abilità di digitazione contro persone reali da tutto il mondo. Competi contro i tuoi amici, tieni traccia del tuo WPM e migliora le tue abilità."
+        />
+        <meta
+          name="keywords"
+          content="giochi di digitazione gratuiti, digitazione, battitura, wpm, software di digitazione, gioco di digitazione, pratica di digitazione, programma di digitazione gratuito, abilità di digitazione"
+        />
+        <meta
+          property="og:description"
+          content="Competizione di corse di digitazione dal vivo"
+        />
+      </Helmet>
+      <MainMenu modeType="italiano" />
+    </>
+  );
+}
+
+export function PortuguesePage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - Português</title>
+        <meta
+          name="description"
+          content="Teste suas habilidades de digitação contra pessoas reais de todo o mundo. Compita contra seus amigos, acompanhe seu WPM e melhore suas habilidades."
+        />
+        <meta
+          name="keywords"
+          content="jogos de digitação gratuitos, digitação, datilografia, wpm, software de digitação, jogo de digitação, prática de digitação, programa de digitação gratuito, habilidades de digitação"
+        />
+        <meta
+          property="og:description"
+          content="Competição de corrida de digitação ao vivo"
+        />
+      </Helmet>
+      <MainMenu modeType="português" />
+    </>
+  );
+}
+
+export function DutchPage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - Nederlands</title>
+        <meta
+          name="description"
+          content="Test je typvaardigheden tegen echte mensen van over de hele wereld. Neem het op tegen je vrienden, houd je WPM bij en verbeter je vaardigheden."
+        />
+        <meta
+          name="keywords"
+          content="gratis typspellen, typen, typewerk, wpm, typsoftware, typspel, typoefening, gratis typprogramma, typvaardigheden"
+        />
+        <meta property="og:description" content="Live typerace-competitie" />
+      </Helmet>
+      <MainMenu modeType="nederlands" />
+    </>
+  );
+}
+
+export function PolishPage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - Polski</title>
+        <meta
+          name="description"
+          content="Sprawdź swoje umiejętności pisania na klawiaturze przeciwko prawdziwym ludziom z całego świata. Rywalizuj ze znajomymi, śledź swoje WPM i popraw swoje umiejętności."
+        />
+        <meta
+          name="keywords"
+          content="darmowe gry do pisania na klawiaturze, pisanie na klawiaturze, maszynopisanie, wpm, oprogramowanie do pisania, gra w pisanie, ćwiczenie pisania, darmowy program do pisania, umiejętności pisania"
+        />
+        <meta
+          property="og:description"
+          content="Konkurs wyścigów pisania na żywo"
+        />
+      </Helmet>
+      <MainMenu modeType="polski" />
+    </>
+  );
+}
+
+export function RussianPage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - Русский</title>
+        <meta
+          name="description"
+          content="Проверьте свои навыки печати в соревновании с реальными людьми со всего мира. Соревнуйтесь с друзьями, отслеживайте свой WPM и улучшайте свои навыки."
+        />
+        <meta
+          name="keywords"
+          content="бесплатные игры для печати, печать, набор текста, wpm, программное обеспечение для печати, игра печати, практика печати, бесплатная программа печати, навыки печати"
+        />
+        <meta
+          property="og:description"
+          content="Соревнование по скоростной печати в реальном времени"
+        />
+      </Helmet>
+      <MainMenu modeType="русский" />
+    </>
+  );
+}
+
+export function JapanesePage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - 日本語</title>
+        <meta
+          name="description"
+          content="世界中の実際のユーザーとタイピングスキルを競い合います。友達と競争し、WPMを追跡し、スキルを向上させましょう。"
+        />
+        <meta
+          name="keywords"
+          content="無料タイピングゲーム、タイピング、キーボード入力、wpm、タイピングソフトウェア、タイピングゲーム、タイピング練習、無料タイピングプログラム、タイピングスキル"
+        />
+        <meta property="og:description" content="ライブタイプレース競争" />
+      </Helmet>
+      <MainMenu modeType="日本語" />
+    </>
+  );
+}
+
+export function ChinesePage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - 中文</title>
+        <meta
+          name="description"
+          content="与来自世界各地的真实用户测试您的打字技能。与朋友竞争，追踪您的WPM并提高您的技能。"
+        />
+        <meta
+          name="keywords"
+          content="免费打字游戏、打字、键盘输入、wpm、打字软件、打字游戏、打字练习、免费打字程序、打字技能"
+        />
+        <meta property="og:description" content="实时打字比赛" />
+      </Helmet>
+      <MainMenu modeType="中文" />
+    </>
+  );
+}
+
+export function KoreanPage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - 한국어</title>
+        <meta
+          name="description"
+          content="전 세계의 실제 사용자들과 타자 실력을 겨뤄보세요. 친구들과 경쟁하고, WPM을 추적하고, 실력을 향상시키세요."
+        />
+        <meta
+          name="keywords"
+          content="무료 타자 게임, 타자, 키보드 입력, wpm, 타자 소프트웨어, 타자 게임, 타자 연습, 무료 타자 프로그램, 타자 실력"
+        />
+        <meta property="og:description" content="실시간 타자 레이싱 대회" />
+      </Helmet>
+      <MainMenu modeType="한국어" />
+    </>
+  );
+}
+
+export function ArabicPage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - العربية</title>
+        <meta
+          name="description"
+          content="اختبر مهارات الكتابة لديك ضد أشخاص حقيقيين من جميع أنحاء العالم. تنافس مع أصدقائك، تتبع كلماتك في الدقيقة وحسّن مهاراتك."
+        />
+        <meta
+          name="keywords"
+          content="ألعاب كتابة مجانية، كتابة، طباعة، كلمات في الدقيقة، برنامج كتابة، لعبة كتابة، ممارسة الكتابة، برنامج كتابة مجاني، مهارات الكتابة"
+        />
+        <meta
+          property="og:description"
+          content="مسابقة سباق الكتابة المباشرة"
+        />
+      </Helmet>
+      <MainMenu modeType="العربية" />
+    </>
+  );
+}
+
+export function HindiPage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - हिंदी</title>
+        <meta
+          name="description"
+          content="दुनिया भर के वास्तविक लोगों के खिलाफ अपने टाइपिंग कौशल का परीक्षण करें। अपने दोस्तों के साथ प्रतिस्पर्धा करें, अपने WPM को ट्रैक करें और अपने कौशल में सुधार करें।"
+        />
+        <meta
+          name="keywords"
+          content="मुफ्त टाइपिंग गेम्स, टाइपिंग, टाइपराइटिंग, wpm, टाइपिंग सॉफ्टवेयर, टाइपिंग गेम, टाइपिंग प्रैक्टिस, फ्री टाइपिंग प्रोग्राम, टाइपिंग स्किल्स"
+        />
+        <meta
+          property="og:description"
+          content="लाइव टाइप रेसिंग प्रतियोगिता"
+        />
+      </Helmet>
+      <MainMenu modeType="हिंदी" />
+    </>
+  );
+}
+
+export function TurkishPage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - Türkçe</title>
+        <meta
+          name="description"
+          content="Dünyanın dört bir yanından gerçek insanlara karşı yazma becerilerinizi test edin. Arkadaşlarınızla yarışın, WPM'nizi takip edin ve becerilerinizi geliştirin."
+        />
+        <meta
+          name="keywords"
+          content="ücretsiz yazma oyunları, yazma, daktilo, wpm, yazma yazılımı, yazma oyunu, yazma pratiği, ücretsiz yazma programı, yazma becerileri"
+        />
+        <meta
+          property="og:description"
+          content="Canlı yazı yarışı müsabakası"
+        />
+      </Helmet>
+      <MainMenu modeType="türkçe" />
+    </>
+  );
+}
+
+export function CopypastaPage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - Copypasta Mode</title>
+        <meta
+          name="description"
+          content="Test your typing skills with popular internet copypastas. Race against friends using viral text content and internet memes."
+        />
+        <meta
+          name="keywords"
+          content="typing game, copypasta typing, meme typing, internet copypasta, typing practice, typing test, wpm test"
+        />
+        <meta
+          property="og:description"
+          content="Live type racing with internet copypastas"
+        />
+      </Helmet>
+      <MainMenu modeType="copypastas" />
+    </>
+  );
+}
+
+export function ShakespearePage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - Shakespeare Mode</title>
+        <meta
+          name="description"
+          content="Practice typing with classical literature from William Shakespeare. Improve your typing while enjoying timeless sonnets and play excerpts."
+        />
+        <meta
+          name="keywords"
+          content="Shakespeare typing, literature typing game, classical typing practice, sonnet typing, typing test, wpm practice"
+        />
+        <meta
+          property="og:description"
+          content="Live type racing with Shakespeare's works"
+        />
+      </Helmet>
+      <MainMenu modeType="shakespeare" />
+    </>
+  );
+}
+
+export function HistoricalQuotesPage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - Historical Quotes Mode</title>
+        <meta
+          name="description"
+          content="Type famous historical quotes from world leaders, philosophers, and notable figures. Race against others while learning from history."
+        />
+        <meta
+          name="keywords"
+          content="historical quotes typing, famous quotes typing game, typing practice, history typing, typing test, wpm practice"
+        />
+        <meta
+          property="og:description"
+          content="Live type racing with historical quotes"
+        />
+      </Helmet>
+      <MainMenu modeType="historical-quotes" />
+    </>
+  );
+}
+
+export function TweetsPage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - Tweets Mode</title>
+        <meta
+          name="description"
+          content="Test your typing speed with viral tweets and social media content. Race against others using popular tweet content."
+        />
+        <meta
+          name="keywords"
+          content="tweet typing, social media typing game, typing practice, viral content typing, typing test, wpm practice"
+        />
+        <meta
+          property="og:description"
+          content="Live type racing with popular tweets"
+        />
+      </Helmet>
+      <MainMenu modeType="tweets" />
+    </>
+  );
+}
+
+export function RedditPostsPage() {
+  return (
+    <>
+      <Helmet>
+        <title>typeracing.io - Reddit Posts Mode</title>
+        <meta
+          name="description"
+          content="Practice typing with popular Reddit posts and comments. Race against others using content from your favorite subreddits."
+        />
+        <meta
+          name="keywords"
+          content="Reddit typing, social media typing game, typing practice, Reddit content typing, typing test, wpm practice"
+        />
+        <meta
+          property="og:description"
+          content="Live type racing with Reddit posts"
+        />
+      </Helmet>
+      <MainMenu modeType="reddit-posts" />
     </>
   );
 }

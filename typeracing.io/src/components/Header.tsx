@@ -223,20 +223,6 @@ const KeyboardIcon = () => (
   </svg>
 );
 
-function Group({
-  children,
-  href,
-}: {
-  children: JSX.Element | string;
-  href: string;
-}) {
-  return (
-    <a href={href} className="text-lg font-semibold text-base-500">
-      {children}
-    </a>
-  );
-}
-
 export const Header = () => {
   const onRace = useMatch("/race/*");
   return (
@@ -250,9 +236,6 @@ export const Header = () => {
             <KeyboardIcon />
             <span>typeracing.io</span>
           </Link>
-          <Group href="/languages">Languages</Group>
-          <Group href="/phrases">Phrases</Group>
-          <Group href="/code">Code</Group>
         </div>
         {!onRace && <Profile />}
       </div>

@@ -55,7 +55,7 @@ export const groupedModes: Record<GroupType, Mode[]> = {
     },
     {
       type: "tweets",
-      description: "Type top historical Tweets",
+      description: "Famous tweets",
       name: "Tweets",
       icon: "/logos/twitter.svg",
     },

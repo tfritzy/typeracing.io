@@ -13,7 +13,29 @@ import { Header } from "./components/Header";
 import { FindRace } from "./FindRace";
 import { getAnalytics } from "firebase/analytics";
 import { HelmetProvider } from "react-helmet-async";
-import { FrenchPage, HomePage, LanguagesPage, RacePage } from "./Pages";
+import {
+  ArabicPage,
+  ChinesePage,
+  CopypastaPage,
+  DutchPage,
+  FrenchPage,
+  GermanPage,
+  HindiPage,
+  HistoricalQuotesPage,
+  HomePage,
+  ItalianPage,
+  JapanesePage,
+  KoreanPage,
+  PolishPage,
+  PortuguesePage,
+  RacePage,
+  RedditPostsPage,
+  RussianPage,
+  ShakespearePage,
+  SpanishPage,
+  TurkishPage,
+  TweetsPage,
+} from "./Pages";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC-G5Zk64LNnZ7q7awmIcdT2I0Rys8EZp0",
@@ -85,7 +107,6 @@ function App() {
         <div className="relative flex flex-1 flex-col max-w-[1280px] w-screen mx-2 place-items-center justify-center m-auto">
           <Routes>
             <Route path="/" element={<HomePage />} />
-
             <Route
               path="/race/"
               element={<FindRace user={user} analytics={analytics} />}
@@ -95,8 +116,29 @@ function App() {
               element={<RacePage db={db} user={user} analytics={analytics} />}
             />
 
-            <Route path="/languages" element={<LanguagesPage />} />
             <Route path="/français" element={<FrenchPage />} />
+            <Route path="/español" element={<SpanishPage />} />
+            <Route path="/deutsch" element={<GermanPage />} />
+            <Route path="/italiano" element={<ItalianPage />} />
+            <Route path="/português" element={<PortuguesePage />} />
+            <Route path="/nederlands" element={<DutchPage />} />
+            <Route path="/polski" element={<PolishPage />} />
+            <Route path="/русский" element={<RussianPage />} />
+            <Route path="/日本語" element={<JapanesePage />} />
+            <Route path="/中文" element={<ChinesePage />} />
+            <Route path="/한국어" element={<KoreanPage />} />
+            <Route path="/العربية" element={<ArabicPage />} />
+            <Route path="/हिंदी" element={<HindiPage />} />
+            <Route path="/türkçe" element={<TurkishPage />} />
+
+            <Route path="/copypastas" element={<CopypastaPage />} />
+            <Route path="/shakespeare" element={<ShakespearePage />} />
+            <Route
+              path="/historical-quotes"
+              element={<HistoricalQuotesPage />}
+            />
+            <Route path="/tweets" element={<TweetsPage />} />
+            <Route path="/reddit-posts" element={<RedditPostsPage />} />
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

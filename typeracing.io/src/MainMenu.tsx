@@ -3,6 +3,7 @@ import { TypeBoxButton } from "./TypeBoxButton";
 import { useNavigate } from "react-router-dom";
 import { flatModes, ModeType } from "./modes";
 import { ModeListPage } from "./ModeListPage";
+import { Hotkey } from "./components/Hotkey";
 
 const phrases = [
   "glhf",
@@ -45,6 +46,12 @@ export function MainMenu({ modeType }: { modeType: ModeType }) {
         event.stopPropagation();
         event.preventDefault();
       }
+
+      if (event.key === "Escape" && modeShown) {
+        setModeShown(false);
+        event.stopPropagation();
+        event.preventDefault();
+      }
     };
 
     document.addEventListener("keydown", handleHotkeys);
@@ -52,31 +59,33 @@ export function MainMenu({ modeType }: { modeType: ModeType }) {
     return () => {
       document.removeEventListener("keydown", handleHotkeys);
     };
-  }, [toggleModeShown]);
+  }, [modeShown, toggleModeShown]);
 
   return (
     <>
-      <div className="flex flex-col space-y-36 items-center">
+      <div className="">
         <div className="border-b-2 border-base-700 p-2 shadow-accent w-max">
           <TypeBoxButton phrase={phrase} onPhraseComplete={goToRoute} />
         </div>
-
-        <button
-          className="flex flex-row space-x-3 items-center p-[6px] px-4 border-2 border-base-700 shadow-sm  rounded-full w-max text-base-400"
-          onClick={toggleModeShown}
-        >
-          <img
-            src={mode.icon}
-            className="h-6 w-6 rounded-md border border-base-700"
-          />
-
-          <h1 className="text-2xl">{mode.name}</h1>
-          <div className="border border-base-700 text-base-500 px-2 rounded-sm">
-            /
-          </div>
-        </button>
       </div>
-      <ModeListPage shown={modeShown} />
+      <div className="absolute top-5">
+        <div className="relative flex flex-col space-x-1 items-center text text-base-400">
+          <div className="font-bold mb-1">Mode</div>
+          <button
+            className=" space-x-2 items-center py-1 pl-2 pr-3 border border-base-700 rounded-md w-max text-base-400 flex flex-row shadow-sm shadow-black/25"
+            onClick={toggleModeShown}
+          >
+            <img
+              src={mode.icon}
+              className="h-6 w-6 rounded border border-base-700 brightness-90"
+            />
+
+            <h1 className="text-xl font-semibold">{mode.name}</h1>
+            <Hotkey code="/" />
+          </button>
+          <ModeListPage shown={modeShown} />
+        </div>
+      </div>
     </>
   );
 }
