@@ -246,10 +246,10 @@ function RaceInner({ db, user, analytics }: Props) {
 
     return (
       <div className="flex flex-col items-center">
-        <ActionBar showStats={toggleStats} />
+        <ActionBar showStats={toggleStats} mode={game?.mode} />
       </div>
     );
-  }, [isComplete, toggleStats]);
+  }, [game?.mode, isComplete, toggleStats]);
 
   if (game === null) return <Navigate to="/" />;
   if (game === undefined) return <Spinner text="Found game" />;

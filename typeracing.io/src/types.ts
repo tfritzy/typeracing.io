@@ -1,4 +1,5 @@
 import { Timestamp } from "firebase/firestore";
+import { Mode } from "./modes";
 
 type BotConfig = {
   wpm: number;
@@ -18,6 +19,7 @@ export type Bot = Player & { targetWpm: number };
 
 export type Game = {
   id: string;
+  mode: Mode;
   createdAt: Timestamp;
   players: { [playerId: string]: Player };
   bots: { [botId: string]: Bot };

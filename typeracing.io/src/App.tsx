@@ -108,7 +108,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route
-              path="/race/"
+              path="/search/:mode"
               element={<FindRace user={user} analytics={analytics} />}
             />
             <Route

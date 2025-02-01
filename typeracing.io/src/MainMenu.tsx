@@ -32,7 +32,7 @@ export function MainMenu({ modeType }: { modeType: ModeType }) {
   const mode = flatModes[modeType];
 
   const goToRoute = React.useCallback(() => {
-    navigate("/race?mode=" + mode.type);
+    navigate("/search/" + mode.type);
   }, [mode, navigate]);
 
   const toggleModeShown = React.useCallback(() => {
@@ -72,10 +72,7 @@ export function MainMenu({ modeType }: { modeType: ModeType }) {
               className=" space-x-2 items-center py-1 pl-2 pr-3 border border-base-700 rounded-md w-max text-base-400 flex flex-row shadow-sm shadow-black/25"
               onClick={toggleModeShown}
             >
-              <img
-                src={mode.icon}
-                className="h-6 w-6 rounded border border-base-700 brightness-90"
-              />
+              <img src={mode.icon} className="h-6 w-6 rounded brightness-90" />
 
               <h1 className="text-xl font-semibold">{mode.name}</h1>
               <Hotkey code="/" />

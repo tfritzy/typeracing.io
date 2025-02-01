@@ -5,10 +5,58 @@ import { getAuth } from "firebase-admin/auth";
 import { BotNames } from "./botNameGenerator.js";
 import { getPhrase } from "./getPhrase.js";
 
-initializeApp();
+// Initialize Firebase
+initializeApp({ projectId: "typeracing-io" });
 const db = getFirestore();
 const auth = getAuth();
 
+type BotConfig = {
+  wpm: number;
+};
+
+export type Player = {
+  name: string;
+  id: string;
+  progress: number;
+  wpm: number;
+  joinTime: Timestamp;
+  place: number;
+  botConfig?: BotConfig;
+};
+
+export type Bot = Player & { targetWpm: number };
+
+export type Game = {
+  createdTime: Timestamp;
+  id: string;
+  players: { [playerId: string]: Player };
+  bots: { [botId: string]: Bot };
+  phrase: string;
+  status: "in_progress" | "waiting";
+  botFillTime: Timestamp;
+  startTime: Timestamp;
+  mode: string;
+};
+
+interface FindGameRequest {
+  displayName: string;
+  mode: string;
+}
+
+interface FindGameResponse {
+  id: string;
+  message: string;
+}
+
+interface FillGameWithBotsRequest {
+  gameId: string;
+}
+
+interface FillGameWithBotsResponse {
+  message: string;
+}
+
+// Cloud Functions
 export const findGame = onRequest({ cors: true }, async (req, res) => {
   try {
     // Handle preflight requests
@@ -20,7 +68,7 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
       return;
     }
 
-    const { displayName, mode } = req.body;
+    const { displayName, mode } = req.body as FindGameRequest;
 
     // Get the authorization token
     const authHeader = req.headers.authorization;
@@ -44,22 +92,24 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
           .where("status", "==", "waiting")
           .where("createdTime", ">=", thirtySecondsAgo)
           .get();
-        const games = [];
+
+        const games: Array<{ id: string } & Game> = [];
         querySnapshot.forEach((doc) => {
           games.push({
+            ...(doc.data() as Game),
             id: doc.id,
-            ...doc.data(),
           });
         });
 
         const now = Timestamp.now();
-        let gameId;
+        let gameId: string;
+
         if (games.length) {
           gameId = games[0].id;
           await db.runTransaction(async (transaction) => {
             const gameRef = db.collection("games").doc(games[0].id);
             const gameDoc = await transaction.get(gameRef);
-            const gameData = gameDoc.data();
+            const gameData = gameDoc.data() as Game;
 
             const playerCount = Object.keys(gameData.players || {}).length;
             if (playerCount >= 4) {
@@ -86,16 +136,15 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
             });
           });
         } else {
-          const game = await db.collection("games").add({
-            createdBy: uid,
+          const newGame: Omit<Game, "id"> = {
             createdTime: Timestamp.now(),
             botFillTime: new Timestamp(now.seconds + 7, now.nanoseconds),
             startTime: new Timestamp(now.seconds + 10000, now.nanoseconds),
             status: "waiting",
-            bots: [],
+            mode: mode || "english",
+            bots: {},
             players: {
               [uid]: {
-                // player
                 progress: 0,
                 wpm: 0,
                 id: uid,
@@ -105,20 +154,23 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
               },
             },
             phrase: phrase,
-          });
+          };
+
+          const game = await db.collection("games").add(newGame);
           gameId = game.id;
         }
 
-        res.json({
+        const response: FindGameResponse = {
           id: gameId,
           message: "Found game successfully",
-        });
+        };
+        res.json(response);
         break;
       }
       default:
         res.status(405).json({ error: "Method not allowed" });
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error processing request:", error);
     if (
       error.code === "auth/id-token-expired" ||
@@ -154,7 +206,7 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
 
     switch (req.method) {
       case "POST": {
-        const { gameId } = req.body;
+        const { gameId } = req.body as FillGameWithBotsRequest;
         if (!gameId) {
           res.status(400).json({ error: "Game ID is required" });
           return;
@@ -169,7 +221,7 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
             throw new Error("Game not found");
           }
 
-          const gameData = gameDoc.data();
+          const gameData = gameDoc.data() as Game;
 
           if (!gameData.players[uid]) {
             throw new Error("Must be in game to make this request");
@@ -182,40 +234,39 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
             throw new Error("Game is already full");
           }
 
-          const botPlayers = {};
+          const botPlayers: Record<string, Player> = {};
           const now = Timestamp.now();
+
           for (let i = 0; i < botsNeeded; i++) {
             const botId = `bot-${Date.now()}-${i}`;
             const targetWpm = Math.floor((Math.random() - 0.5) * 40 + 50);
             botPlayers[botId] = {
-              // player
               progress: 0,
               wpm: 0,
               id: botId,
               place: -1,
               joinTime: new Timestamp(now.seconds + i, now.nanoseconds),
-              isBot: true,
               name: BotNames.generateName(targetWpm),
-              targetWpm: targetWpm,
             };
           }
 
           transaction.update(gameRef, {
-            status: "in_progress",
+            status: "in_progress" as const,
             startTime: new Timestamp(now.seconds + 3, now.nanoseconds),
             bots: botPlayers,
           });
         });
 
-        res.json({
+        const response: FillGameWithBotsResponse = {
           message: "thumbs up",
-        });
+        };
+        res.json(response);
         break;
       }
       default:
         res.status(405).json({ error: "Method not allowed" });
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error processing request:", error);
     if (
       error.code === "auth/id-token-expired" ||
@@ -223,7 +274,6 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
     ) {
       res.status(401).json({ error: "Invalid or expired token" });
     } else if (error.message) {
-      // Handle custom error messages from the transaction
       res.status(400).json({ error: error.message });
     } else {
       res.status(500).json({ error: "Internal server error" });

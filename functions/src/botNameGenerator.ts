@@ -38,7 +38,7 @@ export class BotNames {
     ["on the Fritz", "", "", "", "", "", ""],
   ];
 
-  static getCategoryForWpm(wpm) {
+  static getCategoryForWpm(wpm: number) {
     if (wpm > 80) {
       return 0;
     } else if (wpm > 30) {
@@ -48,7 +48,7 @@ export class BotNames {
     }
   }
 
-  static generateName(wpm) {
+  static generateName(wpm: number) {
     const category = this.getCategoryForWpm(wpm);
     const prefix =
       this.prefixes[category][

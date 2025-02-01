@@ -1,17 +1,19 @@
 import { useCallback, useEffect } from "react";
 import { Hotkey } from "./Hotkey";
 import { useNavigate } from "react-router-dom";
+import { Mode } from "../modes";
 
 type Props = {
   showStats: () => void;
+  mode: Mode | undefined;
 };
 
-export function ActionBar({ showStats }: Props) {
+export function ActionBar({ showStats, mode }: Props) {
   const navigate = useNavigate();
 
   const playAgain = useCallback(async () => {
-    navigate("/race");
-  }, [navigate]);
+    navigate("/search/" + mode);
+  }, [mode, navigate]);
 
   const returnToMainMenu = useCallback(
     async (e: { preventDefault: () => void }) => {

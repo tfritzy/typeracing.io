@@ -14,7 +14,8 @@ function getFindGameUrl() {
 export async function findGame(
   user: User,
   navigate: NavigateFunction,
-  analytics: Analytics
+  analytics: Analytics,
+  mode: string
 ) {
   const token = await user.getIdToken();
 
@@ -28,6 +29,7 @@ export async function findGame(
     },
     body: JSON.stringify({
       displayName: name,
+      mode: mode,
     }),
   });
 
