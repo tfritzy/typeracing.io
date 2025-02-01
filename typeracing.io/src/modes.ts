@@ -22,7 +22,7 @@ export type PhraseType =
   | "shakespeare"
   | "historical-quotes"
   | "tweets"
-  | "reddit-posts";
+  | "reddit";
 
 export type GroupType = "languages" | "phrases";
 
@@ -37,7 +37,7 @@ export const groupedModes: Record<GroupType, Mode[]> = {
   phrases: [
     {
       type: "copypastas",
-      description: "Copypastas, but you're not allowed to pasta",
+      description: "Copypastas, but no pasta",
       name: "Copypastas",
       icon: "/logos/spaghetti.svg",
     },
@@ -60,9 +60,9 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       icon: "/logos/twitter.svg",
     },
     {
-      type: "reddit-posts",
+      type: "reddit",
       description: "Top reddit comments",
-      name: "Reddit Comments",
+      name: "Reddit",
       icon: "/logos/reddit.svg",
     },
   ],

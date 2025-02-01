@@ -1,17 +1,18 @@
-import { words } from "./words.js";
+import { english } from "./english.js";
+import { french } from "./french.js";
 
 export const getRandomElements = (arr, n) =>
   arr.sort(() => Math.random() - 0.5).slice(0, n);
 
 export function getPhrase(mode) {
+  const numWords = 15 + Math.floor(Math.random() * 10);
+
   switch (mode) {
-    case "200":
-      return getRandomElements(words.slice(0, 200), 30);
-    case "500":
-      return getRandomElements(words.slice(0, 500), 30);
-    case "1000":
-      return getRandomElements(words.slice(0, 1000), 30);
+    case "english":
+      return getRandomElements(english.slice(0, 500), numWords);
+    case "français":
+      return getRandomElements(french.slice(0, 500), numWords);
     default:
-      return getRandomElements(words.slice(0, 200), 30);
+      return getRandomElements(english.slice(0, 500), numWords);
   }
 }

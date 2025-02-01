@@ -503,7 +503,7 @@ export function RedditPostsPage() {
           content="Live type racing with Reddit posts"
         />
       </Helmet>
-      <MainMenu modeType="reddit-posts" />
+      <MainMenu modeType="reddit" />
     </>
   );
 }

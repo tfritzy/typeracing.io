@@ -2,10 +2,31 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { groupedModes } from "./modes";
 import { Link } from "react-router-dom";
 
-export const ModeListPage = ({ shown }: { shown: boolean }) => {
+export const ModeListPage = ({
+  shown,
+  onClose,
+}: {
+  shown: boolean;
+  onClose: () => void;
+}) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [searchQuery, setSearchQuery] = useState("");
   const searchRef = useRef<HTMLElement>();
+
+  useEffect(() => {
+    const handleHotkeys = async (event: KeyboardEvent) => {
+      if (event.key === "Escape" && shown) {
+        searchRef.current?.blur();
+        event.stopPropagation();
+      }
+    };
+
+    document.addEventListener("keydown", handleHotkeys);
+
+    return () => {
+      document.removeEventListener("keydown", handleHotkeys);
+    };
+  }, [onClose, shown]);
 
   const [modesElements, numElements] = useMemo(() => {
     const modeEls = [];
@@ -111,7 +132,7 @@ export const ModeListPage = ({ shown }: { shown: boolean }) => {
     return () => {
       document.removeEventListener("keydown", handleHotkeys);
     };
-  }, [selectedIndex, modesElements, numElements, shown]);
+  }, [selectedIndex, modesElements, numElements, shown, onClose]);
 
   useEffect(() => {
     if (shown) {
@@ -145,29 +166,31 @@ export const ModeListPage = ({ shown }: { shown: boolean }) => {
   }, [selectedIndex]);
 
   return (
-    <div
-      className="absolute top-[70px] bg-base-800 border border-base-700 rounded-lg shadow-lg shadow-black/50  w-[600px] overflow-y-auto transition-all"
-      style={{
-        opacity: shown ? 1 : 0,
-        pointerEvents: shown ? "auto" : "none",
-        transform: shown ? "translate(-0%,-0%)" : "translate(-0%, -20px)",
-      }}
-    >
-      <div className="border-b border-base-700">
-        <input
-          className="w-full bg-base-700 text-lg px-4 py-2 
-                   outline-none focus:bg-base-800 
-                   text-base-400 placeholder-base-400"
-          placeholder="Search..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          autoFocus
-          ref={searchRef}
-        />
+    <>
+      <div
+        className="fixed top-1/2 left-1/2 bg-base-800 border border-base-700 rounded-lg shadow-lg shadow-black/50 w-[600px] overflow-y-auto transition-all"
+        style={{
+          opacity: shown ? 1 : 0,
+          pointerEvents: shown ? "auto" : "none",
+          transform: shown ? "translate(-50%,-50%)" : "translate(-50%, -45%)",
+        }}
+      >
+        <div className="border-b border-base-700">
+          <input
+            className="w-full text-lg px-4 py-2 outline-none bg-base-800 text-base-400 placeholder-base-400"
+            placeholder="Search..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            autoFocus
+            ref={searchRef}
+            onBlur={onClose}
+            disabled={!shown}
+          />
+        </div>
+        <div className="h-[600px] overflow-y-auto p-4">
+          <div className="grid grid-cols-2 gap-4">{modesElements}</div>
+        </div>
       </div>
-      <div className="h-[800px] overflow-y-auto p-4">
-        <div className="grid grid-cols-2 gap-4">{modesElements}</div>
-      </div>
-    </div>
+    </>
   );
 };
