@@ -7,22 +7,12 @@ export type LanguageType =
   | "deutsch"
   | "italiano"
   | "português"
-  | "nederlands"
+  | "dutch"
   | "polski"
   | "русский"
-  | "日本語"
-  | "中文"
-  | "한국어"
-  | "العربية"
-  | "हिंदी"
-  | "türkçe";
+  | "हिंदी";
 
-export type PhraseType =
-  | "copypastas"
-  | "shakespeare"
-  | "historical-quotes"
-  | "tweets"
-  | "reddit";
+export type PhraseType = "copypastas" | "shakespeare" | "reddit";
 
 export type GroupType = "languages" | "phrases";
 
@@ -46,18 +36,6 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       description: "Famous Shakespeare lines",
       name: "Shakespeare",
       icon: "/logos/performing-arts.svg",
-    },
-    {
-      type: "historical-quotes",
-      description: "Phrases of famous historical quotes",
-      name: "Historical Quotes",
-      icon: "/logos/scroll.svg ",
-    },
-    {
-      type: "tweets",
-      description: "Famous tweets",
-      name: "Tweets",
-      icon: "/logos/twitter.svg",
     },
     {
       type: "reddit",
@@ -104,8 +82,8 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       icon: "/flags/pt.svg",
     },
     {
-      type: "nederlands",
-      name: "Nederlands",
+      type: "dutch",
+      name: "Dutch",
       description: "Phrases of common Dutch words",
       icon: "/flags/nl.svg",
     },
@@ -122,40 +100,10 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       icon: "/flags/ru.svg",
     },
     {
-      type: "日本語",
-      name: "日本語",
-      description: "Phrases of common Japanese words",
-      icon: "/flags/jp.svg",
-    },
-    {
-      type: "中文",
-      name: "中文",
-      description: "Phrases of common Chinese words",
-      icon: "/flags/cn.svg",
-    },
-    {
-      type: "한국어",
-      name: "한국어",
-      description: "Phrases of common Korean words",
-      icon: "/flags/kr.svg",
-    },
-    {
-      type: "العربية",
-      name: "العربية",
-      description: "Phrases of common Arabic words",
-      icon: "/flags/sa.svg",
-    },
-    {
       type: "हिंदी",
       name: "हिंदी",
       description: "Phrases of common Hindi words",
       icon: "/flags/in.svg",
-    },
-    {
-      type: "türkçe",
-      name: "Türkçe",
-      description: "Phrases of common Turkish words",
-      icon: "/flags/tr.svg",
     },
   ],
 };

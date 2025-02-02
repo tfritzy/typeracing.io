@@ -11,7 +11,7 @@ export const ModeListPage = ({
 }) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [searchQuery, setSearchQuery] = useState("");
-  const searchRef = useRef<HTMLElement>();
+  const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handleHotkeys = async (event: KeyboardEvent) => {
@@ -64,6 +64,8 @@ export const ModeListPage = ({
             }}
             aria-selected={index === selectedIndex}
             tabIndex={-1}
+            onMouseUp={(e) => e.preventDefault()}
+            onMouseDown={(e) => e.preventDefault()}
           >
             <div className="text-left">
               <div className="flex flex-row items-center space-x-2">

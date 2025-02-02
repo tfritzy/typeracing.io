@@ -13,12 +13,12 @@ import { Spinner } from "./components/Spinner";
 import { TypeBox } from "./TypeBox";
 import { Players } from "./components/Players";
 import { ActionBar } from "./components/ActionBar";
-import { FILL_GAME } from "./constants";
 import { Countdown } from "./components/Countdown";
 import { GoLabel } from "./components/GoLabel";
 import { KeyStroke } from "./stats";
 import { StatsModal } from "./StatsModal";
 import { Analytics, logEvent } from "firebase/analytics";
+import { getFillGameUrl } from "./helpers";
 
 interface Props {
   db: Firestore;
@@ -124,7 +124,7 @@ function RaceInner({ db, user, analytics }: Props) {
         return;
       }
 
-      await fetch(FILL_GAME, {
+      await fetch(getFillGameUrl(), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

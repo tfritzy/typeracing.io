@@ -7,15 +7,15 @@ export const Header = () => {
   const onMainMenu = useMatch("/race");
 
   return (
-    <div className="p-2 flex flex-row space-x-1 items-center justify-center bg-base-800-50 border-b border-base-600">
+    <div className="p-2 flex flex-row space-x-1 items-center justify-center bg-base-800-50">
       <div className="max-w-[900px] w-full flex flex-row justify-between text-md">
         <div className="flex flex-row space-x-2 items-center">
           <Link
             to="/"
             className="font-bold flex flex-row logo px-2 py-1 rounded-lg text-lg"
           >
-            <span className="">type</span>
-            <span className="">racing</span>
+            <span className="">Type</span>
+            <span className="">Racing</span>
             <span className="text-accent">.io</span>
           </Link>
 
@@ -29,11 +29,6 @@ export const Header = () => {
             }}
           >
             <div>Race</div>
-            {/* {onRace ? (
-              <WhiteFlagSolid className="w-4 h-4" />
-            ) : (
-              <WhiteFlag className="w-4 h-4" />
-            )} */}
           </Link>
 
           <div className="h-3/4 border-r border-base-700 w-[1px]" />

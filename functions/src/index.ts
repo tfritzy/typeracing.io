@@ -10,6 +10,10 @@ initializeApp({ projectId: "typeracing-io" });
 const db = getFirestore();
 const auth = getAuth();
 
+// if (process.env.NODE_ENV === "development") {
+//   connectFirestoreEmulator(auth, "http://localhost:8080");
+// }
+
 type BotConfig = {
   wpm: number;
 };
@@ -68,7 +72,8 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
       return;
     }
 
-    const { displayName, mode } = req.body as FindGameRequest;
+    let { displayName, mode } = req.body as FindGameRequest;
+    mode ||= "english";
 
     // Get the authorization token
     const authHeader = req.headers.authorization;
@@ -91,6 +96,7 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
           .collection("games")
           .where("status", "==", "waiting")
           .where("createdTime", ">=", thirtySecondsAgo)
+          .where("mode", "==", mode)
           .get();
 
         const games: Array<{ id: string } & Game> = [];

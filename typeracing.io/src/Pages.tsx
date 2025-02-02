@@ -202,7 +202,7 @@ export function DutchPage() {
   return (
     <>
       <Helmet>
-        <title>typeracing.io - Nederlands</title>
+        <title>typeracing.io - Dutch</title>
         <meta
           name="description"
           content="Test je typvaardigheden tegen echte mensen van over de hele wereld. Neem het op tegen je vrienden, houd je WPM bij en verbeter je vaardigheden."
@@ -213,7 +213,7 @@ export function DutchPage() {
         />
         <meta property="og:description" content="Live typerace-competitie" />
       </Helmet>
-      <MainMenu modeType="nederlands" />
+      <MainMenu modeType="dutch" />
     </>
   );
 }
@@ -264,89 +264,6 @@ export function RussianPage() {
   );
 }
 
-export function JapanesePage() {
-  return (
-    <>
-      <Helmet>
-        <title>typeracing.io - 日本語</title>
-        <meta
-          name="description"
-          content="世界中の実際のユーザーとタイピングスキルを競い合います。友達と競争し、WPMを追跡し、スキルを向上させましょう。"
-        />
-        <meta
-          name="keywords"
-          content="無料タイピングゲーム、タイピング、キーボード入力、wpm、タイピングソフトウェア、タイピングゲーム、タイピング練習、無料タイピングプログラム、タイピングスキル"
-        />
-        <meta property="og:description" content="ライブタイプレース競争" />
-      </Helmet>
-      <MainMenu modeType="日本語" />
-    </>
-  );
-}
-
-export function ChinesePage() {
-  return (
-    <>
-      <Helmet>
-        <title>typeracing.io - 中文</title>
-        <meta
-          name="description"
-          content="与来自世界各地的真实用户测试您的打字技能。与朋友竞争，追踪您的WPM并提高您的技能。"
-        />
-        <meta
-          name="keywords"
-          content="免费打字游戏、打字、键盘输入、wpm、打字软件、打字游戏、打字练习、免费打字程序、打字技能"
-        />
-        <meta property="og:description" content="实时打字比赛" />
-      </Helmet>
-      <MainMenu modeType="中文" />
-    </>
-  );
-}
-
-export function KoreanPage() {
-  return (
-    <>
-      <Helmet>
-        <title>typeracing.io - 한국어</title>
-        <meta
-          name="description"
-          content="전 세계의 실제 사용자들과 타자 실력을 겨뤄보세요. 친구들과 경쟁하고, WPM을 추적하고, 실력을 향상시키세요."
-        />
-        <meta
-          name="keywords"
-          content="무료 타자 게임, 타자, 키보드 입력, wpm, 타자 소프트웨어, 타자 게임, 타자 연습, 무료 타자 프로그램, 타자 실력"
-        />
-        <meta property="og:description" content="실시간 타자 레이싱 대회" />
-      </Helmet>
-      <MainMenu modeType="한국어" />
-    </>
-  );
-}
-
-export function ArabicPage() {
-  return (
-    <>
-      <Helmet>
-        <title>typeracing.io - العربية</title>
-        <meta
-          name="description"
-          content="اختبر مهارات الكتابة لديك ضد أشخاص حقيقيين من جميع أنحاء العالم. تنافس مع أصدقائك، تتبع كلماتك في الدقيقة وحسّن مهاراتك."
-        />
-        <meta
-          name="keywords"
-          content="ألعاب كتابة مجانية، كتابة، طباعة، كلمات في الدقيقة، برنامج كتابة، لعبة كتابة، ممارسة الكتابة، برنامج كتابة مجاني، مهارات الكتابة"
-        />
-        <meta
-          property="og:description"
-          content="مسابقة سباق الكتابة المباشرة"
-        />
-      </Helmet>
-      <MainMenu modeType="العربية" />
-    </>
-  );
-}
-
 export function HindiPage() {
   return (
     <>
@@ -366,29 +283,6 @@ export function HindiPage() {
         />
       </Helmet>
       <MainMenu modeType="हिंदी" />
-    </>
-  );
-}
-
-export function TurkishPage() {
-  return (
-    <>
-      <Helmet>
-        <title>typeracing.io - Türkçe</title>
-        <meta
-          name="description"
-          content="Dünyanın dört bir yanından gerçek insanlara karşı yazma becerilerinizi test edin. Arkadaşlarınızla yarışın, WPM'nizi takip edin ve becerilerinizi geliştirin."
-        />
-        <meta
-          name="keywords"
-          content="ücretsiz yazma oyunları, yazma, daktilo, wpm, yazma yazılımı, yazma oyunu, yazma pratiği, ücretsiz yazma programı, yazma becerileri"
-        />
-        <meta
-          property="og:description"
-          content="Canlı yazı yarışı müsabakası"
-        />
-      </Helmet>
-      <MainMenu modeType="türkçe" />
     </>
   );
 }
@@ -435,52 +329,6 @@ export function ShakespearePage() {
         />
       </Helmet>
       <MainMenu modeType="shakespeare" />
-    </>
-  );
-}
-
-export function HistoricalQuotesPage() {
-  return (
-    <>
-      <Helmet>
-        <title>typeracing.io - Historical Quotes Mode</title>
-        <meta
-          name="description"
-          content="Type famous historical quotes from world leaders, philosophers, and notable figures. Race against others while learning from history."
-        />
-        <meta
-          name="keywords"
-          content="historical quotes typing, famous quotes typing game, typing practice, history typing, typing test, wpm practice"
-        />
-        <meta
-          property="og:description"
-          content="Live type racing with historical quotes"
-        />
-      </Helmet>
-      <MainMenu modeType="historical-quotes" />
-    </>
-  );
-}
-
-export function TweetsPage() {
-  return (
-    <>
-      <Helmet>
-        <title>typeracing.io - Tweets Mode</title>
-        <meta
-          name="description"
-          content="Test your typing speed with viral tweets and social media content. Race against others using popular tweet content."
-        />
-        <meta
-          name="keywords"
-          content="tweet typing, social media typing game, typing practice, viral content typing, typing test, wpm practice"
-        />
-        <meta
-          property="og:description"
-          content="Live type racing with popular tweets"
-        />
-      </Helmet>
-      <MainMenu modeType="tweets" />
     </>
   );
 }

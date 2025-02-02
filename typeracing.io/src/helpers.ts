@@ -3,6 +3,14 @@ import { User } from "firebase/auth";
 import Cookies from "js-cookie";
 import { Analytics, logEvent } from "firebase/analytics";
 
+export function getFillGameUrl() {
+  if (process.env.NODE_ENV === "development") {
+    return "http://127.0.0.1:5001/typeracing-io/us-central1/fillGameWithBots";
+  } else {
+    return "https://fillgamewithbots-ifdmb3m76a-uc.a.run.app";
+  }
+}
+
 function getFindGameUrl() {
   if (process.env.NODE_ENV === "development") {
     return "http://127.0.0.1:5001/typeracing-io/us-central1/findGame";

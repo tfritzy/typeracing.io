@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FirebaseError, initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 import {
   getAuth,
   onAuthStateChanged,
@@ -14,8 +14,6 @@ import { FindRace } from "./FindRace";
 import { getAnalytics } from "firebase/analytics";
 import { HelmetProvider } from "react-helmet-async";
 import {
-  ArabicPage,
-  ChinesePage,
   CopypastaPage,
   DutchPage,
   FrenchPage,
@@ -24,8 +22,6 @@ import {
   HistoricalQuotesPage,
   HomePage,
   ItalianPage,
-  JapanesePage,
-  KoreanPage,
   PolishPage,
   PortuguesePage,
   RacePage,
@@ -33,7 +29,6 @@ import {
   RussianPage,
   ShakespearePage,
   SpanishPage,
-  TurkishPage,
   TweetsPage,
 } from "./Pages";
 
@@ -51,6 +46,10 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 const analytics = getAnalytics(app);
+
+if (process.env.NODE_ENV === "development") {
+  connectFirestoreEmulator(db, "localhost", 8080);
+}
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -121,15 +120,10 @@ function App() {
             <Route path="/deutsch" element={<GermanPage />} />
             <Route path="/italiano" element={<ItalianPage />} />
             <Route path="/português" element={<PortuguesePage />} />
-            <Route path="/nederlands" element={<DutchPage />} />
+            <Route path="/dutch" element={<DutchPage />} />
             <Route path="/polski" element={<PolishPage />} />
             <Route path="/русский" element={<RussianPage />} />
-            <Route path="/日本語" element={<JapanesePage />} />
-            <Route path="/中文" element={<ChinesePage />} />
-            <Route path="/한국어" element={<KoreanPage />} />
-            <Route path="/العربية" element={<ArabicPage />} />
             <Route path="/हिंदी" element={<HindiPage />} />
-            <Route path="/türkçe" element={<TurkishPage />} />
 
             <Route path="/copypastas" element={<CopypastaPage />} />
             <Route path="/shakespeare" element={<ShakespearePage />} />
@@ -138,7 +132,7 @@ function App() {
               element={<HistoricalQuotesPage />}
             />
             <Route path="/tweets" element={<TweetsPage />} />
-            <Route path="/reddit-posts" element={<RedditPostsPage />} />
+            <Route path="/reddit" element={<RedditPostsPage />} />
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
