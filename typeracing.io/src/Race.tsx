@@ -167,12 +167,19 @@ function RaceInner({ db, user, analytics }: Props) {
           [key: `bots.${string}.wpm`]: number;
           [key: `bots.${string}.place`]: number;
         } = {};
-        let highestPlace = Math.max(
-          ...Object.values(game.players).map((p) => p.place),
-          ...Object.values(game.bots).map((b) => b.place)
-        );
+        let highestPlace = 0;
+        const players = game.players;
+        const bots = game.bots;
+        for (const id in players) {
+          const place = players[id].place;
+          if (place > highestPlace) highestPlace = place;
+        }
+        for (const id in bots) {
+          const place = bots[id].place;
+          if (place > highestPlace) highestPlace = place;
+        }
 
-        for (const b of Object.values(game.bots)) {
+        for (const b of Object.values(bots)) {
           const expectedCharacterCount =
             (elapsedSeconds / 60) * b.targetWpm * 5;
           const expectedProgress = Math.min(
@@ -180,17 +187,25 @@ function RaceInner({ db, user, analytics }: Props) {
             100
           );
 
-          if (
-            expectedProgress - b.progress > 5 ||
-            (expectedProgress === 100 && b.progress !== 100)
-          ) {
-            updateObject[`bots.${b.id}.progress`] = expectedProgress;
-            updateObject[`bots.${b.id}.wpm`] = b.targetWpm;
+          if (expectedProgress - b.progress > 5) {
+            updateObject[`bots.${b.id}.progress`] = Math.min(
+              expectedProgress,
+              b.progress + 5
+            );
+          } else if (expectedProgress >= 100 && b.progress < 100) {
+            updateObject[`bots.${b.id}.progress`] = Math.min(
+              100,
+              b.progress + 5
+            );
+          }
 
-            if (expectedProgress >= 100) {
-              highestPlace++;
-              updateObject[`bots.${b.id}.place`] = highestPlace;
-            }
+          if (expectedProgress >= 100 && b.progress < 100) {
+            highestPlace++;
+            updateObject[`bots.${b.id}.place`] = highestPlace;
+          }
+
+          if (b.wpm !== b.targetWpm) {
+            updateObject[`bots.${b.id}.wpm`] = b.targetWpm;
           }
         }
 
@@ -201,7 +216,7 @@ function RaceInner({ db, user, analytics }: Props) {
           });
         }
       }
-    }, 250);
+    }, 500);
 
     return () => clearInterval(intervalId);
   }, [game?.startTime, docRef, game?.bots, game?.players, game?.phrase.length]);

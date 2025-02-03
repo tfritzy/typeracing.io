@@ -26,7 +26,7 @@ function PlayerComponent({
 }) {
   return (
     <div className="text-base-300">
-      <div className="flex flex-row justify-between items-end mb-1 pl-1 pr-3">
+      <div className="flex flex-row justify-between items-end mb-2 pl-1 pr-3">
         <div className="flex flex-row space-x-2">
           <div>
             {name || "Unknown player"} {isSelf && <span>(You)</span>}

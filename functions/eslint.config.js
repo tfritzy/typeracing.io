@@ -1,9 +1,32 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
+import tseslint from "@typescript-eslint/eslint-plugin";
+import tsparser from "@typescript-eslint/parser";
 
-
-/** @type {import('eslint').Linter.Config[]} */
 export default [
-  {languageOptions: { globals: globals.browser }},
-  pluginJs.configs.recommended,
+  {
+    files: ["**/*.js", "**/*.ts"],
+    languageOptions: {
+      sourceType: "commonjs",
+      ecmaVersion: "latest",
+      globals: {
+        // Add Node.js globals
+        exports: "writable",
+        module: "writable",
+        require: "readonly",
+        __dirname: "readonly",
+        __filename: "readonly",
+        process: "readonly",
+      },
+      parser: tsparser,
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "commonjs",
+      },
+    },
+    plugins: {
+      "@typescript-eslint": tseslint,
+    },
+    rules: {
+      // Your rules here
+    },
+  },
 ];

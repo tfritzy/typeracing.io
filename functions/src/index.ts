@@ -9,10 +9,6 @@ initializeApp({ projectId: "typeracing-io" });
 const db = getFirestore();
 const auth = getAuth();
 
-type BotConfig = {
-  wpm: number;
-};
-
 export type Player = {
   name: string;
   id: string;
@@ -20,7 +16,6 @@ export type Player = {
   wpm: number;
   joinTime: Timestamp;
   place: number;
-  botConfig?: BotConfig;
 };
 
 export type Bot = Player & { targetWpm: number };
@@ -235,7 +230,7 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
             throw new Error("Game is already full");
           }
 
-          const botPlayers: Record<string, Player> = {};
+          const botPlayers: Record<string, Bot> = {};
           const now = Timestamp.now();
 
           for (let i = 0; i < botsNeeded; i++) {
@@ -248,6 +243,7 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
               place: -1,
               joinTime: new Timestamp(now.seconds + i, now.nanoseconds),
               name: BotNames.generateName(targetWpm),
+              targetWpm: targetWpm,
             };
           }
 

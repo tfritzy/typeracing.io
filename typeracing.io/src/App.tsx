@@ -101,7 +101,7 @@ function App() {
     <HelmetProvider>
       <BrowserRouter>
         <Header />
-        <div className="relative flex flex-1 flex-col max-w-[1280px] w-screen px-20 place-items-center justify-center m-auto overflow-hidden">
+        <div className="relative flex flex-1 flex-col max-w-[1280px] w-screen px-32 place-items-center justify-center m-auto overflow-hidden">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route
