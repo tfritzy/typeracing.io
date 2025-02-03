@@ -15,7 +15,7 @@ import { Players } from "./components/Players";
 import { ActionBar } from "./components/ActionBar";
 import { Countdown } from "./components/Countdown";
 import { GoLabel } from "./components/GoLabel";
-import { KeyStroke } from "./stats";
+import { getWpm, KeyStroke } from "./stats";
 import { StatsModal } from "./StatsModal";
 import { Analytics, logEvent } from "firebase/analytics";
 import { getFillGameUrl } from "./helpers";
@@ -81,22 +81,19 @@ function RaceInner({ db, user, analytics }: Props) {
         );
       }
 
-      setKeystrokes([...keystrokes, ...newKeystrokes]);
+      const allKeystrokes = [...keystrokes, ...newKeystrokes];
+
+      setKeystrokes(allKeystrokes);
       setLockedCharacterIndex(charIndex);
 
       if (!docRef || !game) return;
 
-      const timeElapsedMinutes =
-        (Date.now() - game.startTime.seconds * 1000) / 1000 / 60;
-      const wpm =
-        timeElapsedMinutes > 0
-          ? Math.round(charIndex / 5 / timeElapsedMinutes)
-          : 0;
+      const wpm = getWpm(allKeystrokes);
 
       const updateObject = {
         [`players.${user.uid}.progress`]:
           (charIndex / game.phrase.length) * 100,
-        [`players.${user.uid}.wpm`]: wpm,
+        [`players.${user.uid}.wpm`]: wpm.toFixed(0),
       };
 
       if (charIndex >= game.phrase.length) {
@@ -272,39 +269,42 @@ function RaceInner({ db, user, analytics }: Props) {
 
   const isLocked = Timestamp.now() < game.startTime || isComplete;
   return (
-    <div className="p-4 flex flex-col space-y-6" key={gameId}>
-      <Players
-        players={Object.values(game.players).sort(
-          (a, b) => a.joinTime.seconds - b.joinTime.seconds
-        )}
-        bots={Object.values(game.bots).sort(
-          (a, b) => a.joinTime.seconds - b.joinTime.seconds
-        )}
-        user={user}
-      />
-      <div className="">
-        <div className="bg-base-700 max-w-fit rounded-t-lg px-4 text-base-400 font-bold py-[2px]">
-          {message}
-        </div>
-        <div className="relative border-4 rounded-b-lg rounded-r-lg border-base-700 px-4 py-3">
-          <div className="absolute -left-12 top-0">
-            <GoLabel startTime={game.startTime} />
-          </div>
-          <TypeBox
-            phrase={game.phrase}
-            isLocked={isLocked}
-            lockedCharacterIndex={lockedCharacterIndex}
-            onWordComplete={handleWordComplete}
-            key={gameId}
-            onFirstKeystroke={onFirstKeystroke}
+    <>
+      <div className="flex flex-col flex-1 space-y-12" key={gameId}>
+        <div className="grow flex flex-col justify-end">
+          <Players
+            players={Object.values(game.players).sort(
+              (a, b) => a.joinTime.seconds - b.joinTime.seconds
+            )}
+            bots={Object.values(game.bots).sort(
+              (a, b) => a.joinTime.seconds - b.joinTime.seconds
+            )}
+            user={user}
           />
         </div>
+        <div className="shrink">
+          <div className="bg-base-700 max-w-fit rounded-t-lg px-4 text-base-400 font-bold py-[2px]">
+            {message}
+          </div>
+          <div className="relative border-4 rounded-b-lg rounded-r-lg border-base-700 px-4 py-3">
+            <div className="absolute -left-12 top-0">
+              <GoLabel startTime={game.startTime} />
+            </div>
+            <TypeBox
+              phrase={game.phrase}
+              isLocked={isLocked}
+              lockedCharacterIndex={lockedCharacterIndex}
+              onWordComplete={handleWordComplete}
+              key={gameId}
+              onFirstKeystroke={onFirstKeystroke}
+            />
+          </div>
+        </div>
+
+        <div className="grow-[2]">{actionBar}</div>
       </div>
-
       {stats}
-
-      {actionBar}
-    </div>
+    </>
   );
 }
 

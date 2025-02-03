@@ -31,7 +31,7 @@ export function Modal({
   return (
     <>
       <div
-        className={`fixed -top-6 left-0 w-screen h-screen bg-black/20 transition-opacity duration-300 z-0 ${
+        className={`fixed -top-6 left-0 w-screen bg-black/5 h-screen transition-opacity duration-300 z-0 ${
           shown ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
@@ -40,7 +40,7 @@ export function Modal({
       {shown && betweenChildren}
 
       <div
-        className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-base-800 border-base-700 border rounded-lg w-[800px] max-w-900px transition-all duration-300 ${
+        className={`fixed left-1/2 shadow-lg shadow-black/25 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-base-800 border-base-700 border rounded-lg w-[800px] max-w-900px transition-all duration-300 ${
           shown
             ? "opacity-100 -translate-y-1/2"
             : "opacity-0 pointer-events-none -translate-y-[47%]"

@@ -133,7 +133,7 @@ function Box({
 }) {
   return (
     <div
-      className={"border border-b-[3px] rounded px-4 py-2 min-w-20"}
+      className={"border border-b-[3px] rounded px-4 py-2 min-w-20 text-center"}
       style={{ borderColor: gold ? "var(--accent)" : "var(--base-600)" }}
     >
       <div
@@ -154,7 +154,7 @@ function Box({
 
 function SmolBox({ name, value }: { name: string; value: string }) {
   return (
-    <div className="border border-b-2 border-base-600 rounded px-4 py-2 h-min">
+    <div className="border border-b-2 border-base-600 rounded px-4 py-2 h-min text-center">
       <div className="text-xs uppercase text-start text-base-400">{name}</div>
       <div className="text-lg text-base-300">{value}</div>
     </div>

@@ -19,7 +19,6 @@ import {
   FrenchPage,
   GermanPage,
   HindiPage,
-  HistoricalQuotesPage,
   HomePage,
   ItalianPage,
   PolishPage,
@@ -29,7 +28,6 @@ import {
   RussianPage,
   ShakespearePage,
   SpanishPage,
-  TweetsPage,
 } from "./Pages";
 
 const firebaseConfig = {
@@ -103,7 +101,7 @@ function App() {
     <HelmetProvider>
       <BrowserRouter>
         <Header />
-        <div className="relative flex flex-1 flex-col max-w-[1280px] w-screen mx-2 place-items-center justify-center m-auto overflow-hidden">
+        <div className="relative flex flex-1 flex-col max-w-[1280px] w-screen px-20 place-items-center justify-center m-auto overflow-hidden">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route
@@ -127,11 +125,6 @@ function App() {
 
             <Route path="/copypastas" element={<CopypastaPage />} />
             <Route path="/shakespeare" element={<ShakespearePage />} />
-            <Route
-              path="/historical-quotes"
-              element={<HistoricalQuotesPage />}
-            />
-            <Route path="/tweets" element={<TweetsPage />} />
             <Route path="/reddit" element={<RedditPostsPage />} />
 
             <Route path="*" element={<Navigate to="/" replace />} />

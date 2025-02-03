@@ -91,7 +91,7 @@ function App() {
   return (
     <div className="h-screen flex flex-col">
       <Header />
-      <div className="content w-full grow overflow-y-auto overflow-x-visible">
+      <div className="content w-full grow overflow-y-auto overflow-x-visible bg-red-500">
         <Routes>
           <Route path="/" element={<MainMenu />} />
           <Route path="/race" element={<MainMenu />} />

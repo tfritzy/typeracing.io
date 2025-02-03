@@ -5,14 +5,9 @@ import { getAuth } from "firebase-admin/auth";
 import { BotNames } from "./botNameGenerator.js";
 import { getPhrase } from "./getPhrase.js";
 
-// Initialize Firebase
 initializeApp({ projectId: "typeracing-io" });
 const db = getFirestore();
 const auth = getAuth();
-
-// if (process.env.NODE_ENV === "development") {
-//   connectFirestoreEmulator(auth, "http://localhost:8080");
-// }
 
 type BotConfig = {
   wpm: number;
@@ -88,14 +83,14 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
     const uid = decodedToken.uid;
 
     const phrase = getPhrase(mode).join(" ");
-    const thirtySecondsAgo = Timestamp.fromDate(new Date(Date.now() - 30000));
+    const fifteenSecondsAgo = Timestamp.fromDate(new Date(Date.now() - 15000));
 
     switch (req.method) {
       case "POST": {
         const querySnapshot = await db
           .collection("games")
           .where("status", "==", "waiting")
-          .where("createdTime", ">=", thirtySecondsAgo)
+          .where("createdTime", ">=", fifteenSecondsAgo)
           .where("mode", "==", mode)
           .get();
 

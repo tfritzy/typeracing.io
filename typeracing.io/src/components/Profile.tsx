@@ -31,12 +31,8 @@ export const Profile = () => {
   );
 
   return (
-    <div className="w-8 h-8 border border-base-600 rounded-full bg-base-500"></div>
-  );
-
-  return (
     <input
-      className="pl-2 p-1 bg-base-700 rounded-md border border-base-500 focus:outline outline-accent"
+      className="pl-2 bg-base-700 rounded border border-base-500 outline-none focus:border-accent"
       value={name}
       onChange={updateName}
     />

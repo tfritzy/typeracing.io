@@ -183,14 +183,23 @@ export const TypeBox = ({
             className="relative decoration-error"
             key={lockedCharacterIndex + i}
           >
-            <span className="text-error">
+            <span
+              className="text-error"
+              style={{
+                backgroundColor:
+                  phrase[lockedCharacterIndex + i] === " "
+                    ? "var(--error)"
+                    : "",
+                opacity: phrase[lockedCharacterIndex + i] === " " ? 0.2 : "",
+              }}
+            >
               {phrase[lockedCharacterIndex + i]}
             </span>
           </span>
         );
       } else {
         text.push(
-          <span key={i} className=" text-base-200">
+          <span key={lockedCharacterIndex + i} className=" text-base-200">
             {currentWord[i]}
           </span>
         );

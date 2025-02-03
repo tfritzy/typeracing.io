@@ -61,7 +61,7 @@ export function MainMenu({ modeType }: { modeType: ModeType }) {
 
   return (
     <>
-      <div className="flex flex-col items-center space-y-24">
+      <div className="flex flex-col items-center space-y-40">
         <div className="border-b-2 border-base-700 p-2 shadow-accent w-max">
           <TypeBoxButton phrase={phrase} onPhraseComplete={goToRoute} />
         </div>

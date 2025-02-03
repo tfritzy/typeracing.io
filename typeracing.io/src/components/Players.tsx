@@ -26,7 +26,7 @@ function PlayerComponent({
 }) {
   return (
     <div className="text-base-300">
-      <div className="flex flex-row justify-between items-end mb-2 pl-3 pr-5">
+      <div className="flex flex-row justify-between items-end mb-1 pl-1 pr-3">
         <div className="flex flex-row space-x-2">
           <div>
             {name || "Unknown player"} {isSelf && <span>(You)</span>}
@@ -43,7 +43,7 @@ function PlayerComponent({
             </div>
           )}
         </div>
-        <div>{wpm} WPM</div>
+        <div className="text-base-400">{wpm} WPM</div>
       </div>
       <div className="flex flex-row">
         <div
@@ -77,7 +77,7 @@ export function Players({ players, bots, user }: Props) {
     }
 
     return (
-      <div className="space-y-4">
+      <div className="space-y-6">
         {allPlayers.map((p) => (
           <PlayerComponent
             name={p.name || "Guest player"}
