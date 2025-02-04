@@ -24,7 +24,6 @@ import {
   PolishPage,
   PortuguesePage,
   RacePage,
-  RedditPostsPage,
   RussianPage,
   ShakespearePage,
   SpanishPage,
@@ -125,7 +124,6 @@ function App() {
 
             <Route path="/copypastas" element={<CopypastaPage />} />
             <Route path="/shakespeare" element={<ShakespearePage />} />
-            <Route path="/reddit" element={<RedditPostsPage />} />
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

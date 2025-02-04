@@ -332,26 +332,3 @@ export function ShakespearePage() {
     </>
   );
 }
-
-export function RedditPostsPage() {
-  return (
-    <>
-      <Helmet>
-        <title>typeracing.io - Reddit Posts Mode</title>
-        <meta
-          name="description"
-          content="Practice typing with popular Reddit posts and comments. Race against others using content from your favorite subreddits."
-        />
-        <meta
-          name="keywords"
-          content="Reddit typing, social media typing game, typing practice, Reddit content typing, typing test, wpm practice"
-        />
-        <meta
-          property="og:description"
-          content="Live type racing with Reddit posts"
-        />
-      </Helmet>
-      <MainMenu modeType="reddit" />
-    </>
-  );
-}

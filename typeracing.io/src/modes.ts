@@ -12,7 +12,7 @@ export type LanguageType =
   | "русский"
   | "हिंदी";
 
-export type PhraseType = "copypastas" | "shakespeare" | "reddit";
+export type PhraseType = "copypastas" | "shakespeare";
 
 export type GroupType = "languages" | "phrases";
 
@@ -36,12 +36,6 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       description: "Famous Shakespeare lines",
       name: "Shakespeare",
       icon: "/logos/performing-arts.svg",
-    },
-    {
-      type: "reddit",
-      description: "Top reddit comments",
-      name: "Reddit",
-      icon: "/logos/reddit.svg",
     },
   ],
   languages: [

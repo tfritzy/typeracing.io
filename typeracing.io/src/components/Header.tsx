@@ -224,6 +224,7 @@ const KeyboardIcon = () => (
 
 export const Header = () => {
   const onRace = useMatch("/race/*");
+
   return (
     <div className="w-screen flex flex-row justify-center shadow-sm">
       <div className="flex flex-row justify-between w-full max-w-[1280px] min-w-max px-4 py-2 bg-base-800 ">
