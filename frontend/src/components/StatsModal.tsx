@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
-import { Modal } from "./components/Modal";
-import { WpmOverTime } from "./components/WpmOverTimeChart";
+import { Modal } from "./Modal";
+import { WpmOverTime } from "./WpmOverTimeChart";
 import {
   calculateAccuracy,
   getAggWpmBySecond,
@@ -10,10 +10,10 @@ import {
   getTime,
   getWpm,
   KeyStroke,
-} from "./stats";
-import { placeToString } from "./helpers";
-import { Confettii } from "./components/Confettii";
-import { Hotkey } from "./components/Hotkey";
+} from "../stats";
+import { placeToString } from "../helpers";
+import { Confettii } from "./Confettii";
+import { Hotkey } from "./Hotkey";
 import { useNavigate } from "react-router-dom";
 
 type Props = {

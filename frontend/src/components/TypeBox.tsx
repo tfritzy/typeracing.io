@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { KeyStroke } from "./stats";
+import { KeyStroke } from "../stats";
 import { Timestamp } from "firebase/firestore";
 
 function lerp(start: number, end: number, alpha: number) {

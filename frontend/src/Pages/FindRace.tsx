@@ -1,8 +1,8 @@
 import { User } from "firebase/auth";
-import { Spinner } from "./components/Spinner";
+import { Spinner } from "../components/Spinner";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { findGame } from "./helpers";
+import { findGame } from "../helpers";
 import { Analytics } from "firebase/analytics";
 
 type Props = {

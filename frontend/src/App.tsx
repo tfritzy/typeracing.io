@@ -10,7 +10,7 @@ import {
 import { Spinner } from "./components/Spinner";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router";
 import { Header } from "./components/Header";
-import { FindRace } from "./FindRace";
+import { FindRace } from "./Pages/FindRace";
 import { getAnalytics } from "firebase/analytics";
 import { HelmetProvider } from "react-helmet-async";
 import {
@@ -27,7 +27,7 @@ import {
   RussianPage,
   ShakespearePage,
   SpanishPage,
-} from "./Pages";
+} from "./Pages/Pages";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC-G5Zk64LNnZ7q7awmIcdT2I0Rys8EZp0",

@@ -8,17 +8,17 @@ import {
 } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { Navigate, useParams } from "react-router-dom";
-import { Game } from "./types";
-import { Spinner } from "./components/Spinner";
-import { TypeBox } from "./TypeBox";
-import { Players } from "./components/Players";
-import { ActionBar } from "./components/ActionBar";
-import { Countdown } from "./components/Countdown";
-import { GoLabel } from "./components/GoLabel";
-import { getWpm, KeyStroke } from "./stats";
-import { StatsModal } from "./StatsModal";
+import { Game } from "../types";
+import { Spinner } from "../components/Spinner";
+import { TypeBox } from "../components/TypeBox";
+import { Players } from "../components/Players";
+import { ActionBar } from "../components/ActionBar";
+import { Countdown } from "../components/Countdown";
+import { GoLabel } from "../components/GoLabel";
+import { getWpm, KeyStroke } from "../stats";
+import { StatsModal } from "../components/StatsModal";
 import { Analytics, logEvent } from "firebase/analytics";
-import { getFillGameUrl } from "./helpers";
+import { getFillGameUrl } from "../helpers";
 
 interface Props {
   db: Firestore;

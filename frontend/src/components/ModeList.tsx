@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { groupedModes } from "./modes";
+import { groupedModes } from "../modes";
 import { Link } from "react-router-dom";
 
 export const ModeListPage = ({

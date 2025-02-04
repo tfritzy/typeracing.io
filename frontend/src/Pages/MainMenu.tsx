@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { TypeBoxButton } from "./TypeBoxButton";
+import { TypeBoxButton } from "../components/TypeBoxButton";
 import { useNavigate } from "react-router-dom";
-import { flatModes, ModeType } from "./modes";
-import { ModeListPage } from "./ModeListPage";
-import { Hotkey } from "./components/Hotkey";
+import { flatModes, ModeType } from "../modes";
+import { ModeListPage } from "../components/ModeList";
+import { Hotkey } from "../components/Hotkey";
 
 const phrases = [
   "glhf",
