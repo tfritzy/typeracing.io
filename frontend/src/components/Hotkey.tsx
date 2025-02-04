@@ -1,20 +1,12 @@
 type HotkeyProps = {
   code: string;
-  accent?: boolean;
-  large?: boolean;
 };
 
 export const Hotkey = (props: HotkeyProps) => {
   return (
     <div
-      className={`${
-        props.large
-          ? "h-6 text-md font-semibold px-[9px]"
-          : "h-5 text-sm px-[6px]"
-      } font-mono uppercase rounded-sm inline-flex items-center justify-center min-w-[20px]`}
+      className="h-5 text-base px-[6px] py-[10px] font-mono uppercase inline-flex items-center justify-center min-w-[20px] text-base-500 border border-base-600 rounded-sm"
       style={{
-        backgroundColor: props.accent ? "var(--accent-800)" : "var(--base-700)",
-        color: props.accent ? "var(--base-100)" : "var(--base-200)",
         lineHeight: 1,
       }}
     >

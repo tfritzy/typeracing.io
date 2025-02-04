@@ -1,115 +1,75 @@
-import React, { useEffect, useRef } from "react";
-import { Xmark } from "iconoir-react";
-
-const focusable =
-  'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+import { useEffect } from "react";
 
 type Props = {
-  title?: String;
-  onClose?: () => void;
-  shown: boolean;
+  title: string;
   children: JSX.Element;
+  betweenChildren?: JSX.Element;
+  onClose: () => void;
+  shown: boolean;
 };
-
-export function Modal(props: Props) {
-  const modalRef = useRef<HTMLDivElement>(null);
-  const previousFocusRef = useRef<HTMLElement | null>(null);
-
+export function Modal({
+  title,
+  children,
+  betweenChildren,
+  onClose,
+  shown,
+}: Props) {
   useEffect(() => {
-    if (props.shown) {
-      previousFocusRef.current = document.activeElement as HTMLElement;
-
-      if (modalRef.current) {
-        const focusableElements = modalRef.current.querySelectorAll(focusable);
-        const firstElement = focusableElements[0] as HTMLElement;
-        firstElement?.focus();
-      }
-
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-      if (previousFocusRef.current) {
-        previousFocusRef.current.focus();
-      }
-    }
-
-    return () => {
-      document.body.style.overflow = "unset";
-      if (previousFocusRef.current) {
-        previousFocusRef.current.focus();
+    const handleHotkeys = async (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
       }
     };
-  }, [props.shown]);
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (!props.shown) return;
+    document.addEventListener("keydown", handleHotkeys);
 
-    if (event.key === "Escape" && props.onClose) {
-      props.onClose();
-      return;
-    }
-
-    if (event.key === "Tab") {
-      const focusableElements = modalRef.current?.querySelectorAll(focusable);
-
-      if (!focusableElements || focusableElements.length === 0) return;
-
-      const firstElement = focusableElements[0] as HTMLElement;
-      const lastElement = focusableElements[
-        focusableElements.length - 1
-      ] as HTMLElement;
-
-      if (event.shiftKey) {
-        if (document.activeElement === firstElement) {
-          event.preventDefault();
-          lastElement.focus();
-        }
-      } else {
-        if (document.activeElement === lastElement) {
-          event.preventDefault();
-          firstElement.focus();
-        }
-      }
-    }
-  };
+    return () => {
+      document.removeEventListener("keydown", handleHotkeys);
+    };
+  }, [onClose]);
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby={props.title ? "modal-title" : undefined}
-      ref={modalRef}
-      tabIndex={-1}
-      onKeyDown={handleKeyDown}
-      className="fixed backdrop-blur-xl backdrop-brightness-[.8] shadow-2xl shadow-gray-950 overflow-y-auto rounded-lg border border-base-800 left-1/2 top-1/2"
-      style={{
-        opacity: props.shown ? 1 : 0,
-        pointerEvents: props.shown ? "all" : "none",
-        transform: props.shown
-          ? "translate(-50%, -50%)"
-          : "translate(-50%, calc(-50% + 20px))",
-        transition: "opacity 0.2s, transform 0.2s",
-      }}
-    >
-      {props.title && (
-        <div className="flex flex-row justify-between px-8 p-3 w-full border-b border-base-800">
-          <div id="modal-title" className="font-semibold">
-            {props.title}
-          </div>
-          {props.onClose && (
-            <button
-              className="text-base-200 hover:text-error-color transition-colors"
-              onClick={props.onClose}
-              aria-label="Close modal"
+    <>
+      <div
+        className={`fixed -top-6 left-0 w-screen bg-black/5 h-screen transition-opacity duration-300 z-0 ${
+          shown ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={onClose}
+      />
+
+      {shown && betweenChildren}
+
+      <div
+        className={`fixed left-1/2 shadow-lg shadow-black/25 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-base-800 border-base-700 border rounded-lg w-[800px] max-w-900px transition-all duration-300 ${
+          shown
+            ? "opacity-100 -translate-y-1/2"
+            : "opacity-0 pointer-events-none -translate-y-[47%]"
+        }`}
+      >
+        <div className="flex flex-row justify-between w-full border-b border-base-700 text-base-400 font-semibold text-xl px-2 pl-4 py-1">
+          <div>{title}</div>
+          <button
+            onClick={onClose}
+            className="hover:text-base-200 transition-colors"
+            aria-label="Close modal"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              <Xmark width={24} />
-            </button>
-          )}
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
-      )}
-      <div className="">{props.children}</div>
-    </div>
+        {children}
+      </div>
+    </>
   );
 }
-
-export default Modal;

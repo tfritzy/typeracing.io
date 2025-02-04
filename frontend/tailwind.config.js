@@ -1,24 +1,9 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+export default {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      keyframes: {
-        pulseFull: {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0" },
-        },
-      },
-      boxShadow: {
-        centered: "0 0 3px 5px rgba(0, 0, 0, 0.5)",
-        "hard-sm": "0px 1.5px 0 rgb(0 0 0 / 0.4)",
-      },
-      animation: {
-        "pulse-full": "pulseFull 1s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-      },
       colors: {
-        transparent: "transparent",
-        current: "currentColor",
         "base-100": "var(--base-100)",
         "base-200": "var(--base-200)",
         "base-300": "var(--base-300)",
@@ -27,16 +12,9 @@ module.exports = {
         "base-600": "var(--base-600)",
         "base-700": "var(--base-700)",
         "base-800": "var(--base-800)",
-        "base-800-50": "var(--base-800-50)",
-        "base-900": "var(--base-900)",
         accent: "var(--accent)",
-        "accent-secondary": "var(--accent-secondary)",
-        "accent-600": "var(--accent-600)",
-        "accent-800": "var(--accent-800)",
-        "accent-200": "var(--accent-200)",
-        "white-900": "var(--white-900)",
-        "error-color": "var(--error-color)",
-        "shadow-color": "var(--shadow-color)",
+        "accent/40": "var(--accent-40)",
+        error: "var(--error)",
       },
     },
   },

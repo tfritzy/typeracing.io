@@ -1,42 +1,43 @@
-import React, { useEffect } from "react";
-import { Hotkey } from "../components/Hotkey";
+import { useCallback, useEffect } from "react";
+import { Hotkey } from "./Hotkey";
+import { useNavigate } from "react-router-dom";
+import { Mode } from "../modes";
 
-const TextButton = ({
-  children,
-  onClick,
-}: {
-  children: React.ReactNode;
-  onClick?: (event: Event) => void;
-}) => {
-  return (
-    <button
-      onClick={onClick as any}
-      className="flex w-32 text-base-200 flex-row space-x-2 items-center justify-center rounded-full p-2 hover:text-accent outline-none"
-    >
-      {children}
-    </button>
+type Props = {
+  showStats: () => void;
+  mode: Mode | undefined;
+};
+
+export function ActionBar({ showStats, mode }: Props) {
+  const navigate = useNavigate();
+
+  const playAgain = useCallback(async () => {
+    navigate("/search/" + mode);
+  }, [mode, navigate]);
+
+  const returnToMainMenu = useCallback(
+    async (e: { preventDefault: () => void }) => {
+      navigate("/");
+      e.preventDefault();
+    },
+    [navigate]
   );
-};
-
-type Option = {
-  name: string;
-  hotkey: string;
-  onPress: (event: Event) => void;
-};
-
-type ActionBarProps = {
-  options: Option[];
-};
-
-export const ActionBar = (props: ActionBarProps) => {
-  const { options } = props;
 
   useEffect(() => {
-    const handleHotkeys = (event: KeyboardEvent) => {
-      for (let i = 0; i < options.length; i++) {
-        if (options[i].hotkey.toLowerCase() === event.key.toLowerCase()) {
-          options[i].onPress(event);
-        }
+    const handleHotkeys = async (event: {
+      key: string;
+      preventDefault: () => void;
+    }) => {
+      if (event.key === "p") {
+        await playAgain();
+      }
+
+      if (event.key === "m") {
+        returnToMainMenu(event);
+      }
+
+      if (event.key === "r") {
+        showStats();
       }
     };
 
@@ -45,27 +46,30 @@ export const ActionBar = (props: ActionBarProps) => {
     return () => {
       document.removeEventListener("keydown", handleHotkeys);
     };
-  }, [options]);
-
-  const buttons = React.useMemo(() => {
-    return options.map((o, i) => (
-      <>
-        <TextButton onClick={o.onPress}>
-          <span>{o.name}</span>
-          <Hotkey code={o.hotkey} />
-        </TextButton>
-        {i !== options.length - 1 && (
-          <div className="h-6 m-auto border-r ml-1 mr-1 py-3 border-base-700" />
-        )}
-      </>
-    ));
-  }, [options]);
+  }, [navigate, playAgain, returnToMainMenu, showStats]);
 
   return (
-    <div className="flex flex-col items-center pb-4">
-      <div className="flex flex-row rounded-full px-2 border border-base-600 bg-base-800">
-        {buttons}
-      </div>
+    <div className="flex flex-row bg-base-800 border-2 border-base-700 rounded-full text-base-400 w-min py-2 px-4 space-x-4 shadow-md ">
+      <button
+        className="w-max flex flex-row space-x-2 items-baseline rounded-lg"
+        onClick={returnToMainMenu}
+      >
+        <Hotkey code="m" /> <div>Main Menu</div>
+      </button>
+      <div className="w-[1px] bg-base-600" />
+      <button
+        className="w-max flex flex-row space-x-2 items-baseline rounded-lg"
+        onClick={playAgain}
+      >
+        <Hotkey code="p" /> <div>Play Again</div>
+      </button>
+      <div className="w-[1px] bg-base-600" />
+      <button
+        className="w-max flex flex-row space-x-2 items-baseline rounded-lg"
+        onClick={showStats}
+      >
+        <Hotkey code="r" /> <div>Results</div>
+      </button>
     </div>
   );
-};
+}
