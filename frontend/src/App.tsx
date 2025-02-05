@@ -12,7 +12,6 @@ import { Routes, Route, BrowserRouter, Navigate } from "react-router";
 import { Header } from "./components/Header";
 import { FindRace } from "./Pages/FindRace";
 import { getAnalytics } from "firebase/analytics";
-import { HelmetProvider } from "react-helmet-async";
 import {
   CopypastaPage,
   DutchPage,
@@ -97,39 +96,37 @@ function App() {
   }
 
   return (
-    <HelmetProvider>
-      <BrowserRouter>
-        <Header />
-        <div className="relative flex flex-1 flex-col max-w-[1280px] w-screen px-32 place-items-center justify-center m-auto overflow-hidden">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route
-              path="/search/:mode"
-              element={<FindRace user={user} analytics={analytics} />}
-            />
-            <Route
-              path="/race/:gameId"
-              element={<RacePage db={db} user={user} analytics={analytics} />}
-            />
+    <BrowserRouter>
+      <Header />
+      <div className="relative flex flex-1 flex-col max-w-[1280px] w-screen px-32 place-items-center justify-center m-auto overflow-hidden">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/search/:mode"
+            element={<FindRace user={user} analytics={analytics} />}
+          />
+          <Route
+            path="/race/:gameId"
+            element={<RacePage db={db} user={user} analytics={analytics} />}
+          />
 
-            <Route path="/français" element={<FrenchPage />} />
-            <Route path="/español" element={<SpanishPage />} />
-            <Route path="/deutsch" element={<GermanPage />} />
-            <Route path="/italiano" element={<ItalianPage />} />
-            <Route path="/português" element={<PortuguesePage />} />
-            <Route path="/dutch" element={<DutchPage />} />
-            <Route path="/polski" element={<PolishPage />} />
-            <Route path="/русский" element={<RussianPage />} />
-            <Route path="/हिंदी" element={<HindiPage />} />
+          <Route path="/français" element={<FrenchPage />} />
+          <Route path="/español" element={<SpanishPage />} />
+          <Route path="/deutsch" element={<GermanPage />} />
+          <Route path="/italiano" element={<ItalianPage />} />
+          <Route path="/português" element={<PortuguesePage />} />
+          <Route path="/dutch" element={<DutchPage />} />
+          <Route path="/polski" element={<PolishPage />} />
+          <Route path="/русский" element={<RussianPage />} />
+          <Route path="/हिंदी" element={<HindiPage />} />
 
-            <Route path="/copypastas" element={<CopypastaPage />} />
-            <Route path="/shakespeare" element={<ShakespearePage />} />
+          <Route path="/copypastas" element={<CopypastaPage />} />
+          <Route path="/shakespeare" element={<ShakespearePage />} />
 
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </HelmetProvider>
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

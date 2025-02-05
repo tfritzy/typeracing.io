@@ -1,7 +1,25 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      input: {
+        main: "index.html",
+        english: "index.html",
+        français: "français.html",
+        español: "español.html",
+        deutsch: "deutsch.html",
+        italiano: "italiano.html",
+        português: "português.html",
+        dutch: "dutch.html",
+        polski: "polski.html",
+        русский: "русский.html",
+        हिंदी: "हिंदी.html",
+        copypastas: "copypastas.html",
+        shakespeare: "shakespeare.html",
+      },
+    },
+  },
 });

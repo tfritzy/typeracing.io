@@ -44,6 +44,10 @@ export function MainMenu({ modeType }: { modeType: ModeType }) {
   }, []);
 
   useEffect(() => {
+    document.title = mode.name;
+  }, [mode.name]);
+
+  useEffect(() => {
     const handleHotkeys = async (event: KeyboardEvent) => {
       if (event.key === "/") {
         toggleModeShown();
