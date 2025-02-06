@@ -17,13 +17,53 @@
     }
   ],
   "hosting": {
-    "public": "typeracing.io/dist",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "public": "frontend/dist",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
+      {
+        "source": "/français",
+        "destination": "/français.html"
+      },
+      {
+        "source": "/español",
+        "destination": "/español.html"
+      },
+      {
+        "source": "/deutsch",
+        "destination": "/deutsch.html"
+      },
+      {
+        "source": "/italiano",
+        "destination": "/italiano.html"
+      },
+      {
+        "source": "/português",
+        "destination": "/português.html"
+      },
+      {
+        "source": "/dutch",
+        "destination": "/dutch.html"
+      },
+      {
+        "source": "/polski",
+        "destination": "/polski.html"
+      },
+      {
+        "source": "/русский",
+        "destination": "/русский.html"
+      },
+      {
+        "source": "/हिंदी",
+        "destination": "/हिंदी.html"
+      },
+      {
+        "source": "/copypastas",
+        "destination": "/copypastas.html"
+      },
+      {
+        "source": "/shakespeare",
+        "destination": "/shakespeare.html"
+      },
       {
         "source": "**",
         "destination": "/index.html"
