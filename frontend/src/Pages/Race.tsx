@@ -250,20 +250,29 @@ function RaceInner({ db, user, analytics }: Props) {
   }, [game?.startTime, setRerender]);
 
   const stats = useMemo(() => {
-    if (!game) {
+    if (!game?.phrase || !self?.id) {
       return null;
     }
 
     return (
       <StatsModal
+        key="stats-modal"
         keystrokes={keystrokes}
         onClose={closeStats}
         shown={isComplete && !statsClosed}
         phrase={game.phrase}
-        place={game.players[user.uid].place}
+        place={self.place}
       />
     );
-  }, [closeStats, game, isComplete, keystrokes, statsClosed, user.uid]);
+  }, [
+    game?.phrase,
+    self?.id,
+    self?.place,
+    keystrokes,
+    closeStats,
+    isComplete,
+    statsClosed,
+  ]);
 
   const actionBar = useMemo(() => {
     if (!isComplete) {
