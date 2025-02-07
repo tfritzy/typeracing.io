@@ -49,7 +49,7 @@ function getReportResultUrl() {
   if (process.env.NODE_ENV === "development") {
     return "http://127.0.0.1:5001/typeracing-io/us-central1/recordGameResult";
   } else {
-    return "Idk";
+    return "https://recordgameresult-ifdmb3m76a-uc.a.run.app ";
   }
 }
 

@@ -27,6 +27,7 @@ import {
   ShakespearePage,
   SpanishPage,
 } from "./Pages/Pages";
+import { Profile } from "./components/Profile";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC-G5Zk64LNnZ7q7awmIcdT2I0Rys8EZp0",
@@ -44,7 +45,7 @@ const auth = getAuth(app);
 const analytics = getAnalytics(app);
 
 if (process.env.NODE_ENV === "development") {
-  connectFirestoreEmulator(db, "localhost", 8080);
+  connectFirestoreEmulator(db, "localhost", 8090);
 }
 
 function App() {
@@ -109,6 +110,8 @@ function App() {
             path="/race/:gameId"
             element={<RacePage db={db} user={user} analytics={analytics} />}
           />
+
+          <Route path="/profile" element={<Profile />} />
 
           <Route path="/français" element={<FrenchPage />} />
           <Route path="/español" element={<SpanishPage />} />

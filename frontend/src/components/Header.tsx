@@ -1,5 +1,5 @@
 import { Link, useMatch } from "react-router-dom";
-import { Profile } from "./Profile";
+import { ProfileButton } from "./ProfileButton";
 
 const KeyboardIcon = () => (
   <svg viewBox="0 0 72 72" className="w-8 h-8">
@@ -237,7 +237,7 @@ export const Header = () => {
             <span>TypeRacing.io</span>
           </Link>
         </div>
-        {!onRace && <Profile />}
+        {!onRace && <ProfileButton />}
       </div>
     </div>
   );

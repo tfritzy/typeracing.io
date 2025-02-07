@@ -111,7 +111,6 @@ function RaceInner({ db, user, analytics }: Props) {
           ...Object.values(game.bots).map((b) => b.place)
         );
         updateObject[`players.${user.uid}.place`] = highestPlace + 1;
-        logEvent(analytics, "race_finished", { place: highestPlace + 1 });
       }
 
       try {
@@ -124,7 +123,7 @@ function RaceInner({ db, user, analytics }: Props) {
         setHasCompletedRace(false);
       }
     },
-    [analytics, docRef, game, hasCompletedRace, keystrokes, self?.place, user]
+    [docRef, game, hasCompletedRace, keystrokes, self?.place, user]
   );
 
   const fillGame = useCallback(async () => {
