@@ -377,15 +377,40 @@ export const recordGameResult = onRequest({ cors: true }, async (req, res) => {
           const currentStats = playerStatsDoc.data() || {
             gamesPlayed: 0,
             lastUpdated: now,
+            modeStats: {},
           };
 
-          const newGamesPlayed = currentStats.gamesPlayed + 1;
+          const modeStats = currentStats.modeStats || {};
+          if (!modeStats[gameData.mode]) {
+            modeStats[gameData.mode] = {
+              gamesPlayed: 0,
+              bestWpm: 0,
+              totalWpm: 0,
+              averageWpm: 0,
+            };
+          }
+
+          const currentModeStats = modeStats[gameData.mode];
+          const newModeGamesPlayed = currentModeStats.gamesPlayed + 1;
+          const newModeTotalWpm = currentModeStats.totalWpm + player.wpm;
+          const newModeAverageWpm = Math.round(
+            newModeTotalWpm / newModeGamesPlayed
+          );
+          const newModeBestWpm = Math.max(currentModeStats.bestWpm, player.wpm);
+
+          modeStats[gameData.mode] = {
+            gamesPlayed: newModeGamesPlayed,
+            bestWpm: newModeBestWpm,
+            totalWpm: newModeTotalWpm,
+            averageWpm: newModeAverageWpm,
+          };
 
           transaction.set(
             playerStatsRef,
             {
-              gamesPlayed: newGamesPlayed,
+              gamesPlayed: currentStats.gamesPlayed + 1,
               lastUpdated: now,
+              modeStats,
             },
             { merge: true }
           );

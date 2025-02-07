@@ -20,22 +20,22 @@ type Props = {
 
 export const WpmOverTime = ({
   wpm_by_second,
-  raw_wpm_by_second,
+  // raw_wpm_by_second,
   errors,
 }: Props) => {
   const series = React.useMemo(() => {
     const newWpmData: Series[] = [];
-    newWpmData.push({
-      name: "raw",
-      data: raw_wpm_by_second,
-    });
+    // newWpmData.push({
+    //   name: "raw",
+    //   data: raw_wpm_by_second,
+    // });
 
     newWpmData.push({
       name: "wpm",
       data: wpm_by_second,
     });
     return newWpmData;
-  }, [raw_wpm_by_second, wpm_by_second]);
+  }, [wpm_by_second]);
 
   const getOptions = (
     yMax: number,
@@ -90,16 +90,16 @@ export const WpmOverTime = ({
       },
       fill: {
         type: "solid",
-        colors: ["transparent", areaColor],
+        colors: [areaColor, "transparent"],
       },
       stroke: {
         curve: "monotoneCubic",
         width: 2,
-        colors: [secondaryColor, "#fbbf24"],
+        colors: ["var(--accent)", secondaryColor],
         lineCap: "square",
       },
       markers: {
-        colors: [secondaryColor, "#fbbf24"],
+        colors: ["var(--accent)", secondaryColor],
         size: 0,
         strokeWidth: 0,
       },
