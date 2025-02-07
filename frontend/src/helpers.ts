@@ -45,6 +45,28 @@ export async function findGame(
   navigate("/race/" + data.id);
 }
 
+function getReportResultUrl() {
+  if (process.env.NODE_ENV === "development") {
+    return "http://127.0.0.1:5001/typeracing-io/us-central1/recordGameResult";
+  } else {
+    return "Idk";
+  }
+}
+
+export async function reportResult(user: User, gameId: string) {
+  const token = await user.getIdToken();
+  await fetch(getReportResultUrl(), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      gameId: gameId,
+    }),
+  });
+}
+
 export function placeToString(place: number) {
   switch (place) {
     case 0:

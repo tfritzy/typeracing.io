@@ -134,7 +134,7 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
         } else {
           const newGame: Omit<Game, "id"> = {
             createdTime: Timestamp.now(),
-            botFillTime: new Timestamp(now.seconds + 7, now.nanoseconds),
+            botFillTime: new Timestamp(now.seconds + 4, now.nanoseconds),
             startTime: new Timestamp(now.seconds + 10000, now.nanoseconds),
             status: "waiting",
             mode: mode || "english",
@@ -272,6 +272,143 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
       res.status(401).json({ error: "Invalid or expired token" });
     } else if (error.message) {
       res.status(400).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+});
+
+interface GameResult {
+  gameId: string;
+  userId: string;
+  wpm: number;
+  place: number;
+  mode: string;
+  phraseLength: number;
+  finishTime: Timestamp;
+}
+
+interface RecordGameResultRequest {
+  gameId: string;
+}
+
+interface RecordGameResultResponse {
+  message: string;
+  result: GameResult;
+}
+
+export const recordGameResult = onRequest({ cors: true }, async (req, res) => {
+  try {
+    // Handle preflight requests
+    if (req.method === "OPTIONS") {
+      res.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+      res.set("Access-Control-Allow-Headers", "*");
+      res.set("Access-Control-Max-Age", "3600");
+      res.status(204).send("");
+      return;
+    }
+
+    // Get and verify the authorization token
+    const authHeader = req.headers.authorization;
+    if (!authHeader?.startsWith("Bearer ")) {
+      res.status(401).json({ error: "No token provided" });
+      return;
+    }
+
+    const token = authHeader.split("Bearer ")[1];
+    const decodedToken = await auth.verifyIdToken(token);
+    const uid = decodedToken.uid;
+
+    switch (req.method) {
+      case "POST": {
+        const { gameId } = req.body as RecordGameResultRequest;
+
+        if (!gameId) {
+          res.status(400).json({ error: "Game ID is required" });
+          return;
+        }
+
+        // Get the game data
+        const gameRef = db.collection("games").doc(gameId);
+        const gameDoc = await gameRef.get();
+
+        if (!gameDoc.exists) {
+          res.status(404).json({ error: "Game not found" });
+          return;
+        }
+
+        const gameData = gameDoc.data() as Game;
+
+        // Verify the player was in this game
+        const player = gameData.players[uid];
+        if (!player) {
+          res.status(403).json({ error: "Player was not in this game" });
+          return;
+        }
+
+        // Verify the game is finished for this player
+        if (player.place === -1) {
+          res
+            .status(400)
+            .json({ error: "Game is not finished for this player" });
+          return;
+        }
+
+        const now = Timestamp.now();
+
+        // Create the game result record using the existing player data
+        const gameResult: GameResult = {
+          gameId,
+          userId: uid,
+          wpm: player.wpm,
+          place: player.place,
+          mode: gameData.mode,
+          phraseLength: gameData.phrase.length,
+          finishTime: now,
+        };
+
+        // Store the result in the gameResults collection
+        await db.collection("gameResults").add(gameResult);
+
+        // Update user's stats in a separate userStats collection
+        const playerStatsRef = db.collection("playerStats").doc(uid);
+        await db.runTransaction(async (transaction) => {
+          const playerStatsDoc = await transaction.get(playerStatsRef);
+          const currentStats = playerStatsDoc.data() || {
+            gamesPlayed: 0,
+            lastUpdated: now,
+          };
+
+          const newGamesPlayed = currentStats.gamesPlayed + 1;
+
+          transaction.set(
+            playerStatsRef,
+            {
+              gamesPlayed: newGamesPlayed,
+              lastUpdated: now,
+            },
+            { merge: true }
+          );
+        });
+
+        const response: RecordGameResultResponse = {
+          message: "Game result recorded successfully",
+          result: gameResult,
+        };
+
+        res.json(response);
+        break;
+      }
+      default:
+        res.status(405).json({ error: "Method not allowed" });
+    }
+  } catch (error: any) {
+    console.error("Error processing request:", error);
+    if (
+      error.code === "auth/id-token-expired" ||
+      error.code === "auth/argument-error"
+    ) {
+      res.status(401).json({ error: "Invalid or expired token" });
     } else {
       res.status(500).json({ error: "Internal server error" });
     }

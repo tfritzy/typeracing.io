@@ -18,7 +18,7 @@ import { GoLabel } from "../components/GoLabel";
 import { getWpm, KeyStroke } from "../stats";
 import { StatsModal } from "../components/StatsModal";
 import { Analytics, logEvent } from "firebase/analytics";
-import { getFillGameUrl } from "../helpers";
+import { getFillGameUrl, reportResult } from "../helpers";
 
 interface Props {
   db: Firestore;
@@ -71,7 +71,7 @@ function RaceInner({ db, user, analytics }: Props) {
   }, [analytics]);
 
   const handleWordComplete = useCallback(
-    (charIndex: number, newKeystrokes: KeyStroke[]) => {
+    async (charIndex: number, newKeystrokes: KeyStroke[]) => {
       if (hasCompletedRace || (self?.place && self.place > 0)) return;
 
       for (let i = 0; i < newKeystrokes.length; i++) {
@@ -93,10 +93,16 @@ function RaceInner({ db, user, analytics }: Props) {
       const updateObject = {
         [`players.${user.uid}.progress`]:
           (charIndex / game.phrase.length) * 100,
-        [`players.${user.uid}.wpm`]: wpm.toFixed(0),
+        [`players.${user.uid}.wpm`]: wpm,
       };
 
-      if (charIndex >= game.phrase.length) {
+      const isGameComplete = charIndex >= game.phrase.length;
+
+      if (isGameComplete) {
+        if (self?.place && self.place > 0) {
+          return;
+        }
+
         setHasCompletedRace(true);
         const highestPlace = Math.max(
           ...Object.entries(game.players)
@@ -108,19 +114,17 @@ function RaceInner({ db, user, analytics }: Props) {
         logEvent(analytics, "race_finished", { place: highestPlace + 1 });
       }
 
-      updateDoc(docRef, updateObject).catch((error) => {
-        console.error("Error updating player progress:", error);
-      });
+      try {
+        await updateDoc(docRef, updateObject);
+
+        if (isGameComplete) {
+          await reportResult(user, game.id);
+        }
+      } catch {
+        setHasCompletedRace(false);
+      }
     },
-    [
-      analytics,
-      docRef,
-      game,
-      hasCompletedRace,
-      keystrokes,
-      self?.place,
-      user.uid,
-    ]
+    [analytics, docRef, game, hasCompletedRace, keystrokes, self?.place, user]
   );
 
   const fillGame = useCallback(async () => {

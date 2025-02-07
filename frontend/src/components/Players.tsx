@@ -43,7 +43,7 @@ function PlayerComponent({
             </div>
           )}
         </div>
-        <div className="text-base-400">{wpm} WPM</div>
+        <div className="text-base-400">{wpm.toFixed(0)} WPM</div>
       </div>
       <div className="flex flex-row space-x-1">
         <div
