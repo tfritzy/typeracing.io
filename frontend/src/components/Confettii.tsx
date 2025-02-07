@@ -8,10 +8,10 @@ class SnowConductor extends Conductor {
       this.decorateOptions({
         particleCount: 1,
         startVelocity: 0,
-        ticks: 500,
+        ticks: 2000,
         drift: (Math.random() - 0.5) * 1,
-        gravity: 0.75,
-        scalar: 0.75,
+        gravity: 0.5,
+        scalar: 0.5,
         origin: {
           x: Math.random(),
           y: 0,

@@ -45,15 +45,15 @@ function PlayerComponent({
         </div>
         <div className="text-base-400">{wpm} WPM</div>
       </div>
-      <div className="flex flex-row">
+      <div className="flex flex-row space-x-1">
         <div
-          className={`rounded-full h-[5px] transition-all ease-in-out ${
+          className={`rounded-full h-[4px] transition-all ease-in-out ${
             isSelf ? "bg-accent" : "bg-base-500"
           }`}
           style={{ width: progress + "%" }}
         />
         <div
-          className="w-full bg-base-700 rounded-full h-[5px] transition-all ease-in-out"
+          className="w-full bg-base-700 rounded-full h-[4px] transition-all ease-in-out"
           style={{ width: 100 - progress + "%" }}
         />
       </div>

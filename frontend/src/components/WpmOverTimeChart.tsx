@@ -3,9 +3,9 @@ import { ApexOptions } from "apexcharts";
 import React from "react";
 import { ErrorsAtTime } from "../stats";
 
-const secondaryColor = "#57534e";
+const secondaryColor = "var(--base-600)";
 const areaColor = "#00000033";
-const textColor = "#57534e";
+const textColor = "var(--base-500)";
 
 export type Series = {
   name: string;
@@ -56,9 +56,9 @@ export const WpmOverTime = ({
           xAxis.push({
             x: errors_at_time[i].time,
             x2: errors_at_time[indexBackToZero].time,
-            fillColor: "#fbbf24",
+            fillColor: "var(--error)",
             opacity: 0.15,
-            borderColor: "#29252400",
+            borderColor: "transparent",
             strokeDashArray: 0,
             borderWidth: 100,
           });
@@ -125,11 +125,11 @@ export const WpmOverTime = ({
         show: false,
       },
       grid: {
-        borderColor: "#44403c",
+        borderColor: "var(--base-700)",
         show: true,
         xaxis: {
           lines: {
-            show: true,
+            show: false,
           },
         },
       },
@@ -202,7 +202,7 @@ export const WpmOverTime = ({
       series={series}
       type="area"
       width="100%"
-      height={350}
+      height={400}
     />
   );
 };

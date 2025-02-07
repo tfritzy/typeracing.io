@@ -72,7 +72,7 @@ function RaceInner({ db, user, analytics }: Props) {
 
   const handleWordComplete = useCallback(
     (charIndex: number, newKeystrokes: KeyStroke[]) => {
-      if (hasCompletedRace) return;
+      if (hasCompletedRace || (self?.place && self.place > 0)) return;
 
       for (let i = 0; i < newKeystrokes.length; i++) {
         newKeystrokes[i].time = new Timestamp(
@@ -99,7 +99,9 @@ function RaceInner({ db, user, analytics }: Props) {
       if (charIndex >= game.phrase.length) {
         setHasCompletedRace(true);
         const highestPlace = Math.max(
-          ...Object.values(game.players).map((p) => p.place),
+          ...Object.entries(game.players)
+            .filter(([id]) => id !== user.uid)
+            .map(([_, p]) => p.place),
           ...Object.values(game.bots).map((b) => b.place)
         );
         updateObject[`players.${user.uid}.place`] = highestPlace + 1;
@@ -110,7 +112,15 @@ function RaceInner({ db, user, analytics }: Props) {
         console.error("Error updating player progress:", error);
       });
     },
-    [analytics, docRef, game, hasCompletedRace, keystrokes, user.uid]
+    [
+      analytics,
+      docRef,
+      game,
+      hasCompletedRace,
+      keystrokes,
+      self?.place,
+      user.uid,
+    ]
   );
 
   const fillGame = useCallback(async () => {
@@ -285,7 +295,7 @@ function RaceInner({ db, user, analytics }: Props) {
   const isLocked = Timestamp.now() < game.startTime || isComplete;
   return (
     <>
-      <div className="flex flex-col flex-1 space-y-12" key={gameId}>
+      <div className="flex flex-col flex-1 space-y-12 w-full" key={gameId}>
         <div className="grow flex flex-col justify-end">
           <Players
             players={Object.values(game.players).sort(
