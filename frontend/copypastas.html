@@ -10,6 +10,7 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href="https://typeracing.io/copypasta" />
     <meta name="theme-color" content="#fbbf24" />
     <title>typeracing.io - Copypasta Mode</title>
     <meta
@@ -24,8 +25,36 @@
       property="og:description"
       content="Live type racing with internet copypastas"
     />
+    <style>
+      body {
+        background-color: #242424;
+        margin: 0;
+      }
+      #root {
+        height: 100vh;
+        background-color: #242424;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+    </style>
   </head>
   <body>
+    <div class="sr-only">
+      <h1>typeracing.io - Copypasta Typing Races</h1>
+      <h2>Race classic internet copypasta texts in real-time competitions</h2>
+      <p>
+        Challenge yourself to type famous internet copypastas in competitive
+        races against other players.
+      </p>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

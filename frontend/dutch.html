@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
   <head>
     <meta charset="UTF-8" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -10,6 +10,7 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href="https://typeracing.io/nederlands" />
     <meta name="theme-color" content="#fbbf24" />
     <title>typeracing.io - Dutch</title>
     <meta
@@ -21,8 +22,41 @@
       content="gratis typspellen, typen, typewerk, wpm, typsoftware, typspel, typoefening, gratis typprogramma, typvaardigheden"
     />
     <meta property="og:description" content="Live typerace-competitie" />
+    <style>
+      body {
+        background-color: #242424;
+        margin: 0;
+      }
+      #root {
+        height: 100vh;
+        background-color: #242424;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+    </style>
   </head>
   <body>
+    <div class="sr-only">
+      <h1>typeracing.io - Online Typwedstrijden in het Nederlands</h1>
+      <h2>Verbeter je typsnelheid in races tegen andere spelers</h2>
+      <p>
+        typeracing.io is een online typplatform waar je in realtime tegen andere
+        spelers van over de hele wereld kunt racen.
+      </p>
+      <p>
+        In elke race neem je het op tegen tegenstanders van vergelijkbaar
+        niveau, wat je motiveert om je typsnelheid en nauwkeurigheid te
+        verbeteren om hoger op de ranglijst te komen.
+      </p>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

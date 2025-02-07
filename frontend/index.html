@@ -22,13 +22,28 @@
     />
     <meta property="og:description" content="Live type racing competition" />
     <style>
-      .nodisplay {
-        display: none;
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+      body {
+        background-color: #242424;
+        margin: 0;
+      }
+      #root {
+        height: 100vh;
+        background-color: #242424;
       }
     </style>
   </head>
   <body>
-    <div class="nodisplay">
+    <div class="sr-only">
       <h1>typeracing.io - Compete in online typing races</h1>
 
       <h2>
@@ -40,29 +55,9 @@
       </p>
 
       <p>
-        Unlike traditional typing tests or tutorials, typeracing.io makes
-        improving your typing skills an engaging and competitive experience.
-      </p>
-
-      <p>
         In each race, you compete against opponents of similar skill levels,
         you'll find yourself motivated to improve your typing speed and accuracy
         to climb the leaderboards.
-      </p>
-
-      <p>
-        With its multiplayer focus and diverse range of typing prompts,
-        typeracing.io offers a fresh and exciting approach to honing your typing
-        abilities. Whether you're a beginner looking to build a solid foundation
-        or an experienced typist seeking to push your limits, typeracing.io's
-        competitive environment is designed to help you reach new typing speeds.
-      </p>
-
-      <p>
-        Don't settle for boring typing drills or solitary practice sessions.
-        Join the vibrant community of typeracing.io and experience the thrill of
-        real-time typing competitions while enhancing your skills in a fun and
-        engaging way.
       </p>
     </div>
     <div id="root"></div>

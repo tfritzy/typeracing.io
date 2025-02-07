@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -10,6 +10,7 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href="https://typeracing.io/francais" />
     <meta name="theme-color" content="#fbbf24" />
     <title>typeracing.io - Français</title>
     <meta
@@ -24,8 +25,45 @@
       property="og:description"
       content="Compétition de courses de type en direct"
     />
+    <style>
+      body {
+        background-color: #242424;
+        margin: 0;
+      }
+      #root {
+        height: 100vh;
+        background-color: #242424;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+    </style>
   </head>
   <body>
+    <div class="sr-only">
+      <h1>typeracing.io - Courses de frappe en ligne en français</h1>
+      <h2>
+        Améliorez votre vitesse de frappe en affrontant des joueurs en temps
+        réel
+      </h2>
+      <p>
+        typeracing.io est une plateforme de dactylographie en ligne qui vous
+        permet de concourir contre d'autres joueurs du monde entier en temps
+        réel.
+      </p>
+      <p>
+        Dans chaque course, vous affrontez des adversaires de niveau similaire,
+        vous motivant à améliorer votre vitesse et précision de frappe pour
+        grimper dans les classements.
+      </p>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

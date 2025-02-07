@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
   <head>
     <meta charset="UTF-8" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -10,6 +10,7 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href="https://typeracing.io/polski" />
     <meta name="theme-color" content="#fbbf24" />
     <title>typeracing.io - Polski</title>
     <meta
@@ -24,8 +25,44 @@
       property="og:description"
       content="Konkurs wyścigów pisania na żywo"
     />
+    <style>
+      body {
+        background-color: #242424;
+        margin: 0;
+      }
+      #root {
+        height: 100vh;
+        background-color: #242424;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+    </style>
   </head>
   <body>
+    <div class="sr-only">
+      <h1>typeracing.io - Wyścigi pisania online po polsku</h1>
+      <h2>
+        Popraw swoją szybkość pisania w wyścigach z graczami w czasie
+        rzeczywistym
+      </h2>
+      <p>
+        typeracing.io to platforma do pisania online, która pozwala na
+        rywalizację z innymi graczami z całego świata w czasie rzeczywistym.
+      </p>
+      <p>
+        W każdym wyścigu konkurujesz z przeciwnikami o podobnym poziomie
+        umiejętności, co motywuje do poprawy szybkości i dokładności pisania,
+        aby piąć się w rankingach.
+      </p>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

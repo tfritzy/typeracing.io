@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -10,6 +10,7 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href="https://typeracing.io/espanol" />
     <meta name="theme-color" content="#fbbf24" />
     <title>typeracing.io - Español</title>
     <meta
@@ -24,8 +25,44 @@
       property="og:description"
       content="Competición de carreras tipo vivo."
     />
+    <style>
+      body {
+        background-color: #242424;
+        margin: 0;
+      }
+      #root {
+        height: 100vh;
+        background-color: #242424;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+    </style>
   </head>
   <body>
+    <div class="sr-only">
+      <h1>typeracing.io - Carreras de mecanografía en línea en español</h1>
+      <h2>
+        Mejora tu velocidad de escritura compitiendo contra jugadores en tiempo
+        real
+      </h2>
+      <p>
+        typeracing.io es una plataforma de mecanografía en línea que te permite
+        competir contra otros jugadores de todo el mundo en tiempo real.
+      </p>
+      <p>
+        En cada carrera, compites contra oponentes de nivel similar, motivándote
+        a mejorar tu velocidad y precisión de escritura para ascender en las
+        clasificaciones.
+      </p>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

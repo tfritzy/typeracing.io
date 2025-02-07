@@ -71,7 +71,6 @@ export function MainMenu({ modeType }: { modeType: ModeType }) {
         </div>
         <div className="">
           <div className="relative flex flex-col space-x-1 items-center text text-base-400">
-            {/* <div className="font-bold mb-1">Mode</div> */}
             <button
               className=" space-x-2 items-center py-1 pl-2 pr-3 border border-base-700 rounded-md w-max text-base-400 flex flex-row shadow-sm shadow-black/25"
               onClick={toggleModeShown}

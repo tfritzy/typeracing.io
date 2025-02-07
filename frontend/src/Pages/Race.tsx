@@ -18,7 +18,7 @@ import { GoLabel } from "../components/GoLabel";
 import { getWpm, KeyStroke } from "../stats";
 import { StatsModal } from "../components/StatsModal";
 import { Analytics, logEvent } from "firebase/analytics";
-import { getFillGameUrl, reportResult } from "../helpers";
+import { getFillGameUrl } from "../helpers";
 
 interface Props {
   db: Firestore;
@@ -117,9 +117,9 @@ function RaceInner({ db, user, analytics }: Props) {
       try {
         await updateDoc(docRef, updateObject);
 
-        if (isGameComplete) {
-          await reportResult(user, game.id);
-        }
+        // if (isGameComplete) {
+        //   await reportResult(user, game.id);
+        // }
       } catch {
         setHasCompletedRace(false);
       }

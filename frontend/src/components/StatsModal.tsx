@@ -44,8 +44,8 @@ export function StatsModal(props: Props) {
       wpm: getWpm(props.keystrokes),
       time: getTime(props.keystrokes),
       accuracy: calculateAccuracy(props.keystrokes, props.phrase),
-      wpm_by_second: getRawWpmBySecond(props.keystrokes),
-      raw_wpm_by_second: getAggWpmBySecond(props.keystrokes),
+      wpm_by_second: getAggWpmBySecond(props.keystrokes),
+      raw_wpm_by_second: getRawWpmBySecond(props.keystrokes),
       errors: getErrorCountByTime(props.keystrokes, props.phrase),
       errorCount: getErrorCount(props.keystrokes, props.phrase),
     };
