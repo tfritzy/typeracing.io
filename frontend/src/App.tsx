@@ -45,7 +45,7 @@ const auth = getAuth(app);
 const analytics = getAnalytics(app);
 
 if (process.env.NODE_ENV === "development") {
-  connectFirestoreEmulator(db, "localhost", 8090);
+  connectFirestoreEmulator(db, "localhost", 8080);
 }
 
 function App() {
@@ -111,7 +111,7 @@ function App() {
             element={<RacePage db={db} user={user} analytics={analytics} />}
           />
 
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile db={db} user={user} />} />
 
           <Route path="/français" element={<FrenchPage />} />
           <Route path="/español" element={<SpanishPage />} />
