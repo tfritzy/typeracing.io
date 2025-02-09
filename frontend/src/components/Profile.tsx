@@ -4,23 +4,58 @@ import { generateRandomName } from "../helpers/generateRandomName";
 import { Pencil } from "../icons/pencil";
 import { doc, Firestore, onSnapshot, Timestamp } from "firebase/firestore";
 import { User } from "firebase/auth";
-import { useAuthToken } from "../hooks/useAuthToken";
+import { MonthlyResults, PlayerStats } from "@shared/types";
+import { GithubActivityChart } from "./GithubActivityChart";
 
-export type Player = {
-  name: string;
-  id: string;
-  progress: number;
-  wpm: number;
-  joinTime: Timestamp;
-  place: number;
+const emptyPlayerStats: PlayerStats = {
+  wins: 0,
+  gamesPlayed: 0,
+  lastUpdated: Timestamp.now(),
+  modeStats: {},
 };
 
 export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
-  const token = useAuthToken(user);
   const [name, setName] = useState<string>("");
-  const [playerStats, setPlayerStats] = useState<Player | null | undefined>(
-    undefined
-  );
+  const [playerStats, setPlayerStats] = useState<PlayerStats>(emptyPlayerStats);
+  const [monthlyResults, setMonthlyResults] = useState<
+    MonthlyResults | undefined | null
+  >();
+
+  const statsDocRef = useMemo(() => {
+    return doc(db, "playerStats", user.uid);
+  }, [db, user.uid]);
+
+  useEffect(() => {
+    if (!statsDocRef) return;
+
+    const unsubscribe = onSnapshot(statsDocRef, (doc) => {
+      if (doc.exists()) {
+        setPlayerStats(doc.data() as PlayerStats);
+      } else {
+        setPlayerStats(emptyPlayerStats);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [db, statsDocRef]);
+
+  const monthlyResultsRef = useMemo(() => {
+    return doc(db, "monthlyResults", `${user.uid}_${2025}_${1}`);
+  }, [db, user.uid]);
+
+  useEffect(() => {
+    if (!monthlyResultsRef) return;
+
+    const unsubscribe = onSnapshot(monthlyResultsRef, (doc) => {
+      if (doc.exists()) {
+        setMonthlyResults(doc.data() as MonthlyResults);
+      } else {
+        setMonthlyResults(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [db, monthlyResultsRef]);
 
   React.useEffect(() => {
     let name = Cookies.get("name");
@@ -47,27 +82,17 @@ export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
     []
   );
 
-  const docRef = useMemo(() => {
-    if (!token) {
-      return;
+  const playedPerDay = useMemo(() => {
+    if (!monthlyResults) {
+      return [];
     }
 
-    return doc(db, "playerStats", token);
-  }, [db, token]);
-
-  useEffect(() => {
-    if (!docRef) return;
-
-    const unsubscribe = onSnapshot(docRef, (doc) => {
-      if (doc.exists()) {
-        setPlayerStats(doc.data() as Player);
-      } else {
-        setPlayerStats(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [db, docRef]);
+    const daysPlayed = [];
+    for (const [day, dayOfResults] of Object.entries(monthlyResults.results)) {
+      daysPlayed[parseInt(day)] = dayOfResults.length;
+    }
+    return daysPlayed;
+  }, [monthlyResults]);
 
   return (
     <div className="w-full">
@@ -79,6 +104,26 @@ export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
       </div>
 
       {JSON.stringify(playerStats)}
+
+      {JSON.stringify(monthlyResults)}
+
+      <div className="flex flex-row space-x-1">
+        <Box title="Played">{playerStats.gamesPlayed}</Box>
+        <Box title="Wins">{playerStats.wins}</Box>
+        {playerStats && (
+          <Box title="Win rate">
+            {((playerStats.wins / playerStats.gamesPlayed) * 100).toFixed(0) +
+              "%"}
+          </Box>
+        )}
+      </div>
+
+      {playedPerDay && (
+        <div>
+          <h2 className="text-lg font-semibold">Activity</h2>
+          <GithubActivityChart data={playedPerDay} />
+        </div>
+      )}
     </div>
   );
 
@@ -90,3 +135,18 @@ export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
     />
   );
 };
+
+export function Box({
+  children,
+  title,
+}: {
+  children: JSX.Element | string | number | undefined;
+  title: string;
+}) {
+  return (
+    <div className="border boder-base-700 border-b-3 px-4 py-2 w-24 text-center">
+      <div>{title}</div>
+      <div className="text-4xl">{children}</div>
+    </div>
+  );
+}

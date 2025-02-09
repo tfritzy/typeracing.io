@@ -4,53 +4,29 @@ import { onRequest } from "firebase-functions/v2/https";
 import { getAuth } from "firebase-admin/auth";
 import { BotNames } from "./botNameGenerator.js";
 import { getPhrase } from "./getPhrase.js";
+import {
+  Bot,
+  Game,
+  GameResult,
+  ModeType,
+  MonthlyResults,
+  PlayerStats,
+} from "@shared/types.js";
 
 initializeApp({ projectId: "typeracing-io" });
 const db = getFirestore();
 const auth = getAuth();
 
-export type Player = {
-  name: string;
-  id: string;
-  progress: number;
-  wpm: number;
-  joinTime: Timestamp;
-  place: number;
-};
-
-export type Bot = Player & { targetWpm: number };
-
-export type Game = {
-  createdTime: Timestamp;
-  id: string;
-  players: { [playerId: string]: Player };
-  bots: { [botId: string]: Bot };
-  phrase: string;
-  status: "in_progress" | "waiting";
-  botFillTime: Timestamp;
-  startTime: Timestamp;
-  mode: string;
-};
-
-interface FindGameRequest {
-  displayName: string;
-  mode: string;
+export interface FindGameRequest {
+  displayName: string | undefined;
+  mode: ModeType | undefined;
 }
 
-interface FindGameResponse {
+export interface FindGameResponse {
   id: string;
   message: string;
 }
 
-interface FillGameWithBotsRequest {
-  gameId: string;
-}
-
-interface FillGameWithBotsResponse {
-  message: string;
-}
-
-// Cloud Functions
 export const findGame = onRequest({ cors: true }, async (req, res) => {
   try {
     // Handle preflight requests
@@ -146,7 +122,7 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
                 id: uid,
                 joinTime: now,
                 place: -1,
-                name: displayName,
+                name: displayName || "guest",
               },
             },
             phrase: phrase,
@@ -178,6 +154,14 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
     }
   }
 });
+
+export interface FillGameWithBotsRequest {
+  gameId: string | undefined;
+}
+
+export interface FillGameWithBotsResponse {
+  message: string;
+}
 
 export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
   try {
@@ -278,16 +262,6 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
   }
 });
 
-interface GameResult {
-  gameId: string;
-  userId: string;
-  wpm: number;
-  place: number;
-  mode: string;
-  phraseLength: number;
-  finishTime: Timestamp;
-}
-
 interface RecordGameResultRequest {
   gameId: string;
 }
@@ -299,7 +273,6 @@ interface RecordGameResultResponse {
 
 export const recordGameResult = onRequest({ cors: true }, async (req, res) => {
   try {
-    // Handle preflight requests
     if (req.method === "OPTIONS") {
       res.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
       res.set("Access-Control-Allow-Headers", "*");
@@ -308,7 +281,6 @@ export const recordGameResult = onRequest({ cors: true }, async (req, res) => {
       return;
     }
 
-    // Get and verify the authorization token
     const authHeader = req.headers.authorization;
     if (!authHeader?.startsWith("Bearer ")) {
       res.status(401).json({ error: "No token provided" });
@@ -328,7 +300,6 @@ export const recordGameResult = onRequest({ cors: true }, async (req, res) => {
           return;
         }
 
-        // Get the game data
         const gameRef = db.collection("games").doc(gameId);
         const gameDoc = await gameRef.get();
 
@@ -339,14 +310,12 @@ export const recordGameResult = onRequest({ cors: true }, async (req, res) => {
 
         const gameData = gameDoc.data() as Game;
 
-        // Verify the player was in this game
         const player = gameData.players[uid];
         if (!player) {
           res.status(403).json({ error: "Player was not in this game" });
           return;
         }
 
-        // Verify the game is finished for this player
         if (player.place === -1) {
           res
             .status(400)
@@ -355,34 +324,56 @@ export const recordGameResult = onRequest({ cors: true }, async (req, res) => {
         }
 
         const now = Timestamp.now();
+        const date = now.toDate();
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const day = date.getDate();
 
-        // Create the game result record using the existing player data
         const gameResult: GameResult = {
-          gameId,
-          userId: uid,
+          game: gameId,
+          mode: gameData.mode,
           wpm: player.wpm,
           place: player.place,
-          mode: gameData.mode,
-          phraseLength: gameData.phrase.length,
-          finishTime: now,
+          length: gameData.phrase.length,
         };
 
-        // Store the result in the gameResults collection
-        await db.collection("gameResults").add(gameResult);
-
-        // Update user's stats in a separate userStats collection
-        const playerStatsRef = db.collection("playerStats").doc(uid);
         await db.runTransaction(async (transaction) => {
-          const playerStatsDoc = await transaction.get(playerStatsRef);
-          const currentStats = playerStatsDoc.data() || {
-            gamesPlayed: 0,
-            lastUpdated: now,
-            modeStats: {},
-          };
+          const monthlyResultsRef = db
+            .collection("monthlyResults")
+            .doc(`${uid}_${year}_${month}`);
+          const monthlyResultsDoc = await transaction.get(monthlyResultsRef);
 
-          const modeStats = currentStats.modeStats || {};
-          if (!modeStats[gameData.mode]) {
-            modeStats[gameData.mode] = {
+          let monthlyResults: MonthlyResults;
+          if (!monthlyResultsDoc.exists) {
+            monthlyResults = {
+              year,
+              month,
+              results: {
+                [day]: [gameResult],
+              },
+            };
+          } else {
+            monthlyResults = monthlyResultsDoc.data() as MonthlyResults;
+            if (!monthlyResults.results[day]) {
+              monthlyResults.results[day] = [];
+            }
+            monthlyResults.results[day].push(gameResult);
+          }
+
+          const playerStatsRef = db.collection("playerStats").doc(uid);
+          const playerStatsDoc = await transaction.get(playerStatsRef);
+
+          const currentStats: PlayerStats = playerStatsDoc.exists
+            ? (playerStatsDoc.data() as PlayerStats)
+            : {
+                gamesPlayed: 0,
+                wins: 0,
+                lastUpdated: now,
+                modeStats: {},
+              };
+
+          if (!currentStats.modeStats[gameData.mode]) {
+            currentStats.modeStats[gameData.mode] = {
               gamesPlayed: 0,
               bestWpm: 0,
               totalWpm: 0,
@@ -390,30 +381,25 @@ export const recordGameResult = onRequest({ cors: true }, async (req, res) => {
             };
           }
 
-          const currentModeStats = modeStats[gameData.mode];
-          const newModeGamesPlayed = currentModeStats.gamesPlayed + 1;
-          const newModeTotalWpm = currentModeStats.totalWpm + player.wpm;
-          const newModeAverageWpm = Math.round(
-            newModeTotalWpm / newModeGamesPlayed
-          );
-          const newModeBestWpm = Math.max(currentModeStats.bestWpm, player.wpm);
+          const modeStats = currentStats.modeStats[gameData.mode]!;
+          const newModeGamesPlayed = modeStats.gamesPlayed + 1;
+          const newModeTotalWpm = modeStats.totalWpm + player.wpm;
 
-          modeStats[gameData.mode] = {
+          currentStats.modeStats[gameData.mode] = {
             gamesPlayed: newModeGamesPlayed,
-            bestWpm: newModeBestWpm,
+            bestWpm: Math.max(modeStats.bestWpm, player.wpm),
             totalWpm: newModeTotalWpm,
-            averageWpm: newModeAverageWpm,
+            averageWpm: Math.round(newModeTotalWpm / newModeGamesPlayed),
           };
 
-          transaction.set(
-            playerStatsRef,
-            {
-              gamesPlayed: currentStats.gamesPlayed + 1,
-              lastUpdated: now,
-              modeStats,
-            },
-            { merge: true }
-          );
+          currentStats.gamesPlayed += 1;
+          if (player.place === 0) {
+            currentStats.wins += 1;
+          }
+          currentStats.lastUpdated = now;
+
+          transaction.set(monthlyResultsRef, monthlyResults);
+          transaction.set(playerStatsRef, currentStats);
         });
 
         const response: RecordGameResultResponse = {

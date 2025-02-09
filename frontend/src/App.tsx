@@ -45,7 +45,7 @@ const auth = getAuth(app);
 const analytics = getAnalytics(app);
 
 if (process.env.NODE_ENV === "development") {
-  connectFirestoreEmulator(db, "localhost", 8080);
+  connectFirestoreEmulator(db, "localhost", 8090);
 }
 
 function App() {

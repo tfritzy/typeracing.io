@@ -1,27 +1,4 @@
-export type ModeType = LanguageType | PhraseType;
-
-export type LanguageType =
-  | "english"
-  | "français"
-  | "español"
-  | "deutsch"
-  | "italiano"
-  | "português"
-  | "dutch"
-  | "polski"
-  | "русский"
-  | "हिंदी";
-
-export type PhraseType = "copypastas" | "shakespeare";
-
-export type GroupType = "languages" | "phrases";
-
-export type Mode = {
-  name: string;
-  description: string;
-  icon: string;
-  type: ModeType;
-};
+import type { GroupType, Mode, ModeType } from "@shared/types";
 
 export const groupedModes: Record<GroupType, Mode[]> = {
   phrases: [

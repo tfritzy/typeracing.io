@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { Bot, Player } from "../types";
 import { DotSpinner } from "./DotSpinner";
 import { Timestamp } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { placeToString } from "../helpers";
+import { Bot, Player } from "@shared/types";
 
 type Props = {
   players: Player[];
@@ -68,7 +68,7 @@ export function Players({ players, bots, user }: Props) {
     for (let i = totalPlayers; i < 4; i++) {
       allPlayers.push({
         id: "loading" + i,
-        name: <DotSpinner />,
+        name: (<DotSpinner />) as unknown as string,
         place: -1,
         progress: 0,
         wpm: 0,
