@@ -6,6 +6,7 @@ import { doc, Firestore, onSnapshot, Timestamp } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { MonthlyResults, PlayerStats } from "@shared/types";
 import { GithubActivityChart } from "./GithubActivityChart";
+import { GameHistoryChart } from "./GameHistoryChart";
 
 const emptyPlayerStats: PlayerStats = {
   wins: 0,
@@ -105,8 +106,8 @@ export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
   return (
     <div className="w-full">
       <div className="flex flex-row items-baseline space-x-1">
-        <h1 className="text-base-300">{name}</h1>
-        <button className="stroke-base-300">
+        <h1 className="text-base-400">{name}</h1>
+        <button className="stroke-base-400">
           <Pencil />
         </button>
       </div>
@@ -122,8 +123,50 @@ export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
       </div>
       {playedPerDay.length > 0 && (
         <div>
-          <h2 className="text-lg font-semibold">Activity</h2>
           <GithubActivityChart data={playedPerDay} year={selectedYear} />
+          <GameHistoryChart
+            points={[
+              // Game 1: Regular progression with occasional special points
+              [
+                { value: 10, special: false },
+                { value: 15, special: false },
+                { value: 25, special: true }, // Special point
+                { value: 20, special: false },
+                { value: 30, special: false },
+                { value: 45, special: true }, // Special point
+                { value: 40, special: false },
+                { value: 35, special: false },
+                { value: 50, special: true }, // Special point
+                { value: 45, special: false },
+              ],
+              // Game 2: More volatile progression
+              [
+                { value: 5, special: false },
+                { value: 30, special: true }, // Special point
+                { value: 15, special: false },
+                { value: 40, special: true }, // Special point
+                { value: 25, special: false },
+                { value: 20, special: false },
+                { value: 35, special: false },
+                { value: 55, special: true }, // Special point
+                { value: 45, special: false },
+                { value: 40, special: false },
+              ],
+              // Game 3: Steady improvement
+              [
+                { value: 5, special: false },
+                { value: 10, special: false },
+                { value: 20, special: true }, // Special point
+                { value: 25, special: false },
+                { value: 35, special: true }, // Special point
+                { value: 40, special: false },
+                { value: 45, special: false },
+                { value: 60, special: true }, // Special point
+                { value: 55, special: false },
+                { value: 65, special: false },
+              ],
+            ]}
+          />
         </div>
       )}
     </div>

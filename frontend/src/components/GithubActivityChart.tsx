@@ -3,7 +3,7 @@ import { useMemo } from "react";
 type Activity = {
   type: "activity";
   value: number;
-  dayIndex: number;
+  date: Date;
 };
 
 type Label = {
@@ -44,8 +44,6 @@ export function GithubActivityChart({
 }) {
   const startOfYear = new Date(year, 0, 1);
   const dayOffset = startOfYear.getDay() === 0 ? 6 : startOfYear.getDay() - 1;
-  const lastDay = new Date(year, 11, 31).getDayOfYear();
-  console.log(dayOffset, lastDay);
 
   const activityGrid: Cell[][] = useMemo(
     () => [
@@ -56,9 +54,9 @@ export function GithubActivityChart({
       ...Array.from({ length: DAYS_IN_WEEK }, (_, dayIndex) => [
         { type: "day" as const, label: DAYS[dayIndex] },
         ...Array.from({ length: WEEKS_IN_YEAR }, (_, weekIndex) => {
-          const dayNumber = weekIndex * DAYS_IN_WEEK + dayIndex;
-          console.log(dayNumber);
-          if (dayNumber <= dayOffset || dayNumber > 365 + dayOffset) {
+          const dayNumber = weekIndex * DAYS_IN_WEEK + dayIndex - dayOffset;
+          const date = new Date(year, 0, dayNumber);
+          if (date.getFullYear() !== year) {
             return {
               type: "blank",
             };
@@ -66,13 +64,13 @@ export function GithubActivityChart({
             return {
               type: "activity" as const,
               value: data[dayNumber] ?? 0,
-              dayIndex: dayNumber,
+              date: date,
             };
           }
         }),
       ]),
     ],
-    [data]
+    [data, dayOffset, year]
   );
 
   const renderCell = (cell: Cell) => {
@@ -88,7 +86,12 @@ export function GithubActivityChart({
       return (
         <div
           className="w-3 h-3 rounded-sm"
-          title={`${cell.value} activities on ${cell.dayIndex}`}
+          title={`${cell.value} ${
+            cell.value !== 1 ? "games" : "game"
+          } on ${cell.date.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+          })}`}
           style={{
             backgroundColor:
               cell.value > 0 ? "var(--accent)" : "var(--base-700)",
