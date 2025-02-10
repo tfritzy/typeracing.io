@@ -3,6 +3,7 @@ import { useMemo } from "react";
 type Activity = {
   type: "activity";
   value: number;
+  dayIndex: number;
 };
 
 type Label = {
@@ -10,37 +11,15 @@ type Label = {
   label: string;
 };
 
-type Cell = Activity | Label;
+type Blank = {
+  type: "blank";
+};
 
-export function generateMockData(options = {}) {
-  const {
-    maxDaily = 12,
-    activeDaysPercent = 30,
-    streakProbability = 0.7,
-  } = options;
-  const data = new Array(366).fill(0);
-  let isInStreak = false;
-  for (let i = 0; i < data.length; i++) {
-    const shouldHaveActivity = Math.random() * 100 < activeDaysPercent;
-    if (isInStreak && Math.random() < streakProbability) {
-      data[i] = Math.floor(Math.random() * maxDaily) + 1;
-      continue;
-    }
-    if (shouldHaveActivity) {
-      data[i] = Math.floor(Math.random() * maxDaily) + 1;
-      isInStreak = true;
-    } else {
-      data[i] = 0;
-      isInStreak = false;
-    }
-  }
-  return data;
-}
+type Cell = Activity | Label | Blank;
 
 const WEEKS_IN_YEAR = 53;
 const DAYS_IN_WEEK = 7;
 const DAYS = ["", "Mon", "", "Wed", "", "Fri", ""];
-const COLORS = ["hsl(47, 0%, 18%)", "var(--accent)"];
 const MONTH_LABELS: { [week: number]: string } = {
   1: "Jan",
   5: "Feb",
@@ -56,12 +35,17 @@ const MONTH_LABELS: { [week: number]: string } = {
   49: "Dec",
 };
 
-export function GithubActivityChart({ data }: { data: number[] }) {
-  const p90 = useMemo(() => {
-    const sortedData = [...data].sort((a, b) => a - b).filter((a) => a);
-    const index = Math.floor(sortedData.length * 0.9);
-    return sortedData[index];
-  }, [data]);
+export function GithubActivityChart({
+  data,
+  year,
+}: {
+  data: number[];
+  year: number;
+}) {
+  const startOfYear = new Date(year, 0, 1);
+  const dayOffset = startOfYear.getDay() === 0 ? 6 : startOfYear.getDay() - 1;
+  const lastDay = new Date(year, 11, 31).getDayOfYear();
+  console.log(dayOffset, lastDay);
 
   const activityGrid: Cell[][] = useMemo(
     () => [
@@ -73,10 +57,18 @@ export function GithubActivityChart({ data }: { data: number[] }) {
         { type: "day" as const, label: DAYS[dayIndex] },
         ...Array.from({ length: WEEKS_IN_YEAR }, (_, weekIndex) => {
           const dayNumber = weekIndex * DAYS_IN_WEEK + dayIndex;
-          return {
-            type: "activity" as const,
-            value: data[dayNumber] ?? 0,
-          };
+          console.log(dayNumber);
+          if (dayNumber <= dayOffset || dayNumber > 365 + dayOffset) {
+            return {
+              type: "blank",
+            };
+          } else {
+            return {
+              type: "activity" as const,
+              value: data[dayNumber] ?? 0,
+              dayIndex: dayNumber,
+            };
+          }
         }),
       ]),
     ],
@@ -93,20 +85,19 @@ export function GithubActivityChart({ data }: { data: number[] }) {
         </div>
       );
     } else if (cell.type === "activity") {
-      const color =
-        COLORS[
-          Math.max(0, Math.floor((cell.value / p90) * (COLORS.length - 1)))
-        ];
-
       return (
         <div
           className="w-3 h-3 rounded-sm"
-          title={`${cell.value} activities`}
+          title={`${cell.value} activities on ${cell.dayIndex}`}
           style={{
-            backgroundColor: color,
+            backgroundColor:
+              cell.value > 0 ? "var(--accent)" : "var(--base-700)",
+            opacity: cell.value === 0 ? 0.25 : 1,
           }}
         />
       );
+    } else {
+      return <div className="w-3 h-3" />;
     }
   };
 

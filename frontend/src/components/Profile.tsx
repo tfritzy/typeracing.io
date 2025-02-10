@@ -17,9 +17,10 @@ const emptyPlayerStats: PlayerStats = {
 export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
   const [name, setName] = useState<string>("");
   const [playerStats, setPlayerStats] = useState<PlayerStats>(emptyPlayerStats);
-  const [monthlyResults, setMonthlyResults] = useState<
-    MonthlyResults | undefined | null
-  >();
+  const [yearlyResults, setYearlyResults] = useState<(MonthlyResults | null)[]>(
+    new Array(12).fill(null)
+  );
+  const [selectedYear, setSelectedYear] = useState<number>(2025);
 
   const statsDocRef = useMemo(() => {
     return doc(db, "playerStats", user.uid);
@@ -27,7 +28,6 @@ export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
 
   useEffect(() => {
     if (!statsDocRef) return;
-
     const unsubscribe = onSnapshot(statsDocRef, (doc) => {
       if (doc.exists()) {
         setPlayerStats(doc.data() as PlayerStats);
@@ -35,27 +35,30 @@ export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
         setPlayerStats(emptyPlayerStats);
       }
     });
-
     return () => unsubscribe();
   }, [db, statsDocRef]);
 
-  const monthlyResultsRef = useMemo(() => {
-    return doc(db, "monthlyResults", `${user.uid}_${2025}_${1}`);
-  }, [db, user.uid]);
+  const monthlyResultsRefs = useMemo(() => {
+    return Array.from({ length: 12 }, (_, i) =>
+      doc(db, "monthlyResults", `${user.uid}_${selectedYear}_${i + 1}`)
+    );
+  }, [db, user.uid, selectedYear]);
 
   useEffect(() => {
-    if (!monthlyResultsRef) return;
+    const unsubscribes = monthlyResultsRefs.map((ref, index) =>
+      onSnapshot(ref, (doc) => {
+        setYearlyResults((prev) => {
+          const newResults = [...prev];
+          newResults[index] = doc.exists()
+            ? (doc.data() as MonthlyResults)
+            : null;
+          return newResults;
+        });
+      })
+    );
 
-    const unsubscribe = onSnapshot(monthlyResultsRef, (doc) => {
-      if (doc.exists()) {
-        setMonthlyResults(doc.data() as MonthlyResults);
-      } else {
-        setMonthlyResults(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [db, monthlyResultsRef]);
+    return () => unsubscribes.forEach((unsubscribe) => unsubscribe());
+  }, [db, monthlyResultsRefs]);
 
   React.useEffect(() => {
     let name = Cookies.get("name");
@@ -71,28 +74,33 @@ export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
     }
   }, []);
 
-  const updateName = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setName(e.target.value);
-      Cookies.set("name", e.target.value, {
-        sameSite: "strict",
-        expires: 3650,
-      });
-    },
-    []
-  );
+  // const updateName = React.useCallback(
+  //   (e: React.ChangeEvent<HTMLInputElement>) => {
+  //     setName(e.target.value);
+  //     Cookies.set("name", e.target.value, {
+  //       sameSite: "strict",
+  //       expires: 3650,
+  //     });
+  //   },
+  //   []
+  // );
 
   const playedPerDay = useMemo(() => {
-    if (!monthlyResults) {
-      return [];
-    }
+    const allDaysPlayed: number[] = [];
+    yearlyResults.forEach((monthResult, monthIndex) => {
+      if (!monthResult) return;
 
-    const daysPlayed = [];
-    for (const [day, dayOfResults] of Object.entries(monthlyResults.results)) {
-      daysPlayed[parseInt(day)] = dayOfResults.length;
-    }
-    return daysPlayed;
-  }, [monthlyResults]);
+      for (const [day, dayOfResults] of Object.entries(monthResult.results)) {
+        const dayInYear = new Date(
+          selectedYear,
+          monthIndex + 1,
+          parseInt(day)
+        ).getDayOfYear();
+        allDaysPlayed[dayInYear] = dayOfResults.length;
+      }
+    });
+    return allDaysPlayed;
+  }, [yearlyResults, selectedYear]);
 
   return (
     <div className="w-full">
@@ -102,11 +110,6 @@ export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
           <Pencil />
         </button>
       </div>
-
-      {JSON.stringify(playerStats)}
-
-      {JSON.stringify(monthlyResults)}
-
       <div className="flex flex-row space-x-1">
         <Box title="Played">{playerStats.gamesPlayed}</Box>
         <Box title="Wins">{playerStats.wins}</Box>
@@ -117,23 +120,27 @@ export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
           </Box>
         )}
       </div>
-
-      {playedPerDay && (
+      {playedPerDay.length > 0 && (
         <div>
           <h2 className="text-lg font-semibold">Activity</h2>
-          <GithubActivityChart data={playedPerDay} />
+          <GithubActivityChart data={playedPerDay} year={selectedYear} />
         </div>
       )}
     </div>
   );
+};
 
-  return (
-    <input
-      className="pl-2 bg-base-700 rounded border border-base-500 outline-none focus:border-accent"
-      value={name}
-      onChange={updateName}
-    />
-  );
+declare global {
+  interface Date {
+    getDayOfYear(): number;
+  }
+}
+
+Date.prototype.getDayOfYear = function () {
+  const start = new Date(this.getFullYear(), 0, 0);
+  const diff = (this as Date).getTime() - start.getTime();
+  const oneDay = 1000 * 60 * 60 * 24;
+  return Math.floor(diff / oneDay);
 };
 
 export function Box({
