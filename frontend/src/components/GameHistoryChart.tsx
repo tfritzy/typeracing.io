@@ -1,107 +1,85 @@
-import ReactApexChart from "react-apexcharts";
-import { ApexOptions } from "apexcharts";
+import { useMemo } from "react";
 
 type Props = {
-  points: { value: number; special: boolean }[][];
+  points: number[][];
 };
 
-export function GameHistoryChart({ points }: Props) {
-  // Transform data into series format
-  const regularSeries = points.map((gamePoints, gameIndex) => ({
-    name: `Game ${gameIndex + 1}`,
-    data: gamePoints
-      .map((point, turnIndex) =>
-        !point.special ? [turnIndex, point.value] : null
-      )
-      .filter((point): point is [number, number] => point !== null),
-  }));
+const COLS = 60;
+const ROWS = 20;
+export function GameHistoryChart({ points: raw }: Props) {
+  const points: number[][] = useMemo(() => {
+    if (raw.length < COLS) {
+      const paddingStart = Math.floor((COLS - raw.length) / 2);
+      const paddingEnd = COLS - raw.length - paddingStart;
+      return [
+        ...Array(paddingStart).fill([]),
+        ...raw,
+        ...Array(paddingEnd).fill([]),
+      ];
+    }
+    return raw;
+  }, [raw]);
 
-  const specialSeries = points.map((gamePoints, gameIndex) => ({
-    name: `Game ${gameIndex + 1} (Special)`,
-    data: gamePoints
-      .map((point, turnIndex) =>
-        point.special ? [turnIndex, point.value] : null
-      )
-      .filter((point): point is [number, number] => point !== null),
-  }));
+  console.log("points", points);
 
-  // Filter out empty series
-  const filteredRegularSeries = regularSeries.filter(
-    (series) => series.data.length > 0
-  );
-  const filteredSpecialSeries = specialSeries.filter(
-    (series) => series.data.length > 0
-  );
+  const content: JSX.Element[][] = useMemo(() => {
+    const squares: number[][] = [];
+    for (let i = 0; i < 60; i++) {
+      squares[i] = Array(20).fill(0);
+    }
 
-  const options: ApexOptions = {
-    chart: {
-      type: "scatter",
-      zoom: {
-        enabled: true,
-        type: "xy",
-      },
-    },
-    colors: [
-      // Regular points - blue shades
-      "#1e88e5",
-      "#1976d2",
-      "#1565c0",
-      "#0d47a1",
-      // Special points - accent color
-      "var(--accent)",
-      "var(--accent)",
-      "var(--accent)",
-      "var(--accent)",
-    ],
-    xaxis: {
-      tickAmount: Math.min(10, Math.max(...points.map((game) => game.length))),
-      labels: {
-        formatter: (val: number) => Math.round(val).toString(),
-      },
-      title: {
-        text: "Turn",
-      },
-    },
-    yaxis: {
-      title: {
-        text: "Value",
-      },
-    },
-    markers: {
-      size: 6,
-      strokeWidth: 0,
-      hover: {
-        size: 8,
-      },
-    },
-    tooltip: {
-      custom: function ({ seriesIndex, dataPointIndex, w }) {
-        const series = w.config.series[seriesIndex];
-        const point = series.data[dataPointIndex];
-        const isSpecial = seriesIndex >= filteredRegularSeries.length;
-        return `
-          <div class="p-2">
-            <div>${series.name}</div>
-            <div>Turn: ${point[0] + 1}</div>
-            <div>Value: ${point[1]}</div>
-            ${isSpecial ? "<div>Special Point</div>" : ""}
-          </div>
-        `;
-      },
-    },
-    legend: {
-      show: points.length > 1,
-    },
-  };
+    let high = 0;
+    for (const day of points) {
+      for (const point of day) {
+        if (point > high) {
+          high = point;
+        }
+      }
+    }
+    high *= 1.3;
 
-  return (
-    <div className="w-full h-96">
-      <ReactApexChart
-        options={options}
-        series={[...filteredRegularSeries, ...filteredSpecialSeries]}
-        type="scatter"
-        height="100%"
-      />
-    </div>
-  );
+    let highestCount = 0;
+    for (let day = 0; day < points.length; day++) {
+      console.log(day, points.length);
+      const col = Math.round((day / points.length) * COLS);
+      for (const point of points[day]) {
+        const row = Math.round((point / high) * ROWS);
+        console.log("colrow", col, row);
+        squares[col][row] += 1;
+        if (squares[col][row] > highestCount) {
+          highestCount = squares[col][row];
+        }
+      }
+    }
+
+    for (let x = 0; x < squares.length; x++) {
+      for (let y = 0; y < squares[0].length; y++) {
+        squares[x][y] = squares[x][y] / highestCount;
+      }
+    }
+
+    console.log(squares);
+
+    const cols = [];
+    for (let x = 0; x < squares.length; x++) {
+      const col = [];
+      for (let y = squares[0].length - 1; y >= 0; y--) {
+        col.push(
+          <div
+            className="w-3 h-3 rounded-sm"
+            style={{
+              backgroundColor:
+                squares[x][y] > 0 ? "var(--accent)" : "var(--base-700)",
+              opacity: squares[x][y] > 0 ? squares[x][y] : 0.25,
+            }}
+          />
+        );
+      }
+      cols.push(col);
+    }
+
+    return cols.map((c) => <div className="flex flex-col space-y-1">{c}</div>);
+  }, [points]);
+
+  return <div className="flex flex-row gap-1">{content}</div>;
 }

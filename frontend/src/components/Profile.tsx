@@ -126,45 +126,36 @@ export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
           <GithubActivityChart data={playedPerDay} year={selectedYear} />
           <GameHistoryChart
             points={[
-              // Game 1: Regular progression with occasional special points
-              [
-                { value: 10, special: false },
-                { value: 15, special: false },
-                { value: 25, special: true }, // Special point
-                { value: 20, special: false },
-                { value: 30, special: false },
-                { value: 45, special: true }, // Special point
-                { value: 40, special: false },
-                { value: 35, special: false },
-                { value: 50, special: true }, // Special point
-                { value: 45, special: false },
-              ],
-              // Game 2: More volatile progression
-              [
-                { value: 5, special: false },
-                { value: 30, special: true }, // Special point
-                { value: 15, special: false },
-                { value: 40, special: true }, // Special point
-                { value: 25, special: false },
-                { value: 20, special: false },
-                { value: 35, special: false },
-                { value: 55, special: true }, // Special point
-                { value: 45, special: false },
-                { value: 40, special: false },
-              ],
-              // Game 3: Steady improvement
-              [
-                { value: 5, special: false },
-                { value: 10, special: false },
-                { value: 20, special: true }, // Special point
-                { value: 25, special: false },
-                { value: 35, special: true }, // Special point
-                { value: 40, special: false },
-                { value: 45, special: false },
-                { value: 60, special: true }, // Special point
-                { value: 55, special: false },
-                { value: 65, special: false },
-              ],
+              [64, 78, 96, 68, 72, 90, 86], // Day 1
+              [75, 82, 88], // Day 2
+              [70, 92, 85, 89], // Day 3
+              [], // Day 4 - skipped
+              [88, 95, 82, 91, 87], // Day 5
+              [89, 94, 92], // Day 6
+              [], // Day 7 - skipped
+              [91, 98, 96, 89], // Day 8
+              [94, 88, 99, 92, 96], // Day 9
+              [95, 102, 98, 97], // Day 10
+              [93, 96, 99], // Day 11
+              [97, 95, 94, 98], // Day 12
+              [], // Day 13 - skipped
+              [96, 99, 102, 95], // Day 14
+              [98, 101, 97], // Day 15
+              [99, 103, 96, 98, 102], // Day 16
+              [97, 99, 101], // Day 17
+              [], // Day 18 - skipped
+              [98, 102, 105, 99], // Day 19
+              [101, 104, 98, 103], // Day 20
+              [102, 106, 99, 104], // Day 21
+              [], // Day 22 - skipped
+              [103, 105, 108, 102], // Day 23
+              [104, 107, 102, 105], // Day 24
+              [105, 109, 103, 106], // Day 25
+              [104, 108, 106], // Day 26
+              [], // Day 27 - skipped
+              [106, 110, 105, 108], // Day 28
+              [107, 111, 109, 108], // Day 29
+              [108, 112, 110, 109, 111], // Day 30
             ]}
           />
         </div>
