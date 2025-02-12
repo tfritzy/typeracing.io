@@ -1,3 +1,4 @@
+import { GameResult } from "@shared/types";
 import { useMemo } from "react";
 
 type Activity = {
@@ -39,7 +40,7 @@ export function GithubActivityChart({
   data,
   year,
 }: {
-  data: number[];
+  data: Map<string, GameResult[]>;
   year: number;
 }) {
   const startOfYear = new Date(year, 0, 1);
@@ -54,24 +55,26 @@ export function GithubActivityChart({
       ...Array.from({ length: DAYS_IN_WEEK }, (_, dayIndex) => [
         { type: "day" as const, label: DAYS[dayIndex] },
         ...Array.from({ length: WEEKS_IN_YEAR }, (_, weekIndex) => {
-          const dayNumber = weekIndex * DAYS_IN_WEEK + dayIndex - dayOffset;
-          const date = new Date(year, 0, dayNumber);
-          if (date.getFullYear() !== year) {
+          const dayNumber = weekIndex * DAYS_IN_WEEK + dayIndex;
+          if (dayNumber <= dayOffset || dayNumber > 365 + dayOffset) {
             return {
-              type: "blank",
+              type: "blank" as const,
             };
           } else {
-            return {
+            const date = new Date(year, 0, dayNumber);
+            const cell: Activity = {
               type: "activity" as const,
-              value: data[dayNumber] ?? 0,
+              value: data.get(date.toISOString())?.length ?? 0,
               date: date,
             };
+            return cell;
           }
         }),
       ]),
     ],
     [data, dayOffset, year]
   );
+  console.log(data);
 
   const renderCell = (cell: Cell) => {
     if (cell.type === "month") {
@@ -88,7 +91,7 @@ export function GithubActivityChart({
           className="w-3 h-3 rounded-sm"
           title={`${cell.value} ${
             cell.value !== 1 ? "games" : "game"
-          } on ${cell.date.toLocaleDateString("en-US", {
+          } on ${cell.date.toLocaleString("en-US", {
             month: "short",
             day: "numeric",
           })}`}

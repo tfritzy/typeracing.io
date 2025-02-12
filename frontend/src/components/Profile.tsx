@@ -1,12 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
-import Cookies from "js-cookie";
-import { generateRandomName } from "../helpers/generateRandomName";
-import { Pencil } from "../icons/pencil";
+import { useEffect, useMemo, useState } from "react";
 import { doc, Firestore, onSnapshot, Timestamp } from "firebase/firestore";
 import { User } from "firebase/auth";
-import { MonthlyResults, PlayerStats } from "@shared/types";
+import { GameResult, MonthlyResults, PlayerStats } from "@shared/types";
 import { GithubActivityChart } from "./GithubActivityChart";
 import { GameHistoryChart } from "./GameHistoryChart";
+import EditableName from "./EditableName";
 
 const emptyPlayerStats: PlayerStats = {
   wins: 0,
@@ -16,12 +14,11 @@ const emptyPlayerStats: PlayerStats = {
 };
 
 export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
-  const [name, setName] = useState<string>("");
   const [playerStats, setPlayerStats] = useState<PlayerStats>(emptyPlayerStats);
   const [yearlyResults, setYearlyResults] = useState<(MonthlyResults | null)[]>(
     new Array(12).fill(null)
   );
-  const [selectedYear, setSelectedYear] = useState<number>(2025);
+  const [selectedYear] = useState<number>(2025);
 
   const statsDocRef = useMemo(() => {
     return doc(db, "playerStats", user.uid);
@@ -41,7 +38,7 @@ export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
 
   const monthlyResultsRefs = useMemo(() => {
     return Array.from({ length: 12 }, (_, i) =>
-      doc(db, "monthlyResults", `${user.uid}_${selectedYear}_${i + 1}`)
+      doc(db, "monthlyResults", `${user.uid}_${selectedYear}_${i}`)
     );
   }, [db, user.uid, selectedYear]);
 
@@ -61,57 +58,36 @@ export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
     return () => unsubscribes.forEach((unsubscribe) => unsubscribe());
   }, [db, monthlyResultsRefs]);
 
-  React.useEffect(() => {
-    let name = Cookies.get("name");
-    if (!name) {
-      name = generateRandomName();
-      setName(name);
-      Cookies.set("name", name, {
-        sameSite: "strict",
-        expires: 3650,
-      });
-    } else {
-      setName(name);
-    }
-  }, []);
+  const [allData, totalGames, avgWpm] = useMemo(() => {
+    const allData: Map<string, GameResult[]> = new Map();
+    let played = 0;
+    let totalWpm = 0;
 
-  // const updateName = React.useCallback(
-  //   (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     setName(e.target.value);
-  //     Cookies.set("name", e.target.value, {
-  //       sameSite: "strict",
-  //       expires: 3650,
-  //     });
-  //   },
-  //   []
-  // );
+    for (let month = 0; month < 12; month++) {
+      const monthData = yearlyResults[month];
+      if (!monthData) continue;
 
-  const playedPerDay = useMemo(() => {
-    const allDaysPlayed: number[] = [];
-    yearlyResults.forEach((monthResult, monthIndex) => {
-      if (!monthResult) return;
-
-      for (const [day, dayOfResults] of Object.entries(monthResult.results)) {
-        const dayInYear = new Date(
-          selectedYear,
-          monthIndex + 1,
-          parseInt(day)
-        ).getDayOfYear();
-        allDaysPlayed[dayInYear] = dayOfResults.length;
+      for (const [dayIndex, data] of Object.entries(monthData.results)) {
+        const day = new Date(selectedYear, month, parseInt(dayIndex));
+        played += data.length;
+        data.forEach((d) => (totalWpm += d.wpm));
+        allData.set(day.toISOString(), data);
       }
-    });
-    return allDaysPlayed;
-  }, [yearlyResults, selectedYear]);
+    }
+
+    return [allData, played, totalWpm / played];
+  }, [selectedYear, yearlyResults]);
+
+  if (yearlyResults === null) {
+    return <div>Error loading stats</div>;
+  }
 
   return (
     <div className="w-full">
-      <div className="flex flex-row items-baseline space-x-1">
-        <h1 className="text-base-400">{name}</h1>
-        <button className="stroke-base-400">
-          <Pencil />
-        </button>
+      <div className="mb-2">
+        <EditableName />
       </div>
-      <div className="flex flex-row space-x-1">
+      <div className="flex flex-row space-x-3">
         <Box title="Played">{playerStats.gamesPlayed}</Box>
         <Box title="Wins">{playerStats.wins}</Box>
         {playerStats && (
@@ -121,226 +97,24 @@ export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
           </Box>
         )}
       </div>
-      {playedPerDay.length > 0 && (
-        <div>
-          <GithubActivityChart data={playedPerDay} year={selectedYear} />
-          <GameHistoryChart
-            year={2025}
-            points={[
-              [64, 78, 96, 68, 72, 90, 86], // Day 1
-              [75, 82, 88], // Day 2
-              [70, 92, 85, 89], // Day 3
-              [], // Day 4 - skipped
-              [88, 95, 82, 91, 87], // Day 5
-              [89, 94, 92], // Day 6
-              [], // Day 7 - skipped
-              [91, 98, 96, 89], // Day 8
-              [94, 88, 99, 92, 96], // Day 9
-              [95, 102, 98, 97], // Day 10
-              [93, 96, 99], // Day 11
-              [97, 95, 94, 98], // Day 12
-              [], // Day 13 - skipped
-              [96, 99, 102, 95], // Day 14
-              [98, 101, 97], // Day 15
-              [99, 103, 96, 98, 102], // Day 16
-              [97, 99, 101], // Day 17
-              [], // Day 18 - skipped
-              [98, 102, 105, 99], // Day 19
-              [101, 104, 98, 103], // Day 20
-              [102, 106, 99, 104], // Day 21
-              [], // Day 22 - skipped
-              [103, 105, 108, 102], // Day 23
-              [104, 107, 102, 105], // Day 24
-              [105, 109, 103, 106], // Day 25
-              [104, 108, 106], // Day 26
-              [], // Day 27 - skipped
-              [106, 110, 105, 108], // Day 28
-              [107, 111, 109, 108], // Day 29
-              [108, 112, 110, 109, 111], // Day 30
-              [64, 78, 96, 68, 72, 90, 86], // Day 1
-              [75, 82, 88], // Day 2
-              [70, 92, 85, 89], // Day 3
-              [], // Day 4 - skipped
-              [88, 95, 82, 91, 87], // Day 5
-              [89, 94, 92], // Day 6
-              [], // Day 7 - skipped
-              [91, 98, 96, 89], // Day 8
-              [94, 88, 99, 92, 96], // Day 9
-              [95, 102, 98, 97], // Day 10
-              [93, 96, 99], // Day 11
-              [97, 95, 94, 98], // Day 12
-              [], // Day 13 - skipped
-              [96, 99, 102, 95], // Day 14
-              [98, 101, 97], // Day 15
-              [99, 103, 96, 98, 102], // Day 16
-              [97, 99, 101], // Day 17
-              [], // Day 18 - skipped
-              [98, 102, 105, 99], // Day 19
-              [101, 104, 98, 103], // Day 20
-              [102, 106, 99, 104], // Day 21
-              [], // Day 22 - skipped
-              [103, 105, 108, 102], // Day 23
-              [104, 107, 102, 105], // Day 24
-              [105, 109, 103, 106], // Day 25
-              [104, 108, 106], // Day 26
-              [], // Day 27 - skipped
-              [106, 110, 105, 108], // Day 28
-              [107, 111, 109, 108], // Day 29
-              [108, 112, 110, 109, 111], // Day 30
-              [64, 78, 96, 68, 72, 90, 86], // Day 1
-              [75, 82, 88], // Day 2
-              [70, 92, 85, 89], // Day 3
-              [], // Day 4 - skipped
-              [88, 95, 82, 91, 87], // Day 5
-              [89, 94, 92], // Day 6
-              [], // Day 7 - skipped
-              [91, 98, 96, 89], // Day 8
-              [94, 88, 99, 92, 96], // Day 9
-              [95, 102, 98, 97], // Day 10
-              [93, 96, 99], // Day 11
-              [97, 95, 94, 98], // Day 12
-              [], // Day 13 - skipped
-              [96, 99, 102, 95], // Day 14
-              [98, 101, 97], // Day 15
-              [99, 103, 96, 98, 102], // Day 16
-              [97, 99, 101], // Day 17
-              [], // Day 18 - skipped
-              [98, 102, 105, 99], // Day 19
-              [101, 104, 98, 103], // Day 20
-              [102, 106, 99, 104], // Day 21
-              [], // Day 22 - skipped
-              [103, 105, 108, 102], // Day 23
-              [104, 107, 102, 105], // Day 24
-              [105, 109, 103, 106], // Day 25
-              [104, 108, 106], // Day 26
-              [], // Day 27 - skipped
-              [106, 110, 105, 108], // Day 28
-              [107, 111, 109, 108], // Day 29
-              [108, 112, 110, 109, 111], // Day 30
-              [64, 78, 96, 68, 72, 90, 86], // Day 1
-              [75, 82, 88], // Day 2
-              [70, 92, 85, 89], // Day 3
-              [], // Day 4 - skipped
-              [88, 95, 82, 91, 87], // Day 5
-              [89, 94, 92], // Day 6
-              [], // Day 7 - skipped
-              [91, 98, 96, 89], // Day 8
-              [94, 88, 99, 92, 96], // Day 9
-              [95, 102, 98, 97], // Day 10
-              [93, 96, 99], // Day 11
-              [97, 95, 94, 98], // Day 12
-              [], // Day 13 - skipped
-              [96, 99, 102, 95], // Day 14
-              [98, 101, 97], // Day 15
-              [99, 103, 96, 98, 102], // Day 16
-              [97, 99, 101], // Day 17
-              [], // Day 18 - skipped
-              [98, 102, 105, 99], // Day 19
-              [101, 104, 98, 103], // Day 20
-              [102, 106, 99, 104], // Day 21
-              [], // Day 22 - skipped
-              [103, 105, 108, 102], // Day 23
-              [104, 107, 102, 105], // Day 24
-              [105, 109, 103, 106], // Day 25
-              [104, 108, 106], // Day 26
-              [], // Day 27 - skipped
-              [106, 110, 105, 108], // Day 28
-              [107, 111, 109, 108], // Day 29
-              [108, 112, 110, 109, 111], // Day 30
-              [64, 78, 96, 68, 72, 90, 86], // Day 1
-              [75, 82, 88], // Day 2
-              [70, 92, 85, 89], // Day 3
-              [], // Day 4 - skipped
-              [88, 95, 82, 91, 87], // Day 5
-              [89, 94, 92], // Day 6
-              [], // Day 7 - skipped
-              [91, 98, 96, 89], // Day 8
-              [94, 88, 99, 92, 96], // Day 9
-              [95, 102, 98, 97], // Day 10
-              [93, 96, 99], // Day 11
-              [97, 95, 94, 98], // Day 12
-              [], // Day 13 - skipped
-              [96, 99, 102, 95], // Day 14
-              [98, 101, 97], // Day 15
-              [99, 103, 96, 98, 102], // Day 16
-              [97, 99, 101], // Day 17
-              [], // Day 18 - skipped
-              [98, 102, 105, 99], // Day 19
-              [101, 104, 98, 103], // Day 20
-              [102, 106, 99, 104], // Day 21
-              [], // Day 22 - skipped
-              [103, 105, 108, 102], // Day 23
-              [104, 107, 102, 105], // Day 24
-              [105, 109, 103, 106], // Day 25
-              [104, 108, 106], // Day 26
-              [], // Day 27 - skipped
-              [106, 110, 105, 108], // Day 28
-              [107, 111, 109, 108], // Day 29
-              [108, 112, 110, 109, 111], // Day 30
-              [64, 78, 96, 68, 72, 90, 86], // Day 1
-              [75, 82, 88], // Day 2
-              [70, 92, 85, 89], // Day 3
-              [], // Day 4 - skipped
-              [88, 95, 82, 91, 87], // Day 5
-              [89, 94, 92], // Day 6
-              [], // Day 7 - skipped
-              [91, 98, 96, 89], // Day 8
-              [94, 88, 99, 92, 96], // Day 9
-              [95, 102, 98, 97], // Day 10
-              [93, 96, 99], // Day 11
-              [97, 95, 94, 98], // Day 12
-              [], // Day 13 - skipped
-              [96, 99, 102, 95], // Day 14
-              [98, 101, 97], // Day 15
-              [99, 103, 96, 98, 102], // Day 16
-              [97, 99, 101], // Day 17
-              [], // Day 18 - skipped
-              [98, 102, 105, 99], // Day 19
-              [101, 104, 98, 103], // Day 20
-              [102, 106, 99, 104], // Day 21
-              [], // Day 22 - skipped
-              [103, 105, 108, 102], // Day 23
-              [104, 107, 102, 105], // Day 24
-              [105, 109, 103, 106], // Day 25
-              [104, 108, 106], // Day 26
-              [], // Day 27 - skipped
-              [106, 110, 105, 108], // Day 28
-              [107, 111, 109, 108], // Day 29
-              [108, 112, 110, 109, 111], // Day 30
-              [64, 78, 96, 68, 72, 90, 86], // Day 1
-              [75, 82, 88], // Day 2
-              [70, 92, 85, 89], // Day 3
-              [], // Day 4 - skipped
-              [88, 95, 82, 91, 87], // Day 5
-              [89, 94, 92], // Day 6
-              [], // Day 7 - skipped
-              [91, 98, 96, 89], // Day 8
-              [94, 88, 99, 92, 96], // Day 9
-              [95, 102, 98, 97], // Day 10
-              [93, 96, 99], // Day 11
-              [97, 95, 94, 98], // Day 12
-              [], // Day 13 - skipped
-              [96, 99, 102, 95], // Day 14
-              [98, 101, 97], // Day 15
-              [99, 103, 96, 98, 102], // Day 16
-              [97, 99, 101], // Day 17
-              [], // Day 18 - skipped
-              [98, 102, 105, 99], // Day 19
-              [101, 104, 98, 103], // Day 20
-              [102, 106, 99, 104], // Day 21
-              [], // Day 22 - skipped
-              [103, 105, 108, 102], // Day 23
-              [104, 107, 102, 105], // Day 24
-              [105, 109, 103, 106], // Day 25
-              [104, 108, 106], // Day 26
-              [], // Day 27 - skipped
-              [106, 110, 105, 108], // Day 28
-              [107, 111, 109, 108], // Day 29
-              [108, 112, 110, 109, 111], // Day 30
-            ]}
-          />
+
+      <div>
+        <div className="text-base-400 bg-base-800 translate-y-[10px] translate-x-4 px-2 w-max">
+          Played <b>{totalGames} games</b> in the past year
         </div>
-      )}
+        <div className="border border-base-700 p-4 pt-8 pr-8 w-min">
+          <GithubActivityChart data={allData} year={selectedYear} />
+        </div>
+
+        <div>
+          <div className="text-base-400 bg-base-800 translate-y-[10px] translate-x-4 px-2 w-max">
+            With an average of <b>{avgWpm.toFixed(0)} wpm</b>
+          </div>
+          <div className="border border-base-700 p-4 pt-8 pr-8 w-min">
+            <GameHistoryChart data={allData} year={selectedYear} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -366,9 +140,13 @@ export function Box({
   title: string;
 }) {
   return (
-    <div className="border boder-base-700 border-b-3 px-4 py-2 w-24 text-center">
-      <div>{title}</div>
-      <div className="text-4xl">{children}</div>
+    <div className="flex flex-col items-center">
+      <div className="bg-base-800 translate-y-[9px] px-1 w-max text-sm text-base-400">
+        {title}
+      </div>
+      <div className="border border-base-700 w-24 py-4 text-center text-base-400">
+        <div className="text-3xl">{children}</div>
+      </div>
     </div>
   );
 }
