@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FirebaseError, initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 import {
   getAuth,
@@ -54,19 +54,11 @@ function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        try {
-          const credential = await signInAnonymously(auth);
-          setUser(credential.user);
-        } catch (err) {
-          const errorMessage =
-            (err as FirebaseError).message || "Authentication failed";
-          console.error(errorMessage);
-        }
+        await signInAnonymously(auth);
       } else {
         setUser(user);
       }
     });
-
     return () => unsubscribe();
   }, []);
 
@@ -111,7 +103,10 @@ function App() {
             element={<RacePage db={db} user={user} analytics={analytics} />}
           />
 
-          <Route path="/profile" element={<Profile db={db} user={user} />} />
+          <Route
+            path="/profile"
+            element={<Profile db={db} user={user} auth={auth} />}
+          />
 
           <Route path="/français" element={<FrenchPage />} />
           <Route path="/español" element={<SpanishPage />} />

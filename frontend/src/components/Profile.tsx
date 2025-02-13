@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { doc, Firestore, onSnapshot, Timestamp } from "firebase/firestore";
-import { User } from "firebase/auth";
+import { Auth, User } from "firebase/auth";
 import { GameResult, MonthlyResults, PlayerStats } from "@shared/types";
 import { GithubActivityChart } from "./GithubActivityChart";
 import { GameHistoryChart } from "./GameHistoryChart";
 import EditableName from "./EditableName";
+import { AuthLine } from "./SignIn";
+import { AccountManagement } from "./AccountManagement";
 
 const emptyPlayerStats: PlayerStats = {
   wins: 0,
@@ -13,7 +15,15 @@ const emptyPlayerStats: PlayerStats = {
   modeStats: {},
 };
 
-export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
+export const Profile = ({
+  db,
+  user,
+  auth,
+}: {
+  db: Firestore;
+  user: User;
+  auth: Auth;
+}) => {
   const [playerStats, setPlayerStats] = useState<PlayerStats>(emptyPlayerStats);
   const [yearlyResults, setYearlyResults] = useState<(MonthlyResults | null)[]>(
     new Array(12).fill(null)
@@ -75,7 +85,7 @@ export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
       }
     }
 
-    return [allData, played, totalWpm / played];
+    return [allData, played, totalWpm / (played || 1)];
   }, [selectedYear, yearlyResults]);
 
   if (yearlyResults === null) {
@@ -83,17 +93,23 @@ export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col">
       <div className="mb-2">
-        <EditableName />
+        <div className="mb-2">
+          <EditableName />
+        </div>
+        <AuthLine auth={auth} user={user} />
       </div>
       <div className="flex flex-row space-x-3">
         <Box title="Played">{playerStats.gamesPlayed}</Box>
         <Box title="Wins">{playerStats.wins}</Box>
         {playerStats && (
           <Box title="Win rate">
-            {((playerStats.wins / playerStats.gamesPlayed) * 100).toFixed(0) +
-              "%"}
+            {playerStats.gamesPlayed > 0
+              ? ((playerStats.wins / playerStats.gamesPlayed) * 100).toFixed(
+                  0
+                ) + "%"
+              : "n/a"}
           </Box>
         )}
       </div>
@@ -114,6 +130,10 @@ export const Profile = ({ db, user }: { db: Firestore; user: User }) => {
             <GameHistoryChart data={allData} year={selectedYear} />
           </div>
         </div>
+      </div>
+
+      <div className="mt-4">
+        <AccountManagement auth={auth} user={user} />
       </div>
     </div>
   );
