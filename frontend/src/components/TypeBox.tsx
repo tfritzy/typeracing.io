@@ -120,6 +120,7 @@ type TypeBoxProps = {
   ) => void;
   isLocked: boolean;
   onFirstKeystroke?: () => void;
+  getNow: () => Timestamp;
 };
 
 export const TypeBox = ({
@@ -128,6 +129,7 @@ export const TypeBox = ({
   onWordComplete,
   isLocked,
   onFirstKeystroke,
+  getNow,
 }: TypeBoxProps) => {
   const [focused, setFocused] = useState(true);
   const [currentWord, setCurrentWord] = useState("");
@@ -297,7 +299,7 @@ export const TypeBox = ({
     while (keyStrokes.current.compositeSize > currentWord.length) {
       keyStrokes.current.strokes.push({
         character: "\b",
-        time: Timestamp.now(),
+        time: getNow(),
       });
       keyStrokes.current.compositeSize--;
     }
@@ -305,7 +307,7 @@ export const TypeBox = ({
     while (keyStrokes.current.compositeSize < currentWord.length) {
       keyStrokes.current.strokes.push({
         character: currentWord[keyStrokes.current.compositeSize],
-        time: Timestamp.now(),
+        time: getNow(),
       });
       keyStrokes.current.compositeSize++;
     }

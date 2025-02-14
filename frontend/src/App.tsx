@@ -1,6 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
-import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
+import {
+  connectFirestoreEmulator,
+  doc,
+  getDoc,
+  getFirestore,
+  serverTimestamp,
+  setDoc,
+  Timestamp,
+} from "firebase/firestore";
 import {
   getAuth,
   onAuthStateChanged,
@@ -50,6 +58,45 @@ if (process.env.NODE_ENV === "development") {
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
+  const [timeOffset, setTimeOffset] = useState<number>(0);
+
+  const syncTime = async () => {
+    try {
+      const docRef = doc(db, "timeSync", "global");
+
+      await setDoc(docRef, {
+        clientTime: Date.now(),
+        serverTime: serverTimestamp(),
+      });
+
+      const snapshot = await getDoc(docRef);
+      const data = snapshot.data();
+
+      if (data?.serverTime && data?.clientTime) {
+        const offset = data.serverTime.toMillis() - data.clientTime;
+        setTimeOffset(offset);
+      }
+    } catch (error) {
+      console.error("Error syncing time:", error);
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        await signInAnonymously(auth);
+      } else {
+        setUser(user);
+        await syncTime();
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const getNow = useCallback(() => {
+    const currentTimeMs = Date.now() + timeOffset;
+    return Timestamp.fromMillis(currentTimeMs);
+  }, [timeOffset]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -88,10 +135,12 @@ function App() {
     return <Spinner />;
   }
 
+  console.log("timeOffset", timeOffset);
+
   return (
     <BrowserRouter>
       <Header />
-      <div className="relative flex flex-1 flex-col max-w-[1280px] w-screen px-32 place-items-center justify-center m-auto overflow-hidden">
+      <div className="relative flex flex-1 flex-col max-w-[1280px] w-screen px-16 place-items-center justify-center m-auto overflow-hidden">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route
@@ -100,7 +149,14 @@ function App() {
           />
           <Route
             path="/race/:gameId"
-            element={<RacePage db={db} user={user} analytics={analytics} />}
+            element={
+              <RacePage
+                db={db}
+                user={user}
+                analytics={analytics}
+                getNow={getNow}
+              />
+            }
           />
 
           <Route

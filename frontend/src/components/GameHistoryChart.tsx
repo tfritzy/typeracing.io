@@ -27,9 +27,12 @@ function Square({
   tooltipContent: React.ReactNode;
 }) {
   return (
-    <div className="p-[2px]" onMouseEnter={onMouseEnter}>
+    <div
+      className="p-[2px] hover:ring-1 hover:ring-base-200 rounded-sm"
+      onMouseEnter={onMouseEnter}
+    >
       <div
-        className="w-3 h-3 rounded-sm hover:ring-1 hover:ring-accent/50 transition-all duration-100"
+        className="w-4 h-4 rounded-sm"
         style={{
           backgroundColor: hasData ? "var(--accent)" : "var(--base-700)",
           opacity: hasData ? opacity : 0.25,
@@ -89,21 +92,19 @@ export function GameHistoryChart({ data, year }: Props) {
     high *= 1.3;
     const wpmPerRow = high / ROWS;
 
-    // Second pass to fill squares and counts
-    weeklyPoints.forEach((day, dayIndex) => {
-      const col = Math.round((dayIndex / weeklyPoints.length) * (COLS - 1));
+    weeklyPoints.forEach((day, weekIndex) => {
+      const col = Math.floor((weekIndex / weeklyPoints.length) * (COLS - 1));
+      let weekMax = 0;
       day.forEach((point) => {
         const row = Math.round((point / high) * ROWS);
         squares[col][row] += 1;
         counts[col][row] += 1;
         highestCount = Math.max(highestCount, squares[col][row]);
+        weekMax = Math.max(weekMax, squares[col][row]);
       });
-    });
 
-    // Normalize squares
-    squares.forEach((col, x) => {
-      col.forEach((_, y) => {
-        squares[x][y] = squares[x][y] / highestCount;
+      squares[col].forEach((x, i) => {
+        squares[col][i] = x / weekMax;
       });
     });
 
@@ -162,25 +163,23 @@ export function GameHistoryChart({ data, year }: Props) {
   const content = useMemo(() => {
     const cols = [];
 
-    // Labels column
     const labels = [];
     for (let i = ROWS; i >= 0; i--) {
       if (i !== ROWS && i % 3 === 0) {
         labels.push(
           <div
             key={`label-${i}`}
-            className="w-6 h-3 text-xs leading-none text-right mb-1 mr-1"
+            className="w-6 h-4 text-xs leading-none text-right mb-1 mr-1"
           >
             {(wpmPerRow * i).toFixed(0)}
           </div>
         );
       } else {
-        labels.push(<div key={`label-${i}`} className="h-3 mb-1 mr-1" />);
+        labels.push(<div key={`label-${i}`} className="h-4 mb-1 mr-1" />);
       }
     }
     cols.push(labels);
 
-    // Data columns
     for (let x = 0; x < squares.length; x++) {
       const col = [];
       const week = new Date(year, 0, 1 + 7 * x);
@@ -191,13 +190,13 @@ export function GameHistoryChart({ data, year }: Props) {
         col.push(
           <div
             key={`month-${x}`}
-            className="w-3 h-3 whitespace-nowrap text-xs mb-1"
+            className="w-4 h-4 whitespace-nowrap text-xs mb-1"
           >
             {nextWeek.toLocaleString("en-US", { month: "short" })}
           </div>
         );
       } else {
-        col.push(<div key={`month-${x}`} className="w-3 h-3 mb-1" />);
+        col.push(<div key={`month-${x}`} className="w-4 h-4 mb-1" />);
       }
 
       for (let y = squares[0].length - 1; y >= 0; y--) {

@@ -139,19 +139,6 @@ export const Profile = ({
   );
 };
 
-declare global {
-  interface Date {
-    getDayOfYear(): number;
-  }
-}
-
-Date.prototype.getDayOfYear = function () {
-  const start = new Date(this.getFullYear(), 0, 0);
-  const diff = (this as Date).getTime() - start.getTime();
-  const oneDay = 1000 * 60 * 60 * 24;
-  return Math.floor(diff / oneDay);
-};
-
 export function Box({
   children,
   title,

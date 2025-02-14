@@ -9,6 +9,7 @@ type Props = {
   players: Player[];
   bots: Bot[];
   user: User;
+  getNow: () => Timestamp;
 };
 
 function PlayerComponent({
@@ -61,7 +62,7 @@ function PlayerComponent({
   );
 }
 
-export function Players({ players, bots, user }: Props) {
+export function Players({ players, bots, user, getNow }: Props) {
   const totalPlayers = players.length + bots.length;
   const playerList = useMemo(() => {
     const allPlayers = [...players];
@@ -72,7 +73,7 @@ export function Players({ players, bots, user }: Props) {
         place: -1,
         progress: 0,
         wpm: 0,
-        joinTime: Timestamp.now(),
+        joinTime: getNow(),
       });
     }
 

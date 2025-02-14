@@ -1,5 +1,6 @@
 import React from "react";
 import { TypeBox } from "./TypeBox";
+import { Timestamp } from "firebase/firestore";
 
 type TypeBoxButtonProps = {
   phrase: string;
@@ -8,6 +9,8 @@ type TypeBoxButtonProps = {
 
 export const TypeBoxButton = (props: TypeBoxButtonProps) => {
   const [lockedCharIndex, setLockedCharIndex] = React.useState<number>(0);
+
+  const getNow = React.useCallback(() => Timestamp.now(), []);
 
   const handleWordComplete = React.useCallback(
     (charIndex: number) => {
@@ -27,6 +30,7 @@ export const TypeBoxButton = (props: TypeBoxButtonProps) => {
       lockedCharacterIndex={lockedCharIndex}
       onWordComplete={handleWordComplete}
       isLocked={false}
+      getNow={getNow}
     />
   );
 };

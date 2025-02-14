@@ -8,7 +8,6 @@ import {
 } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { Navigate, useParams } from "react-router-dom";
-import { Game } from "../types";
 import { Spinner } from "../components/Spinner";
 import { TypeBox } from "../components/TypeBox";
 import { Players } from "../components/Players";
@@ -19,14 +18,16 @@ import { getWpm, KeyStroke } from "../stats";
 import { StatsModal } from "../components/StatsModal";
 import { Analytics, logEvent } from "firebase/analytics";
 import { getFillGameUrl, reportResult } from "../helpers";
+import { Game } from "@shared/types";
 
 interface Props {
   db: Firestore;
   user: User;
   analytics: Analytics;
+  getNow: () => Timestamp;
 }
 
-function RaceInner({ db, user, analytics }: Props) {
+function RaceInner({ db, user, analytics, getNow }: Props) {
   const [hasCompletedRace, setHasCompletedRace] = useState(false);
   const setRerender = useState<number>(0)[1];
   const [statsClosed, setStatsClosed] = useState<boolean>(false);
@@ -151,7 +152,7 @@ function RaceInner({ db, user, analytics }: Props) {
 
   useEffect(() => {
     if (game?.status === "waiting" && game?.botFillTime) {
-      const now = Timestamp.now();
+      const now = getNow();
       const timeUntilFill = game.botFillTime.seconds - now.seconds;
 
       if (timeUntilFill <= 0) {
@@ -172,7 +173,7 @@ function RaceInner({ db, user, analytics }: Props) {
     if (!game?.startTime || !docRef) return;
 
     const intervalId = setInterval(() => {
-      const elapsedSeconds = Timestamp.now().seconds - game.startTime.seconds;
+      const elapsedSeconds = getNow().seconds - game.startTime.seconds;
 
       if (elapsedSeconds > 0) {
         const updateObject: {
@@ -180,7 +181,7 @@ function RaceInner({ db, user, analytics }: Props) {
           [key: `bots.${string}.wpm`]: number;
           [key: `bots.${string}.place`]: number;
         } = {};
-        let highestPlace = 0;
+        let highestPlace = -1;
         const players = game.players;
         const bots = game.bots;
         for (const id in players) {
@@ -232,12 +233,19 @@ function RaceInner({ db, user, analytics }: Props) {
     }, 500);
 
     return () => clearInterval(intervalId);
-  }, [game?.startTime, docRef, game?.bots, game?.players, game?.phrase.length]);
+  }, [
+    game?.startTime,
+    docRef,
+    game?.bots,
+    game?.players,
+    game?.phrase.length,
+    getNow,
+  ]);
 
   useEffect(() => {
     if (!game?.startTime) return;
 
-    const now = Timestamp.now();
+    const now = getNow();
     const delayMs =
       (game.startTime.seconds - now.seconds) * 1000 +
       (game.startTime.nanoseconds - now.nanoseconds) / 1000000;
@@ -246,7 +254,7 @@ function RaceInner({ db, user, analytics }: Props) {
     return () => {
       clearTimeout(hideTimer);
     };
-  }, [game?.startTime, setRerender]);
+  }, [game?.startTime, getNow, setRerender]);
 
   const stats = useMemo(() => {
     if (!game?.phrase || !self?.id) {
@@ -291,7 +299,7 @@ function RaceInner({ db, user, analytics }: Props) {
   let message;
   switch (game.status) {
     case "in_progress":
-      message = <Countdown startTime={game.startTime} />;
+      message = <Countdown startTime={game.startTime} getNow={getNow} />;
       break;
     case "waiting":
       message = "Waiting for players...";
@@ -304,7 +312,7 @@ function RaceInner({ db, user, analytics }: Props) {
     message = "Finished";
   }
 
-  const isLocked = Timestamp.now() < game.startTime || isComplete;
+  const isLocked = getNow() < game.startTime || isComplete;
   return (
     <>
       <div className="flex flex-col flex-1 space-y-12 w-full" key={gameId}>
@@ -317,6 +325,7 @@ function RaceInner({ db, user, analytics }: Props) {
               (a, b) => a.joinTime.seconds - b.joinTime.seconds
             )}
             user={user}
+            getNow={getNow}
           />
         </div>
         <div className="shrink">
@@ -325,7 +334,7 @@ function RaceInner({ db, user, analytics }: Props) {
           </div>
           <div className="relative border-4 rounded-b-lg rounded-r-lg border-base-700 px-4 py-3">
             <div className="absolute -left-12 top-0">
-              <GoLabel startTime={game.startTime} />
+              <GoLabel startTime={game.startTime} getNow={getNow} />
             </div>
             <TypeBox
               phrase={game.phrase}
@@ -334,6 +343,7 @@ function RaceInner({ db, user, analytics }: Props) {
               onWordComplete={handleWordComplete}
               key={gameId}
               onFirstKeystroke={onFirstKeystroke}
+              getNow={getNow}
             />
           </div>
         </div>
@@ -345,7 +355,15 @@ function RaceInner({ db, user, analytics }: Props) {
   );
 }
 
-export function Race({ db, user, analytics }: Props) {
+export function Race({ db, user, analytics, getNow }: Props) {
   const { gameId } = useParams();
-  return <RaceInner db={db} user={user} key={gameId} analytics={analytics} />;
+  return (
+    <RaceInner
+      db={db}
+      user={user}
+      key={gameId}
+      analytics={analytics}
+      getNow={getNow}
+    />
+  );
 }

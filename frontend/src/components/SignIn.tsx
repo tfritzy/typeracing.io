@@ -11,18 +11,18 @@ import {
 import { useCallback } from "react";
 
 export function AuthLine({ auth, user }: { auth: Auth; user: User }) {
-  //   const [isAnnon, setIsAnnon] = useState(user.isAnonymous);
-  console.log("user", user.isAnonymous, user);
-
   const signIn = useCallback(async () => {
     try {
       if (auth.currentUser?.isAnonymous) {
         try {
           await linkWithPopup(auth.currentUser, new GoogleAuthProvider());
-        } catch (error) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
           if (error.code === "auth/credential-already-in-use") {
             const credential = OAuthProvider.credentialFromError(error);
-            await signInWithCredential(auth, credential);
+            if (credential) {
+              await signInWithCredential(auth, credential);
+            }
           }
         }
       } else {

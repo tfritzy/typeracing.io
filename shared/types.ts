@@ -1,6 +1,7 @@
 export interface Timestamp {
   seconds: number;
   nanoseconds: number;
+  toMillis: () => number;
 }
 
 export type ModeType = LanguageType | PhraseType;

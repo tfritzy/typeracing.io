@@ -1,5 +1,5 @@
 import { Race } from "./Race";
-import { Firestore } from "firebase/firestore";
+import { Firestore, Timestamp } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { Analytics } from "firebase/analytics";
 import { MainMenu } from "./MainMenu";
@@ -16,12 +16,14 @@ export function RacePage({
   db,
   user,
   analytics,
+  getNow,
 }: {
   db: Firestore;
   user: User;
   analytics: Analytics;
+  getNow: () => Timestamp;
 }) {
-  return <Race db={db} user={user} analytics={analytics} />;
+  return <Race db={db} user={user} analytics={analytics} getNow={getNow} />;
 }
 
 export function FrenchPage() {

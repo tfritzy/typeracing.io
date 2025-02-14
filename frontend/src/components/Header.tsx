@@ -225,7 +225,7 @@ const KeyboardIcon = () => (
 export const Header = () => {
   return (
     <div className="w-screen flex flex-row justify-center shadow-sm">
-      <div className="flex flex-row justify-between w-full max-w-[1280px] min-w-max px-4 py-2 bg-base-800 ">
+      <div className="flex flex-row justify-between w-full max-w-[1280px] min-w-max px-16 py-2 pt-4 bg-base-800 ">
         <div className="flex flex-row items-center space-x-6">
           <Link
             to="/"

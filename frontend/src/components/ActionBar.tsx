@@ -1,11 +1,11 @@
 import { useCallback, useEffect } from "react";
 import { Hotkey } from "./Hotkey";
 import { useNavigate } from "react-router-dom";
-import { Mode } from "../modes";
+import { ModeType } from "@shared/types";
 
 type Props = {
   showStats: () => void;
-  mode: Mode | undefined;
+  mode: ModeType | undefined;
 };
 
 export function ActionBar({ showStats, mode }: Props) {

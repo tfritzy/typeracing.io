@@ -1,8 +1,9 @@
-import { Timestamp } from "firebase/firestore";
+import { Timestamp } from "@shared/types";
 import { useEffect, useState } from "react";
 
 type GoLabelProps = {
   startTime: Timestamp;
+  getNow: () => Timestamp;
 };
 
 export const GoLabel = (props: GoLabelProps) => {
@@ -10,7 +11,7 @@ export const GoLabel = (props: GoLabelProps) => {
 
   useEffect(() => {
     const start = () => {
-      const now = Timestamp.now();
+      const now = props.getNow();
       const delayMs =
         (props.startTime.seconds - now.seconds) * 1000 +
         (props.startTime.nanoseconds - now.nanoseconds) / 1000000;
