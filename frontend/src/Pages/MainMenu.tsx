@@ -6,31 +6,13 @@ import { ModeListPage } from "../components/ModeList";
 import { Hotkey } from "../components/Hotkey";
 import { ModeType } from "@shared/types";
 
-const phrases = [
-  "glhf",
-  "glgl",
-  "ready for dust-off",
-  "let's go",
-  "commence bombardment",
-  "ready to plunder",
-  "fortune favors the bold",
-  "let's get into the fight",
-  "systems primed",
-  "bring it",
-  "oh, it's on",
-  "let's do this",
-  "it's go time",
-  "it's about to get heavy",
-  "put me in coach",
-];
-
 export function MainMenu({ modeType }: { modeType: ModeType }) {
   const [modeShown, setModeShown] = useState<boolean>(false);
   const navigate = useNavigate();
-  const [phrase] = React.useState(
-    phrases[Math.floor(Math.random() * phrases.length)]
-  );
   const mode = flatModes[modeType];
+  const [phrase] = React.useState(
+    mode.startupPhrases[Math.floor(Math.random() * mode.startupPhrases.length)]
+  );
 
   const goToRoute = React.useCallback(() => {
     navigate("/search/" + mode.type);
@@ -67,7 +49,7 @@ export function MainMenu({ modeType }: { modeType: ModeType }) {
   return (
     <>
       <div className="flex flex-col items-center space-y-40">
-        <div className="underline decoration-2 decoration-base-600 underline-offset-4 border-base-700 shadow-accent w-max">
+        <div className="border-b rounded-lg px-4 py-2 border-accent w-max">
           <TypeBoxButton phrase={phrase} onPhraseComplete={goToRoute} />
         </div>
         <div className="">

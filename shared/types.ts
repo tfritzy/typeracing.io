@@ -27,6 +27,7 @@ export type Mode = {
   description: string;
   icon: string;
   type: ModeType;
+  startupPhrases: string[];
 };
 
 type BotConfig = {

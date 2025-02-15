@@ -61,7 +61,7 @@ const Cursor = (props: CursorProps) => {
     () => (
       <span
         className={`h-8 w-0.5 bg-base-400 fixed rounded-full ${
-          !isImmediate ? "transition-all duration-75" : ""
+          !isImmediate ? "transition-all ease-out duration-75" : ""
         } ${props.pulsing ? "cursor" : ""}`}
         style={{
           top: cursorPos.y,

@@ -25,7 +25,7 @@ export function ProfileButton() {
 
   return (
     <Link to="/profile" className="flex flex-row items-center space-x-2">
-      <Hotkey code="~" accent />
+      <Hotkey code="~" />
       <div className="text-base-400">Profile</div>
     </Link>
   );
