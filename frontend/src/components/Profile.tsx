@@ -93,7 +93,7 @@ export const Profile = ({
   }
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col overflow-y-auto pb-6">
       <div className="mb-2">
         <div className="mb-2">
           <EditableName />

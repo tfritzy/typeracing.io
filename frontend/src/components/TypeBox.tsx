@@ -8,11 +8,6 @@ import React, {
 import { KeyStroke } from "../stats";
 import { Timestamp } from "firebase/firestore";
 
-function lerp(start: number, end: number, alpha: number) {
-  return start + (end - start) * alpha;
-}
-
-const cursorYOffset = 6;
 const cursorXOffset = -2;
 const cursorStartPos = -100;
 
@@ -26,9 +21,10 @@ type CursorProps = {
 
 const Cursor = (props: CursorProps) => {
   const [cursorPos, setCursorPos] = useState({
-    current: { x: cursorStartPos, y: cursorStartPos },
-    target: { x: cursorStartPos, y: cursorStartPos },
+    x: cursorStartPos,
+    y: cursorStartPos,
   });
+  const [isImmediate, setIsImmediate] = useState(false);
 
   const updateCursorPositions = useCallback(
     (immediate = false) => {
@@ -36,44 +32,14 @@ const Cursor = (props: CursorProps) => {
         const cursorRect = props.targetObject.current.getBoundingClientRect();
         const newPos = {
           x: cursorRect.left + cursorXOffset,
-          y: cursorRect.top + cursorYOffset,
+          y: cursorRect.top + cursorRect.height / 2 - 16,
         };
-
-        setCursorPos((prev) => ({
-          current: immediate ? newPos : prev.current,
-          target: newPos,
-        }));
+        setIsImmediate(immediate);
+        setCursorPos(newPos);
       }
     },
     [props.targetObject]
   );
-
-  useEffect(() => {
-    let frameId: number;
-
-    const animate = () => {
-      if (
-        Math.abs(cursorPos.target.y - cursorPos.current.y) < 0.05 &&
-        Math.abs(cursorPos.target.x - cursorPos.current.x) < 0.05
-      ) {
-        return;
-      }
-
-      setCursorPos((prev) => ({
-        current: {
-          x: lerp(prev.current.x, prev.target.x, 0.4),
-          y: lerp(prev.current.y, prev.target.y, 0.4),
-        },
-        target: prev.target,
-      }));
-
-      updateCursorPositions();
-      frameId = requestAnimationFrame(animate);
-    };
-
-    frameId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frameId);
-  }, [cursorPos, updateCursorPositions]);
 
   useEffect(() => {
     const handleResize = () => updateCursorPositions(true);
@@ -95,16 +61,16 @@ const Cursor = (props: CursorProps) => {
     () => (
       <span
         className={`h-8 w-0.5 bg-base-400 fixed rounded-full ${
-          props.pulsing ? "cursor" : ""
-        }`}
+          !isImmediate ? "transition-all duration-75" : ""
+        } ${props.pulsing ? "cursor" : ""}`}
         style={{
-          top: cursorPos.current.y,
-          left: cursorPos.current.x,
+          top: cursorPos.y,
+          left: cursorPos.x,
         }}
         hidden={props.disabled}
       />
     ),
-    [cursorPos, props.disabled, props.pulsing]
+    [cursorPos, props.disabled, props.pulsing, isImmediate]
   );
 
   return cursor;

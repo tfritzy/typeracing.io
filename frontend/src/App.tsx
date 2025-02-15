@@ -140,7 +140,7 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <div className="relative flex flex-1 flex-col max-w-[1280px] w-screen px-16 place-items-center justify-center m-auto overflow-hidden">
+      <div className="relative flex flex-1 flex-col max-w-[1280px] w-screen px-16 place-items-center justify-center m-auto">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route

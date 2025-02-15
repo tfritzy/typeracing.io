@@ -135,7 +135,9 @@ function Box({
 }) {
   return (
     <div
-      className={"border border-b-[3px] rounded px-4 py-2 min-w-20 text-center"}
+      className={
+        "border border-b-[5px] rounded rounded-b-xl px-4 py-2 min-w-20 text-center"
+      }
       style={{ borderColor: gold ? "var(--accent)" : "var(--base-600)" }}
     >
       <div
