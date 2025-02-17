@@ -7,6 +7,7 @@ import { GameHistoryChart } from "./GameHistoryChart";
 import EditableName from "./EditableName";
 import { AuthLine } from "./SignIn";
 import { AccountManagement } from "./AccountManagement";
+import { Spinner } from "./Spinner";
 
 const emptyPlayerStats: PlayerStats = {
   wins: 0,
@@ -21,7 +22,7 @@ export const Profile = ({
   auth,
 }: {
   db: Firestore;
-  user: User;
+  user: User | null;
   auth: Auth;
 }) => {
   const [playerStats, setPlayerStats] = useState<PlayerStats>(emptyPlayerStats);
@@ -31,8 +32,9 @@ export const Profile = ({
   const [selectedYear] = useState<number>(2025);
 
   const statsDocRef = useMemo(() => {
+    if (!user) return;
     return doc(db, "playerStats", user.uid);
-  }, [db, user.uid]);
+  }, [db, user]);
 
   useEffect(() => {
     if (!statsDocRef) return;
@@ -47,10 +49,11 @@ export const Profile = ({
   }, [db, statsDocRef]);
 
   const monthlyResultsRefs = useMemo(() => {
+    if (!user) return [];
     return Array.from({ length: 12 }, (_, i) =>
       doc(db, "monthlyResults", `${user.uid}_${selectedYear}_${i}`)
     );
-  }, [db, user.uid, selectedYear]);
+  }, [user, db, selectedYear]);
 
   useEffect(() => {
     const unsubscribes = monthlyResultsRefs.map((ref, index) =>
@@ -87,6 +90,10 @@ export const Profile = ({
 
     return [allData, played, totalWpm / (played || 1)];
   }, [selectedYear, yearlyResults]);
+
+  if (!user) {
+    return <Spinner />;
+  }
 
   if (yearlyResults === null) {
     return <div>Error loading stats</div>;

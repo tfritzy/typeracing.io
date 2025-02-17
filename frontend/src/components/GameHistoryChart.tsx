@@ -192,7 +192,7 @@ export function GameHistoryChart({ data, year }: Props) {
       );
       const crossesBound = week.getMonth() != nextWeek.getMonth();
 
-      if (crossesBound || getWeek(week) === 1) {
+      if (crossesBound) {
         col.push(
           <div
             key={`month-${x}`}

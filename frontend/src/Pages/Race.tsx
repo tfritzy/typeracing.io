@@ -20,21 +20,29 @@ import { Analytics, logEvent } from "firebase/analytics";
 import { getFillGameUrl, reportResult } from "../helpers";
 import { Game } from "@shared/types";
 
-interface Props {
+interface SharedProps {
   db: Firestore;
-  user: User;
+  user: User | null;
   analytics: Analytics;
   getNow: () => Timestamp;
 }
 
-function RaceInner({ db, user, analytics, getNow }: Props) {
+type ExternalProps = SharedProps & {
+  user: User | null;
+};
+
+type InternalProps = SharedProps & {
+  user: User;
+};
+
+function RaceInner({ db, user, analytics, getNow }: InternalProps) {
   const [hasCompletedRace, setHasCompletedRace] = useState(false);
   const setRerender = useState<number>(0)[1];
   const [statsClosed, setStatsClosed] = useState<boolean>(false);
   const [keystrokes, setKeystrokes] = useState<KeyStroke[]>([]);
   const [game, setGame] = useState<Game | null | undefined>(undefined);
   const { gameId } = useParams();
-  const self = game?.players[user.uid];
+  const self = game?.players[user?.uid || ""];
   const isComplete = !!self?.progress && self.progress >= 100;
 
   const docRef = useMemo(() => {
@@ -346,12 +354,15 @@ function RaceInner({ db, user, analytics, getNow }: Props) {
   );
 }
 
-export function Race({ db, user, analytics, getNow }: Props) {
+export function Race({ db, user, analytics, getNow }: ExternalProps) {
   const { gameId } = useParams();
+
+  if (!user) return <Spinner />;
+
   return (
     <RaceInner
       db={db}
-      user={user}
+      user={user!}
       key={gameId}
       analytics={analytics}
       getNow={getNow}

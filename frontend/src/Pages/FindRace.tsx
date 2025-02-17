@@ -6,7 +6,7 @@ import { findGame } from "../helpers";
 import { Analytics } from "firebase/analytics";
 
 type Props = {
-  user: User;
+  user: User | null;
   analytics: Analytics;
 };
 
@@ -21,6 +21,7 @@ export function FindRace({ user, analytics }: Props) {
       hasSearched.current = true;
 
       async function findMatch() {
+        if (!user) return;
         try {
           await findGame(user, navigate, analytics, mode);
         } catch (err) {
@@ -34,6 +35,7 @@ export function FindRace({ user, analytics }: Props) {
     }
   }, [mode, analytics, navigate, user]);
 
+  if (!user) return <Spinner />;
   if (error) {
     return <div className="error-message">{error}</div>;
   }

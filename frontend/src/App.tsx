@@ -15,7 +15,6 @@ import {
   signInAnonymously,
   User,
 } from "firebase/auth";
-import { Spinner } from "./components/Spinner";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router";
 import { Header } from "./components/Header";
 import { FindRace } from "./Pages/FindRace";
@@ -130,12 +129,6 @@ function App() {
       document.removeEventListener("keydown", handleHotkeys);
     };
   }, []);
-
-  if (!user) {
-    return <Spinner />;
-  }
-
-  console.log("timeOffset", timeOffset);
 
   return (
     <BrowserRouter>

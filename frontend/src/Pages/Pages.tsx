@@ -19,7 +19,7 @@ export function RacePage({
   getNow,
 }: {
   db: Firestore;
-  user: User;
+  user: User | null;
   analytics: Analytics;
   getNow: () => Timestamp;
 }) {
