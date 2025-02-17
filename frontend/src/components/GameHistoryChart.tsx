@@ -180,10 +180,16 @@ export function GameHistoryChart({ data, year }: Props) {
     }
     cols.push(labels);
 
+    const startOfYear = new Date(year, 0, 1);
+    const daysSinceLastSunday = startOfYear.getDay();
+    const lastSunday = new Date(year, 0, 1 - daysSinceLastSunday);
+
     for (let x = 0; x < squares.length; x++) {
       const col = [];
-      const week = new Date(year, 0, 1 + 7 * x);
-      const nextWeek = new Date(year, 0, 1 + 7 * (x + 1));
+      const week = new Date(lastSunday.getTime() + 7 * x * 24 * 60 * 60 * 1000);
+      const nextWeek = new Date(
+        lastSunday.getTime() + 7 * (x + 1) * 24 * 60 * 60 * 1000
+      );
       const crossesBound = week.getMonth() != nextWeek.getMonth();
 
       if (crossesBound || getWeek(week) === 1) {

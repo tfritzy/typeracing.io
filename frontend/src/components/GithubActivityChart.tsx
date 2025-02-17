@@ -72,8 +72,10 @@ export function GithubActivityChart({
       ...Array.from({ length: DAYS_IN_WEEK }, (_, dayIndex) => [
         { type: "day" as const, label: DAYS[dayIndex] },
         ...Array.from({ length: WEEKS_IN_YEAR }, (_, weekIndex) => {
-          const dayNumber = weekIndex * DAYS_IN_WEEK + dayIndex;
-          if (dayNumber <= dayOffset || dayNumber > 365 + dayOffset) {
+          const dayNumber = weekIndex * DAYS_IN_WEEK + dayIndex - dayOffset;
+
+          // You have 4 years to fix this.
+          if (dayNumber <= 0 || dayNumber > 365) {
             return {
               type: "blank" as const,
             };
