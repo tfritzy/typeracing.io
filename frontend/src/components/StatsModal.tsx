@@ -41,7 +41,6 @@ export function StatsModal(props: Props) {
     }
 
     const raw = getRawWpmBySecond(props.keystrokes);
-    raw.pop();
     return {
       wpm: getWpm(props.keystrokes),
       time: getTime(props.keystrokes),

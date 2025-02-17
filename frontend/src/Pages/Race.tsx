@@ -31,7 +31,6 @@ function RaceInner({ db, user, analytics, getNow }: Props) {
   const [hasCompletedRace, setHasCompletedRace] = useState(false);
   const setRerender = useState<number>(0)[1];
   const [statsClosed, setStatsClosed] = useState<boolean>(false);
-  const [lockedCharacterIndex, setLockedCharacterIndex] = useState<number>(0);
   const [keystrokes, setKeystrokes] = useState<KeyStroke[]>([]);
   const [game, setGame] = useState<Game | null | undefined>(undefined);
   const { gameId } = useParams();
@@ -72,25 +71,12 @@ function RaceInner({ db, user, analytics, getNow }: Props) {
   }, [analytics]);
 
   const handleWordComplete = useCallback(
-    async (charIndex: number, newKeystrokes: KeyStroke[]) => {
+    async (charIndex: number, keystrokes: KeyStroke[]) => {
       if (hasCompletedRace || (self?.place && self.place > 0)) return;
-
-      for (let i = 0; i < newKeystrokes.length; i++) {
-        newKeystrokes[i].time = new Timestamp(
-          newKeystrokes[i].time!.seconds - game!.startTime.seconds,
-          newKeystrokes[i].time!.nanoseconds
-        );
-      }
-
-      const allKeystrokes = [...keystrokes, ...newKeystrokes];
-
-      setKeystrokes(allKeystrokes);
-      setLockedCharacterIndex(charIndex);
 
       if (!docRef || !game) return;
 
-      const wpm = getWpm(allKeystrokes);
-
+      const wpm = getWpm(keystrokes);
       const updateObject = {
         [`players.${user.uid}.progress`]:
           (charIndex / game.phrase.length) * 100,
@@ -124,8 +110,12 @@ function RaceInner({ db, user, analytics, getNow }: Props) {
         setHasCompletedRace(false);
       }
     },
-    [docRef, game, hasCompletedRace, keystrokes, self?.place, user]
+    [docRef, game, hasCompletedRace, self?.place, user]
   );
+
+  const handlePhraseComplete = useCallback((keystrokes: KeyStroke[]) => {
+    setKeystrokes(keystrokes);
+  }, []);
 
   const fillGame = useCallback(async () => {
     try {
@@ -167,7 +157,7 @@ function RaceInner({ db, user, analytics, getNow }: Props) {
         return () => clearTimeout(timerId);
       }
     }
-  }, [fillGame, game?.botFillTime, game?.status]);
+  }, [fillGame, game?.botFillTime, game?.status, getNow]);
 
   useEffect(() => {
     if (!game?.startTime || !docRef) return;
@@ -339,11 +329,12 @@ function RaceInner({ db, user, analytics, getNow }: Props) {
             <TypeBox
               phrase={game.phrase}
               isLocked={isLocked}
-              lockedCharacterIndex={lockedCharacterIndex}
+              onPhraseComplete={handlePhraseComplete}
               onWordComplete={handleWordComplete}
               key={gameId}
               onFirstKeystroke={onFirstKeystroke}
               getNow={getNow}
+              startTime={game.startTime}
             />
           </div>
         </div>

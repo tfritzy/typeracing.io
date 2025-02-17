@@ -1,104 +1,30 @@
-import React, {
-  RefObject,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useEffect, useState } from "react";
 import { KeyStroke } from "../stats";
-import { Timestamp } from "firebase/firestore";
-
-const cursorXOffset = -2;
-const cursorStartPos = -100;
-
-type CursorProps = {
-  targetObject: RefObject<HTMLSpanElement>;
-  pulsing: boolean;
-  disabled: boolean;
-  currentWord: string;
-  phrase: string;
-};
-
-const Cursor = (props: CursorProps) => {
-  const [cursorPos, setCursorPos] = useState({
-    x: cursorStartPos,
-    y: cursorStartPos,
-  });
-  const [isImmediate, setIsImmediate] = useState(false);
-
-  const updateCursorPositions = useCallback(
-    (immediate = false) => {
-      if (props.targetObject.current) {
-        const cursorRect = props.targetObject.current.getBoundingClientRect();
-        const newPos = {
-          x: cursorRect.left + cursorXOffset,
-          y: cursorRect.top + cursorRect.height / 2 - 16,
-        };
-        setIsImmediate(immediate);
-        setCursorPos(newPos);
-      }
-    },
-    [props.targetObject]
-  );
-
-  useEffect(() => {
-    const handleResize = () => updateCursorPositions(true);
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => window.removeEventListener("resize", handleResize);
-  }, [updateCursorPositions]);
-
-  useEffect(() => {
-    updateCursorPositions(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.currentWord, props.targetObject.current, updateCursorPositions]);
-
-  useEffect(() => {
-    updateCursorPositions(true);
-  }, [props.phrase, updateCursorPositions]);
-
-  const cursor = useMemo(
-    () => (
-      <span
-        className={`h-8 w-0.5 bg-base-400 fixed rounded-full ${
-          !isImmediate ? "transition-all ease-out duration-75" : ""
-        } ${props.pulsing ? "cursor" : ""}`}
-        style={{
-          top: cursorPos.y,
-          left: cursorPos.x,
-        }}
-        hidden={props.disabled}
-      />
-    ),
-    [cursorPos, props.disabled, props.pulsing, isImmediate]
-  );
-
-  return cursor;
-};
+import { Cursor } from "./Cursor";
+import { Timestamp } from "@shared/types";
+import { Timestamp as FSTimestamp } from "firebase/firestore";
 
 type TypeBoxProps = {
   phrase: string;
-  lockedCharacterIndex: number;
-  onWordComplete: (
-    charIndex: number,
-    keyStrokes: KeyStroke[],
-    errorCount: number
-  ) => void;
+  onWordComplete?: (charIndex: number, keystrokes: KeyStroke[]) => void;
+  onPhraseComplete?: (keystrokes: KeyStroke[], errorCount: number) => void;
   isLocked: boolean;
   onFirstKeystroke?: () => void;
   getNow: () => Timestamp;
+  startTime: Timestamp;
 };
 
 export const TypeBox = ({
   phrase,
-  lockedCharacterIndex,
   onWordComplete,
+  onPhraseComplete,
   isLocked,
   onFirstKeystroke,
   getNow,
+  startTime,
 }: TypeBoxProps) => {
   const [focused, setFocused] = useState(true);
-  const [currentWord, setCurrentWord] = useState("");
+  const [input, setInput] = useState("");
   const [inputWidth, setInputWidth] = useState(0);
   const phraseRef = React.useRef<HTMLDivElement>(null);
   const cursorRef = React.useRef<HTMLSpanElement>(null);
@@ -135,76 +61,56 @@ export const TypeBox = ({
     }
   }, []);
 
-  const { text, hasError } = React.useMemo(() => {
+  const { text, showFixAll } = React.useMemo(() => {
+    const [checkpoint, nextCheckpoint] = getCheckpoints(input, phrase);
+
     const text = [
-      <span className="text-base-600" key="completed">
-        {phrase.slice(0, lockedCharacterIndex)}
+      <span className="text-base-600" key="fin">
+        {phrase.slice(0, checkpoint)}
       </span>,
     ];
 
-    let hasError = false;
-    for (let i = 0; i < currentWord.length; i++) {
-      if (currentWord[i] !== phrase[lockedCharacterIndex + i]) {
-        hasError = true;
+    let extraCount = 0;
+    for (let i = checkpoint; i < input.length; i++) {
+      if (i >= nextCheckpoint) {
         text.push(
-          <span
-            className="relative decoration-error"
-            key={lockedCharacterIndex + i}
-          >
-            <span
-              className="text-error"
-              style={{
-                backgroundColor:
-                  phrase[lockedCharacterIndex + i] === " "
-                    ? "var(--error)"
-                    : "",
-                opacity: phrase[lockedCharacterIndex + i] === " " ? 0.2 : "",
-              }}
-            >
-              {phrase[lockedCharacterIndex + i]}
-            </span>
+          <span className="text-error opacity-50" key={"extra-" + i}>
+            {input[i]}
+          </span>
+        );
+        extraCount += 1;
+      } else if (input[i] === phrase[i]) {
+        text.push(
+          <span className="text-base-200" key={"prog-" + i}>
+            {input[i]}
           </span>
         );
       } else {
         text.push(
-          <span key={lockedCharacterIndex + i} className=" text-base-200">
-            {currentWord[i]}
+          <span className="text-error" key={"error" + i}>
+            {phrase[i]}
           </span>
         );
       }
     }
 
-    text.push(<span ref={cursorRef} key="cursor" />);
+    text.push(<span ref={cursorRef} key="cur" />);
 
-    let nextSpaceIndex = phrase.indexOf(
-      " ",
-      lockedCharacterIndex + currentWord.length
-    );
-    nextSpaceIndex = nextSpaceIndex === -1 ? phrase.length : nextSpaceIndex;
-    const remainderOfWord = phrase.slice(
-      lockedCharacterIndex + currentWord.length,
-      nextSpaceIndex
-    );
     text.push(
-      <span key="word-remainder" className="text-base-400">
-        {remainderOfWord}
+      <span className="text-base-400" key="restCheck">
+        {phrase.slice(input.length, nextCheckpoint)}
       </span>
     );
 
-    if (nextSpaceIndex !== -1) {
-      const remainingText = phrase.slice(nextSpaceIndex);
-      text.push(
-        <span key="remaining" className="text-base-400">
-          {remainingText}
-        </span>
-      );
-    }
+    text.push(
+      <span className="text-base-400" key="rest">
+        {phrase.slice(nextCheckpoint, phrase.length)}
+      </span>
+    );
 
-    return { text, hasError };
+    return { text, showFixAll: extraCount >= 5 };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentWord]);
-
-  const showFixAll = hasError && currentWord.length > 12;
+  }, [input]);
 
   const handleInput = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -212,106 +118,83 @@ export const TypeBox = ({
         return;
       }
 
-      if (currentWord.length === 0 && lockedCharacterIndex === 0) {
+      if (input.length === 0) {
         onFirstKeystroke?.();
       }
 
-      if (currentWord.length < event.target.value.length) {
-        const gotCharCorrect = event.target.value.endsWith(
-          event.target.value.slice(-1)
+      const [iCheckpoint, iNextCheckpoint] = getCheckpoints(input, phrase);
+      const [eCheckpoint] = getCheckpoints(event.target.value, phrase);
+
+      const maxCheckpoint = Math.max(iCheckpoint, eCheckpoint);
+
+      if (iCheckpoint >= phrase.length) {
+        return;
+      }
+
+      if (event.target.value.length > iNextCheckpoint + 10) {
+        return;
+      }
+
+      setCursorPinging(false);
+      if (setPingingRef.current) {
+        clearTimeout(setPingingRef.current);
+      }
+      setPingingRef.current = setTimeout(() => {
+        setCursorPinging(true);
+      }, 1000);
+
+      if (event.target.value.length <= maxCheckpoint) {
+        event.target.value = phrase.substring(
+          0,
+          maxCheckpoint === 0 ? maxCheckpoint : maxCheckpoint + 1
         );
-        if (!gotCharCorrect) {
-          wordErrorsCount.current++;
+      }
+
+      const now = getNow();
+      let seconds = now.seconds - startTime.seconds;
+      let nanoseconds = now.nanoseconds - startTime.nanoseconds;
+
+      if (nanoseconds < 0) {
+        seconds -= 1;
+        nanoseconds += 1e9;
+      }
+
+      const timestamp = new FSTimestamp(seconds, nanoseconds);
+      if (event.target.value.length > input.length) {
+        for (let i = input.length; i < event.target.value.length; i++) {
+          keyStrokes.current.strokes.push({
+            character: event.target.value[i],
+            time: timestamp,
+          });
+        }
+      } else {
+        for (let i = input.length; i > event.target.value.length; i--) {
+          keyStrokes.current.strokes.push({ character: "\b", time: timestamp });
         }
       }
 
-      if (
-        hasError &&
-        currentWord.length > 20 &&
-        event.target.value.length > currentWord.length
-      ) {
-        return;
+      if (eCheckpoint > iCheckpoint) {
+        onWordComplete?.(eCheckpoint, keyStrokes.current.strokes);
       }
 
-      if (event.target.value.length + lockedCharacterIndex > phrase.length) {
-        return;
+      if (eCheckpoint >= phrase.length) {
+        onPhraseComplete?.(keyStrokes.current.strokes, wordErrorsCount.current);
       }
 
-      setCurrentWord(event.target.value);
+      setInput(event.target.value);
     },
     [
       isLocked,
-      currentWord.length,
-      lockedCharacterIndex,
-      hasError,
-      phrase.length,
+      input,
+      phrase,
+      getNow,
+      startTime.seconds,
+      startTime.nanoseconds,
       onFirstKeystroke,
+      onWordComplete,
+      onPhraseComplete,
     ]
   );
-
-  useEffect(() => {
-    if (lockedCharacterIndex >= phrase.length) {
-      return;
-    }
-
-    setCursorPinging(false);
-    if (setPingingRef.current) {
-      clearTimeout(setPingingRef.current);
-    }
-    setPingingRef.current = setTimeout(() => {
-      setCursorPinging(true);
-    }, 1000);
-
-    while (keyStrokes.current.compositeSize > currentWord.length) {
-      keyStrokes.current.strokes.push({
-        character: "\b",
-        time: getNow(),
-      });
-      keyStrokes.current.compositeSize--;
-    }
-
-    while (keyStrokes.current.compositeSize < currentWord.length) {
-      keyStrokes.current.strokes.push({
-        character: currentWord[keyStrokes.current.compositeSize],
-        time: getNow(),
-      });
-      keyStrokes.current.compositeSize++;
-    }
-
-    let correctUpToIndex = lockedCharacterIndex;
-    for (let i = 0; i < currentWord.length; i++) {
-      if (currentWord[i] !== phrase[lockedCharacterIndex + i]) {
-        break;
-      }
-      correctUpToIndex++;
-    }
-
-    const correctSubstring = phrase.slice(
-      lockedCharacterIndex,
-      correctUpToIndex
-    );
-    let newEndIndex = -1;
-    if (
-      correctUpToIndex - lockedCharacterIndex > 0 &&
-      (correctSubstring.includes(" ") || correctUpToIndex === phrase.length)
-    ) {
-      newEndIndex = correctUpToIndex;
-    }
-
-    if (newEndIndex !== -1) {
-      React.startTransition(() => {
-        onWordComplete(
-          newEndIndex,
-          keyStrokes.current.strokes,
-          wordErrorsCount.current
-        );
-        setCurrentWord("");
-        wordErrorsCount.current = 0;
-        keyStrokes.current.strokes = [];
-        keyStrokes.current.compositeSize = 0;
-      });
-    }
-  }, [currentWord, lockedCharacterIndex, onWordComplete, phrase]);
 
   const refocusMessage = React.useMemo(() => {
     return (
@@ -325,21 +208,6 @@ export const TypeBox = ({
       </div>
     );
   }, [focused]);
-
-  const errorBorder = React.useMemo(() => {
-    return (
-      <div
-        style={{
-          opacity: hasError ? 1 : 0,
-          width: "calc(100% + 20px)",
-          height: "calc(100% + 10px)",
-          left: -10,
-          top: -5,
-        }}
-        className="absolute border border-error rounded-lg z-[-1] transition-opacity"
-      />
-    );
-  }, [hasError]);
 
   return (
     <div className="relative select-none">
@@ -355,9 +223,8 @@ export const TypeBox = ({
           {text}
         </div>
         {refocusMessage}
-        {errorBorder}
         <input
-          value={currentWord}
+          value={input}
           onPaste={ignorePaste}
           onChange={handleInput}
           onKeyDown={ignoreArrows}
@@ -378,10 +245,10 @@ export const TypeBox = ({
           onBlur={onBlur}
         />
         <Cursor
-          disabled={!focused || lockedCharacterIndex >= phrase.length}
+          disabled={!focused || input.length >= phrase.length}
           pulsing={cursorPulsing}
           targetObject={cursorRef}
-          currentWord={currentWord}
+          input={input}
           phrase={phrase}
         />
       </div>
@@ -396,3 +263,25 @@ export const TypeBox = ({
     </div>
   );
 };
+
+function getCheckpoints(input: string, phrase: string): number[] {
+  let checkpoint = 0;
+  let nextCheckpoint = phrase.length;
+  let inFinishedRegion = true;
+  for (let i = 0; i <= phrase.length; i++) {
+    if (input[i] !== phrase[i]) {
+      inFinishedRegion = false;
+    }
+
+    if (phrase[i] === " " || i === phrase.length) {
+      if (inFinishedRegion) {
+        checkpoint = i;
+      } else if (nextCheckpoint === phrase.length) {
+        nextCheckpoint = i;
+        break;
+      }
+    }
+  }
+
+  return [checkpoint, nextCheckpoint];
+}
