@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { KeyStroke } from "../stats";
 import { Cursor } from "./Cursor";
 import { Timestamp } from "@shared/types";
@@ -43,20 +43,39 @@ export const TypeBox = ({
     }
   }, [phrase, phraseRef.current?.clientWidth]);
 
+  const preventCursorPosition = useCallback(() => {
+    // Always force cursor to end of input
+    if (inputRef.current) {
+      const length = inputRef.current.value.length;
+      inputRef.current.setSelectionRange(length, length);
+    }
+  }, []);
+
   const ignorePaste = React.useCallback((event: React.ClipboardEvent) => {
     event.preventDefault();
   }, []);
 
   const onFocus = React.useCallback(() => {
     setFocused(true);
-  }, []);
+    preventCursorPosition();
+  }, [preventCursorPosition]);
 
   const onBlur = React.useCallback(() => {
     setFocused(false);
-  }, []);
+    preventCursorPosition();
+  }, [preventCursorPosition]);
 
-  const ignoreArrows = React.useCallback((event: React.KeyboardEvent) => {
-    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+  const preventCursorKeys = useCallback((event: React.KeyboardEvent) => {
+    const cursorKeys = [
+      "ArrowLeft",
+      "ArrowRight",
+      "Home",
+      "End",
+      "PageUp",
+      "PageDown",
+    ];
+
+    if (cursorKeys.includes(event.key)) {
       event.preventDefault();
     }
   }, []);
@@ -227,13 +246,17 @@ export const TypeBox = ({
           value={input}
           onPaste={ignorePaste}
           onChange={handleInput}
-          onKeyDown={ignoreArrows}
+          onKeyDown={preventCursorKeys}
           id="type-box"
           className="w-full min-h-full outline-none typebox rounded-lg absolute top-0 left-0 bg-transparent text-transparent"
           ref={inputRef}
           autoCorrect="false"
           autoCapitalize="none"
           autoComplete="off"
+          onSelect={preventCursorPosition}
+          onMouseDown={preventCursorPosition}
+          onMouseUp={preventCursorPosition}
+          onClick={preventCursorPosition}
           spellCheck={false}
           style={{
             width: `${inputWidth}px`,

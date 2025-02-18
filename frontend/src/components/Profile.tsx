@@ -71,10 +71,11 @@ export const Profile = ({
     return () => unsubscribes.forEach((unsubscribe) => unsubscribe());
   }, [db, monthlyResultsRefs]);
 
-  const [allData, totalGames, avgWpm] = useMemo(() => {
+  const [allData, totalGames, avgWpm, bestWpm] = useMemo(() => {
     const allData: Map<string, GameResult[]> = new Map();
     let played = 0;
     let totalWpm = 0;
+    let bestWpm = 0;
 
     for (let month = 0; month < 12; month++) {
       const monthData = yearlyResults[month];
@@ -83,12 +84,15 @@ export const Profile = ({
       for (const [dayIndex, data] of Object.entries(monthData.results)) {
         const day = new Date(selectedYear, month, parseInt(dayIndex));
         played += data.length;
-        data.forEach((d) => (totalWpm += d.wpm));
+        data.forEach((d) => {
+          totalWpm += d.wpm;
+          bestWpm = Math.max(bestWpm, d.wpm);
+        });
         allData.set(day.toISOString(), data);
       }
     }
 
-    return [allData, played, totalWpm / (played || 1)];
+    return [allData, played, totalWpm / (played || 1), bestWpm];
   }, [selectedYear, yearlyResults]);
 
   if (!user) {
@@ -119,6 +123,7 @@ export const Profile = ({
               : "n/a"}
           </Box>
         )}
+        <Box title="Best WPM">{bestWpm > 0 ? bestWpm.toFixed(0) : "n/a"}</Box>
       </div>
 
       <div>

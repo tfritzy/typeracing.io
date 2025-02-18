@@ -173,17 +173,14 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
       res.status(204).send("");
       return;
     }
-
     const authHeader = req.headers.authorization;
     if (!authHeader?.startsWith("Bearer ")) {
       res.status(401).json({ error: "No token provided" });
       return;
     }
-
     const token = authHeader.split("Bearer ")[1];
     const decodedToken = await auth.verifyIdToken(token);
     const uid = decodedToken.uid;
-
     switch (req.method) {
       case "POST": {
         const { gameId } = req.body as FillGameWithBotsRequest;
@@ -191,17 +188,20 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
           res.status(400).json({ error: "Game ID is required" });
           return;
         }
-
         const gameRef = db.collection("games").doc(gameId);
-
         await db.runTransaction(async (transaction) => {
           const gameDoc = await transaction.get(gameRef);
-
           if (!gameDoc.exists) {
             throw new Error("Game not found");
           }
-
           const gameData = gameDoc.data() as Game;
+
+          if (gameData.status === "in_progress") {
+            throw new Error("Game is already in progress");
+          }
+          if (gameData.bots && Object.keys(gameData.bots).length > 0) {
+            throw new Error("Game already has bots");
+          }
 
           if (!gameData.players[uid]) {
             throw new Error("Must be in game to make this request");
@@ -209,14 +209,12 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
 
           const currentPlayerCount = Object.keys(gameData.players || {}).length;
           const botsNeeded = 4 - currentPlayerCount;
-
           if (botsNeeded <= 0) {
             throw new Error("Game is already full");
           }
 
           const botPlayers: Record<string, Bot> = {};
           const now = Timestamp.now();
-
           for (let i = 0; i < botsNeeded; i++) {
             const botId = `bot-${Date.now()}-${i}`;
             const targetWpm = Math.floor((Math.random() - 0.5) * 40 + 50);
@@ -231,11 +229,14 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
             };
           }
 
-          transaction.update(gameRef, {
+          const updateData = {
             status: "in_progress" as const,
             startTime: new Timestamp(now.seconds + 3, now.nanoseconds),
             bots: botPlayers,
-          });
+            botsAddedAt: now,
+          };
+
+          transaction.update(gameRef, updateData);
         });
 
         const response: FillGameWithBotsResponse = {
