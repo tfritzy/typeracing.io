@@ -21,6 +21,7 @@ import { FindRace } from "./Pages/FindRace";
 import { getAnalytics } from "firebase/analytics";
 import {
   CopypastaPage,
+  CSharpPage,
   DutchPage,
   FrenchPage,
   GermanPage,
@@ -169,6 +170,8 @@ function App() {
 
           <Route path="/copypastas" element={<CopypastaPage />} />
           <Route path="/shakespeare" element={<ShakespearePage />} />
+
+          <Route path="/csharp" element={<CSharpPage />} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

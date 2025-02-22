@@ -33,7 +33,7 @@ export const TypeBox = ({
     strokes: KeyStroke[];
   }>({ compositeSize: 0, strokes: [] });
   const wordErrorsCount = React.useRef<number>(0);
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const inputRef = React.useRef<HTMLTextAreaElement>(null);
   const [cursorPulsing, setCursorPinging] = useState(true);
   const setPingingRef = React.useRef<ReturnType<typeof setTimeout> | null>();
 
@@ -65,29 +65,18 @@ export const TypeBox = ({
     preventCursorPosition();
   }, [preventCursorPosition]);
 
-  const preventCursorKeys = useCallback((event: React.KeyboardEvent) => {
-    const cursorKeys = [
-      "ArrowLeft",
-      "ArrowRight",
-      "Home",
-      "End",
-      "PageUp",
-      "PageDown",
-    ];
-
-    if (cursorKeys.includes(event.key)) {
-      event.preventDefault();
-    }
-  }, []);
-
   const { text, showFixAll } = React.useMemo(() => {
     const [checkpoint, nextCheckpoint] = getCheckpoints(input, phrase);
 
-    const text = [
-      <span className="text-base-600" key="fin">
-        {phrase.slice(0, checkpoint)}
-      </span>,
-    ];
+    const text = [];
+    for (let i = 0; i < checkpoint; i++) {
+      text.push(
+        <span className="opacity-25" key="fin">
+          {phrase[i]}
+        </span>
+      );
+      if (phrase[i] === "↵") text.push(<br key={`rest-br-${i}`} />);
+    }
 
     let extraCount = 0;
     for (let i = checkpoint; i < input.length; i++) {
@@ -100,10 +89,11 @@ export const TypeBox = ({
         extraCount += 1;
       } else if (input[i] === phrase[i]) {
         text.push(
-          <span className="text-base-200" key={"prog-" + i}>
+          <span className="opacity-100" key={`prog-${i}`}>
             {input[i]}
           </span>
         );
+        if (input[i] === "↵") text.push(<br key={`prog-br-${i}`} />);
       } else {
         text.push(
           <span className="text-error" key={"error" + i}>
@@ -116,23 +106,26 @@ export const TypeBox = ({
     text.push(<span ref={cursorRef} key="cur" />);
 
     text.push(
-      <span className="text-base-400" key="restCheck">
+      <span className="opacity-80" key="restCheck">
         {phrase.slice(input.length, nextCheckpoint)}
       </span>
     );
 
-    text.push(
-      <span className="text-base-400" key="rest">
-        {phrase.slice(nextCheckpoint, phrase.length)}
-      </span>
-    );
+    for (let i = nextCheckpoint; i < phrase.length; i++) {
+      text.push(
+        <span className="opacity-80" key={"rest-" + i}>
+          {phrase[i]}
+        </span>
+      );
+      if (phrase[i] === "↵") text.push(<br key={`rest-br-${i}`} />);
+    }
 
     return { text, showFixAll: extraCount >= 5 };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input]);
 
   const handleInput = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
       if (isLocked) {
         return;
       }
@@ -215,10 +208,39 @@ export const TypeBox = ({
     ]
   );
 
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      const cursorKeys = [
+        "ArrowLeft",
+        "ArrowRight",
+        "Home",
+        "End",
+        "PageUp",
+        "PageDown",
+      ];
+
+      if (cursorKeys.includes(event.key)) {
+        event.preventDefault();
+      }
+
+      if (event.key === "Enter") {
+        event.preventDefault();
+        const newValue = input + "\n";
+        const inputEvent = {
+          target: {
+            value: newValue,
+          },
+        } as React.ChangeEvent<HTMLTextAreaElement>;
+        handleInput(inputEvent);
+      }
+    },
+    [handleInput, input]
+  );
+
   const refocusMessage = React.useMemo(() => {
     return (
       <div
-        className="absolute top-1/2 left-1/2 transform -translate-x-[50%] -translate-y-[50%] cursor-pointer transition-opacity pointer-events-none text-stone w-max text-base-200 text-sm"
+        className="absolute top-1/2 left-1/2 transform -translate-x-[50%] -translate-y-[50%] cursor-pointer transition-opacity pointer-events-none w-max text-base-200 text-sm"
         style={{
           opacity: !focused ? 1 : 0,
         }}
@@ -232,7 +254,7 @@ export const TypeBox = ({
     <div className="relative select-none">
       <div className="text-3xl type-box">
         <div
-          className="rounded-lg transition-colors whitespace-pre-wrap text-start"
+          className="rounded-lg transition-colors whitespace-pre-wrap text-start language-python"
           style={{
             filter: focused ? "blur(0)" : "blur(2px)",
             opacity: focused && !isLocked ? 1 : 0.5,
@@ -242,11 +264,11 @@ export const TypeBox = ({
           {text}
         </div>
         {refocusMessage}
-        <input
+        <textarea
           value={input}
           onPaste={ignorePaste}
           onChange={handleInput}
-          onKeyDown={preventCursorKeys}
+          onKeyDown={handleKeyDown}
           id="type-box"
           className="w-full min-h-full outline-none typebox rounded-lg absolute top-0 left-0 bg-transparent text-transparent"
           ref={inputRef}
@@ -296,7 +318,7 @@ function getCheckpoints(input: string, phrase: string): number[] {
       inFinishedRegion = false;
     }
 
-    if (phrase[i] === " " || i === phrase.length) {
+    if (phrase[i] === " " || phrase[i] === "\n" || i === phrase.length) {
       if (inFinishedRegion) {
         checkpoint = i;
       } else if (nextCheckpoint === phrase.length) {

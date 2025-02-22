@@ -63,11 +63,11 @@ export function HindiPage() {
 }
 
 export function CopypastaPage() {
-  return (
-    <>
-      <MainMenu modeType="copypastas" />
-    </>
-  );
+  return <MainMenu modeType="copypastas" />;
+}
+
+export function CSharpPage() {
+  return <MainMenu modeType="csharp" />;
 }
 
 export function ShakespearePage() {

@@ -16,11 +16,14 @@ export type LanguageType =
   | "dutch"
   | "polski"
   | "русский"
-  | "हिंदी";
+  | "हिंदी"
+  | "csharp";
 
 export type PhraseType = "copypastas" | "shakespeare";
 
 export type GroupType = "languages" | "phrases";
+
+export type Formatting = "normal" | "code";
 
 export type Mode = {
   name: string;
@@ -28,6 +31,7 @@ export type Mode = {
   icon: string;
   type: ModeType;
   startupPhrases: string[];
+  formatting: Formatting;
 };
 
 type BotConfig = {

@@ -76,3 +76,21 @@ h1 {
   font-size: 2.4em;
   line-height: 1.1;
 }
+
+.hljs {
+  background: transparent !important;
+}
+
+.hljs-built_in, .hljs-string {
+  background: transparent !important;
+}
+
+.hljs-keyword { color: #C678DD !important; }
+.hljs-built_in { color: #E6C07B !important; }
+.hljs-string { color: #98C379 !important; }
+.hljs-comment { color: #5C6370 !important; }
+.hljs-function { color: #61AFEF !important; }
+.hljs-number { color: #D19A66 !important; }
+.hljs-operator { color: #56B6C2 !important; }
+.hljs-class { color: #E5C07B !important; }
+.hljs-variable { color: #E06C75 !important; }

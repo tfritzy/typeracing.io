@@ -7,6 +7,7 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       description: "Copypastas, but no pasta",
       name: "Copypastas",
       icon: "/logos/spaghetti.svg",
+      formatting: "normal",
       startupPhrases: [
         "curse you perry the platypus",
         "number one. steady hand.",
@@ -26,6 +27,7 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       description: "Famous Shakespeare lines",
       name: "Shakespeare",
       icon: "/logos/performing-arts.svg",
+      formatting: "normal",
       startupPhrases: [
         "once more unto the breach",
         "cry havoc",
@@ -49,6 +51,7 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       name: "English",
       description: "Phrases of common English words",
       icon: "/flags/gb.svg",
+      formatting: "normal",
       startupPhrases: [
         "glhf",
         "glgl",
@@ -72,6 +75,7 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       name: "Français",
       description: "Phrases of common French words",
       icon: "/flags/fr.svg",
+      formatting: "normal",
       startupPhrases: [
         "en avant", // forward
         "prêt au combat", // ready for battle
@@ -88,6 +92,7 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       name: "Español",
       description: "Phrases of common Spanish words",
       icon: "/flags/es.svg",
+      formatting: "normal",
       startupPhrases: [
         "adelante", // forward
         "listos para luchar", // ready to fight
@@ -104,6 +109,7 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       name: "Deutsch",
       description: "Phrases of common German words",
       icon: "/flags/de.svg",
+      formatting: "normal",
       startupPhrases: [
         "bereit machen", // get ready
         "systeme gestartet", // systems started
@@ -120,6 +126,7 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       name: "Italiano",
       description: "Phrases of common Italian words",
       icon: "/flags/it.svg",
+      formatting: "normal",
       startupPhrases: [
         "pronti via", // ready go
         "sistemi attivi", // systems active
@@ -136,6 +143,7 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       name: "Português",
       description: "Phrases of common Portuguese words",
       icon: "/flags/pt.svg",
+      formatting: "normal",
       startupPhrases: [
         "vamos lá", // let's go
         "sistemas prontos", // systems ready
@@ -152,6 +160,7 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       name: "Dutch",
       description: "Phrases of common Dutch words",
       icon: "/flags/nl.svg",
+      formatting: "normal",
       startupPhrases: [
         "klaar voor actie", // ready for action
         "systemen gereed", // systems ready
@@ -168,6 +177,7 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       name: "Polski",
       description: "Phrases of common Polish words",
       icon: "/flags/pl.svg",
+      formatting: "normal",
       startupPhrases: [
         "systemy gotowe", // systems ready
         "do boju", // to battle
@@ -184,6 +194,7 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       name: "Русский",
       description: "Phrases of common Russian words",
       icon: "/flags/ru.svg",
+      formatting: "normal",
       startupPhrases: [
         "системы готовы", // systems ready
         "в бой", // to battle
@@ -200,6 +211,7 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       name: "हिंदी",
       description: "Phrases of common Hindi words",
       icon: "/flags/in.svg",
+      formatting: "normal",
       startupPhrases: [
         "तैयार हैं", // ready
         "चलो", // let's go
@@ -209,6 +221,20 @@ export const groupedModes: Record<GroupType, Mode[]> = {
         "शुरू करें", // let's begin
         "हमला करो", // attack
         "प्रणाली तैयार", // system ready
+      ],
+    },
+    {
+      type: "csharp",
+      name: "C#",
+      description: "Snippets of C# code",
+      icon: "/logos/csharp.svg",
+      formatting: "code",
+      startupPhrases: [
+        "dotnet run",
+        "dotnet build",
+        "dotnet publish",
+        "await Race();",
+        "Console.ReadLine();",
       ],
     },
   ],

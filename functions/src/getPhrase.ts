@@ -7,10 +7,11 @@ import { hindi } from "./hindi.js";
 import { italian } from "./italian.js";
 import { polish } from "./polski.js";
 import { purtuguese } from "./portuguese.js";
-import { reddit } from "./reddit.js";
 import { russian } from "./russian.js";
 import { shakespeare } from "./shakespeare.js";
 import { spanish } from "./spanish.js";
+import { csharp } from "./csharp.js";
+import { ModeType } from "@shared/types.js";
 
 export const getRandomElements = (arr: any[], n: number) =>
   arr.sort(() => Math.random() - 0.5).slice(0, n);
@@ -18,7 +19,7 @@ export const getRandomElements = (arr: any[], n: number) =>
 export const getRandomElement = (arr: any[]) =>
   arr[Math.floor(Math.random() * arr.length)];
 
-export function getPhrase(mode: string): string[] {
+export function getPhrase(mode: ModeType): string[] {
   const numWords = 15 + Math.floor(Math.random() * 10);
 
   switch (mode) {
@@ -44,10 +45,10 @@ export function getPhrase(mode: string): string[] {
       return getRandomElements(hindi.slice(0, 500), numWords);
     case "copypastas":
       return [getRandomElement(copypastas)];
-    case "reddit":
-      return [getRandomElement(reddit)];
     case "shakespeare":
       return [getRandomElement(shakespeare)];
+    case "csharp":
+      return [getRandomElement(csharp)];
     default:
       return getRandomElements(english.slice(0, 500), numWords);
   }

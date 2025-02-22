@@ -200,15 +200,9 @@ function RaceInner({ db, user, analytics, getNow }: InternalProps) {
           );
 
           if (expectedProgress - b.progress > 5) {
-            updateObject[`bots.${b.id}.progress`] = Math.min(
-              expectedProgress,
-              b.progress + 5
-            );
+            updateObject[`bots.${b.id}.progress`] = expectedProgress;
           } else if (expectedProgress >= 100 && b.progress < 100) {
-            updateObject[`bots.${b.id}.progress`] = Math.min(
-              100,
-              b.progress + 5
-            );
+            updateObject[`bots.${b.id}.progress`] = expectedProgress;
           }
 
           if (expectedProgress >= 100 && b.progress < 100) {
