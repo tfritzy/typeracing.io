@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "firebase": "^11.2.0",
-    "react-helmet-async": "^2.0.5"
-  }
-}

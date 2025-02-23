@@ -7,14 +7,14 @@ type CursorProps = {
   targetObject: RefObject<HTMLSpanElement>;
   pulsing: boolean;
   disabled: boolean;
-  input: string;
-  phrase: string;
+  text: JSX.Element[];
 };
 
 export const Cursor = (props: CursorProps) => {
   const [cursorPos, setCursorPos] = useState({
     x: cursorStartPos,
     y: cursorStartPos,
+    height: 0,
   });
   const [isImmediate, setIsImmediate] = useState(false);
 
@@ -22,10 +22,18 @@ export const Cursor = (props: CursorProps) => {
     (immediate = false) => {
       if (props.targetObject.current) {
         const cursorRect = props.targetObject.current.getBoundingClientRect();
+        const computedStyle = window.getComputedStyle(
+          props.targetObject.current
+        );
+
+        const fontSize = parseFloat(computedStyle.fontSize);
+
         const newPos = {
           x: cursorRect.left + cursorXOffset,
-          y: cursorRect.top + cursorRect.height / 2 - 16,
+          y: cursorRect.top + (cursorRect.height - fontSize) / 2,
+          height: fontSize,
         };
+
         setIsImmediate(immediate);
         setCursorPos(newPos);
       }
@@ -42,22 +50,18 @@ export const Cursor = (props: CursorProps) => {
 
   useEffect(() => {
     updateCursorPositions(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.input, props.targetObject.current, updateCursorPositions]);
-
-  useEffect(() => {
-    updateCursorPositions(true);
-  }, [props.phrase, updateCursorPositions]);
+  }, [props.text, updateCursorPositions]);
 
   const cursor = useMemo(
     () => (
       <span
-        className={`h-8 w-0.5 bg-base-400 fixed rounded-full ${
+        className={`w-0.5 bg-base-400 fixed rounded-full ${
           !isImmediate ? "transition-all ease-out duration-150" : ""
         } ${props.pulsing ? "cursor" : ""}`}
         style={{
           top: cursorPos.y,
           left: cursorPos.x,
+          height: cursorPos.height,
         }}
         hidden={props.disabled}
       />

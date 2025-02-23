@@ -39,12 +39,6 @@
   background-color: transparent;
 }
 
-.type-box {
-  word-spacing: 0em;
-  line-height: 40px;
-  letter-spacing: 0.04em;
-}
-
 @keyframes fadeBlink {
   0% {
     opacity: 1;

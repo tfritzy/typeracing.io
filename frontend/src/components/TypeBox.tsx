@@ -1,8 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { KeyStroke } from "../stats";
 import { Cursor } from "./Cursor";
 import { Timestamp } from "@shared/types";
 import { Timestamp as FSTimestamp } from "firebase/firestore";
+import { getCheckpointsForText } from "../helpers/getCheckpoints";
+import { codeToTokens, TokensResult } from "shiki";
+import { codePhraseToHtml, textPhraseToHtml } from "../helpers/phraseToHtml";
 
 type TypeBoxProps = {
   phrase: string;
@@ -12,6 +15,7 @@ type TypeBoxProps = {
   onFirstKeystroke?: () => void;
   getNow: () => Timestamp;
   startTime: Timestamp;
+  isCode: boolean;
 };
 
 export const TypeBox = ({
@@ -22,6 +26,7 @@ export const TypeBox = ({
   onFirstKeystroke,
   getNow,
   startTime,
+  isCode,
 }: TypeBoxProps) => {
   const [focused, setFocused] = useState(true);
   const [input, setInput] = useState("");
@@ -36,6 +41,7 @@ export const TypeBox = ({
   const inputRef = React.useRef<HTMLTextAreaElement>(null);
   const [cursorPulsing, setCursorPinging] = useState(true);
   const setPingingRef = React.useRef<ReturnType<typeof setTimeout> | null>();
+  const [tokens, setTokens] = useState<TokensResult | undefined>(undefined);
 
   useEffect(() => {
     if (phraseRef.current) {
@@ -65,64 +71,24 @@ export const TypeBox = ({
     preventCursorPosition();
   }, [preventCursorPosition]);
 
-  const { text, showFixAll } = React.useMemo(() => {
-    const [checkpoint, nextCheckpoint] = getCheckpoints(input, phrase);
-
-    const text = [];
-    for (let i = 0; i < checkpoint; i++) {
-      text.push(
-        <span className="opacity-25" key="fin">
-          {phrase[i]}
-        </span>
-      );
-      if (phrase[i] === "↵") text.push(<br key={`rest-br-${i}`} />);
+  React.useEffect(() => {
+    if (isCode) {
+      codeToTokens(phrase, {
+        lang: "csharp",
+        theme: "vitesse-dark",
+      }).then((tokens) => setTokens(tokens));
+    } else {
+      setTokens(undefined);
     }
+  }, [isCode, phrase]);
 
-    let extraCount = 0;
-    for (let i = checkpoint; i < input.length; i++) {
-      if (i >= nextCheckpoint) {
-        text.push(
-          <span className="text-error opacity-50" key={"extra-" + i}>
-            {input[i]}
-          </span>
-        );
-        extraCount += 1;
-      } else if (input[i] === phrase[i]) {
-        text.push(
-          <span className="opacity-100" key={`prog-${i}`}>
-            {input[i]}
-          </span>
-        );
-        if (input[i] === "↵") text.push(<br key={`prog-br-${i}`} />);
-      } else {
-        text.push(
-          <span className="text-error" key={"error" + i}>
-            {phrase[i]}
-          </span>
-        );
-      }
-    }
+  const text = useMemo(() => {
+    if (isCode && !tokens) return null;
 
-    text.push(<span ref={cursorRef} key="cur" />);
-
-    text.push(
-      <span className="opacity-80" key="restCheck">
-        {phrase.slice(input.length, nextCheckpoint)}
-      </span>
-    );
-
-    for (let i = nextCheckpoint; i < phrase.length; i++) {
-      text.push(
-        <span className="opacity-80" key={"rest-" + i}>
-          {phrase[i]}
-        </span>
-      );
-      if (phrase[i] === "↵") text.push(<br key={`rest-br-${i}`} />);
-    }
-
-    return { text, showFixAll: extraCount >= 5 };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [input]);
+    return isCode
+      ? codePhraseToHtml(phrase, input, tokens!, cursorRef)
+      : textPhraseToHtml(phrase, input, cursorRef);
+  }, [input, isCode, phrase, tokens]);
 
   const handleInput = React.useCallback(
     (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -134,9 +100,17 @@ export const TypeBox = ({
         onFirstKeystroke?.();
       }
 
-      const [iCheckpoint, iNextCheckpoint] = getCheckpoints(input, phrase);
-      const [eCheckpoint] = getCheckpoints(event.target.value, phrase);
+      if (phrase[event.target.value.length - 1] === "\n") {
+        while (phrase[event.target.value.length] === " ") {
+          event.target.value += " ";
+        }
+      }
 
+      const [iCheckpoint, iNextCheckpoint] = getCheckpointsForText(
+        input,
+        phrase
+      );
+      const [eCheckpoint] = getCheckpointsForText(event.target.value, phrase);
       const maxCheckpoint = Math.max(iCheckpoint, eCheckpoint);
 
       if (iCheckpoint >= phrase.length) {
@@ -252,7 +226,7 @@ export const TypeBox = ({
 
   return (
     <div className="relative select-none">
-      <div className="text-3xl type-box">
+      <div className="type-box" style={{ fontSize: isCode ? "16pt" : "20pt" }}>
         <div
           className="rounded-lg transition-colors whitespace-pre-wrap text-start language-python"
           style={{
@@ -270,7 +244,7 @@ export const TypeBox = ({
           onChange={handleInput}
           onKeyDown={handleKeyDown}
           id="type-box"
-          className="w-full min-h-full outline-none typebox rounded-lg absolute top-0 left-0 bg-transparent text-transparent"
+          className="w-full min-h-full outline-none typebox rounded-lg absolute top-0 left-0 bg-transparent text-transparent resize-none"
           ref={inputRef}
           autoCorrect="false"
           autoCapitalize="none"
@@ -293,40 +267,17 @@ export const TypeBox = ({
           disabled={!focused || input.length >= phrase.length}
           pulsing={cursorPulsing}
           targetObject={cursorRef}
-          input={input}
-          phrase={phrase}
+          text={text}
         />
       </div>
-      {showFixAll && (
+      {/* {showFixAll && (
         <div
           className="absolute -top-4 text-error text-lg w-full text-center"
           style={{ lineHeight: 0 }}
         >
           You must fix all errors
         </div>
-      )}
+      )} */}
     </div>
   );
 };
-
-function getCheckpoints(input: string, phrase: string): number[] {
-  let checkpoint = 0;
-  let nextCheckpoint = phrase.length;
-  let inFinishedRegion = true;
-  for (let i = 0; i <= phrase.length; i++) {
-    if (input[i] !== phrase[i]) {
-      inFinishedRegion = false;
-    }
-
-    if (phrase[i] === " " || phrase[i] === "\n" || i === phrase.length) {
-      if (inFinishedRegion) {
-        checkpoint = i;
-      } else if (nextCheckpoint === phrase.length) {
-        nextCheckpoint = i;
-        break;
-      }
-    }
-  }
-
-  return [checkpoint, nextCheckpoint];
-}

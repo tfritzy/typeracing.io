@@ -19,6 +19,7 @@ import { StatsModal } from "../components/StatsModal";
 import { Analytics, logEvent } from "firebase/analytics";
 import { getFillGameUrl, reportResult } from "../helpers";
 import { Game } from "@shared/types";
+import { flatModes } from "../modes";
 
 interface SharedProps {
   db: Firestore;
@@ -324,7 +325,7 @@ function RaceInner({ db, user, analytics, getNow }: InternalProps) {
           <div className="bg-base-700 max-w-fit rounded-t-lg px-4 text-base-400 font-bold py-[2px]">
             {message}
           </div>
-          <div className="relative border-4 rounded-b-lg rounded-r-lg border-base-700 px-4 py-3">
+          <div className="relative border-4 rounded-b-lg rounded-r-lg border-base-700">
             <div className="absolute -left-12 top-0">
               <GoLabel startTime={game.startTime} getNow={getNow} />
             </div>
@@ -337,6 +338,7 @@ function RaceInner({ db, user, analytics, getNow }: InternalProps) {
               onFirstKeystroke={onFirstKeystroke}
               getNow={getNow}
               startTime={game.startTime}
+              isCode={flatModes[game.mode].formatting === "code"}
             />
           </div>
         </div>
