@@ -7,7 +7,7 @@ export function codePhraseToHtml(
   input: string,
   tokens: TokensResult,
   cursorRef: LegacyRef<HTMLSpanElement>
-) {
+): [JSX.Element, number] {
   const [checkpoint, nextCheckpoint] = getCheckpointsForText(input, phrase);
 
   const colorMap = buildColorMap(tokens);
@@ -22,15 +22,17 @@ export function codePhraseToHtml(
     );
   }
 
+  let extraCount = 0;
   for (let i = checkpoint + 1; i < input.length; i++) {
     if (i < nextCheckpoint) {
       const color = input[i] === phrase[i] ? colorMap[i] : "var(--error)";
       html.push(
-        <span className="brightness-10" style={{ color: color }}>
+        <span className="brightness-150" style={{ color: color }}>
           {character(phrase[i])}
         </span>
       );
     } else {
+      extraCount += 1;
       html.push(
         <span style={{ color: "var(--error)", opacity: 0.5 }}>
           {character(input[i])}
@@ -43,7 +45,7 @@ export function codePhraseToHtml(
 
   for (let i = input.length; i < nextCheckpoint; i++) {
     html.push(
-      <span style={{ color: colorMap[i], opacity: 0.9 }}>
+      <span style={{ color: colorMap[i], opacity: 1 }}>
         {character(phrase[i])}
       </span>
     );
@@ -51,22 +53,31 @@ export function codePhraseToHtml(
 
   for (let i = nextCheckpoint; i < phrase.length; i++) {
     html.push(
-      <span style={{ color: colorMap[i], opacity: 0.9 }}>
+      <span style={{ color: colorMap[i], opacity: 1 }}>
         {character(phrase[i])}
       </span>
     );
   }
 
-  return (
-    <div className="font-mono px-4 py-3" style={{ backgroundColor: tokens.bg }}>
+  return [
+    <div
+      className="mono px-4 py-2 text-xl"
+      style={{ backgroundColor: tokens.bg }}
+    >
       {html}
-    </div>
-  );
+    </div>,
+    extraCount,
+  ];
 }
 
 function character(char: string) {
   if (char === "\n") {
-    return "↵\n";
+    return (
+      <>
+        <span className="opacity-50">↵</span>
+        <br />
+      </>
+    );
   } else {
     return char;
   }
@@ -91,7 +102,7 @@ export function textPhraseToHtml(
   phrase: string,
   input: string,
   cursorRef: LegacyRef<HTMLSpanElement>
-) {
+): [JSX.Element, number] {
   const [checkpoint, nextCheckpoint] = getCheckpointsForText(input, phrase);
 
   const text = [];
@@ -132,19 +143,22 @@ export function textPhraseToHtml(
   text.push(<span ref={cursorRef} key="cur" />);
 
   text.push(
-    <span className="opacity-80" key="restCheck">
+    <span className="opacity-60" key="restCheck">
       {phrase.slice(input.length, nextCheckpoint)}
     </span>
   );
 
   for (let i = nextCheckpoint; i < phrase.length; i++) {
     text.push(
-      <span className="opacity-80" key={"rest-" + i}>
+      <span className="opacity-60" key={"rest-" + i}>
         {phrase[i]}
       </span>
     );
     if (phrase[i] === "↵") text.push(<br key={`rest-br-${i}`} />);
   }
 
-  return <div className="px-4 py-3">{text}</div>;
+  return [
+    <div className="px-4 py-2 text-3xl tracking-wide">{text}</div>,
+    extraCount,
+  ];
 }

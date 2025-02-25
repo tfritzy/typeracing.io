@@ -30,6 +30,7 @@ import {
   ItalianPage,
   PolishPage,
   PortuguesePage,
+  PythonPage,
   RacePage,
   RussianPage,
   ShakespearePage,
@@ -172,6 +173,7 @@ function App() {
           <Route path="/shakespeare" element={<ShakespearePage />} />
 
           <Route path="/csharp" element={<CSharpPage />} />
+          <Route path="/python" element={<PythonPage />} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

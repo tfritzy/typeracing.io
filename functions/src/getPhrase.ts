@@ -12,6 +12,7 @@ import { shakespeare } from "./shakespeare.js";
 import { spanish } from "./spanish.js";
 import { csharp } from "./csharp.js";
 import { ModeType } from "@shared/types.js";
+import { python } from "./python.js";
 
 export const getRandomElements = (arr: any[], n: number) =>
   arr.sort(() => Math.random() - 0.5).slice(0, n);
@@ -49,6 +50,8 @@ export function getPhrase(mode: ModeType): string[] {
       return [getRandomElement(shakespeare)];
     case "csharp":
       return [getRandomElement(csharp)];
+    case "python":
+      return [getRandomElement(python)];
     default:
       return getRandomElements(english.slice(0, 500), numWords);
   }

@@ -1,7 +1,7 @@
 import { ThemedToken } from "shiki";
 
 export function getCheckpointsForText(input: string, phrase: string): number[] {
-  let checkpoint = 0;
+  let checkpoint = -1;
   let nextCheckpoint = phrase.length;
   let inFinishedRegion = true;
   for (let i = 0; i <= phrase.length; i++) {
@@ -9,7 +9,11 @@ export function getCheckpointsForText(input: string, phrase: string): number[] {
       inFinishedRegion = false;
     }
 
-    if (phrase[i] === " " || phrase[i] === "\n" || i === phrase.length) {
+    if (
+      (phrase[i] === " " && phrase[i + 1] != " ") ||
+      phrase[i] === "\n" ||
+      i === phrase.length
+    ) {
       if (inFinishedRegion) {
         checkpoint = i;
       } else if (nextCheckpoint === phrase.length) {

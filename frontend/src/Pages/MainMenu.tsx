@@ -27,7 +27,7 @@ export function MainMenu({ modeType }: { modeType: ModeType }) {
   }, []);
 
   useEffect(() => {
-    document.title = mode.name;
+    document.title = mode.name + " - TypeRacing.io";
   }, [mode.name]);
 
   useEffect(() => {
@@ -49,8 +49,10 @@ export function MainMenu({ modeType }: { modeType: ModeType }) {
   return (
     <>
       <div className="flex flex-col items-center space-y-40">
-        <div className="border-b rounded-lg px-4 py-2 border-accent w-max">
-          <TypeBoxButton phrase={phrase} onPhraseComplete={goToRoute} />
+        <div className="border-b-2 rounded-lg px-4 py-2 border-accent w-max">
+          <div className={mode.formatting === "code" ? "mono" : ""}>
+            <TypeBoxButton phrase={phrase} onPhraseComplete={goToRoute} />
+          </div>
         </div>
         <div className="">
           <div className="relative flex flex-col space-x-1 items-center text text-base-400">

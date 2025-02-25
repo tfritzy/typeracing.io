@@ -229,7 +229,7 @@ export const Header = () => {
         <div className="flex flex-row items-center space-x-6">
           <Link
             to="/"
-            className="font-semibold flex flex-row space-x-1 rounded-lg text-lg text-base-400 w-min focus:text-accent hover:text-accent focus:stroke-accent hover:stroke-accent outline-none fill-base-400 stroke-base-400"
+            className="font-semibold flex flex-row space-x-1 rounded-lg text-lg text-base-500 w-max focus:text-accent hover:text-accent focus:stroke-accent hover:stroke-accent outline-none fill-base-500 stroke-base-500"
           >
             <KeyboardIcon />
             <span>TypeRacing.io</span>

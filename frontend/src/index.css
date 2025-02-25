@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -26,6 +28,10 @@
   --base-700: #44403c;
   --base-800: #242424;
   --error: #f43f5e;
+}
+
+code, pre, .mono {
+  font-family: 'Roboto Mono', monospace;
 }
 
 #root {

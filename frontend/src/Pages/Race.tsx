@@ -18,7 +18,7 @@ import { getWpm, KeyStroke } from "../stats";
 import { StatsModal } from "../components/StatsModal";
 import { Analytics, logEvent } from "firebase/analytics";
 import { getFillGameUrl, reportResult } from "../helpers";
-import { Game } from "@shared/types";
+import { Game, ProgrammingLanguage } from "@shared/types";
 import { flatModes } from "../modes";
 
 interface SharedProps {
@@ -306,6 +306,7 @@ function RaceInner({ db, user, analytics, getNow }: InternalProps) {
   }
 
   const isLocked = getNow() < game.startTime || isComplete;
+  const mode = flatModes[game.mode];
   return (
     <>
       <div className="flex flex-col flex-1 space-y-12 w-full" key={gameId}>
@@ -338,7 +339,11 @@ function RaceInner({ db, user, analytics, getNow }: InternalProps) {
               onFirstKeystroke={onFirstKeystroke}
               getNow={getNow}
               startTime={game.startTime}
-              isCode={flatModes[game.mode].formatting === "code"}
+              programmingLanguage={
+                mode.formatting === "code"
+                  ? (mode.type as ProgrammingLanguage)
+                  : undefined
+              }
             />
           </div>
         </div>

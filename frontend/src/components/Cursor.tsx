@@ -7,7 +7,8 @@ type CursorProps = {
   targetObject: RefObject<HTMLSpanElement>;
   pulsing: boolean;
   disabled: boolean;
-  text: JSX.Element[];
+  text: JSX.Element | null;
+  phrase: string;
 };
 
 export const Cursor = (props: CursorProps) => {
@@ -51,6 +52,10 @@ export const Cursor = (props: CursorProps) => {
   useEffect(() => {
     updateCursorPositions(false);
   }, [props.text, updateCursorPositions]);
+
+  useEffect(() => {
+    updateCursorPositions(true);
+  }, [props.phrase, updateCursorPositions]);
 
   const cursor = useMemo(
     () => (

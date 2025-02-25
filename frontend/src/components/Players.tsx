@@ -66,7 +66,7 @@ export function Players({ players, bots, user, getNow }: Props) {
   const totalPlayers = players.length + bots.length;
   const playerList = useMemo(() => {
     const allPlayers = [...players];
-    for (let i = totalPlayers; i < 4; i++) {
+    for (let i = totalPlayers; i < 3; i++) {
       allPlayers.push({
         id: "loading" + i,
         name: (<DotSpinner />) as unknown as string,
@@ -101,7 +101,7 @@ export function Players({ players, bots, user, getNow }: Props) {
         ))}
       </div>
     );
-  }, [bots, players, totalPlayers, user.uid]);
+  }, [bots, getNow, players, totalPlayers, user.uid]);
 
   return playerList;
 }

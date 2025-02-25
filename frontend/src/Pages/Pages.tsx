@@ -70,6 +70,10 @@ export function CSharpPage() {
   return <MainMenu modeType="csharp" />;
 }
 
+export function PythonPage() {
+  return <MainMenu modeType="python" />;
+}
+
 export function ShakespearePage() {
   return <MainMenu modeType="shakespeare" />;
 }

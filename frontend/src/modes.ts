@@ -223,19 +223,29 @@ export const groupedModes: Record<GroupType, Mode[]> = {
         "प्रणाली तैयार", // system ready
       ],
     },
+  ],
+  code: [
     {
       type: "csharp",
       name: "C#",
-      description: "Snippets of C# code",
+      description: "Snippets of csharp code",
       icon: "/logos/csharp.svg",
       formatting: "code",
       startupPhrases: [
         "dotnet run",
-        "dotnet build",
-        "dotnet publish",
         "await Race();",
         "Console.ReadLine();",
+        "await Task.WhenAll();",
+        'Console.WriteLine("let\'s goooo");',
       ],
+    },
+    {
+      type: "python",
+      name: "Python",
+      description: "Snippets of python code",
+      icon: "/logos/python.png",
+      formatting: "code",
+      startupPhrases: ['print("let\'s goooo")'],
     },
   ],
 };

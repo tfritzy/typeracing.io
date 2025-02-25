@@ -4,7 +4,8 @@ export interface Timestamp {
   toMillis: () => number;
 }
 
-export type ModeType = LanguageType | PhraseType;
+export type ModeType = LanguageType | PhraseType | ProgrammingLanguage;
+export type GroupType = "languages" | "phrases" | "code";
 
 export type LanguageType =
   | "english"
@@ -16,13 +17,10 @@ export type LanguageType =
   | "dutch"
   | "polski"
   | "русский"
-  | "हिंदी"
-  | "csharp";
+  | "हिंदी";
 
+export type ProgrammingLanguage = "csharp" | "python";
 export type PhraseType = "copypastas" | "shakespeare";
-
-export type GroupType = "languages" | "phrases";
-
 export type Formatting = "normal" | "code";
 
 export type Mode = {

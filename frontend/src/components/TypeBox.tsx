@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { KeyStroke } from "../stats";
 import { Cursor } from "./Cursor";
-import { Timestamp } from "@shared/types";
+import { ProgrammingLanguage, Timestamp } from "@shared/types";
 import { Timestamp as FSTimestamp } from "firebase/firestore";
 import { getCheckpointsForText } from "../helpers/getCheckpoints";
 import { codeToTokens, TokensResult } from "shiki";
@@ -15,7 +15,7 @@ type TypeBoxProps = {
   onFirstKeystroke?: () => void;
   getNow: () => Timestamp;
   startTime: Timestamp;
-  isCode: boolean;
+  programmingLanguage: ProgrammingLanguage | undefined;
 };
 
 export const TypeBox = ({
@@ -26,7 +26,7 @@ export const TypeBox = ({
   onFirstKeystroke,
   getNow,
   startTime,
-  isCode,
+  programmingLanguage,
 }: TypeBoxProps) => {
   const [focused, setFocused] = useState(true);
   const [input, setInput] = useState("");
@@ -72,23 +72,23 @@ export const TypeBox = ({
   }, [preventCursorPosition]);
 
   React.useEffect(() => {
-    if (isCode) {
+    if (programmingLanguage) {
       codeToTokens(phrase, {
-        lang: "csharp",
+        lang: programmingLanguage,
         theme: "vitesse-dark",
       }).then((tokens) => setTokens(tokens));
     } else {
       setTokens(undefined);
     }
-  }, [isCode, phrase]);
+  }, [programmingLanguage, phrase]);
 
-  const text = useMemo(() => {
-    if (isCode && !tokens) return null;
+  const [text, extraCount] = useMemo(() => {
+    if (programmingLanguage && !tokens) return [null, 0];
 
-    return isCode
+    return programmingLanguage
       ? codePhraseToHtml(phrase, input, tokens!, cursorRef)
       : textPhraseToHtml(phrase, input, cursorRef);
-  }, [input, isCode, phrase, tokens]);
+  }, [input, programmingLanguage, phrase, tokens]);
 
   const handleInput = React.useCallback(
     (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -100,9 +100,39 @@ export const TypeBox = ({
         onFirstKeystroke?.();
       }
 
-      if (phrase[event.target.value.length - 1] === "\n") {
-        while (phrase[event.target.value.length] === " ") {
-          event.target.value += " ";
+      // Get the input value
+      let currentValue = event.target.value;
+
+      // Auto-complete spaces from the target phrase
+      if (
+        currentValue.length > 0 &&
+        // currentValue.length < phrase.length &&
+        currentValue.length > input.length
+      ) {
+        // Check if we're at a position after a newline
+        const lastChar = currentValue.charAt(currentValue.length - 1);
+        if (lastChar === "\n") {
+          // We're at the start of a new line, check for leading spaces in the target phrase
+          const nextIndex = currentValue.length;
+          let spacesToAdd = "";
+
+          // Count consecutive spaces in the target phrase at current position
+          for (let i = nextIndex; i < phrase.length; i++) {
+            if (phrase[i] === " ") {
+              spacesToAdd += " ";
+            } else {
+              break;
+            }
+          }
+
+          console.log("Spaces to add", spacesToAdd.length);
+
+          // Add those spaces to the current value if there are any
+          if (spacesToAdd.length > 0) {
+            currentValue += spacesToAdd;
+            event.target.value = currentValue;
+            console.log(event.target.value);
+          }
         }
       }
 
@@ -110,14 +140,20 @@ export const TypeBox = ({
         input,
         phrase
       );
-      const [eCheckpoint] = getCheckpointsForText(event.target.value, phrase);
+      console.log(iCheckpoint, iNextCheckpoint);
+
+      const [eCheckpoint, eNextCheckpoint] = getCheckpointsForText(
+        event.target.value,
+        phrase
+      );
       const maxCheckpoint = Math.max(iCheckpoint, eCheckpoint);
 
       if (iCheckpoint >= phrase.length) {
         return;
       }
 
-      if (event.target.value.length > iNextCheckpoint + 10) {
+      if (event.target.value.length > eNextCheckpoint + 10) {
+        console.log("too far", event.target.value.length, eNextCheckpoint + 10);
         return;
       }
 
@@ -226,7 +262,7 @@ export const TypeBox = ({
 
   return (
     <div className="relative select-none">
-      <div className="type-box" style={{ fontSize: isCode ? "16pt" : "20pt" }}>
+      <div className="type-box">
         <div
           className="rounded-lg transition-colors whitespace-pre-wrap text-start language-python"
           style={{
@@ -268,16 +304,17 @@ export const TypeBox = ({
           pulsing={cursorPulsing}
           targetObject={cursorRef}
           text={text}
+          phrase={phrase}
         />
       </div>
-      {/* {showFixAll && (
+      {extraCount > 5 && (
         <div
           className="absolute -top-4 text-error text-lg w-full text-center"
           style={{ lineHeight: 0 }}
         >
           You must fix all errors
         </div>
-      )} */}
+      )}
     </div>
   );
 };

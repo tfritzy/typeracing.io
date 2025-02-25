@@ -13,6 +13,8 @@ import {
   PlayerStats,
 } from "@shared/types.js";
 
+const RACE_SIZE = 3;
+
 initializeApp({ projectId: "typeracing-io" });
 const db = getFirestore();
 const auth = getAuth();
@@ -84,14 +86,15 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
             const gameData = gameDoc.data() as Game;
 
             const playerCount = Object.keys(gameData.players || {}).length;
-            if (playerCount >= 4) {
+            if (playerCount >= RACE_SIZE) {
               throw new Error("Game is full");
             }
 
             await transaction.update(gameRef, {
-              status: playerCount >= 4 ? "in_progress" : gameData.status,
+              status:
+                playerCount >= RACE_SIZE ? "in_progress" : gameData.status,
               startTime:
-                playerCount >= 4
+                playerCount >= RACE_SIZE
                   ? new Timestamp(now.seconds + 3, now.nanoseconds)
                   : gameData.startTime,
               players: {
@@ -110,7 +113,7 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
         } else {
           const newGame: Omit<Game, "id"> = {
             createdTime: Timestamp.now(),
-            botFillTime: new Timestamp(now.seconds + 4, now.nanoseconds),
+            botFillTime: new Timestamp(now.seconds + 5, now.nanoseconds),
             startTime: new Timestamp(now.seconds + 10000, now.nanoseconds),
             status: "waiting",
             mode: mode || "english",
@@ -208,7 +211,7 @@ export const fillGameWithBots = onRequest({ cors: true }, async (req, res) => {
           }
 
           const currentPlayerCount = Object.keys(gameData.players || {}).length;
-          const botsNeeded = 4 - currentPlayerCount;
+          const botsNeeded = RACE_SIZE - currentPlayerCount;
           if (botsNeeded <= 0) {
             throw new Error("Game is already full");
           }
