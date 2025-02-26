@@ -1,22 +1,19 @@
-import { TokensResult } from "shiki";
 import { getCheckpointsForText } from "./getCheckpoints";
 import { LegacyRef } from "react";
 
 export function codePhraseToHtml(
   phrase: string,
   input: string,
-  tokens: TokensResult,
+  colorMap: string[],
   cursorRef: LegacyRef<HTMLSpanElement>
 ): [JSX.Element, number] {
   const [checkpoint, nextCheckpoint] = getCheckpointsForText(input, phrase);
-
-  const colorMap = buildColorMap(tokens);
 
   const html: JSX.Element[] = [];
 
   for (let i = 0; i <= checkpoint; i++) {
     html.push(
-      <span style={{ color: colorMap[i], opacity: 0.25 }}>
+      <span style={{ color: colorMap[i], opacity: 0.15 }}>
         {character(phrase[i])}
       </span>
     );
@@ -27,7 +24,7 @@ export function codePhraseToHtml(
     if (i < nextCheckpoint) {
       const color = input[i] === phrase[i] ? colorMap[i] : "var(--error)";
       html.push(
-        <span className="brightness-150" style={{ color: color }}>
+        <span className="" style={{ color: color }}>
           {character(phrase[i])}
         </span>
       );
@@ -45,7 +42,7 @@ export function codePhraseToHtml(
 
   for (let i = input.length; i < nextCheckpoint; i++) {
     html.push(
-      <span style={{ color: colorMap[i], opacity: 1 }}>
+      <span style={{ color: colorMap[i], opacity: 0.5 }}>
         {character(phrase[i])}
       </span>
     );
@@ -53,21 +50,13 @@ export function codePhraseToHtml(
 
   for (let i = nextCheckpoint; i < phrase.length; i++) {
     html.push(
-      <span style={{ color: colorMap[i], opacity: 1 }}>
+      <span style={{ color: colorMap[i], opacity: 0.5 }}>
         {character(phrase[i])}
       </span>
     );
   }
 
-  return [
-    <div
-      className="mono px-4 py-2 text-xl"
-      style={{ backgroundColor: tokens.bg }}
-    >
-      {html}
-    </div>,
-    extraCount,
-  ];
+  return [<div className="mono px-4 py-2 text-xl">{html}</div>, extraCount];
 }
 
 function character(char: string) {
@@ -81,21 +70,6 @@ function character(char: string) {
   } else {
     return char;
   }
-}
-
-function buildColorMap(tokens: TokensResult): string[] {
-  const colorMap: string[] = [];
-
-  tokens.tokens.forEach((line) => {
-    line.forEach((token) => {
-      for (let i = 0; i < token.content.length; i++) {
-        colorMap.push(token.color || "");
-      }
-    });
-    colorMap.push(tokens.fg || "");
-  });
-
-  return colorMap;
 }
 
 export function textPhraseToHtml(

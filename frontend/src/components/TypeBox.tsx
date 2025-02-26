@@ -4,7 +4,7 @@ import { Cursor } from "./Cursor";
 import { ProgrammingLanguage, Timestamp } from "@shared/types";
 import { Timestamp as FSTimestamp } from "firebase/firestore";
 import { getCheckpointsForText } from "../helpers/getCheckpoints";
-import { codeToTokens, TokensResult } from "shiki";
+import { codeToTokens } from "shiki";
 import { codePhraseToHtml, textPhraseToHtml } from "../helpers/phraseToHtml";
 
 type TypeBoxProps = {
@@ -41,7 +41,9 @@ export const TypeBox = ({
   const inputRef = React.useRef<HTMLTextAreaElement>(null);
   const [cursorPulsing, setCursorPinging] = useState(true);
   const setPingingRef = React.useRef<ReturnType<typeof setTimeout> | null>();
-  const [tokens, setTokens] = useState<TokensResult | undefined>(undefined);
+  const [codeColorMap, setCodeColorMap] = useState<string[] | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     if (phraseRef.current) {
@@ -50,7 +52,6 @@ export const TypeBox = ({
   }, [phrase, phraseRef.current?.clientWidth]);
 
   const preventCursorPosition = useCallback(() => {
-    // Always force cursor to end of input
     if (inputRef.current) {
       const length = inputRef.current.value.length;
       inputRef.current.setSelectionRange(length, length);
@@ -75,20 +76,33 @@ export const TypeBox = ({
     if (programmingLanguage) {
       codeToTokens(phrase, {
         lang: programmingLanguage,
-        theme: "vitesse-dark",
-      }).then((tokens) => setTokens(tokens));
+        theme: "github-dark-dimmed",
+      }).then((tokens) => {
+        const colorMap: string[] = [];
+
+        tokens.tokens.forEach((line) => {
+          line.forEach((token) => {
+            for (let i = 0; i < token.content.length; i++) {
+              colorMap.push(token.color || "");
+            }
+          });
+          colorMap.push(tokens.fg || "");
+        });
+
+        setCodeColorMap(colorMap);
+      });
     } else {
-      setTokens(undefined);
+      setCodeColorMap(undefined);
     }
   }, [programmingLanguage, phrase]);
 
   const [text, extraCount] = useMemo(() => {
-    if (programmingLanguage && !tokens) return [null, 0];
+    if (programmingLanguage && !codeColorMap) return [null, 0];
 
     return programmingLanguage
-      ? codePhraseToHtml(phrase, input, tokens!, cursorRef)
+      ? codePhraseToHtml(phrase, input, codeColorMap!, cursorRef)
       : textPhraseToHtml(phrase, input, cursorRef);
-  }, [input, programmingLanguage, phrase, tokens]);
+  }, [input, programmingLanguage, phrase, codeColorMap]);
 
   const handleInput = React.useCallback(
     (event: React.ChangeEvent<HTMLTextAreaElement>) => {

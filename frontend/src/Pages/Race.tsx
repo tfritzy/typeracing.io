@@ -326,7 +326,7 @@ function RaceInner({ db, user, analytics, getNow }: InternalProps) {
           <div className="bg-base-700 max-w-fit rounded-t-lg px-4 text-base-400 font-bold py-[2px]">
             {message}
           </div>
-          <div className="relative border-4 rounded-b-lg rounded-r-lg border-base-700">
+          <div className="relative border-4 py-2 rounded-b-lg rounded-r-lg border-base-700">
             <div className="absolute -left-12 top-0">
               <GoLabel startTime={game.startTime} getNow={getNow} />
             </div>

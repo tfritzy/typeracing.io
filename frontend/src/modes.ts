@@ -236,7 +236,8 @@ export const groupedModes: Record<GroupType, Mode[]> = {
         "await Race();",
         "Console.ReadLine();",
         "await Task.WhenAll();",
-        'Console.WriteLine("let\'s goooo");',
+        'Console.WriteLine("hello world");',
+        "new Race().Start();",
       ],
     },
     {
@@ -245,7 +246,13 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       description: "Snippets of python code",
       icon: "/logos/python.png",
       formatting: "code",
-      startupPhrases: ['print("let\'s goooo")'],
+      startupPhrases: [
+        "def main()",
+        "print('hello world')",
+        "Race().start()",
+        '"ecar"[::-1]',
+        '"graceful"[1:5]',
+      ],
     },
   ],
 };
