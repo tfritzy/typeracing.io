@@ -12,7 +12,7 @@ export function ActionBar({ showStats, mode }: Props) {
   const navigate = useNavigate();
 
   const playAgain = useCallback(async () => {
-    navigate(mode + "/search/");
+    navigate("/" + mode + "/search/");
   }, [mode, navigate]);
 
   const returnToMainMenu = useCallback(

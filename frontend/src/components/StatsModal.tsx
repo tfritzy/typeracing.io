@@ -30,7 +30,7 @@ export function StatsModal(props: Props) {
   const navigate = useNavigate();
 
   const playAgain = useCallback(async () => {
-    navigate(props.mode + "/search");
+    navigate("/" + props.mode + "/search");
   }, [navigate, props.mode]);
 
   const returnToMainMenu = useCallback(async () => {
@@ -70,45 +70,50 @@ export function StatsModal(props: Props) {
         onClose={props.onClose}
         betweenChildren={props.place === 0 ? <Confettii /> : undefined}
       >
-        <div className="px-2 py-4">
-          <div className="flex flex-row space-x-3 items-center mb-2 pl-4">
-            <Box
-              name="Place"
-              gold={props.place === 0}
-              value={placeToString(props.place)}
-              key="place"
-            />
-            <Box
-              name="WPM"
-              gold={data.wpm >= 100}
-              value={data.wpm.toFixed(1)}
-              key="wpm"
-            />
-            <Box
-              name="Accuracy"
-              gold={data.accuracy >= 1}
-              value={`${(data.accuracy * 100).toFixed(0)}%`}
-              key="accuracy"
-            />
-            <div className="w-[1px] h-12 bg-base-600" />
-            <SmolBox name="Time" value={`${data.time}s`} />
-            <SmolBox name="Errors" value={data.errorCount.toString()} />
-            <SmolBox name="Words" value={`${props.phrase.split(" ").length}`} />
-            <SmolBox
-              name="char/s"
-              value={`${(props.phrase.length / data.time).toFixed(2)}`}
-            />
-          </div>
-          <div className="">
-            <WpmOverTime
-              raw_wpm_by_second={data.raw_wpm_by_second}
-              wpm_by_second={data.wpm_by_second}
-              errors={data.errors}
-            />
+        <div className="px-6 py-4">
+          <div className="border rounded-lg border-base-700">
+            <div className="flex flex-row space-x-3 items-center mb-2 border-b border-base-700 p-4 bg-base-900">
+              <Box
+                name="Place"
+                gold={props.place === 0}
+                value={placeToString(props.place)}
+                key="place"
+              />
+              <Box
+                name="WPM"
+                gold={data.wpm >= 100}
+                value={data.wpm.toFixed(1)}
+                key="wpm"
+              />
+              <Box
+                name="Accuracy"
+                gold={data.accuracy >= 1}
+                value={`${(data.accuracy * 100).toFixed(0)}%`}
+                key="accuracy"
+              />
+              <div className="w-[1px] h-12 bg-base-600" />
+              <SmolBox name="Time" value={`${data.time}s`} />
+              <SmolBox name="Errors" value={data.errorCount.toString()} />
+              <SmolBox
+                name="Words"
+                value={`${props.phrase.split(" ").length}`}
+              />
+              <SmolBox
+                name="char/s"
+                value={`${(props.phrase.length / data.time).toFixed(2)}`}
+              />
+            </div>
+            <div className="px-4 py-1">
+              <WpmOverTime
+                raw_wpm_by_second={data.raw_wpm_by_second}
+                wpm_by_second={data.wpm_by_second}
+                errors={data.errors}
+              />
+            </div>
           </div>
 
-          <div className="flex flex-row justify-center">
-            <div className="flex flex-row justify-center bg-base-800 rounded-full text-base-400 w-min py-2 px-4 space-x-4">
+          <div className="flex flex-row justify-center mt-6">
+            <div className="flex flex-row justify-center bg-base-800 rounded-full text-base-500 w-min py-2 px-4 space-x-4">
               <button
                 className="w-max flex flex-row space-x-2 items-baseline rounded-lg"
                 onClick={returnToMainMenu}
@@ -140,22 +145,25 @@ function Box({
 }) {
   return (
     <div
-      className={
-        "border border-b-[5px] rounded rounded-b-xl px-4 py-2 min-w-20 text-center"
-      }
+      className="border rounded-xl min-w-20 text-center"
       style={{ borderColor: gold ? "var(--accent)" : "var(--base-600)" }}
     >
       <div
-        className="text-xs text-accent uppercase mb-1"
-        style={{ color: gold ? "var(--accent)" : "var(--base-400)" }}
+        className="border-b-[5px] px-4 py-3 rounded-xl"
+        style={{ borderColor: gold ? "var(--accent)" : "var(--base-600)" }}
       >
-        {name}
-      </div>
-      <div
-        className="text-2xl"
-        style={{ color: gold ? "var(--accent)" : "var(--base-300)" }}
-      >
-        {value}
+        <div
+          className="text-xs text-accent uppercase mb-1"
+          style={{ color: gold ? "var(--accent)" : "var(--base-400)" }}
+        >
+          {name}
+        </div>
+        <div
+          className="text-2xl"
+          style={{ color: gold ? "var(--accent)" : "var(--base-300)" }}
+        >
+          {value}
+        </div>
       </div>
     </div>
   );
@@ -163,7 +171,7 @@ function Box({
 
 function SmolBox({ name, value }: { name: string; value: string }) {
   return (
-    <div className="border border-b-2 border-base-600 rounded px-4 py-2 h-min text-center">
+    <div className="border border-base-700 rounded-lg px-4 py-2 h-min text-center">
       <div className="text-xs uppercase text-start text-base-400">{name}</div>
       <div className="text-lg text-base-300">{value}</div>
     </div>

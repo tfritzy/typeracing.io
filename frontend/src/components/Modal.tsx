@@ -46,7 +46,7 @@ export function Modal({
             : "opacity-0 pointer-events-none -translate-y-[47%]"
         }`}
       >
-        <div className="flex flex-row justify-between w-full text-base-400 font-semibold text-xl px-2 pl-4 py-1">
+        <div className="flex flex-row justify-between w-full text-base-400 font-semibold text-xl p-2 pl-4">
           <div>{title}</div>
           <button
             onClick={onClose}
