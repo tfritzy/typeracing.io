@@ -43,7 +43,7 @@ export async function findGame(
   });
 
   const data = await response.json();
-  navigate("/race/" + data.id);
+  navigate(`/${mode}/${data.id}`);
 }
 
 function getReportResultUrl() {

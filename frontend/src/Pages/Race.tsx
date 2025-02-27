@@ -262,10 +262,12 @@ function RaceInner({ db, user, analytics, getNow }: InternalProps) {
         shown={isComplete && !statsClosed}
         phrase={game.phrase}
         place={self.place}
+        mode={game.mode}
       />
     );
   }, [
     game?.phrase,
+    game?.mode,
     self?.id,
     self?.place,
     keystrokes,

@@ -15,7 +15,7 @@ export function MainMenu({ modeType }: { modeType: ModeType }) {
   );
 
   const goToRoute = React.useCallback(() => {
-    navigate("/search/" + mode.type);
+    navigate("/" + mode.type + "/search");
   }, [mode, navigate]);
 
   const toggleModeShown = React.useCallback(() => {

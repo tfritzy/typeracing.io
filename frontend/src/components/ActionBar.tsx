@@ -12,15 +12,19 @@ export function ActionBar({ showStats, mode }: Props) {
   const navigate = useNavigate();
 
   const playAgain = useCallback(async () => {
-    navigate("/search/" + mode);
+    navigate(mode + "/search/");
   }, [mode, navigate]);
 
   const returnToMainMenu = useCallback(
     async (e: { preventDefault: () => void }) => {
-      navigate("/");
+      if (mode) {
+        navigate("/" + mode);
+      } else {
+        navigate("/");
+      }
       e.preventDefault();
     },
-    [navigate]
+    [mode, navigate]
   );
 
   useEffect(() => {

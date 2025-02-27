@@ -114,23 +114,13 @@ export const TypeBox = ({
         onFirstKeystroke?.();
       }
 
-      // Get the input value
       let currentValue = event.target.value;
-
-      // Auto-complete spaces from the target phrase
-      if (
-        currentValue.length > 0 &&
-        // currentValue.length < phrase.length &&
-        currentValue.length > input.length
-      ) {
-        // Check if we're at a position after a newline
+      if (currentValue.length > 0 && currentValue.length > input.length) {
         const lastChar = currentValue.charAt(currentValue.length - 1);
         if (lastChar === "\n") {
-          // We're at the start of a new line, check for leading spaces in the target phrase
           const nextIndex = currentValue.length;
           let spacesToAdd = "";
 
-          // Count consecutive spaces in the target phrase at current position
           for (let i = nextIndex; i < phrase.length; i++) {
             if (phrase[i] === " ") {
               spacesToAdd += " ";
@@ -139,22 +129,14 @@ export const TypeBox = ({
             }
           }
 
-          console.log("Spaces to add", spacesToAdd.length);
-
-          // Add those spaces to the current value if there are any
           if (spacesToAdd.length > 0) {
             currentValue += spacesToAdd;
             event.target.value = currentValue;
-            console.log(event.target.value);
           }
         }
       }
 
-      const [iCheckpoint, iNextCheckpoint] = getCheckpointsForText(
-        input,
-        phrase
-      );
-      console.log(iCheckpoint, iNextCheckpoint);
+      const [iCheckpoint] = getCheckpointsForText(input, phrase);
 
       const [eCheckpoint, eNextCheckpoint] = getCheckpointsForText(
         event.target.value,
@@ -167,7 +149,6 @@ export const TypeBox = ({
       }
 
       if (event.target.value.length > eNextCheckpoint + 10) {
-        console.log("too far", event.target.value.length, eNextCheckpoint + 10);
         return;
       }
 

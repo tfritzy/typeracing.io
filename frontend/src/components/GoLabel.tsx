@@ -1,40 +1,60 @@
 import { Timestamp } from "@shared/types";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 type GoLabelProps = {
   startTime: Timestamp;
   getNow: () => Timestamp;
 };
 
-export const GoLabel = (props: GoLabelProps) => {
+export const GoLabel = ({ startTime, getNow }: GoLabelProps) => {
   const [shown, setShown] = useState(false);
+  const showTimerRef = useRef<number | null>(null);
+  const hideTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const start = () => {
-      const now = props.getNow();
-      const delayMs =
-        (props.startTime.seconds - now.seconds) * 1000 +
-        (props.startTime.nanoseconds - now.nanoseconds) / 1000000;
+    if (showTimerRef.current) {
+      window.clearTimeout(showTimerRef.current);
+      showTimerRef.current = null;
+    }
+    if (hideTimerRef.current) {
+      window.clearTimeout(hideTimerRef.current);
+      hideTimerRef.current = null;
+    }
 
-      if (delayMs < -1501) return;
+    const now = getNow();
 
-      const showTimer = setTimeout(() => setShown(true), Math.max(0, delayMs));
-      const hideTimer = setTimeout(
-        () => setShown(false),
-        Math.max(0, delayMs + 1500 + 50)
-      );
+    const timeUntilStartMs =
+      (startTime.seconds - now.seconds) * 1000 +
+      (startTime.nanoseconds - now.nanoseconds) / 1000000;
+    console.log(timeUntilStartMs);
 
-      return { showTimer, hideTimer };
-    };
+    const showDurationMs = 1500;
 
-    const timers = start();
-    if (!timers) return;
+    if (timeUntilStartMs < -2000) {
+      return;
+    }
 
-    return () => {
-      clearTimeout(timers.showTimer);
-      clearTimeout(timers.hideTimer);
-    };
-  }, [props.startTime.nanoseconds, props.startTime.seconds]);
+    if (timeUntilStartMs <= 0) {
+      setShown(true);
+
+      hideTimerRef.current = window.setTimeout(() => {
+        setShown(false);
+      }, showDurationMs);
+    } else {
+      showTimerRef.current = window.setTimeout(() => {
+        setShown(true);
+      }, timeUntilStartMs);
+
+      hideTimerRef.current = window.setTimeout(() => {
+        setShown(false);
+      }, timeUntilStartMs + showDurationMs);
+
+      return () => {
+        if (showTimerRef.current) window.clearTimeout(showTimerRef.current);
+        if (hideTimerRef.current) window.clearTimeout(hideTimerRef.current);
+      };
+    }
+  }, [getNow, startTime.nanoseconds, startTime.seconds]);
 
   return shown ? (
     <img

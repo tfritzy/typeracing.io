@@ -19,23 +19,7 @@ import { Routes, Route, BrowserRouter, Navigate } from "react-router";
 import { Header } from "./components/Header";
 import { FindRace } from "./Pages/FindRace";
 import { getAnalytics } from "firebase/analytics";
-import {
-  CopypastaPage,
-  CSharpPage,
-  DutchPage,
-  FrenchPage,
-  GermanPage,
-  HindiPage,
-  HomePage,
-  ItalianPage,
-  PolishPage,
-  PortuguesePage,
-  PythonPage,
-  RacePage,
-  RussianPage,
-  ShakespearePage,
-  SpanishPage,
-} from "./Pages/Pages";
+import { HomePage, MainMenuWrapper, RacePage } from "./Pages/Pages";
 import { Profile } from "./components/Profile";
 
 const firebaseConfig = {
@@ -139,11 +123,11 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route
-            path="/search/:mode"
+            path="/:mode/search"
             element={<FindRace user={user} analytics={analytics} />}
           />
           <Route
-            path="/race/:gameId"
+            path="/:mode/:gameId"
             element={
               <RacePage
                 db={db}
@@ -159,21 +143,7 @@ function App() {
             element={<Profile db={db} user={user} auth={auth} />}
           />
 
-          <Route path="/français" element={<FrenchPage />} />
-          <Route path="/español" element={<SpanishPage />} />
-          <Route path="/deutsch" element={<GermanPage />} />
-          <Route path="/italiano" element={<ItalianPage />} />
-          <Route path="/português" element={<PortuguesePage />} />
-          <Route path="/dutch" element={<DutchPage />} />
-          <Route path="/polski" element={<PolishPage />} />
-          <Route path="/русский" element={<RussianPage />} />
-          <Route path="/हिंदी" element={<HindiPage />} />
-
-          <Route path="/copypastas" element={<CopypastaPage />} />
-          <Route path="/shakespeare" element={<ShakespearePage />} />
-
-          <Route path="/csharp" element={<CSharpPage />} />
-          <Route path="/python" element={<PythonPage />} />
+          <Route path="/:mode" element={<MainMenuWrapper />} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

@@ -15,6 +15,7 @@ import { placeToString } from "../helpers";
 import { Confettii } from "./Confettii";
 import { Hotkey } from "./Hotkey";
 import { useNavigate } from "react-router-dom";
+import { ModeType } from "@shared/types";
 
 type Props = {
   shown: boolean;
@@ -22,18 +23,23 @@ type Props = {
   keystrokes: KeyStroke[];
   phrase: string;
   place: number;
+  mode: ModeType;
 };
 
 export function StatsModal(props: Props) {
   const navigate = useNavigate();
 
   const playAgain = useCallback(async () => {
-    navigate("/race");
-  }, [navigate]);
+    navigate(props.mode + "/search");
+  }, [navigate, props.mode]);
 
   const returnToMainMenu = useCallback(async () => {
-    navigate("/");
-  }, [navigate]);
+    if (props.mode) {
+      navigate("/" + props.mode);
+    } else {
+      navigate("/");
+    }
+  }, [navigate, props.mode]);
 
   const data = React.useMemo(() => {
     if (!props.keystrokes.length) {
