@@ -89,3 +89,14 @@ export type PlayerStats = {
     };
   };
 };
+
+export interface GlobalDailyStats {
+  gameCounts: { [mode: string]: number };
+  playerCounts: { [mode: string]: number };
+  totalPlayerCount: number;
+}
+
+export interface GlobalYearlyStats {
+  year: string;
+  days: { [dayOfYear: string]: GlobalDailyStats };
+}

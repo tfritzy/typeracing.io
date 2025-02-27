@@ -41,9 +41,7 @@ export const TypeBox = ({
   const inputRef = React.useRef<HTMLTextAreaElement>(null);
   const [cursorPulsing, setCursorPinging] = useState(true);
   const setPingingRef = React.useRef<ReturnType<typeof setTimeout> | null>();
-  const [codeColorMap, setCodeColorMap] = useState<string[] | undefined>(
-    undefined
-  );
+  const [codeColorMap, setCodeColorMap] = useState<string[]>([]);
 
   useEffect(() => {
     if (phraseRef.current) {
@@ -92,15 +90,13 @@ export const TypeBox = ({
         setCodeColorMap(colorMap);
       });
     } else {
-      setCodeColorMap(undefined);
+      setCodeColorMap([]);
     }
   }, [programmingLanguage, phrase]);
 
   const [text, extraCount] = useMemo(() => {
-    if (programmingLanguage && !codeColorMap) return [null, 0];
-
     return programmingLanguage
-      ? codePhraseToHtml(phrase, input, codeColorMap!, cursorRef)
+      ? codePhraseToHtml(phrase, input, codeColorMap, cursorRef)
       : textPhraseToHtml(phrase, input, cursorRef);
   }, [input, programmingLanguage, phrase, codeColorMap]);
 

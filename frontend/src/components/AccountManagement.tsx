@@ -45,16 +45,18 @@ export function AccountManagement({ auth, user }: { auth: Auth; user: User }) {
           onClick={() => setShowConfirm(true)}
           className="px-4 py-2 border border-base-700 text-base-400 hover:text-error hover:border-error"
         >
-          Close account
+          {auth.currentUser?.isAnonymous ? "Clear data" : "Close account"}
         </button>
       </div>
 
       {showConfirm && (
         <div className="fixed inset-0 bg-black/25 flex items-center justify-center">
           <div className="bg-base-800 border border-base-700">
-            <div className="px-8 py-4 text-center">
-              <div className="mb-4 text-base-300 text-xl">
-                Are you sure you want to close your account?
+            <div className="px-8 py-6 text-center">
+              <div className="mb-8 text-base-300 text-xl">
+                {auth.currentUser?.isAnonymous
+                  ? "Are you sure you want to clear your data?"
+                  : "Are you sure you want to close your account?"}
               </div>
               <div className="flex flex-row justify-center space-x-4">
                 <button

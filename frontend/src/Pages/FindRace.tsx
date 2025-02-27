@@ -41,7 +41,7 @@ export function FindRace({ user, analytics }: Props) {
   }
   return (
     <div>
-      <Spinner text="Searching for game" />
+      <Spinner />
     </div>
   );
 }

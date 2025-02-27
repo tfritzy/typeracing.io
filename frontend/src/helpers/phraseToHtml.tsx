@@ -42,7 +42,7 @@ export function codePhraseToHtml(
 
   for (let i = input.length; i < nextCheckpoint; i++) {
     html.push(
-      <span style={{ color: colorMap[i], opacity: 0.5 }}>
+      <span style={{ color: colorMap[i], opacity: 0.6 }}>
         {character(phrase[i])}
       </span>
     );
@@ -50,7 +50,7 @@ export function codePhraseToHtml(
 
   for (let i = nextCheckpoint; i < phrase.length; i++) {
     html.push(
-      <span style={{ color: colorMap[i], opacity: 0.5 }}>
+      <span style={{ color: colorMap[i], opacity: 0.6 }}>
         {character(phrase[i])}
       </span>
     );

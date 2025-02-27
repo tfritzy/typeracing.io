@@ -8,10 +8,12 @@ import {
   Bot,
   Game,
   GameResult,
+  GlobalYearlyStats,
   ModeType,
   MonthlyResults,
   PlayerStats,
 } from "@shared/types.js";
+import { getDayOfYear } from "./dateHelpers.js";
 
 const RACE_SIZE = 3;
 
@@ -341,6 +343,8 @@ export const recordGameResult = onRequest({ cors: true }, async (req, res) => {
           length: gameData.phrase.length,
         };
 
+        let isFirstGameInMode: boolean = false;
+        let isFirstGame: boolean = false;
         await db.runTransaction(async (transaction) => {
           const monthlyResultsRef = db
             .collection("monthlyResults")
@@ -356,11 +360,18 @@ export const recordGameResult = onRequest({ cors: true }, async (req, res) => {
                 [day]: [gameResult],
               },
             };
+            isFirstGame = true;
+            isFirstGameInMode = true;
           } else {
             monthlyResults = monthlyResultsDoc.data() as MonthlyResults;
             if (!monthlyResults.results[day]) {
               monthlyResults.results[day] = [];
+              isFirstGame = true;
             }
+
+            isFirstGameInMode = !monthlyResults.results[day].some(
+              (g) => g.mode === gameData.mode
+            );
             monthlyResults.results[day].push(gameResult);
           }
 
@@ -406,6 +417,8 @@ export const recordGameResult = onRequest({ cors: true }, async (req, res) => {
           transaction.set(playerStatsRef, currentStats);
         });
 
+        updateGlobalStats(db, gameData.mode, isFirstGame, isFirstGameInMode);
+
         const response: RecordGameResultResponse = {
           message: "Game result recorded successfully",
           result: gameResult,
@@ -429,3 +442,57 @@ export const recordGameResult = onRequest({ cors: true }, async (req, res) => {
     }
   }
 });
+
+async function updateGlobalStats(
+  db: FirebaseFirestore.Firestore,
+  mode: ModeType,
+  isFirstGameOfDay: boolean,
+  isFirstGameOfDayInMode: boolean
+) {
+  const today = new Date();
+  const year = today.getFullYear().toString();
+  const dayOfYear = getDayOfYear(today).toString();
+
+  const statsRef = db.collection("globalStats").doc(year);
+
+  await db.runTransaction(async (transaction) => {
+    const statsDoc = await transaction.get(statsRef);
+
+    let yearStats: GlobalYearlyStats = {
+      year: year,
+      days: {},
+    };
+
+    if (statsDoc.exists) {
+      yearStats = statsDoc.data() as GlobalYearlyStats;
+    }
+
+    if (!yearStats.days[dayOfYear]) {
+      yearStats.days[dayOfYear] = {
+        playerCounts: {},
+        gameCounts: {},
+        totalPlayerCount: 0,
+      };
+    }
+
+    if (!yearStats.days[dayOfYear].gameCounts[mode]) {
+      yearStats.days[dayOfYear].gameCounts[mode] = 0;
+    }
+
+    if (!yearStats.days[dayOfYear].playerCounts[mode]) {
+      yearStats.days[dayOfYear].playerCounts[mode] = 0;
+    }
+
+    yearStats.days[dayOfYear].gameCounts[mode]++;
+
+    if (isFirstGameOfDayInMode) {
+      yearStats.days[dayOfYear].playerCounts[mode]++;
+    }
+
+    if (isFirstGameOfDay) {
+      yearStats.days[dayOfYear].totalPlayerCount++;
+    }
+
+    transaction.set(statsRef, yearStats, { merge: true });
+  });
+}

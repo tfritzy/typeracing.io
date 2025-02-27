@@ -289,7 +289,7 @@ function RaceInner({ db, user, analytics, getNow }: InternalProps) {
   }, [game?.mode, isComplete, toggleStats]);
 
   if (game === null) return <Navigate to="/" />;
-  if (game === undefined) return <Spinner text="Found game" />;
+  if (game === undefined) return <Spinner />;
 
   let message;
   switch (game.status) {
