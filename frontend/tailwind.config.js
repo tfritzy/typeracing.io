@@ -15,6 +15,9 @@ export default {
         accent: "var(--accent)",
         error: "var(--error)",
       },
+      gridTemplateColumns: {
+        16: "repeat(16, minmax(0, 1fr))",
+      },
     },
   },
   plugins: [],

@@ -68,15 +68,19 @@ export const ModeListPage = ({
             onMouseDown={(e) => e.preventDefault()}
           >
             <div className="text-left">
-              <div className="flex flex-row items-center space-x-2">
+              <div className="flex flex-row items-center space-x-4">
                 <img
-                  className="h-5 rounded-sm"
+                  className="h-8 rounded-sm"
                   src={mode.icon}
                   alt={mode.name}
                 />
-                <h3 className="text-lg text-base-300">{mode.name}</h3>
+                <div>
+                  <h3 className="text-lg text-base-300">{mode.name}</h3>
+                  <div className="text-sm text-base-400">
+                    {mode.description}
+                  </div>
+                </div>
               </div>
-              <div className="text-sm text-base-400">{mode.description}</div>
             </div>
           </Link>
         );
@@ -105,10 +109,10 @@ export const ModeListPage = ({
         newIndex = event.shiftKey ? selectedIndex - 1 : selectedIndex + 1;
       }
       if (event.key === "ArrowDown") {
-        newIndex = selectedIndex + 2;
+        newIndex = selectedIndex + 1;
       }
       if (event.key === "ArrowUp") {
-        newIndex = selectedIndex - 2;
+        newIndex = selectedIndex - 1;
       }
       if (event.key === "ArrowRight") {
         newIndex = selectedIndex + 1;
@@ -190,7 +194,7 @@ export const ModeListPage = ({
           />
         </div>
         <div className="h-[600px] overflow-y-auto p-4">
-          <div className="grid grid-cols-2 gap-4">{modesElements}</div>
+          <div className="flex flex-col space-y-2">{modesElements}</div>
         </div>
       </div>
     </>
