@@ -267,4 +267,6 @@ export const flatModes = Object.values(groupedModes)
     {} as Record<ModeType, Mode>
   );
 
-export const validModes = new Set(Object.keys(flatModes));
+export const validModes: Set<ModeType> = new Set(
+  Object.keys(flatModes) as ModeType[]
+);

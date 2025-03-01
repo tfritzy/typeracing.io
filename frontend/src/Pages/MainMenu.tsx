@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { flatModes } from "../modes";
 import { ModeListPage } from "../components/ModeList";
 import { ModeType } from "@shared/types";
-import { Hotkey } from "../components/Hotkey";
 
 export function MainMenu({ modeType }: { modeType: ModeType }) {
   const [modeShown, setModeShown] = useState<boolean>(false);
@@ -57,13 +56,16 @@ export function MainMenu({ modeType }: { modeType: ModeType }) {
         <div className="">
           <div className="relative flex flex-col space-x-1 items-center text text-base-400">
             <button
-              className=" space-x-3 items-center py-2 px-2 pr-3 border border-base-700 rounded-full w-max text-base-400 flex flex-row shadow-sm shadow-black/25 bg-black/15"
+              className=" space-x-3 items-center py-2 px-2 border border-base-700 rounded-full w-max text-base-400 flex flex-row shadow-sm shadow-black/25 bg-black/10"
               onClick={toggleModeShown}
             >
               <img src={mode.icon} className="h-8 w-8 rounded-full" />
 
               <h1 className="text-xl font-semibold">{mode.name}</h1>
-              <Hotkey code="/" />
+
+              <div className="w-8 h-8 text-center bg-base-800 border border-base-700 rounded-full font-semibold text-lg">
+                /
+              </div>
             </button>
             <ModeListPage shown={modeShown} onClose={close} />
           </div>

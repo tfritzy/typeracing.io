@@ -13,8 +13,6 @@ export const shakespeare: string[] = [
 
   "The quality of mercy is not strained; it droppeth as the gentle rain from heaven upon the place beneath. It is twice blest: it blesseth him that gives and him that takes.",
 
-  "Friends, Romans, countrymen, lend me your ears; I come to bury Caesar, not to praise him. The evil that men do lives after them; the good is oft interred with their bones.",
-
   "But soft, what light through yonder window breaks? It is the east, and Juliet is the sun. Arise, fair sun, and kill the envious moon, who is already sick and pale with grief.",
 
   "Tomorrow, and tomorrow, and tomorrow, creeps in this petty pace from day to day, to the last syllable of recorded time; and all our yesterdays have lighted fools the way to dusty death.",
@@ -62,4 +60,20 @@ export const shakespeare: string[] = [
   "There are more things in Heaven and Earth, Horatio, than are dreamt of in your philosophy.",
 
   "Good night, good night! parting is such sweet sorrow, that I shall say good night till it be morrow.",
+
+  "Full fathom five thy father lies, of his bones are coral made. Those are pearls that were his eyes. Nothing of him that doth fade, but doth suffer a sea-change into something rich and strange.",
+
+  "If you prick us, do we not bleed? If you tickle us, do we not laugh? If you poison us, do we not die? And if you wrong us, shall we not revenge?",
+
+  "We are such stuff as dreams are made on, and our little life is rounded with a sleep.",
+
+  "There is nothing either good or bad, but thinking makes it so.",
+
+  "The fault, dear Brutus, lies not within the stars, but in ourselves, that we are underlings.",
+
+  "The evil that men do lives after them; The good is oft interrèd with their bones.",
+
+  "Neither a borrower nor a lender be; for loan oft loses both itself and friend, and borrowing dulls the edge of husbandry.",
+
+  "Some Cupid kills with arrows, some with traps.",
 ];

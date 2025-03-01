@@ -1,20 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
-import { doc, Firestore, onSnapshot, Timestamp } from "firebase/firestore";
+import { doc, Firestore, onSnapshot } from "firebase/firestore";
 import { Auth, User } from "firebase/auth";
-import { GameResult, MonthlyResults, PlayerStats } from "@shared/types";
+import { GameResult, ModeType, MonthlyResults } from "@shared/types";
 import { GithubActivityChart } from "./GithubActivityChart";
 import { GameHistoryChart } from "./GameHistoryChart";
 import EditableName from "./EditableName";
 import { AuthLine } from "./SignIn";
 import { AccountManagement } from "./AccountManagement";
 import { Spinner } from "./Spinner";
-
-const emptyPlayerStats: PlayerStats = {
-  wins: 0,
-  gamesPlayed: 0,
-  lastUpdated: Timestamp.now(),
-  modeStats: {},
-};
+import { ModeSelector } from "./ModeSelect";
+import React from "react";
 
 export const Profile = ({
   db,
@@ -25,28 +20,16 @@ export const Profile = ({
   user: User | null;
   auth: Auth;
 }) => {
-  const [playerStats, setPlayerStats] = useState<PlayerStats>(emptyPlayerStats);
   const [yearlyResults, setYearlyResults] = useState<(MonthlyResults | null)[]>(
     new Array(12).fill(null)
   );
   const [selectedYear] = useState<number>(2025);
+  const [selectedMode, setSelectedMode] = useState<ModeType | undefined>();
 
-  const statsDocRef = useMemo(() => {
-    if (!user) return;
-    return doc(db, "playerStats", user.uid);
-  }, [db, user]);
-
-  useEffect(() => {
-    if (!statsDocRef) return;
-    const unsubscribe = onSnapshot(statsDocRef, (doc) => {
-      if (doc.exists()) {
-        setPlayerStats(doc.data() as PlayerStats);
-      } else {
-        setPlayerStats(emptyPlayerStats);
-      }
-    });
-    return () => unsubscribe();
-  }, [db, statsDocRef]);
+  const chooseMode = React.useCallback(
+    (mode: ModeType) => setSelectedMode(mode),
+    [setSelectedMode]
+  );
 
   const monthlyResultsRefs = useMemo(() => {
     if (!user) return [];
@@ -71,29 +54,54 @@ export const Profile = ({
     return () => unsubscribes.forEach((unsubscribe) => unsubscribe());
   }, [db, monthlyResultsRefs]);
 
-  const [allData, totalGames, avgWpm, bestWpm] = useMemo(() => {
+  const [
+    allData,
+    filteredData,
+    totalGames,
+    gamesPlayed,
+    wins,
+    avgWpm,
+    bestWpm,
+  ] = useMemo(() => {
     const allData: Map<string, GameResult[]> = new Map();
+    const filteredData: Map<string, GameResult[]> = new Map();
     let played = 0;
     let totalWpm = 0;
     let bestWpm = 0;
+    let gamesPlayed = 0;
+    let wins = 0;
 
     for (let month = 0; month < 12; month++) {
       const monthData = yearlyResults[month];
       if (!monthData) continue;
 
       for (const [dayIndex, data] of Object.entries(monthData.results)) {
+        const filtered = data.filter((d) => d.mode === selectedMode);
         const day = new Date(selectedYear, month, parseInt(dayIndex));
-        played += data.length;
-        data.forEach((d) => {
+        played += filtered.length;
+        filtered.forEach((d) => {
+          if (d.mode != selectedMode) return;
+
           totalWpm += d.wpm;
           bestWpm = Math.max(bestWpm, d.wpm);
+          gamesPlayed += 1;
+          if (d.place === 0) wins += 1;
         });
         allData.set(day.toISOString(), data);
+        filteredData.set(day.toISOString(), filtered);
       }
     }
 
-    return [allData, played, totalWpm / (played || 1), bestWpm];
-  }, [selectedYear, yearlyResults]);
+    return [
+      allData,
+      filteredData,
+      played,
+      gamesPlayed,
+      wins,
+      totalWpm / (played || 1),
+      bestWpm,
+    ];
+  }, [selectedMode, selectedYear, yearlyResults]);
 
   if (!user) {
     return <Spinner />;
@@ -104,42 +112,40 @@ export const Profile = ({
   }
 
   return (
-    <div className="w-full flex flex-col overflow-y-auto pb-6">
+    <div className="w-full flex flex-col overflow-y-auto pb-6 pt-12 h-full">
       <div className="mb-2">
         <div className="mb-2">
           <EditableName />
         </div>
         <AuthLine auth={auth} user={user} />
       </div>
-      <div className="flex flex-row space-x-3">
-        <Box title="Played">{playerStats.gamesPlayed}</Box>
-        <Box title="Wins">{playerStats.wins}</Box>
-        {playerStats && (
-          <Box title="Win rate">
-            {playerStats.gamesPlayed > 0
-              ? ((playerStats.wins / playerStats.gamesPlayed) * 100).toFixed(
-                  0
-                ) + "%"
-              : "n/a"}
-          </Box>
-        )}
-        <Box title="Best WPM">{bestWpm > 0 ? bestWpm.toFixed(0) : "n/a"}</Box>
+      <div className="flex flex-row justify-between mt-4">
+        <div className="flex flex-row space-x-3">
+          <Box title="Played">{gamesPlayed}</Box>
+          <Box title="Wins">{wins}</Box>
+          <Box title="Best WPM">{bestWpm > 0 ? bestWpm.toFixed(0) : "n/a"}</Box>
+        </div>
+        <ModeSelector
+          gameResults={allData}
+          onModeChange={chooseMode}
+          selectedMode={selectedMode}
+        />
       </div>
 
       <div>
         <div className="text-base-400 bg-base-800 translate-y-[10px] translate-x-4 px-2 w-max">
           Played <b>{totalGames} games</b> in the past year
         </div>
-        <div className="border border-base-700 p-4 pt-8 pr-8 w-min">
-          <GithubActivityChart data={allData} year={selectedYear} />
+        <div className="border border-base-700 p-4 pt-8 pr-8 w-full rounded">
+          <GithubActivityChart data={filteredData} year={selectedYear} />
         </div>
 
         <div>
           <div className="text-base-400 bg-base-800 translate-y-[10px] translate-x-4 px-2 w-max">
             With an average of <b>{avgWpm.toFixed(0)} wpm</b>
           </div>
-          <div className="border border-base-700 p-4 pt-8 pr-8 w-min">
-            <GameHistoryChart data={allData} year={selectedYear} />
+          <div className="border border-base-700 p-4 pt-8 pr-8 w-full rounded">
+            <GameHistoryChart data={filteredData} year={selectedYear} />
           </div>
         </div>
       </div>
@@ -160,10 +166,12 @@ export function Box({
 }) {
   return (
     <div className="flex flex-col items-center">
-      <div className="bg-base-800 translate-y-[9px] px-1 w-max text-sm text-base-400">
-        {title}
+      <div className="h-0">
+        <div className="bg-base-800 -translate-y-[11px] px-2 w-max text-sm text-base-400">
+          {title}
+        </div>
       </div>
-      <div className="border border-base-700 w-24 py-4 text-center text-base-400">
+      <div className="border border-base-700 w-24 py-4 text-center text-base-400 rounded">
         <div className="text-3xl">{children}</div>
       </div>
     </div>
