@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { ProfileButton } from "./ProfileButton";
 import { KeyboardIcon } from "../icons/keyboard";
-import { validModes } from "../modes";
+import { validModesStr } from "../modes";
 
 export const Header = () => {
   const location = useLocation();
@@ -9,7 +9,7 @@ export const Header = () => {
     location.pathname.split("/")[1] || ""
   );
 
-  if (!validModes.has(currentMode)) currentMode = "";
+  if (!validModesStr.has(currentMode)) currentMode = "";
 
   return (
     <div className="w-screen flex flex-row justify-center shadow-sm">

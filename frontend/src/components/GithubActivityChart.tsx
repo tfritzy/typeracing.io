@@ -146,7 +146,8 @@ export function GithubActivityChart({
             style={{
               backgroundColor:
                 cell.value > 0 ? "var(--accent)" : "var(--base-700)",
-              opacity: cell.value === 0 ? 0.25 : cell.value / maxValue,
+              opacity:
+                cell.value === 0 ? 0.25 : 0.2 + (cell.value / maxValue) * 0.8,
             }}
           />
         );

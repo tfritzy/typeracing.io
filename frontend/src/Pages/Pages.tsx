@@ -4,8 +4,8 @@ import { User } from "firebase/auth";
 import { Analytics } from "firebase/analytics";
 import { MainMenu } from "./MainMenu";
 import { Navigate, useParams } from "react-router-dom";
-import { validModes } from "../modes";
 import { ModeType } from "@shared/types";
+import { validModesStr } from "../modes";
 
 export function HomePage() {
   return (
@@ -32,7 +32,7 @@ export function RacePage({
 export function MainMenuWrapper() {
   const { mode } = useParams();
 
-  if (!validModes.has(mode || "")) {
+  if (!validModesStr.has(mode || "")) {
     return <Navigate to="/" replace />;
   }
 
