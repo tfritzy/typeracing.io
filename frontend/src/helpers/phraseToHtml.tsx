@@ -19,12 +19,29 @@ export function codePhraseToHtml(
     );
   }
 
+  let hasError = false;
+  for (let i = checkpoint + 1; i < input.length; i++) {
+    if (phrase[i] != input[i]) {
+      hasError = true;
+      break;
+    }
+  }
+
   let extraCount = 0;
   for (let i = checkpoint + 1; i < input.length; i++) {
     if (i < nextCheckpoint) {
-      const color = input[i] === phrase[i] ? colorMap[i] : "var(--error)";
+      const isError = input[i] !== phrase[i];
+      const errorStyle = hasError
+        ? {
+            color: !isError ? colorMap[i] : "var(--error)",
+            textDecoration: "wavy underline",
+            textDecorationColor: "var(--error)",
+            textDecorationStyle: "wavy" as const,
+          }
+        : { color: colorMap[i] };
+
       html.push(
-        <span className="" style={{ color: color }}>
+        <span className="" style={errorStyle}>
           {character(phrase[i])}
         </span>
       );
