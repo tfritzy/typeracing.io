@@ -5,15 +5,12 @@ import { Analytics } from "firebase/analytics";
 import { MainMenu } from "./MainMenu";
 import { Navigate, useParams } from "react-router-dom";
 import { ModeType } from "@shared/types";
-import { validModesStr } from "../modes";
-
-export function HomePage() {
-  return (
-    <>
-      <MainMenu modeType="english" />
-    </>
-  );
-}
+import {
+  languageModes,
+  programmingModes,
+  validLanguageModes,
+  validProgrammingModes,
+} from "../modes";
 
 export function RacePage({
   db,
@@ -29,12 +26,37 @@ export function RacePage({
   return <Race db={db} user={user} analytics={analytics} getNow={getNow} />;
 }
 
-export function MainMenuWrapper() {
+export function ProgrammingMainMenuWrapper() {
   const { mode } = useParams();
 
-  if (!validModesStr.has(mode || "")) {
+  if (mode && !validProgrammingModes.has(mode || "")) {
     return <Navigate to="/" replace />;
   }
 
-  return <MainMenu key={mode} modeType={mode as ModeType} />;
+  return (
+    <MainMenu
+      selectableModes={programmingModes}
+      key={mode}
+      modeType={mode as ModeType}
+      defaultMode="python"
+      subRoute="code"
+    />
+  );
+}
+
+export function MainMenuWrapper() {
+  const { mode } = useParams();
+
+  if (mode && !validLanguageModes.has(mode || "")) {
+    return <Navigate to="/" replace />;
+  }
+
+  return (
+    <MainMenu
+      selectableModes={languageModes}
+      key={mode}
+      modeType={mode as ModeType}
+      defaultMode="english"
+    />
+  );
 }

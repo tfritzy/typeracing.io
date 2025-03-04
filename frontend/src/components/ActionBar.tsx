@@ -2,6 +2,7 @@ import { useCallback, useEffect } from "react";
 import { Hotkey } from "./Hotkey";
 import { useNavigate } from "react-router-dom";
 import { ModeType } from "@shared/types";
+import { returnToMainMenu } from "../helpers";
 
 type Props = {
   showStats: () => void;
@@ -15,17 +16,10 @@ export function ActionBar({ showStats, mode }: Props) {
     navigate("/" + mode + "/search/");
   }, [mode, navigate]);
 
-  const returnToMainMenu = useCallback(
-    async (e: { preventDefault: () => void }) => {
-      if (mode) {
-        navigate("/" + mode);
-      } else {
-        navigate("/");
-      }
-      e.preventDefault();
-    },
-    [mode, navigate]
-  );
+  const goHome = useCallback(async (e: { preventDefault: () => void }) => {
+    returnToMainMenu();
+    e.preventDefault();
+  }, []);
 
   useEffect(() => {
     const handleHotkeys = async (event: {
@@ -37,7 +31,7 @@ export function ActionBar({ showStats, mode }: Props) {
       }
 
       if (event.key === "m") {
-        returnToMainMenu(event);
+        goHome(event);
       }
 
       if (event.key === "r") {

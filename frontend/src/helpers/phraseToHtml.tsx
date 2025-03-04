@@ -19,24 +19,17 @@ export function codePhraseToHtml(
     );
   }
 
-  let hasError = false;
-  for (let i = checkpoint + 1; i < input.length; i++) {
-    if (phrase[i] != input[i]) {
-      hasError = true;
-      break;
-    }
-  }
-
   let extraCount = 0;
   for (let i = checkpoint + 1; i < input.length; i++) {
     if (i < nextCheckpoint) {
       const isError = input[i] !== phrase[i];
-      const errorStyle = hasError
+      const errorStyle = isError
         ? {
-            color: !isError ? colorMap[i] : "var(--error)",
+            color: "var(--error)",
             textDecoration: "wavy underline",
             textDecorationColor: "var(--error)",
             textDecorationStyle: "wavy" as const,
+            textUnderlineOffset: "6px",
           }
         : { color: colorMap[i] };
 
@@ -73,7 +66,10 @@ export function codePhraseToHtml(
     );
   }
 
-  return [<div className="mono px-4 py-2 text-xl">{html}</div>, extraCount];
+  return [
+    <div className="mono px-4 py-2 text-xl tracking-wider">{html}</div>,
+    extraCount,
+  ];
 }
 
 function character(char: string) {
@@ -149,7 +145,9 @@ export function textPhraseToHtml(
   }
 
   return [
-    <div className="px-4 py-2 text-3xl tracking-wide">{text}</div>,
+    <div className="px-4 py-2 text-3xl [letter-spacing:.075em] [word-spacing:.125em]">
+      {text}
+    </div>,
     extraCount,
   ];
 }

@@ -1,6 +1,6 @@
 import type { GroupType, Mode, ModeType } from "@shared/types";
 
-export const groupedModes: Record<GroupType, Mode[]> = {
+export const allModes: Partial<Record<GroupType, Mode[]>> = {
   phrases: [
     {
       type: "copypastas",
@@ -224,11 +224,11 @@ export const groupedModes: Record<GroupType, Mode[]> = {
       ],
     },
   ],
-  code: [
+  programming: [
     {
       type: "csharp",
       name: "C#",
-      description: "Snippets of csharp code",
+      description: "Snippets of csharp from real open source projects",
       icon: "/logos/csharp.svg",
       formatting: "code",
       startupPhrases: [
@@ -236,28 +236,65 @@ export const groupedModes: Record<GroupType, Mode[]> = {
         "await Race();",
         "Console.ReadLine();",
         "await Task.WhenAll();",
-        'Console.WriteLine("hello world");',
         "new Race().Start();",
       ],
     },
     {
       type: "python",
       name: "Python",
-      description: "Snippets of python code",
+      description: "Snippets of python from real open source projects",
       icon: "/logos/python.png",
       formatting: "code",
       startupPhrases: [
         "def main()",
-        "print('hello world')",
+        "print('start race')",
         "Race().start()",
-        '"ecar"[::-1]',
-        '"graceful"[1:5]',
+        "'ecar'[::-1]",
+      ],
+    },
+    {
+      type: "typescript",
+      name: "TypeScript",
+      description: "Snippets of TypeScript from real open source projects",
+      icon: "/logos/typescript.svg",
+      formatting: "code",
+      startupPhrases: [
+        "console.log('start race')",
+        "new Race().start()",
+        "await race()",
+        "race().then(race)",
       ],
     },
   ],
 };
 
-export const flatModes = Object.values(groupedModes)
+export const programmingModes: Partial<Record<GroupType, Mode[]>> = {
+  programming: allModes["programming"],
+};
+export const languageModes: Partial<Record<GroupType, Mode[]>> = {
+  phrases: allModes["phrases"],
+  languages: allModes["languages"],
+};
+
+export const flatAllModes = Object.values(allModes)
+  .flatMap((group) => group)
+  .reduce(
+    (acc, mode) => ({
+      ...acc,
+      [mode.type]: mode,
+    }),
+    {} as Record<ModeType, Mode>
+  );
+export const flatLanguageModes = Object.values(languageModes)
+  .flatMap((group) => group)
+  .reduce(
+    (acc, mode) => ({
+      ...acc,
+      [mode.type]: mode,
+    }),
+    {} as Record<ModeType, Mode>
+  );
+export const flatProgrammingModes = Object.values(programmingModes)
   .flatMap((group) => group)
   .reduce(
     (acc, mode) => ({
@@ -267,7 +304,7 @@ export const flatModes = Object.values(groupedModes)
     {} as Record<ModeType, Mode>
   );
 
-export const validModesStr = new Set(Object.keys(flatModes));
-export const validModes: Set<ModeType> = new Set(
-  Object.keys(flatModes) as ModeType[]
+export const validLanguageModes = new Set(Object.keys(flatLanguageModes));
+export const validProgrammingModes: Set<string> = new Set(
+  Object.keys(flatProgrammingModes)
 );

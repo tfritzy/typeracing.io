@@ -18,7 +18,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --accent: #ffd230;
+  --accent: oklch(0.852 0.199 91.936);
   --base-100: #f5f5f4;
   --base-200: #e7e5e4;
   --base-300: #d6d3d1;

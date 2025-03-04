@@ -11,7 +11,7 @@ import {
   getWpm,
   KeyStroke,
 } from "../stats";
-import { placeToString } from "../helpers";
+import { placeToString, returnToMainMenu } from "../helpers";
 import { Confettii } from "./Confettii";
 import { Hotkey } from "./Hotkey";
 import { useNavigate } from "react-router-dom";
@@ -31,14 +31,6 @@ export function StatsModal(props: Props) {
 
   const playAgain = useCallback(async () => {
     navigate("/" + props.mode + "/search");
-  }, [navigate, props.mode]);
-
-  const returnToMainMenu = useCallback(async () => {
-    if (props.mode) {
-      navigate("/" + props.mode);
-    } else {
-      navigate("/");
-    }
   }, [navigate, props.mode]);
 
   const data = React.useMemo(() => {

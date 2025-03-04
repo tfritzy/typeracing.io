@@ -19,7 +19,11 @@ import { Routes, Route, BrowserRouter, Navigate } from "react-router";
 import { Header } from "./components/Header";
 import { FindRace } from "./Pages/FindRace";
 import { getAnalytics } from "firebase/analytics";
-import { HomePage, MainMenuWrapper, RacePage } from "./Pages/Pages";
+import {
+  MainMenuWrapper,
+  ProgrammingMainMenuWrapper,
+  RacePage,
+} from "./Pages/Pages";
 import { Profile } from "./components/Profile";
 
 const firebaseConfig = {
@@ -121,7 +125,6 @@ function App() {
       <Header />
       <div className="relative flex flex-1 flex-col max-w-[1280px] w-screen px-16 place-items-center justify-center m-auto">
         <Routes>
-          <Route path="/" element={<HomePage />} />
           <Route
             path="/:mode/search"
             element={<FindRace user={user} analytics={analytics} />}
@@ -143,7 +146,10 @@ function App() {
             element={<Profile db={db} user={user} auth={auth} />}
           />
 
+          <Route path="/code" element={<ProgrammingMainMenuWrapper />} />
+          <Route path="/code/:mode" element={<ProgrammingMainMenuWrapper />} />
           <Route path="/:mode" element={<MainMenuWrapper />} />
+          <Route path="/" element={<MainMenuWrapper />} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

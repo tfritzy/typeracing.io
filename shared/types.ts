@@ -5,7 +5,7 @@ export interface Timestamp {
 }
 
 export type ModeType = LanguageType | PhraseType | ProgrammingLanguage;
-export type GroupType = "languages" | "phrases" | "code";
+export type GroupType = "languages" | "phrases" | "programming";
 
 export type LanguageType =
   | "english"
@@ -19,7 +19,7 @@ export type LanguageType =
   | "русский"
   | "हिंदी";
 
-export type ProgrammingLanguage = "csharp" | "python";
+export type ProgrammingLanguage = "csharp" | "python" | "typescript";
 export type PhraseType = "copypastas" | "shakespeare";
 export type Formatting = "normal" | "code";
 

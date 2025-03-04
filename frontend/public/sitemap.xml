@@ -6,6 +6,26 @@
         <priority>1.0</priority>
     </url>
     <url>
+        <loc>https://typeracing.io/code/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://typeracing.io/code/python</loc>
+        <changefreq>weekly</changefreq>
+        <priority>.8</priority>
+    </url>
+    <url>
+        <loc>https://typeracing.io/code/csharp</loc>
+        <changefreq>weekly</changefreq>
+        <priority>.8</priority>
+    </url>
+    <url>
+        <loc>https://typeracing.io/code/typescript</loc>
+        <changefreq>weekly</changefreq>
+        <priority>.8</priority>
+    </url>
+    <url>
         <loc>https://typeracing.io/français</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>

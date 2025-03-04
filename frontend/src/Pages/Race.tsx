@@ -19,7 +19,7 @@ import { StatsModal } from "../components/StatsModal";
 import { Analytics, logEvent } from "firebase/analytics";
 import { getFillGameUrl, reportResult } from "../helpers";
 import { Game, ProgrammingLanguage } from "@shared/types";
-import { flatModes } from "../modes";
+import { flatAllModes } from "../modes";
 
 interface SharedProps {
   db: Firestore;
@@ -308,7 +308,7 @@ function RaceInner({ db, user, analytics, getNow }: InternalProps) {
   }
 
   const isLocked = getNow() < game.startTime || isComplete;
-  const mode = flatModes[game.mode];
+  const mode = flatAllModes[game.mode];
   return (
     <>
       <div className="flex flex-col flex-1 space-y-12 w-full" key={gameId}>

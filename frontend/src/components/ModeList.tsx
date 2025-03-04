@@ -1,13 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { groupedModes } from "../modes";
 import { Link } from "react-router-dom";
+import { GroupType, Mode } from "@shared/types";
 
 export const ModeListPage = ({
   shown,
   onClose,
+  modes,
+  subRoute,
 }: {
   shown: boolean;
   onClose: () => void;
+  modes: Partial<Record<GroupType, Mode[]>>;
+  subRoute: string | undefined;
 }) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [searchQuery, setSearchQuery] = useState("");
@@ -33,7 +37,7 @@ export const ModeListPage = ({
     const normalizedQuery = searchQuery.toLowerCase().trim();
     let index = 0;
 
-    for (const [groupType, group] of Object.entries(groupedModes)) {
+    for (const [groupType, group] of Object.entries(modes)) {
       const filteredModes = group.filter(
         (mode) =>
           mode.name.toLowerCase().includes(normalizedQuery) ||
@@ -52,11 +56,12 @@ export const ModeListPage = ({
       );
 
       filteredModes.forEach((mode) => {
+        const route = subRoute ? `/${subRoute}/${mode.type}` : `/${mode.type}`;
         modeEls.push(
           <Link
             key={mode.type}
             className="flex flex-row space-x-1 rounded p-1 px-3 border hover:bg-base-700"
-            to={"/" + mode.type}
+            to={route}
             style={{
               backgroundColor: index === selectedIndex ? "var(--base-700)" : "",
               borderColor:
@@ -88,7 +93,7 @@ export const ModeListPage = ({
       });
     }
     return [modeEls, index];
-  }, [searchQuery, selectedIndex]);
+  }, [modes, searchQuery, selectedIndex, subRoute]);
 
   useEffect(() => {
     const handleHotkeys = async (event: KeyboardEvent) => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import { GameResult, ModeType } from "@shared/types";
-import { groupedModes, flatModes } from "../modes";
+import { allModes, flatAllModes } from "../modes";
 
 type ModeSelectorProps = {
   gameResults: Map<string, GameResult[]>;
@@ -13,8 +13,8 @@ export function ModeSelector({
   onModeChange,
   selectedMode,
 }: ModeSelectorProps) {
-  const allModes = useMemo(() => {
-    return Object.values(groupedModes)
+  const allModeTypes = useMemo(() => {
+    return Object.values(allModes)
       .flatMap((group) => group)
       .map((mode) => mode.type);
   }, []);
@@ -22,7 +22,7 @@ export function ModeSelector({
   const modePlayCounts = useMemo(() => {
     const counts: Record<ModeType, number> = {} as Record<ModeType, number>;
 
-    allModes.forEach((mode) => {
+    allModeTypes.forEach((mode) => {
       counts[mode] = 0;
     });
 
@@ -33,7 +33,7 @@ export function ModeSelector({
     }
 
     return counts;
-  }, [allModes, gameResults]);
+  }, [allModeTypes, gameResults]);
 
   const mostPlayedMode = useMemo(() => {
     return (Object.entries(modePlayCounts).sort(
@@ -67,9 +67,9 @@ export function ModeSelector({
         onChange={handleModeChange}
         className="w-full appearance-none bg-base-800 border border-base-700 text-base-400 py-2 px-3 rounded focus:outline-none flex flex-row justify-between"
       >
-        {allModes
+        {allModeTypes
           .map((mode) => {
-            const modeInfo = flatModes[mode];
+            const modeInfo = flatAllModes[mode];
 
             if (modePlayCounts[mode] === 0) {
               return null;

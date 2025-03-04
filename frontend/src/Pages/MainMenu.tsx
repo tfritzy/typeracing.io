@@ -1,18 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { TypeBoxButton } from "../components/TypeBoxButton";
 import { useNavigate } from "react-router-dom";
-import { flatModes } from "../modes";
+import { flatAllModes, validProgrammingModes } from "../modes";
 import { ModeListPage } from "../components/ModeList";
-import { ModeType } from "@shared/types";
+import { GroupType, Mode, ModeType, ProgrammingLanguage } from "@shared/types";
 import { Hotkey } from "../components/Hotkey";
 
-export function MainMenu({ modeType }: { modeType: ModeType }) {
+export function MainMenu({
+  modeType,
+  selectableModes,
+  defaultMode,
+  subRoute,
+}: {
+  modeType: ModeType | undefined;
+  selectableModes: Partial<Record<GroupType, Mode[]>>;
+  defaultMode: ModeType;
+  subRoute?: string;
+}) {
+  modeType ||= defaultMode;
   const [modeShown, setModeShown] = useState<boolean>(false);
   const navigate = useNavigate();
-  const mode = flatModes[modeType];
+  const mode = flatAllModes[modeType];
   const [phrase] = React.useState(
     mode.startupPhrases[Math.floor(Math.random() * mode.startupPhrases.length)]
   );
+  const isProgrammingLanguage = validProgrammingModes.has(modeType);
 
   const goToRoute = React.useCallback(() => {
     navigate("/" + mode.type + "/search");
@@ -46,13 +58,23 @@ export function MainMenu({ modeType }: { modeType: ModeType }) {
     };
   }, [modeShown, toggleModeShown]);
 
+  const borderStyle = isProgrammingLanguage
+    ? "border-b border-accent w-max"
+    : "border-b-2 rounded-lg px-4 py-2 border-accent w-max";
+
   return (
     <>
       <div className="flex flex-col items-center space-y-40">
-        <div className="border-b-2 rounded-lg px-4 py-2 border-accent w-max">
-          <div className={mode.formatting === "code" ? "mono" : ""}>
-            <TypeBoxButton phrase={phrase} onPhraseComplete={goToRoute} />
-          </div>
+        <div className={borderStyle}>
+          <TypeBoxButton
+            phrase={phrase}
+            onPhraseComplete={goToRoute}
+            programmingLanguage={
+              isProgrammingLanguage
+                ? (modeType as ProgrammingLanguage)
+                : undefined
+            }
+          />
         </div>
         <div className="">
           <div className="relative flex flex-col space-x-1 items-center text text-base-400">
@@ -64,7 +86,12 @@ export function MainMenu({ modeType }: { modeType: ModeType }) {
 
               <Hotkey code="/" />
             </button>
-            <ModeListPage shown={modeShown} onClose={close} />
+            <ModeListPage
+              modes={selectableModes}
+              shown={modeShown}
+              onClose={close}
+              subRoute={subRoute}
+            />
           </div>
         </div>
       </div>

@@ -1,15 +1,18 @@
 import React, { useMemo } from "react";
 import { TypeBox } from "./TypeBox";
 import { Timestamp } from "firebase/firestore";
+import { ProgrammingLanguage } from "@shared/types";
 
 type TypeBoxButtonProps = {
   phrase: string;
   onPhraseComplete: () => void;
+  programmingLanguage: ProgrammingLanguage | undefined;
 };
 
 export function TypeBoxButton({
   phrase,
   onPhraseComplete,
+  programmingLanguage,
 }: TypeBoxButtonProps) {
   const getNow = React.useCallback(() => Timestamp.now(), []);
   const startTime = useMemo(() => getNow(), []);
@@ -24,7 +27,7 @@ export function TypeBoxButton({
       isLocked={false}
       getNow={getNow}
       startTime={startTime}
-      programmingLanguage={undefined}
+      programmingLanguage={programmingLanguage}
     />
   );
 }
