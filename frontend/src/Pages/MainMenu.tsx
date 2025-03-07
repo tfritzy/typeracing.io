@@ -91,6 +91,7 @@ export function MainMenu({
               shown={modeShown}
               onClose={close}
               subRoute={subRoute}
+              mode={modeType}
             />
           </div>
         </div>

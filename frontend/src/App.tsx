@@ -25,6 +25,8 @@ import {
   RacePage,
 } from "./Pages/Pages";
 import { Profile } from "./components/Profile";
+import { PrivacyPolicy } from "./Pages/PrivacyPolicy";
+import { Footer } from "./components/Footer";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC-G5Zk64LNnZ7q7awmIcdT2I0Rys8EZp0",
@@ -123,8 +125,10 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <div className="relative flex flex-1 flex-col max-w-[1280px] w-screen px-16 place-items-center justify-center m-auto">
+      <div className="relative flex flex-1 flex-col max-w-[1280px] px-16 justify-center">
         <Routes>
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
           <Route
             path="/:mode/search"
             element={<FindRace user={user} analytics={analytics} />}
@@ -154,6 +158,7 @@ function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
+      <Footer />
     </BrowserRouter>
   );
 }

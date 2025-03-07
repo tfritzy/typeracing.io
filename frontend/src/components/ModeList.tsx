@@ -1,19 +1,21 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { GroupType, Mode } from "@shared/types";
+import { GroupType, Mode, ModeType } from "@shared/types";
 
 export const ModeListPage = ({
   shown,
   onClose,
   modes,
   subRoute,
+  mode,
 }: {
   shown: boolean;
   onClose: () => void;
   modes: Partial<Record<GroupType, Mode[]>>;
   subRoute: string | undefined;
+  mode: ModeType;
 }) => {
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
   const [searchQuery, setSearchQuery] = useState("");
   const searchRef = useRef<HTMLInputElement>(null);
 
@@ -55,11 +57,13 @@ export const ModeListPage = ({
         </div>
       );
 
-      filteredModes.forEach((mode) => {
-        const route = subRoute ? `/${subRoute}/${mode.type}` : `/${mode.type}`;
+      filteredModes.forEach((iMode) => {
+        const route = subRoute
+          ? `/${subRoute}/${iMode.type}`
+          : `/${iMode.type}`;
         modeEls.push(
           <Link
-            key={mode.type}
+            key={iMode.type}
             className="flex flex-row space-x-1 rounded p-1 px-3 border hover:bg-base-700"
             to={route}
             style={{
@@ -76,24 +80,29 @@ export const ModeListPage = ({
               <div className="flex flex-row items-center space-x-4">
                 <img
                   className="h-8 rounded-sm"
-                  src={mode.icon}
-                  alt={mode.name}
+                  src={iMode.icon}
+                  alt={iMode.name}
                 />
                 <div>
-                  <h3 className="text-lg text-base-300">{mode.name}</h3>
+                  <h3 className="text-lg text-base-300">{iMode.name}</h3>
                   <div className="text-sm text-base-400">
-                    {mode.description}
+                    {iMode.description}
                   </div>
                 </div>
               </div>
             </div>
           </Link>
         );
+
+        if (selectedIndex === -1 && iMode.type === mode) {
+          setSelectedIndex(index);
+        }
+
         index += 1;
       });
     }
     return [modeEls, index];
-  }, [modes, searchQuery, selectedIndex, subRoute]);
+  }, [mode, modes, searchQuery, selectedIndex, subRoute]);
 
   useEffect(() => {
     const handleHotkeys = async (event: KeyboardEvent) => {
@@ -150,7 +159,7 @@ export const ModeListPage = ({
       searchRef.current?.focus();
     } else {
       setSearchQuery("");
-      setSelectedIndex(0);
+      setSelectedIndex(-1);
 
       const element = document.getElementById("type-box");
       if (
@@ -163,7 +172,7 @@ export const ModeListPage = ({
   }, [shown]);
 
   useEffect(() => {
-    setSelectedIndex(0);
+    setSelectedIndex(-1);
   }, [searchQuery]);
 
   useEffect(() => {

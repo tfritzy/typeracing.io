@@ -226,6 +226,19 @@ export const allModes: Partial<Record<GroupType, Mode[]>> = {
   ],
   programming: [
     {
+      type: "python",
+      name: "Python",
+      description: "Snippets of python from real open source projects",
+      icon: "/logos/python.png",
+      formatting: "code",
+      startupPhrases: [
+        "def main()",
+        "print('start race')",
+        "Race().start()",
+        "'ecar'[::-1]",
+      ],
+    },
+    {
       type: "csharp",
       name: "C#",
       description: "Snippets of csharp from real open source projects",
@@ -237,19 +250,6 @@ export const allModes: Partial<Record<GroupType, Mode[]>> = {
         "Console.ReadLine();",
         "await Task.WhenAll();",
         "new Race().Start();",
-      ],
-    },
-    {
-      type: "python",
-      name: "Python",
-      description: "Snippets of python from real open source projects",
-      icon: "/logos/python.png",
-      formatting: "code",
-      startupPhrases: [
-        "def main()",
-        "print('start race')",
-        "Race().start()",
-        "'ecar'[::-1]",
       ],
     },
     {
