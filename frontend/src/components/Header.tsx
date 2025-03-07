@@ -23,12 +23,12 @@ export const Header = () => {
     : "/code/";
 
   return (
-    <div className="w-screen flex flex-row justify-center shadow-md border-b border-base-700 bg-black/10 px-16 py-3">
-      <div className="flex flex-row justify-between w-full max-w-[1280px] min-w-max ">
-        <div className="flex flex-row items-center space-x-6">
+    <div className="w-screen flex flex-row justify-center shadow-md border-b border-base-700 bg-black/10 py-1">
+      <div className="flex flex-row justify-between w-full max-w-[1280px] min-w-max">
+        <div className="flex flex-row items-center space-x-4">
           <Link
             to={currentPage === "code" ? targetCodePath : targetLanguagePath}
-            className="font-semibold flex flex-row space-x-1 rounded-lg text-lg text-base-500 w-max hover:text-base-400 hover:stroke-base-400 hover:fill-base-400 outline-none fill-base-500 stroke-base-500"
+            className="font-semibold flex flex-row space-x-1 text-lg text-base-500 w-max hover:text-base-400 hover:stroke-base-400 hover:fill-base-400 outline-none fill-base-500 stroke-base-500 px-8 border-r border-base-700 py-1"
             id="home-button"
           >
             <KeyboardIcon />
@@ -36,25 +36,31 @@ export const Header = () => {
           </Link>
 
           <Link
-            className="text-base-500 font-bold hover:text-base-400"
+            className="text-base-500 hover:text-base-400 px-3 py-1 rounded-lg"
             style={{
               color: currentPage === "languages" ? "var(--base-400)" : "",
+              backgroundColor:
+                currentPage === "languages" ? "var(--base-700)" : "",
             }}
             to={targetLanguagePath}
           >
             Languages
           </Link>
           <Link
-            className="text-base-500 font-bold hover:text-base-400"
+            className="text-base-500 hover:text-base-400 px-3 py-1 rounded-lg"
             style={{
               color: currentPage === "code" ? "var(--base-400)" : "",
+              backgroundColor: currentPage === "code" ? "var(--base-700)" : "",
             }}
             to={targetCodePath}
           >
             Code
           </Link>
         </div>
-        <ProfileButton onPage={currentPage === "profile"} />
+
+        <div className="flex pr-8">
+          <ProfileButton onPage={currentPage === "profile"} />
+        </div>
       </div>
     </div>
   );

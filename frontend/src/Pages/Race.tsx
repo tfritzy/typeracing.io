@@ -314,8 +314,10 @@ function RaceInner({ db, user, analytics, getNow }: InternalProps) {
       <div className="flex flex-col flex-1 space-y-12 w-full" key={gameId}>
         <div className="grow flex flex-col justify-end">
           <Players
-            players={Object.values(game.players).sort(
-              (a, b) => a.joinTime.seconds - b.joinTime.seconds
+            players={Object.values(game.players).sort((a, b) =>
+              a.joinTime.seconds !== b.joinTime.seconds
+                ? a.joinTime.seconds - b.joinTime.seconds
+                : a.joinTime.nanoseconds - b.joinTime.nanoseconds
             )}
             bots={Object.values(game.bots).sort(
               (a, b) => a.joinTime.seconds - b.joinTime.seconds

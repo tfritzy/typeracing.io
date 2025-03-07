@@ -29,7 +29,7 @@ export function codePhraseToHtml(
             textDecoration: "wavy underline",
             textDecorationColor: "var(--error)",
             textDecorationStyle: "wavy" as const,
-            textUnderlineOffset: "6px",
+            textUnderlineOffset: "5px",
           }
         : { color: colorMap[i] };
 
@@ -95,7 +95,7 @@ export function textPhraseToHtml(
   const text = [];
   for (let i = 0; i < checkpoint; i++) {
     text.push(
-      <span className="opacity-25" key={"fin-" + i}>
+      <span className="text-base-700" key={"fin-" + i}>
         {phrase[i]}
       </span>
     );
@@ -113,7 +113,7 @@ export function textPhraseToHtml(
       extraCount += 1;
     } else if (input[i] === phrase[i]) {
       text.push(
-        <span className="opacity-100" key={`prog-${i}`}>
+        <span className="text-base-400" key={`prog-${i}`}>
           {input[i]}
         </span>
       );
@@ -130,14 +130,14 @@ export function textPhraseToHtml(
   text.push(<span ref={cursorRef} key="cur" />);
 
   text.push(
-    <span className="opacity-60" key="restCheck">
+    <span className="text-base-600" key="restCheck">
       {phrase.slice(input.length, nextCheckpoint)}
     </span>
   );
 
   for (let i = nextCheckpoint; i < phrase.length; i++) {
     text.push(
-      <span className="opacity-60" key={"rest-" + i}>
+      <span className="text-base-600" key={"rest-" + i}>
         {phrase[i]}
       </span>
     );
