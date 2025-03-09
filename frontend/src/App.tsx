@@ -125,7 +125,7 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <div className="relative flex flex-1 flex-col max-w-[1280px] px-16 justify-center">
+      <div className="relative flex flex-1 flex-col max-w-[1280px] w-screen place-items-center px-16 justify-center">
         <Routes>
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
