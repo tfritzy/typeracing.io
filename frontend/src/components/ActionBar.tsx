@@ -5,11 +5,10 @@ import { ModeType } from "@shared/types";
 import { returnToMainMenu } from "../helpers";
 
 type Props = {
-  showStats: () => void;
   mode: ModeType | undefined;
 };
 
-export function ActionBar({ showStats, mode }: Props) {
+export function ActionBar({ mode }: Props) {
   const navigate = useNavigate();
 
   const playAgain = useCallback(async () => {
@@ -33,10 +32,6 @@ export function ActionBar({ showStats, mode }: Props) {
       if (event.key === "m") {
         goHome(event);
       }
-
-      if (event.key === "r") {
-        showStats();
-      }
     };
 
     document.addEventListener("keydown", handleHotkeys);
@@ -44,10 +39,10 @@ export function ActionBar({ showStats, mode }: Props) {
     return () => {
       document.removeEventListener("keydown", handleHotkeys);
     };
-  }, [navigate, playAgain, returnToMainMenu, showStats]);
+  }, [goHome, navigate, playAgain]);
 
   return (
-    <div className="flex flex-row bg-base-800 border-2 border-base-700 rounded-full text-base-400 w-min py-2 px-4 space-x-4 shadow-md ">
+    <div className="flex flex-row bg-base-800 border border-base-700 rounded-full text-base-400 w-min py-2 px-4 space-x-4 shadow-md ">
       <button
         className="w-max flex flex-row space-x-2 items-baseline rounded-lg"
         onClick={returnToMainMenu}
@@ -60,13 +55,6 @@ export function ActionBar({ showStats, mode }: Props) {
         onClick={playAgain}
       >
         <Hotkey code="p" /> <div>Play Again</div>
-      </button>
-      <div className="w-[1px] bg-base-600" />
-      <button
-        className="w-max flex flex-row space-x-2 items-baseline rounded-lg"
-        onClick={showStats}
-      >
-        <Hotkey code="r" /> <div>Results</div>
       </button>
     </div>
   );

@@ -57,6 +57,14 @@ export const Cursor = (props: CursorProps) => {
     updateCursorPositions(true);
   }, [props.phrase, updateCursorPositions]);
 
+  useEffect(() => {
+    updateCursorPositions(true);
+  }, [updateCursorPositions]);
+
+  useEffect(() => {
+    updateCursorPositions(true);
+  }, [props.disabled, props.targetObject, updateCursorPositions]);
+
   const cursor = useMemo(
     () => (
       <span

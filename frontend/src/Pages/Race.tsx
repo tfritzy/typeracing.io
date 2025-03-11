@@ -15,11 +15,12 @@ import { ActionBar } from "../components/ActionBar";
 import { Countdown } from "../components/Countdown";
 import { GoLabel } from "../components/GoLabel";
 import { getWpm, KeyStroke } from "../stats";
-import { StatsModal } from "../components/StatsModal";
+import { Stats } from "../components/StatsModal";
 import { Analytics, logEvent } from "firebase/analytics";
 import { getFillGameUrl, reportResult } from "../helpers";
 import { Game, ProgrammingLanguage } from "@shared/types";
 import { flatAllModes } from "../modes";
+import { Carrossel } from "../components/Carrossel";
 
 interface SharedProps {
   db: Firestore;
@@ -39,7 +40,6 @@ type InternalProps = SharedProps & {
 function RaceInner({ db, user, analytics, getNow }: InternalProps) {
   const [hasCompletedRace, setHasCompletedRace] = useState(false);
   const setRerender = useState<number>(0)[1];
-  const [statsClosed, setStatsClosed] = useState<boolean>(false);
   const [keystrokes, setKeystrokes] = useState<KeyStroke[]>([]);
   const [game, setGame] = useState<Game | null | undefined>(undefined);
   const { gameId } = useParams();
@@ -66,14 +66,6 @@ function RaceInner({ db, user, analytics, getNow }: InternalProps) {
 
     return () => unsubscribe();
   }, [db, docRef]);
-
-  const closeStats = useCallback(() => {
-    setStatsClosed(true);
-  }, []);
-
-  const toggleStats = useCallback(() => {
-    setStatsClosed(!statsClosed);
-  }, [statsClosed]);
 
   const onFirstKeystroke = useCallback(() => {
     logEvent(analytics, "race_started");
@@ -255,26 +247,15 @@ function RaceInner({ db, user, analytics, getNow }: InternalProps) {
     }
 
     return (
-      <StatsModal
+      <Stats
         key="stats-modal"
         keystrokes={keystrokes}
-        onClose={closeStats}
-        shown={isComplete && !statsClosed}
         phrase={game.phrase}
         place={self.place}
         mode={game.mode}
       />
     );
-  }, [
-    game?.phrase,
-    game?.mode,
-    self?.id,
-    self?.place,
-    keystrokes,
-    closeStats,
-    isComplete,
-    statsClosed,
-  ]);
+  }, [game?.phrase, game?.mode, self?.id, self?.place, keystrokes]);
 
   const actionBar = useMemo(() => {
     if (!isComplete) {
@@ -283,10 +264,10 @@ function RaceInner({ db, user, analytics, getNow }: InternalProps) {
 
     return (
       <div className="flex flex-col items-center">
-        <ActionBar showStats={toggleStats} mode={game?.mode} />
+        <ActionBar mode={game?.mode} />
       </div>
     );
-  }, [game?.mode, isComplete, toggleStats]);
+  }, [game?.mode, isComplete]);
 
   if (game === null) return <Navigate to="/" />;
   if (game === undefined) return <Spinner />;
@@ -309,6 +290,36 @@ function RaceInner({ db, user, analytics, getNow }: InternalProps) {
 
   const isLocked = getNow() < game.startTime || isComplete;
   const mode = flatAllModes[game.mode];
+
+  const typeBox = (
+    <div className="shrink">
+      <div className="bg-base-700 max-w-fit rounded-t-lg px-4 text-base-400 font-bold py-[2px]">
+        {message}
+      </div>
+
+      <div className="relative border-4 py-2 rounded-b-lg rounded-r-lg border-base-700">
+        <div className="absolute -left-12 top-0">
+          <GoLabel startTime={game.startTime} getNow={getNow} />
+        </div>
+        <TypeBox
+          phrase={game.phrase}
+          isLocked={isLocked}
+          onPhraseComplete={handlePhraseComplete}
+          onWordComplete={handleWordComplete}
+          key={gameId}
+          onFirstKeystroke={onFirstKeystroke}
+          getNow={getNow}
+          startTime={game.startTime}
+          programmingLanguage={
+            mode.formatting === "code"
+              ? (mode.type as ProgrammingLanguage)
+              : undefined
+          }
+        />
+      </div>
+    </div>
+  );
+
   return (
     <>
       <div className="flex flex-col flex-1 space-y-12 w-full" key={gameId}>
@@ -326,35 +337,14 @@ function RaceInner({ db, user, analytics, getNow }: InternalProps) {
             getNow={getNow}
           />
         </div>
-        <div className="shrink">
-          <div className="bg-base-700 max-w-fit rounded-t-lg px-4 text-base-400 font-bold py-[2px]">
-            {message}
-          </div>
-          <div className="relative border-4 py-2 rounded-b-lg rounded-r-lg border-base-700">
-            <div className="absolute -left-12 top-0">
-              <GoLabel startTime={game.startTime} getNow={getNow} />
-            </div>
-            <TypeBox
-              phrase={game.phrase}
-              isLocked={isLocked}
-              onPhraseComplete={handlePhraseComplete}
-              onWordComplete={handleWordComplete}
-              key={gameId}
-              onFirstKeystroke={onFirstKeystroke}
-              getNow={getNow}
-              startTime={game.startTime}
-              programmingLanguage={
-                mode.formatting === "code"
-                  ? (mode.type as ProgrammingLanguage)
-                  : undefined
-              }
-            />
-          </div>
-        </div>
 
-        <div className="grow-[2]">{actionBar}</div>
+        <Carrossel
+          views={[typeBox, stats]}
+          index={isComplete && keystrokes.length ? 1 : 0}
+        />
+
+        <div className="grow">{actionBar}</div>
       </div>
-      {stats}
     </>
   );
 }

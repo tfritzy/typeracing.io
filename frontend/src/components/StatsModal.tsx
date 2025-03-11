@@ -1,5 +1,4 @@
-import React, { useCallback } from "react";
-import { Modal } from "./Modal";
+import React from "react";
 import { WpmOverTime } from "./WpmOverTimeChart";
 import {
   calculateAccuracy,
@@ -11,28 +10,18 @@ import {
   getWpm,
   KeyStroke,
 } from "../stats";
-import { placeToString, returnToMainMenu } from "../helpers";
-import { Confettii } from "./Confettii";
-import { Hotkey } from "./Hotkey";
-import { useNavigate } from "react-router-dom";
+import { placeToString } from "../helpers";
 import { ModeType } from "@shared/types";
+import { Confettii } from "./Confettii";
 
 type Props = {
-  shown: boolean;
-  onClose: () => void;
   keystrokes: KeyStroke[];
   phrase: string;
   place: number;
   mode: ModeType;
 };
 
-export function StatsModal(props: Props) {
-  const navigate = useNavigate();
-
-  const playAgain = useCallback(async () => {
-    navigate("/" + props.mode + "/search");
-  }, [navigate, props.mode]);
-
+export function Stats(props: Props) {
   const data = React.useMemo(() => {
     if (!props.keystrokes.length) {
       return undefined;
@@ -50,79 +39,51 @@ export function StatsModal(props: Props) {
     };
   }, [props.keystrokes, props.phrase]);
 
-  if (!data) {
-    return null;
-  }
-
   return (
-    <>
-      <Modal
-        title="Finish!"
-        shown={props.shown}
-        onClose={props.onClose}
-        betweenChildren={props.place === 0 ? <Confettii /> : undefined}
-      >
-        <div className="px-6 py-4">
-          <div className="border rounded-lg border-base-700">
-            <div className="flex flex-row space-x-3 items-center mb-2 border-b border-base-700 p-4 bg-base-900">
-              <Box
-                name="Place"
-                gold={props.place === 0}
-                value={placeToString(props.place)}
-                key="place"
-              />
-              <Box
-                name="WPM"
-                gold={data.wpm >= 100}
-                value={data.wpm.toFixed(1)}
-                key="wpm"
-              />
-              <Box
-                name="Accuracy"
-                gold={data.accuracy >= 1}
-                value={`${(data.accuracy * 100).toFixed(0)}%`}
-                key="accuracy"
-              />
-              <div className="w-[1px] h-12 bg-base-600" />
-              <SmolBox name="Time" value={`${data.time}s`} />
-              <SmolBox name="Errors" value={data.errorCount.toString()} />
-              <SmolBox
-                name="Words"
-                value={`${props.phrase.split(" ").length}`}
-              />
-              <SmolBox
-                name="char/s"
-                value={`${(props.phrase.length / data.time).toFixed(2)}`}
-              />
-            </div>
-            <div className="px-4 py-1">
-              <WpmOverTime
-                raw_wpm_by_second={data.raw_wpm_by_second}
-                wpm_by_second={data.wpm_by_second}
-                errors={data.errors}
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-row justify-center mt-6">
-            <div className="flex flex-row justify-center bg-base-800 rounded-full text-base-500 w-min py-2 px-4 space-x-4">
-              <button
-                className="w-max flex flex-row space-x-2 items-baseline rounded-lg"
-                onClick={returnToMainMenu}
-              >
-                <Hotkey code="m" /> <div>Main Menu</div>
-              </button>
-              <button
-                className="w-max flex flex-row space-x-2 items-baseline rounded-lg"
-                onClick={playAgain}
-              >
-                <Hotkey code="p" /> <div>Play Again</div>
-              </button>
-            </div>
-          </div>
+    <div className="">
+      {props.place === 0 && <Confettii />}
+      <div className="border rounded-lg border-base-700">
+        <div className="flex flex-row space-x-3 items-center mb-2 border-b border-base-700 p-4 bg-base-900">
+          <Box
+            name="Place"
+            gold={props.place === 0}
+            value={placeToString(props.place)}
+            key="place"
+          />
+          <Box
+            name="WPM"
+            gold={data && data.wpm >= 100}
+            value={data?.wpm.toFixed(1)}
+            key="wpm"
+          />
+          <Box
+            name="Accuracy"
+            gold={data && data.accuracy >= 1}
+            value={data && `${(data.accuracy * 100).toFixed(0)}%`}
+            key="accuracy"
+          />
+          <div className="w-[1px] h-12 bg-base-600" />
+          <SmolBox name="Time" value={data && `${data.time}s`} />
+          <SmolBox name="Errors" value={data && data.errorCount.toString()} />
+          <SmolBox name="Words" value={`${props.phrase.split(" ").length}`} />
+          <SmolBox
+            name="char/s"
+            value={data && `${(props.phrase.length / data.time).toFixed(2)}`}
+          />
         </div>
-      </Modal>
-    </>
+        <div className="px-4 py-1">
+          {data ? (
+            <WpmOverTime
+              raw_wpm_by_second={data.raw_wpm_by_second}
+              wpm_by_second={data.wpm_by_second}
+              errors={data.errors}
+            />
+          ) : (
+            <div className="h-[300px]" />
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -132,7 +93,7 @@ function Box({
   gold,
 }: {
   name: string;
-  value: string;
+  value: string | undefined;
   gold?: boolean;
 }) {
   return (
@@ -141,11 +102,11 @@ function Box({
       style={{ borderColor: gold ? "var(--accent)" : "var(--base-600)" }}
     >
       <div
-        className="border-b-[5px] px-4 py-3 rounded-xl"
+        className="border-b-[5px] px-4 py-2 rounded-xl"
         style={{ borderColor: gold ? "var(--accent)" : "var(--base-600)" }}
       >
         <div
-          className="text-xs text-accent uppercase mb-1"
+          className="text-xs text-accent uppercase"
           style={{ color: gold ? "var(--accent)" : "var(--base-400)" }}
         >
           {name}
@@ -154,18 +115,20 @@ function Box({
           className="text-2xl"
           style={{ color: gold ? "var(--accent)" : "var(--base-300)" }}
         >
-          {value}
+          {value === undefined ? "-" : value}
         </div>
       </div>
     </div>
   );
 }
 
-function SmolBox({ name, value }: { name: string; value: string }) {
+function SmolBox({ name, value }: { name: string; value: string | undefined }) {
   return (
     <div className="border border-base-700 rounded-lg px-4 py-2 h-min text-center">
       <div className="text-xs uppercase text-start text-base-400">{name}</div>
-      <div className="text-lg text-base-300">{value}</div>
+      <div className="text-lg text-base-300">
+        {value === undefined ? "-" : value}
+      </div>
     </div>
   );
 }
