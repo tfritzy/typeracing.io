@@ -26,7 +26,6 @@ export const GoLabel = ({ startTime, getNow }: GoLabelProps) => {
     const timeUntilStartMs =
       (startTime.seconds - now.seconds) * 1000 +
       (startTime.nanoseconds - now.nanoseconds) / 1000000;
-    console.log(timeUntilStartMs);
 
     const showDurationMs = 1500;
 

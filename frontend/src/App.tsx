@@ -51,9 +51,9 @@ function App() {
   const [user, setUser] = useState<User | null>(null);
   const [timeOffset, setTimeOffset] = useState<number>(0);
 
-  const syncTime = async () => {
+  const syncTime = async (userId: string) => {
     try {
-      const docRef = doc(db, "timeSync", "global");
+      const docRef = doc(db, "timeSync", userId);
 
       await setDoc(docRef, {
         clientTime: Date.now(),
@@ -78,7 +78,7 @@ function App() {
         await signInAnonymously(auth);
       } else {
         setUser(user);
-        await syncTime();
+        await syncTime(user.uid);
       }
     });
     return () => unsubscribe();

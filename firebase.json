@@ -61,6 +61,11 @@
         "destination": "/copypastas.html"
       },
       {
+        "source": "/roadmap",
+        "destination": "/404.html",
+        "type": 404
+      },
+      {
         "source": "/shakespeare",
         "destination": "/shakespeare.html"
       },
@@ -68,7 +73,8 @@
         "source": "**",
         "destination": "/index.html"
       }
-    ]
+    ],
+    "404": "/404.html"
   },
   "emulators": {
     "functions": {
