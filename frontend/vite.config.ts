@@ -29,6 +29,7 @@ export default defineConfig({
         typescript: "typescript.html",
         csharp: "csharp.html",
         code: "code.html",
+        "404": "404.html",
       },
     },
   },

@@ -120,7 +120,7 @@ export function textPhraseToHtml(
       if (input[i] === "↵") text.push(<br key={`prog-br-${i}`} />);
     } else {
       text.push(
-        <span className="text-error" key={"error" + i}>
+        <span className="text-error underline" key={"error" + i}>
           {phrase[i]}
         </span>
       );
@@ -130,14 +130,14 @@ export function textPhraseToHtml(
   text.push(<span ref={cursorRef} key="cur" />);
 
   text.push(
-    <span className="text-base-600" key="restCheck">
+    <span className="text-base-500" key="restCheck">
       {phrase.slice(input.length, nextCheckpoint)}
     </span>
   );
 
   for (let i = nextCheckpoint; i < phrase.length; i++) {
     text.push(
-      <span className="text-base-600" key={"rest-" + i}>
+      <span className="text-base-500" key={"rest-" + i}>
         {phrase[i]}
       </span>
     );
