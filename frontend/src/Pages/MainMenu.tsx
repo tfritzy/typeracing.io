@@ -82,7 +82,7 @@ export function MainMenu({
               className=" space-x-3 items-center py-2 px-5 border border-base-700 rounded-full w-max text-base-400 flex flex-row shadow-sm shadow-black/25 bg-black/10"
               onClick={toggleModeShown}
             >
-              <h1 className="text-xl font-semibold">{mode.name}</h1>
+              <div className="text-xl font-semibold">{mode.name}</div>
 
               <Hotkey code="/" />
             </button>

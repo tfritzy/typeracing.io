@@ -49,7 +49,7 @@ const EditableName = () => {
 
   return (
     <div className="flex flex-row items-baseline space-x-2">
-      <h1 className="text-base-400">{name}</h1>
+      <div className="text-base-400">{name}</div>
       <button className="stroke-base-400" onClick={() => setIsEditing(true)}>
         <Pencil />
       </button>
