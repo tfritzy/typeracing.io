@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import {
-  connectFirestoreEmulator,
   doc,
   getDoc,
   getFirestore,
@@ -27,6 +26,7 @@ import {
 import { Profile } from "./components/Profile";
 import { PrivacyPolicy } from "./Pages/PrivacyPolicy";
 import { Footer } from "./components/Footer";
+import { SiteStats } from "./Pages/SiteStats";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC-G5Zk64LNnZ7q7awmIcdT2I0Rys8EZp0",
@@ -43,9 +43,9 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const analytics = getAnalytics(app);
 
-if (process.env.NODE_ENV === "development") {
-  connectFirestoreEmulator(db, "localhost", 8090);
-}
+// if (process.env.NODE_ENV === "development") {
+//   connectFirestoreEmulator(db, "localhost", 8090);
+// }
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -100,7 +100,6 @@ function App() {
     return () => unsubscribe();
   }, []);
 
-  // Global hotkeys
   React.useEffect(() => {
     const handleHotkeys = (event: KeyboardEvent) => {
       if (event.key === "t") {
@@ -128,6 +127,7 @@ function App() {
       <div className="relative flex flex-1 flex-col max-w-[1280px] w-screen place-items-center px-16 justify-center">
         <Routes>
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/stats" element={<SiteStats db={db} />} />
 
           <Route
             path="/:mode/search"
