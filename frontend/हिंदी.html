@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
   <head>
     <meta charset="UTF-8" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -10,19 +10,81 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href="https://typeracing.io/हिंदी" />
     <meta name="theme-color" content="#fbbf24" />
-    <title>typeracing.io - हिंदी</title>
+    <title>हिंदी - TypeRacing.io</title>
     <meta
       name="description"
-      content="दुनिया भर के वास्तविक लोगों के खिलाफ अपने टाइपिंग कौशल का परीक्षण करें। अपने दोस्तों के साथ प्रतिस्पर्धा करें, अपने WPM को ट्रैक करें और अपने कौशल में सुधार करें।"
+      content="Test your typing skills with Hindi against real people from all over the world. Compete against your friends, track your WPM and improve your skills."
     />
     <meta
       name="keywords"
-      content="मुफ्त टाइपिंग गेम्स, टाइपिंग, टाइपराइटिंग, wpm, टाइपिंग सॉफ्टवेयर, टाइपिंग गेम, टाइपिंग प्रैक्टिस, फ्री टाइपिंग प्रोग्राम, टाइपिंग स्किल्स"
+      content="हिंदी typing,typing games,multiplayer typing,wpm test,typing practice,online typing competition"
     />
-    <meta property="og:description" content="लाइव टाइप रेसिंग प्रतियोगिता" />
+    <meta
+      property="og:description"
+      content="Live type racing competition in Hindi"
+    />
+    
+    <style>
+      body {
+        background-color: #242424;
+        margin: 0;
+      }
+      #root {
+        height: 100vh;
+        background-color: #242424;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+    </style>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "TypeRacing.io - हिंदी",
+        "url": "https://typeracing.io/हिंदी",
+        "description": "Phrases of common Hindi words",
+        "applicationCategory": "Entertainment",
+        "operatingSystem": "Web Browser",
+        "keywords": [
+                "हिंदी typing",
+                "typing games",
+                "multiplayer typing",
+                "wpm test",
+                "typing practice",
+                "online typing competition"
+        ],
+        "potentialAction": {
+                "@type": "PlayAction",
+                "target": {
+                        "@type": "EntryPoint",
+                        "urlTemplate": "https://typeracing.io/हिंदी/search",
+                        "inLanguage": "hi"
+                }
+        },
+        "about": {
+                "@type": "Thing",
+                "name": "Typing Speed Competition"
+        }
+}
+    </script>
   </head>
   <body>
+    <div class="sr-only">
+      <h1>typeracing.io - Online Typing Races in हिंदी</h1>
+      <h2>Improve your typing speed competing with players in real-time</h2>
+      <p>typeracing.io is an online typing platform that allows you to compete against other players from around the world in real-time.</p>
+      <p>In each race, you compete against opponents of similar skill level, motivating you to improve your typing speed and accuracy to climb the rankings.</p>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

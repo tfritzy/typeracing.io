@@ -10,21 +10,25 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="canonical" href="https://typeracing.io/python" />
+    <link rel="canonical" href="https://typeracing.io/code/python" />
     <meta name="theme-color" content="#fbbf24" />
-    <title>typeracing.io - Python Code Racing</title>
+    <title>Python - TypeRacing.io</title>
     <meta
       name="description"
       content="Practice writing Python while racing against other developers worldwide. Type real code snippets from open source libraries to improve your typing accuracy and get your hands out of the way of your brain."
     />
     <meta
       name="keywords"
-      content="Python typing practice, code typing game, programming speed test, Python learning, coding practice, developer typing skills, Python snippets, coding challenges"
+      content="Python typing practice,code typing game,programming speed test,Python learning,coding practice,developer typing skills,Python snippets,coding challenges"
     />
     <meta
       property="og:description"
       content="Live Python Code Racing Competition"
     />
+    <meta property="og:image" content="https://typeracing.io/og-image.png" />
+    <meta property="og:url" content="https://typeracing.io/code/python" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="typeracing.io - Python Code Races" />
     <style>
       body {
         background-color: #242424;
@@ -45,19 +49,53 @@
         border: 0;
       }
     </style>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "TypeRacing.io - Python",
+        "url": "https://typeracing.io/code/python",
+        "description": "Snippets of python from real open source projects",
+        "applicationCategory": "Educational",
+        "operatingSystem": "Web Browser",
+        "keywords": [
+                "Python typing practice",
+                "code typing game",
+                "programming speed test",
+                "Python learning",
+                "coding practice",
+                "developer typing skills",
+                "Python snippets",
+                "coding challenges"
+        ],
+        "potentialAction": {
+                "@type": "PlayAction",
+                "target": {
+                        "@type": "EntryPoint",
+                        "urlTemplate": "https://typeracing.io/python/search",
+                        "inLanguage": "en"
+                }
+        },
+        "about": {
+                "@type": "Thing",
+                "name": "Programming Language Typing Competition"
+        },
+        "educationalLevel": "Professional",
+        "learningResourceType": "Interactive Game",
+        "teaches": [
+                "Typing Speed",
+                "Code Accuracy",
+                "Python Language Familiarity"
+        ]
+}
+    </script>
   </head>
   <body>
     <div class="sr-only">
       <h1>typeracing.io - Python Code Races</h1>
       <h2>Type Python code snippets against others in real-time</h2>
-      <p>
-        Practice typing Python code with real-time matches against other
-        players.
-      </p>
-      <p>
-        Includes code samples from actual projects. Track your speed and
-        accuracy while competing against players of similar skill levels.
-      </p>
+      <p>Practice typing Python code with real-time matches against other players.</p>
+      <p>Includes code samples from actual projects. Track your speed and accuracy while competing against players of similar skill levels.</p>
     </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

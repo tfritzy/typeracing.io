@@ -50,7 +50,7 @@ export const allModes: Partial<Record<GroupType, Mode[]>> = {
       type: "english",
       name: "English",
       description: "Phrases of common English words",
-      icon: "/flags/gb.svg",
+      icon: "/flags/GB.svg",
       formatting: "normal",
       startupPhrases: [
         "glhf",
@@ -74,7 +74,7 @@ export const allModes: Partial<Record<GroupType, Mode[]>> = {
       type: "français",
       name: "Français",
       description: "Phrases of common French words",
-      icon: "/flags/fr.svg",
+      icon: "/flags/FR.svg",
       formatting: "normal",
       startupPhrases: [
         "en avant", // forward
@@ -91,7 +91,7 @@ export const allModes: Partial<Record<GroupType, Mode[]>> = {
       type: "español",
       name: "Español",
       description: "Phrases of common Spanish words",
-      icon: "/flags/es.svg",
+      icon: "/flags/ES.svg",
       formatting: "normal",
       startupPhrases: [
         "adelante", // forward
@@ -108,7 +108,7 @@ export const allModes: Partial<Record<GroupType, Mode[]>> = {
       type: "deutsch",
       name: "Deutsch",
       description: "Phrases of common German words",
-      icon: "/flags/de.svg",
+      icon: "/flags/DE.svg",
       formatting: "normal",
       startupPhrases: [
         "bereit machen", // get ready
@@ -125,7 +125,7 @@ export const allModes: Partial<Record<GroupType, Mode[]>> = {
       type: "italiano",
       name: "Italiano",
       description: "Phrases of common Italian words",
-      icon: "/flags/it.svg",
+      icon: "/flags/IT.svg",
       formatting: "normal",
       startupPhrases: [
         "pronti via", // ready go
@@ -142,7 +142,7 @@ export const allModes: Partial<Record<GroupType, Mode[]>> = {
       type: "português",
       name: "Português",
       description: "Phrases of common Portuguese words",
-      icon: "/flags/pt.svg",
+      icon: "/flags/PT.svg",
       formatting: "normal",
       startupPhrases: [
         "vamos lá", // let's go
@@ -159,7 +159,7 @@ export const allModes: Partial<Record<GroupType, Mode[]>> = {
       type: "dutch",
       name: "Dutch",
       description: "Phrases of common Dutch words",
-      icon: "/flags/nl.svg",
+      icon: "/flags/NL.svg",
       formatting: "normal",
       startupPhrases: [
         "klaar voor actie", // ready for action
@@ -176,7 +176,7 @@ export const allModes: Partial<Record<GroupType, Mode[]>> = {
       type: "polski",
       name: "Polski",
       description: "Phrases of common Polish words",
-      icon: "/flags/pl.svg",
+      icon: "/flags/PL.svg",
       formatting: "normal",
       startupPhrases: [
         "systemy gotowe", // systems ready
@@ -193,7 +193,7 @@ export const allModes: Partial<Record<GroupType, Mode[]>> = {
       type: "русский",
       name: "Русский",
       description: "Phrases of common Russian words",
-      icon: "/flags/ru.svg",
+      icon: "/flags/RU.svg",
       formatting: "normal",
       startupPhrases: [
         "системы готовы", // systems ready
@@ -210,7 +210,7 @@ export const allModes: Partial<Record<GroupType, Mode[]>> = {
       type: "हिंदी",
       name: "हिंदी",
       description: "Phrases of common Hindi words",
-      icon: "/flags/in.svg",
+      icon: "/flags/IN.svg",
       formatting: "normal",
       startupPhrases: [
         "तैयार हैं", // ready

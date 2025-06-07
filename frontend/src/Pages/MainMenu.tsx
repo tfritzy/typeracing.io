@@ -39,10 +39,6 @@ export function MainMenu({
   }, []);
 
   useEffect(() => {
-    document.title = mode.name + " - TypeRacing.io";
-  }, [mode.name]);
-
-  useEffect(() => {
     const handleHotkeys = async (event: KeyboardEvent) => {
       if (event.key === "/") {
         toggleModeShown();

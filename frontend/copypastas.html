@@ -10,21 +10,22 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="canonical" href="https://typeracing.io/copypasta" />
+    <link rel="canonical" href="https://typeracing.io/copypastas" />
     <meta name="theme-color" content="#fbbf24" />
-    <title>typeracing.io - Copypasta Mode</title>
+    <title>Copypastas - TypeRacing.io</title>
     <meta
       name="description"
-      content="Go back go the good old days when copypastas had to be typed out letter by letter."
+      content="Test your typing skills with internet copypastas against real people from all over the world. Compete against your friends, track your WPM and improve your skills."
     />
     <meta
       name="keywords"
-      content="typing game, copypasta typing, meme typing, internet copypasta, typing practice, typing test, wpm test"
+      content="Copypastas typing,typing games,multiplayer typing,wpm test,typing practice,online typing competition"
     />
     <meta
       property="og:description"
-      content="Live type racing with internet copypastas"
+      content="Live type racing competition in internet copypastas"
     />
+    
     <style>
       body {
         background-color: #242424;
@@ -45,15 +46,44 @@
         border: 0;
       }
     </style>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "TypeRacing.io - Copypastas",
+        "url": "https://typeracing.io/copypastas",
+        "description": "Copypastas, but no pasta",
+        "applicationCategory": "Entertainment",
+        "operatingSystem": "Web Browser",
+        "keywords": [
+                "Copypastas typing",
+                "typing games",
+                "multiplayer typing",
+                "wpm test",
+                "typing practice",
+                "online typing competition"
+        ],
+        "potentialAction": {
+                "@type": "PlayAction",
+                "target": {
+                        "@type": "EntryPoint",
+                        "urlTemplate": "https://typeracing.io/copypastas/search",
+                        "inLanguage": "en"
+                }
+        },
+        "about": {
+                "@type": "Thing",
+                "name": "Typing Speed Competition"
+        }
+}
+    </script>
   </head>
   <body>
     <div class="sr-only">
-      <h1>typeracing.io - Copypasta Typing Races</h1>
-      <h2>Race classic internet copypasta texts in real-time competitions</h2>
-      <p>
-        Challenge yourself to type famous internet copypastas in competitive
-        races against other players.
-      </p>
+      <h1>typeracing.io - Online Typing Races in Copypastas</h1>
+      <h2>Improve your typing speed competing with players in real-time</h2>
+      <p>typeracing.io is an online typing platform that allows you to compete against other players from around the world in real-time.</p>
+      <p>In each race, you compete against opponents of similar skill level, motivating you to improve your typing speed and accuracy to climb the rankings.</p>
     </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

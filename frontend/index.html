@@ -10,6 +10,7 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
     <meta name="theme-color" content="#fbbf24" />
     <title>typeracing.io - Multiplayer typing races</title>
     <meta
@@ -20,8 +21,20 @@
       name="keywords"
       content="free typing games,typing,touch typing,wpm,typing software,typing game,typing practice,free typing program,typing skills"
     />
-    <meta property="og:description" content="Live type racing competition" />
+    <meta
+      property="og:description"
+      content="Live type racing competition"
+    />
+    
     <style>
+      body {
+        background-color: #242424;
+        margin: 0;
+      }
+      #root {
+        height: 100vh;
+        background-color: #242424;
+      }
       .sr-only {
         position: absolute;
         width: 1px;
@@ -32,61 +45,48 @@
         clip: rect(0, 0, 0, 0);
         border: 0;
       }
-      body {
-        background-color: #242424;
-        margin: 0;
-      }
-      #root {
-        height: 100vh;
-        background-color: #242424;
-      }
     </style>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "name": "TypeRacing.io",
-        "url": "https://typeracing.io",
-        "description": "Test your typing skills against real live people from all over the world. Compete against your friends, track your wpm, and improve your skills.",
+        "name": "TypeRacing.io - English",
+        "url": "https://typeracing.io/english",
+        "description": "Phrases of common English words",
         "applicationCategory": "Entertainment",
         "operatingSystem": "Web Browser",
         "keywords": [
-          "typing games",
-          "multiplayer typing",
-          "wpm test",
-          "typing practice",
-          "online typing competition"
+                "free typing games",
+                "typing",
+                "touch typing",
+                "wpm",
+                "typing software",
+                "typing game",
+                "typing practice",
+                "free typing program",
+                "typing skills"
         ],
         "potentialAction": {
-          "@type": "PlayAction",
-          "target": {
-            "@type": "EntryPoint",
-            "urlTemplate": "https://typeracing.io/{mode}/search",
-            "inLanguage": "en"
-          }
+                "@type": "PlayAction",
+                "target": {
+                        "@type": "EntryPoint",
+                        "urlTemplate": "https://typeracing.io/english/search",
+                        "inLanguage": "en"
+                }
         },
         "about": {
-          "@type": "Thing",
-          "name": "Typing Speed Competition"
+                "@type": "Thing",
+                "name": "Typing Speed Competition"
         }
-      }
+}
     </script>
   </head>
   <body>
     <div class="sr-only">
       <h1>typeracing.io - Compete in online typing races</h1>
-
       <h2>Improve your typing speed while racing against real players</h2>
-      <p>
-        typeracing.io is an online typing platform that allows you to race
-        against other players from around the world in real-time.
-      </p>
-
-      <p>
-        In each race, you compete against opponents of similar skill levels,
-        you'll find yourself motivated to improve your typing speed and accuracy
-        to climb the leaderboards.
-      </p>
+      <p>typeracing.io is an online typing platform that allows you to race against other players from around the world in real-time.</p>
+      <p>In each race, you compete against opponents of similar skill levels, you'll find yourself motivated to improve your typing speed and accuracy to climb the leaderboards.</p>
     </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

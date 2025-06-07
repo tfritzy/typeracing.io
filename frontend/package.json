@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-html": "node generateHtmlFiles.cjs",
+    "prebuild": "npm run generate-html"
   },
   "dependencies": {
     "@typeracing/shared": "file:../shared",
