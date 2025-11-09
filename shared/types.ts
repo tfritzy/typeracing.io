@@ -17,6 +17,7 @@ export type LanguageType =
   | "dutch"
   | "polski"
   | "русский"
+  | "ukrainian"
   | "हिंदी";
 
 export type ProgrammingLanguage = "csharp" | "python" | "typescript";

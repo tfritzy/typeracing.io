@@ -1,3 +1,4 @@
+import * as ukrainian from "faker-uk";
 import { copypastas } from "./copypastas.js";
 import { dutch } from "./dutch.js";
 import { english } from "./english.js";
@@ -43,6 +44,8 @@ export function getPhrase(mode: ModeType): string[] {
       return getRandomElements(polish.slice(0, 500), numWords);
     case "русский":
       return getRandomElements(russian.slice(0, 500), numWords);
+    case "ukrainian":
+      return ukrainian.lorem.sentences(4);
     case "हिंदी":
       return getRandomElements(hindi.slice(0, 500), numWords);
     case "copypastas":

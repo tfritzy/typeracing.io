@@ -66,6 +66,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://typeracing.io/ukrainian</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://typeracing.io/हिंदी</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
