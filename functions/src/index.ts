@@ -3,7 +3,8 @@ import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import { onRequest } from "firebase-functions/v2/https";
 import { getAuth } from "firebase-admin/auth";
 import { BotNames } from "./botNameGenerator.js";
-import { getPhrase } from "./getPhrase.js";
+import { getPhrase, getPhraseAsync } from "./getPhrase.js";
+import { WikiQuoteContext } from "./wikiQuoteClient.js";
 import {
   Bot,
   Game,
@@ -57,7 +58,16 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
     const decodedToken = await auth.verifyIdToken(token);
     const uid = decodedToken.uid;
 
-    const phrase = getPhrase(mode).join(" ");
+    // Create context for API requests (supports SpacetimeDB API request functionality)
+    const ctx: WikiQuoteContext = {
+      timeout: 5000,
+    };
+
+    // Fetch phrase - use async version for modes that require API calls
+    const phrase =
+      mode === "wikiquote"
+        ? (await getPhraseAsync(mode, ctx)).join(" ")
+        : getPhrase(mode).join(" ");
     const fifteenSecondsAgo = Timestamp.fromDate(new Date(Date.now() - 15000));
 
     switch (req.method) {

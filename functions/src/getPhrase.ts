@@ -14,6 +14,7 @@ import { csharp } from "./csharp.js";
 import { ModeType } from "@shared/types.js";
 import { python } from "./python.js";
 import { typescript } from "./typescript.js";
+import { fetchRandomQuote, WikiQuoteContext } from "./wikiQuoteClient.js";
 
 export const getRandomElements = (arr: any[], n: number) =>
   arr.sort(() => Math.random() - 0.5).slice(0, n);
@@ -55,7 +56,31 @@ export function getPhrase(mode: ModeType): string[] {
       return [getRandomElement(python)];
     case "typescript":
       return [getRandomElement(typescript)];
+    case "wikiquote":
+      // For sync call, return a fallback - use getPhraseAsync for wikiquote
+      return [getRandomElement(shakespeare)];
     default:
       return getRandomElements(english.slice(0, 500), numWords);
   }
+}
+
+/**
+ * Async version of getPhrase that supports fetching quotes from external APIs.
+ * Use this when the mode is "wikiquote" to fetch quotes from Wikiquote API.
+ *
+ * @param mode - The game mode type
+ * @param ctx - Optional context for API requests (supports SpacetimeDB API request functionality)
+ * @returns A promise that resolves to an array of strings representing the phrase
+ */
+export async function getPhraseAsync(
+  mode: ModeType,
+  ctx?: WikiQuoteContext
+): Promise<string[]> {
+  if (mode === "wikiquote") {
+    const quote = await fetchRandomQuote(ctx);
+    return [quote];
+  }
+
+  // For all other modes, use the synchronous version
+  return getPhrase(mode);
 }

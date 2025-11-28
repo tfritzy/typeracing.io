@@ -20,7 +20,7 @@ export type LanguageType =
   | "हिंदी";
 
 export type ProgrammingLanguage = "csharp" | "python" | "typescript";
-export type PhraseType = "copypastas" | "shakespeare";
+export type PhraseType = "copypastas" | "shakespeare" | "wikiquote";
 export type Formatting = "normal" | "code";
 
 export type Mode = {
