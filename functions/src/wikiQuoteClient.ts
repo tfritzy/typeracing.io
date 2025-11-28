@@ -5,6 +5,15 @@
  * It accepts a context (ctx) parameter to support SpacetimeDB's API request functionality.
  */
 
+/** Default timeout for API requests in milliseconds */
+export const DEFAULT_TIMEOUT_MS = 5000;
+
+/** Minimum length of a valid quote in characters */
+const MIN_QUOTE_LENGTH = 20;
+
+/** Maximum length of a valid quote in characters */
+const MAX_QUOTE_LENGTH = 500;
+
 export interface WikiQuoteContext {
   /**
    * Optional AbortSignal to cancel the request
@@ -12,7 +21,7 @@ export interface WikiQuoteContext {
   signal?: AbortSignal;
 
   /**
-   * Optional timeout in milliseconds (default: 5000)
+   * Optional timeout in milliseconds (default: DEFAULT_TIMEOUT_MS)
    */
   timeout?: number;
 }
@@ -66,7 +75,7 @@ const FALLBACK_QUOTES = [
  * @returns A promise that resolves to a quote string
  */
 export async function fetchRandomQuote(ctx?: WikiQuoteContext): Promise<string> {
-  const timeout = ctx?.timeout ?? 5000;
+  const timeout = ctx?.timeout ?? DEFAULT_TIMEOUT_MS;
   const controller = new AbortController();
   const signal = ctx?.signal ?? controller.signal;
 
@@ -129,7 +138,11 @@ function extractQuoteFromResponse(data: any): string | null {
     // Split by newlines and get meaningful content
     const lines = extract
       .split(/\n+/)
-      .filter((line: string) => line.trim().length > 20 && line.trim().length < 500);
+      .filter(
+        (line: string) =>
+          line.trim().length > MIN_QUOTE_LENGTH &&
+          line.trim().length < MAX_QUOTE_LENGTH
+      );
 
     if (lines.length === 0) return null;
 

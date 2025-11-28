@@ -4,7 +4,7 @@ import { onRequest } from "firebase-functions/v2/https";
 import { getAuth } from "firebase-admin/auth";
 import { BotNames } from "./botNameGenerator.js";
 import { getPhrase, getPhraseAsync } from "./getPhrase.js";
-import { WikiQuoteContext } from "./wikiQuoteClient.js";
+import { WikiQuoteContext, DEFAULT_TIMEOUT_MS } from "./wikiQuoteClient.js";
 import {
   Bot,
   Game,
@@ -60,7 +60,7 @@ export const findGame = onRequest({ cors: true }, async (req, res) => {
 
     // Create context for API requests (supports SpacetimeDB API request functionality)
     const ctx: WikiQuoteContext = {
-      timeout: 5000,
+      timeout: DEFAULT_TIMEOUT_MS,
     };
 
     // Fetch phrase - use async version for modes that require API calls
