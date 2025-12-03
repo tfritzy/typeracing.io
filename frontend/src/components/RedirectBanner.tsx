@@ -4,17 +4,33 @@ const STORAGE_KEY_DISMISSED = "typerace-redirect-dismissed";
 const STORAGE_KEY_AUTO_REDIRECT = "typerace-auto-redirect";
 const TARGET_URL = "https://typerace.io";
 
+function getStorageItem(key: string): string | null {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function setStorageItem(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // Ignore storage errors (e.g., private browsing mode)
+  }
+}
+
 export function RedirectBanner() {
   const [isDismissed, setIsDismissed] = useState(true); // Start hidden to avoid flash
   const [autoRedirect, setAutoRedirect] = useState(false);
 
   useEffect(() => {
     // Check localStorage on mount
-    const dismissed = localStorage.getItem(STORAGE_KEY_DISMISSED) === "true";
-    const shouldRedirect =
-      localStorage.getItem(STORAGE_KEY_AUTO_REDIRECT) === "true";
+    const dismissed = getStorageItem(STORAGE_KEY_DISMISSED) === "true";
+    const shouldRedirect = getStorageItem(STORAGE_KEY_AUTO_REDIRECT) === "true";
 
     if (shouldRedirect) {
+      // Full page navigation to external domain (intentional, not using React Router)
       window.location.href = TARGET_URL;
       return;
     }
@@ -24,7 +40,7 @@ export function RedirectBanner() {
   }, []);
 
   const handleDismiss = () => {
-    localStorage.setItem(STORAGE_KEY_DISMISSED, "true");
+    setStorageItem(STORAGE_KEY_DISMISSED, "true");
     setIsDismissed(true);
   };
 
@@ -33,10 +49,10 @@ export function RedirectBanner() {
   ) => {
     const checked = event.target.checked;
     setAutoRedirect(checked);
-    localStorage.setItem(STORAGE_KEY_AUTO_REDIRECT, checked.toString());
+    setStorageItem(STORAGE_KEY_AUTO_REDIRECT, checked.toString());
 
     if (checked) {
-      // Redirect immediately when enabled
+      // Full page navigation to external domain (intentional, not using React Router)
       window.location.href = TARGET_URL;
     }
   };
@@ -57,7 +73,6 @@ export function RedirectBanner() {
             I've built a new version of this website at{" "}
             <a
               href={TARGET_URL}
-              rel="noopener"
               className="text-accent hover:text-yellow-400 underline font-semibold"
             >
               typerace.io
