@@ -27,6 +27,7 @@ import { Profile } from "./components/Profile";
 import { PrivacyPolicy } from "./Pages/PrivacyPolicy";
 import { Footer } from "./components/Footer";
 import { SiteStats } from "./Pages/SiteStats";
+import { RedirectBanner } from "./components/RedirectBanner";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC-G5Zk64LNnZ7q7awmIcdT2I0Rys8EZp0",
@@ -123,6 +124,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <RedirectBanner />
       <Header />
       <div className="relative flex flex-1 flex-col max-w-[1280px] w-screen place-items-center px-16 justify-center">
         <Routes>
