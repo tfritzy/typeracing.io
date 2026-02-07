@@ -11,6 +11,8 @@ import { Spinner } from "./Spinner";
 import { ModeSelector } from "./ModeSelect";
 import React from "react";
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 export const Profile = ({
   db,
   user,
@@ -23,8 +25,27 @@ export const Profile = ({
   const [yearlyResults, setYearlyResults] = useState<(MonthlyResults | null)[]>(
     new Array(12).fill(null)
   );
-  const [selectedYear] = useState<number>(2025);
+  const [selectedYear, setSelectedYear] = useState<number>(CURRENT_YEAR);
   const [selectedMode, setSelectedMode] = useState<ModeType | undefined>();
+
+  const availableYears = useMemo(() => {
+    const creationTime = user?.metadata.creationTime;
+    const creationDate = creationTime ? new Date(creationTime) : null;
+    const creationYear =
+      creationDate && !isNaN(creationDate.getTime())
+        ? creationDate.getFullYear()
+        : CURRENT_YEAR;
+    const safeCreationYear =
+      creationYear > CURRENT_YEAR ? CURRENT_YEAR : creationYear;
+    return Array.from(
+      { length: CURRENT_YEAR - safeCreationYear + 1 },
+      (_, index) => CURRENT_YEAR - index
+    );
+  }, [user]);
+
+  const effectiveYear = availableYears.includes(selectedYear)
+    ? selectedYear
+    : (availableYears[0] ?? CURRENT_YEAR);
 
   const chooseMode = React.useCallback(
     (mode: ModeType) => setSelectedMode(mode),
@@ -34,9 +55,9 @@ export const Profile = ({
   const monthlyResultsRefs = useMemo(() => {
     if (!user) return [];
     return Array.from({ length: 12 }, (_, i) =>
-      doc(db, "monthlyResults", `${user.uid}_${selectedYear}_${i}`)
+      doc(db, "monthlyResults", `${user.uid}_${effectiveYear}_${i}`)
     );
-  }, [user, db, selectedYear]);
+  }, [user, db, effectiveYear]);
 
   useEffect(() => {
     const unsubscribes = monthlyResultsRefs.map((ref, index) =>
@@ -77,7 +98,7 @@ export const Profile = ({
 
       for (const [dayIndex, data] of Object.entries(monthData.results)) {
         const filtered = data.filter((d) => d.mode === selectedMode);
-        const day = new Date(selectedYear, month, parseInt(dayIndex));
+        const day = new Date(effectiveYear, month, parseInt(dayIndex));
         played += filtered.length;
         filtered.forEach((d) => {
           if (d.mode != selectedMode) return;
@@ -101,7 +122,11 @@ export const Profile = ({
       totalWpm / (played || 1),
       bestWpm,
     ];
-  }, [selectedMode, selectedYear, yearlyResults]);
+  }, [selectedMode, effectiveYear, yearlyResults]);
+
+  const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedYear(Number(event.target.value));
+  };
 
   if (!user) {
     return <Spinner />;
@@ -125,19 +150,30 @@ export const Profile = ({
           <Box title="Wins">{wins}</Box>
           <Box title="Best WPM">{bestWpm > 0 ? bestWpm.toFixed(0) : "n/a"}</Box>
         </div>
-        <ModeSelector
-          gameResults={allData}
-          onModeChange={chooseMode}
-          selectedMode={selectedMode}
-        />
+        <div className="flex flex-row space-x-3">
+          <YearSelector
+            years={availableYears}
+            selectedYear={effectiveYear}
+            onYearChange={handleYearChange}
+          />
+          <ModeSelector
+            gameResults={allData}
+            onModeChange={chooseMode}
+            selectedMode={selectedMode}
+          />
+        </div>
       </div>
 
       <div>
-        <div className="text-base-400 bg-base-800 translate-y-[10px] translate-x-4 px-2 w-max">
-          Played <b>{totalGames} games</b> in the past year
+          <div className="text-base-400 bg-base-800 translate-y-[10px] translate-x-4 px-2 w-max">
+          Played{" "}
+          <b>
+            {totalGames} {totalGames === 1 ? "game" : "games"}
+          </b>{" "}
+          in {effectiveYear}
         </div>
         <div className="border border-base-700 p-4 pt-8 pr-8 w-full rounded">
-          <GithubActivityChart data={filteredData} year={selectedYear} />
+          <GithubActivityChart data={filteredData} year={effectiveYear} />
         </div>
 
         <div>
@@ -145,7 +181,7 @@ export const Profile = ({
             With an average of <b>{avgWpm.toFixed(0)} wpm</b>
           </div>
           <div className="border border-base-700 p-4 pt-8 pr-8 w-full rounded">
-            <GameHistoryChart data={filteredData} year={selectedYear} />
+            <GameHistoryChart data={filteredData} year={effectiveYear} />
           </div>
         </div>
       </div>
@@ -173,6 +209,52 @@ export function Box({
       </div>
       <div className="border border-base-700 w-24 py-4 text-center text-base-400 rounded">
         <div className="text-3xl">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+function YearSelector({
+  years,
+  selectedYear,
+  onYearChange,
+}: {
+  years: number[];
+  selectedYear: number;
+  onYearChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+}) {
+  return (
+    <div className="flex flex-col items-end">
+      <label
+        htmlFor="profile-year-select"
+        className="text-xs text-base-400 mb-1"
+      >
+        Year
+      </label>
+      <div className="relative inline-block w-full max-w-[140px] h-min">
+        <div className="text-base-400 absolute right-3 top-1/2 -translate-y-1/2">
+          <svg
+            className="fill-current h-4 w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            viewBox="0 0 20 20"
+          >
+            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+          </svg>
+        </div>
+        <select
+          id="profile-year-select"
+          aria-label="Select year"
+          value={selectedYear}
+          onChange={onYearChange}
+          className="w-full appearance-none bg-base-800 border border-base-700 text-base-400 py-2 px-3 rounded focus:outline-none focus:ring-2 focus:ring-base-500"
+        >
+          {years.map((year) => (
+            <option key={year} value={year} className="bg-base-800">
+              {year}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );
