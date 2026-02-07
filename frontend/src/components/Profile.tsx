@@ -20,11 +20,30 @@ export const Profile = ({
   user: User | null;
   auth: Auth;
 }) => {
+  const currentYear = new Date().getFullYear();
   const [yearlyResults, setYearlyResults] = useState<(MonthlyResults | null)[]>(
     new Array(12).fill(null)
   );
-  const [selectedYear] = useState<number>(2025);
+  const [selectedYear, setSelectedYear] = useState<number>(currentYear);
   const [selectedMode, setSelectedMode] = useState<ModeType | undefined>();
+
+  const availableYears = useMemo(() => {
+    const creationTime = user?.metadata.creationTime;
+    const creationYear = creationTime
+      ? new Date(creationTime).getFullYear()
+      : currentYear;
+    const startYear = Math.min(creationYear, currentYear);
+    return Array.from(
+      { length: currentYear - startYear + 1 },
+      (_, index) => currentYear - index
+    );
+  }, [currentYear, user]);
+
+  useEffect(() => {
+    if (!availableYears.includes(selectedYear)) {
+      setSelectedYear(availableYears[0] ?? currentYear);
+    }
+  }, [availableYears, currentYear, selectedYear]);
 
   const chooseMode = React.useCallback(
     (mode: ModeType) => setSelectedMode(mode),
@@ -103,6 +122,10 @@ export const Profile = ({
     ];
   }, [selectedMode, selectedYear, yearlyResults]);
 
+  const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedYear(Number(event.target.value));
+  };
+
   if (!user) {
     return <Spinner />;
   }
@@ -125,16 +148,23 @@ export const Profile = ({
           <Box title="Wins">{wins}</Box>
           <Box title="Best WPM">{bestWpm > 0 ? bestWpm.toFixed(0) : "n/a"}</Box>
         </div>
-        <ModeSelector
-          gameResults={allData}
-          onModeChange={chooseMode}
-          selectedMode={selectedMode}
-        />
+        <div className="flex flex-row space-x-3">
+          <YearSelector
+            years={availableYears}
+            selectedYear={selectedYear}
+            onYearChange={handleYearChange}
+          />
+          <ModeSelector
+            gameResults={allData}
+            onModeChange={chooseMode}
+            selectedMode={selectedMode}
+          />
+        </div>
       </div>
 
       <div>
         <div className="text-base-400 bg-base-800 translate-y-[10px] translate-x-4 px-2 w-max">
-          Played <b>{totalGames} games</b> in the past year
+          Played <b>{totalGames} games</b> in {selectedYear}
         </div>
         <div className="border border-base-700 p-4 pt-8 pr-8 w-full rounded">
           <GithubActivityChart data={filteredData} year={selectedYear} />
@@ -174,6 +204,42 @@ export function Box({
       <div className="border border-base-700 w-24 py-4 text-center text-base-400 rounded">
         <div className="text-3xl">{children}</div>
       </div>
+    </div>
+  );
+}
+
+function YearSelector({
+  years,
+  selectedYear,
+  onYearChange,
+}: {
+  years: number[];
+  selectedYear: number;
+  onYearChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+}) {
+  return (
+    <div className="relative inline-block w-full max-w-[140px] h-min">
+      <div className="text-base-400 absolute right-3 top-1/2 -translate-y-1/2">
+        <svg
+          className="fill-current h-4 w-4"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+        >
+          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+        </svg>
+      </div>
+      <select
+        aria-label="Select year"
+        value={selectedYear}
+        onChange={onYearChange}
+        className="w-full appearance-none bg-base-800 border border-base-700 text-base-400 py-2 px-3 rounded focus:outline-none flex flex-row justify-between"
+      >
+        {years.map((year) => (
+          <option key={year} value={year} className="bg-base-800">
+            {year}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }
