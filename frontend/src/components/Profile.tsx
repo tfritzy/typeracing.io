@@ -35,10 +35,10 @@ export const Profile = ({
       creationDate && !isNaN(creationDate.getTime())
         ? creationDate.getFullYear()
         : CURRENT_YEAR;
-    const startYear =
-      creationYear <= CURRENT_YEAR ? creationYear : CURRENT_YEAR;
+    const safeCreationYear =
+      creationYear > CURRENT_YEAR ? CURRENT_YEAR : creationYear;
     return Array.from(
-      { length: CURRENT_YEAR - startYear + 1 },
+      { length: CURRENT_YEAR - safeCreationYear + 1 },
       (_, index) => CURRENT_YEAR - index
     );
   }, [user]);
@@ -227,6 +227,7 @@ function YearSelector({
         <svg
           className="fill-current h-4 w-4"
           xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
           viewBox="0 0 20 20"
         >
           <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
