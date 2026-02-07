@@ -245,7 +245,7 @@ function YearSelector({
           aria-label="Select year"
           value={selectedYear}
           onChange={onYearChange}
-          className="w-full appearance-none bg-base-800 border border-base-700 text-base-400 py-2 px-3 rounded focus:outline-none focus:ring-2 focus:ring-base-500 flex flex-row justify-between"
+          className="w-full appearance-none bg-base-800 border border-base-700 text-base-400 py-2 px-3 rounded focus:outline-none focus:ring-2 focus:ring-base-500"
         >
           {years.map((year) => (
             <option key={year} value={year} className="bg-base-800">
