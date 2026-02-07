@@ -11,6 +11,8 @@ import { Spinner } from "./Spinner";
 import { ModeSelector } from "./ModeSelect";
 import React from "react";
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 export const Profile = ({
   db,
   user,
@@ -20,11 +22,10 @@ export const Profile = ({
   user: User | null;
   auth: Auth;
 }) => {
-  const currentYear = new Date().getFullYear();
   const [yearlyResults, setYearlyResults] = useState<(MonthlyResults | null)[]>(
     new Array(12).fill(null)
   );
-  const [selectedYear, setSelectedYear] = useState<number>(currentYear);
+  const [selectedYear, setSelectedYear] = useState<number>(CURRENT_YEAR);
   const [selectedMode, setSelectedMode] = useState<ModeType | undefined>();
 
   const availableYears = useMemo(() => {
@@ -33,19 +34,20 @@ export const Profile = ({
     const creationYear =
       creationDate && !isNaN(creationDate.getTime())
         ? creationDate.getFullYear()
-        : currentYear;
-    const startYear = creationYear <= currentYear ? creationYear : currentYear;
+        : CURRENT_YEAR;
+    const startYear =
+      creationYear <= CURRENT_YEAR ? creationYear : CURRENT_YEAR;
     return Array.from(
-      { length: currentYear - startYear + 1 },
-      (_, index) => currentYear - index
+      { length: CURRENT_YEAR - startYear + 1 },
+      (_, index) => CURRENT_YEAR - index
     );
-  }, [currentYear, user]);
+  }, [user]);
 
   useEffect(() => {
     setSelectedYear((prev) =>
-      availableYears.includes(prev) ? prev : (availableYears[0] ?? currentYear)
+      availableYears.includes(prev) ? prev : (availableYears[0] ?? CURRENT_YEAR)
     );
-  }, [availableYears, currentYear]);
+  }, [availableYears]);
 
   const chooseMode = React.useCallback(
     (mode: ModeType) => setSelectedMode(mode),
