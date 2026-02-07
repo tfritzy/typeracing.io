@@ -29,12 +29,11 @@ export const Profile = ({
 
   const availableYears = useMemo(() => {
     const creationTime = user?.metadata.creationTime;
-    const parsedCreationYear = creationTime
-      ? new Date(creationTime).getFullYear()
-      : currentYear;
-    const creationYear = Number.isFinite(parsedCreationYear)
-      ? parsedCreationYear
-      : currentYear;
+    const creationDate = creationTime ? new Date(creationTime) : null;
+    const creationYear =
+      creationDate && !Number.isNaN(creationDate.getTime())
+        ? creationDate.getFullYear()
+        : currentYear;
     const startYear = creationYear <= currentYear ? creationYear : currentYear;
     return Array.from(
       { length: currentYear - startYear + 1 },
@@ -43,10 +42,10 @@ export const Profile = ({
   }, [currentYear, user]);
 
   useEffect(() => {
-    if (!availableYears.includes(selectedYear)) {
-      setSelectedYear(availableYears[0] ?? currentYear);
-    }
-  }, [availableYears, currentYear, selectedYear]);
+    setSelectedYear((prev) =>
+      availableYears.includes(prev) ? prev : (availableYears[0] ?? currentYear)
+    );
+  }, [availableYears, currentYear]);
 
   const chooseMode = React.useCallback(
     (mode: ModeType) => setSelectedMode(mode),
