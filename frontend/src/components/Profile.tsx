@@ -222,29 +222,38 @@ function YearSelector({
   onYearChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }) {
   return (
-    <div className="relative inline-block w-full max-w-[140px] h-min">
-      <div className="text-base-400 absolute right-3 top-1/2 -translate-y-1/2">
-        <svg
-          className="fill-current h-4 w-4"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-          viewBox="0 0 20 20"
-        >
-          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-        </svg>
-      </div>
-      <select
-        aria-label="Select year"
-        value={selectedYear}
-        onChange={onYearChange}
-        className="w-full appearance-none bg-base-800 border border-base-700 text-base-400 py-2 px-3 rounded focus:outline-none focus:ring-2 focus:ring-base-500 flex flex-row justify-between"
+    <div className="flex flex-col items-end">
+      <label
+        htmlFor="profile-year-select"
+        className="text-xs text-base-400 mb-1"
       >
-        {years.map((year) => (
-          <option key={year} value={year} className="bg-base-800">
-            {year}
-          </option>
-        ))}
-      </select>
+        Year
+      </label>
+      <div className="relative inline-block w-full max-w-[140px] h-min">
+        <div className="text-base-400 absolute right-3 top-1/2 -translate-y-1/2">
+          <svg
+            className="fill-current h-4 w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            viewBox="0 0 20 20"
+          >
+            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+          </svg>
+        </div>
+        <select
+          id="profile-year-select"
+          aria-label="Select year"
+          value={selectedYear}
+          onChange={onYearChange}
+          className="w-full appearance-none bg-base-800 border border-base-700 text-base-400 py-2 px-3 rounded focus:outline-none focus:ring-2 focus:ring-base-500 flex flex-row justify-between"
+        >
+          {years.map((year) => (
+            <option key={year} value={year} className="bg-base-800">
+              {year}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   );
 }
