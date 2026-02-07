@@ -43,11 +43,9 @@ export const Profile = ({
     );
   }, [user]);
 
-  useEffect(() => {
-    setSelectedYear((prev) =>
-      availableYears.includes(prev) ? prev : (availableYears[0] ?? CURRENT_YEAR)
-    );
-  }, [availableYears]);
+  const effectiveYear = availableYears.includes(selectedYear)
+    ? selectedYear
+    : (availableYears[0] ?? CURRENT_YEAR);
 
   const chooseMode = React.useCallback(
     (mode: ModeType) => setSelectedMode(mode),
@@ -57,9 +55,9 @@ export const Profile = ({
   const monthlyResultsRefs = useMemo(() => {
     if (!user) return [];
     return Array.from({ length: 12 }, (_, i) =>
-      doc(db, "monthlyResults", `${user.uid}_${selectedYear}_${i}`)
+      doc(db, "monthlyResults", `${user.uid}_${effectiveYear}_${i}`)
     );
-  }, [user, db, selectedYear]);
+  }, [user, db, effectiveYear]);
 
   useEffect(() => {
     const unsubscribes = monthlyResultsRefs.map((ref, index) =>
@@ -100,7 +98,7 @@ export const Profile = ({
 
       for (const [dayIndex, data] of Object.entries(monthData.results)) {
         const filtered = data.filter((d) => d.mode === selectedMode);
-        const day = new Date(selectedYear, month, parseInt(dayIndex));
+        const day = new Date(effectiveYear, month, parseInt(dayIndex));
         played += filtered.length;
         filtered.forEach((d) => {
           if (d.mode != selectedMode) return;
@@ -124,7 +122,7 @@ export const Profile = ({
       totalWpm / (played || 1),
       bestWpm,
     ];
-  }, [selectedMode, selectedYear, yearlyResults]);
+  }, [selectedMode, effectiveYear, yearlyResults]);
 
   const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedYear(Number(event.target.value));
@@ -155,7 +153,7 @@ export const Profile = ({
         <div className="flex flex-row space-x-3">
           <YearSelector
             years={availableYears}
-            selectedYear={selectedYear}
+            selectedYear={effectiveYear}
             onYearChange={handleYearChange}
           />
           <ModeSelector
@@ -167,11 +165,15 @@ export const Profile = ({
       </div>
 
       <div>
-        <div className="text-base-400 bg-base-800 translate-y-[10px] translate-x-4 px-2 w-max">
-          Played <b>{totalGames} games</b> in {selectedYear}
+          <div className="text-base-400 bg-base-800 translate-y-[10px] translate-x-4 px-2 w-max">
+          Played{" "}
+          <b>
+            {totalGames} {totalGames === 1 ? "game" : "games"}
+          </b>{" "}
+          in {effectiveYear}
         </div>
         <div className="border border-base-700 p-4 pt-8 pr-8 w-full rounded">
-          <GithubActivityChart data={filteredData} year={selectedYear} />
+          <GithubActivityChart data={filteredData} year={effectiveYear} />
         </div>
 
         <div>
@@ -179,7 +181,7 @@ export const Profile = ({
             With an average of <b>{avgWpm.toFixed(0)} wpm</b>
           </div>
           <div className="border border-base-700 p-4 pt-8 pr-8 w-full rounded">
-            <GameHistoryChart data={filteredData} year={selectedYear} />
+            <GameHistoryChart data={filteredData} year={effectiveYear} />
           </div>
         </div>
       </div>
