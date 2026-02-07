@@ -29,10 +29,13 @@ export const Profile = ({
 
   const availableYears = useMemo(() => {
     const creationTime = user?.metadata.creationTime;
-    const creationYear = creationTime
+    const parsedCreationYear = creationTime
       ? new Date(creationTime).getFullYear()
       : currentYear;
-    const startYear = Math.min(creationYear, currentYear);
+    const creationYear = Number.isFinite(parsedCreationYear)
+      ? parsedCreationYear
+      : currentYear;
+    const startYear = creationYear <= currentYear ? creationYear : currentYear;
     return Array.from(
       { length: currentYear - startYear + 1 },
       (_, index) => currentYear - index
