@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href="https://typeracing.io/ukrainian" />
+    <meta name="theme-color" content="#fbbf24" />
+    <title>Українська — TypeRacing.io</title>
+    <meta
+      name="description"
+      content="Відточіть навички набору тексту українською. Змагайтеся з друзями й вимірюйте швидкість друку."
+    />
+    <meta
+      name="keywords"
+      content="клавіатурний тренажер,клавогонки,швидкість друку"
+    />
+    <meta
+      property="og:description"
+      content="Клавіатурний тренажер. Змагання зі швидкості набору"
+    />
+    <style>
+      body {
+        background-color: #242424;
+        margin: 0;
+      }
+      #root {
+        height: 100vh;
+        background-color: #242424;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+    </style>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "TypeRacing.io — Українська",
+        "url": "https://typeracing.io/ukrainian",
+        "description": "Клавіатурний тренажер на основі faker-uk",
+        "applicationCategory": "Entertainment",
+        "operatingSystem": "Web Browser",
+        "keywords": [
+                "клавіатурний тренажер",
+                "клавогонки",
+                "швидкість друку",
+                "швидкість набору",
+        ],
+        "potentialAction": {
+                "@type": "PlayAction",
+                "target": {
+                        "@type": "EntryPoint",
+                        "urlTemplate": "https://typeracing.io/ukrainian/search",
+                        "inLanguage": "uk"
+                }
+        },
+        "about": {
+                "@type": "Thing",
+                "name": "Клавіатурний тренажер"
+        }
+}
+    </script>
+  </head>
+  <body>
+    <div class="sr-only">
+      <h1>typeracing.io — клавогонки українською</h1>
+      <h2>Відточіть навички набору тексту, змагаючися з друзями наживо</h2>
+      <p>typeracing.io — клавіатурний тренажер онлайн, де ви вводите текст наввипередки з іншими гравцями.</p>
+      <p>У кожній гонці ви змагаєтеся з опонентами зі схожим рівнем навичок. Підіймайтеся в рейтингу, напрацьовуючи швидкість і точність набору.</p>
+      <p>Використовується генератор тексту — faker-uk, автор якого Denys Nykula.</p>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
