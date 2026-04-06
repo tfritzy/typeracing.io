@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { validLanguageModes, validProgrammingModes } from "../modes";
+import { validLanguageModes } from "../modes";
 
 const STORAGE_KEY_DISMISSED = "typerace-redirect-dismissed";
 const STORAGE_KEY_AUTO_REDIRECT = "typerace-auto-redirect";
@@ -54,6 +54,19 @@ const translations: Record<string, BannerStrings> = {
   },
 };
 
+// Map from this site's mode slugs to valid typerace.io language slugs.
+// Only modes with a verified destination on typerace.io are included.
+const validDestinations: Record<string, string> = {
+  english: "",
+  español: "es",
+  français: "fr",
+  deutsch: "de",
+  italiano: "it",
+  português: "pt",
+  हिंदी: "hi",
+  dutch: "nl",
+};
+
 const defaultStrings: BannerStrings = translations["english"];
 
 function getStorageItem(key: string): string | null {
@@ -76,16 +89,9 @@ function getTargetUrl(pathname: string): string {
   const segments = pathname.split("/").filter(Boolean);
   const first = segments[0] ? decodeURIComponent(segments[0]) : "";
 
-  if (first === "code" && segments[1]) {
-    const mode = decodeURIComponent(segments[1]);
-    if (validProgrammingModes.has(mode)) {
-      return `${BASE_TARGET_URL}/code/${mode}`;
-    }
-    return `${BASE_TARGET_URL}/code`;
-  }
-
-  if (validLanguageModes.has(first)) {
-    return `${BASE_TARGET_URL}/${first}`;
+  if (first in validDestinations) {
+    const slug = validDestinations[first];
+    return slug ? `${BASE_TARGET_URL}/${slug}` : BASE_TARGET_URL;
   }
 
   return BASE_TARGET_URL;
