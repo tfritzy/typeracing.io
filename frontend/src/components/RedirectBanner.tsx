@@ -7,48 +7,59 @@ const STORAGE_KEY_AUTO_REDIRECT = "typerace-auto-redirect";
 const BASE_TARGET_URL = "https://typerace.io";
 
 type BannerStrings = {
+  title: string;
   message: string;
   redirectLabel: string;
 };
 
 const translations: Record<string, BannerStrings> = {
   english: {
+    title: "Hey everyone",
     message: "I've built a new version of this website at",
     redirectLabel: "Always redirect me to typerace.io",
   },
   français: {
+    title: "Salut à tous",
     message: "J'ai créé une nouvelle version de ce site sur",
     redirectLabel: "Toujours me rediriger vers typerace.io",
   },
   español: {
+    title: "Hola a todos",
     message: "He creado una nueva versión de este sitio en",
     redirectLabel: "Siempre redirigirme a typerace.io",
   },
   deutsch: {
+    title: "Hallo zusammen",
     message: "Ich habe eine neue Version dieser Website erstellt auf",
     redirectLabel: "Immer zu typerace.io weiterleiten",
   },
   italiano: {
+    title: "Ciao a tutti",
     message: "Ho creato una nuova versione di questo sito su",
     redirectLabel: "Reindirizzami sempre su typerace.io",
   },
   português: {
+    title: "Olá a todos",
     message: "Criei uma nova versão deste site em",
     redirectLabel: "Sempre me redirecionar para typerace.io",
   },
   dutch: {
+    title: "Hallo allemaal",
     message: "Ik heb een nieuwe versie van deze website gebouwd op",
     redirectLabel: "Stuur mij altijd door naar typerace.io",
   },
   polski: {
+    title: "Cześć wszystkim",
     message: "Stworzyłem nową wersję tej strony na",
     redirectLabel: "Zawsze przekierowuj mnie na typerace.io",
   },
   русский: {
+    title: "Всем привет",
     message: "Я создал новую версию этого сайта на",
     redirectLabel: "Всегда перенаправлять меня на typerace.io",
   },
   हिंदी: {
+    title: "सभी को नमस्कार",
     message: "मैंने इस वेबसाइट का नया संस्करण बनाया है",
     redirectLabel: "हमेशा मुझे typerace.io पर रीडायरेक्ट करें",
   },
@@ -162,15 +173,20 @@ export function RedirectBanner() {
     >
       <div className="flex flex-col gap-3">
         <div className="flex items-start justify-between gap-2">
-          <p className="text-base-300 text-sm leading-relaxed">
-            {strings.message}{" "}
-            <a
-              href={targetUrl}
-              className="text-accent hover:text-yellow-400 underline font-semibold"
-            >
-              typerace.io
-            </a>
-          </p>
+          <div>
+            <p className="text-base-200 text-sm font-semibold mb-1">
+              {strings.title}
+            </p>
+            <p className="text-base-300 text-sm leading-relaxed">
+              {strings.message}{" "}
+              <a
+                href={targetUrl}
+                className="text-accent hover:text-yellow-400 underline font-semibold"
+              >
+                typerace.io
+              </a>
+            </p>
+          </div>
           <button
             onClick={handleDismiss}
             className="text-base-500 hover:text-base-300 transition-colors flex-shrink-0"
