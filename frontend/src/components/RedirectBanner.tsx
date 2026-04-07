@@ -1,8 +1,84 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { validLanguageModes } from "../modes";
 
 const STORAGE_KEY_DISMISSED = "typerace-redirect-dismissed";
 const STORAGE_KEY_AUTO_REDIRECT = "typerace-auto-redirect";
-const TARGET_URL = "https://typerace.io";
+const BASE_TARGET_URL = "https://typerace.io";
+
+type BannerStrings = {
+  title: string;
+  message: string;
+  redirectLabel: string;
+};
+
+const translations: Record<string, BannerStrings> = {
+  english: {
+    title: "Hey everyone",
+    message: "I've built a new version of this website at",
+    redirectLabel: "Always redirect me to typerace.io",
+  },
+  français: {
+    title: "Salut à tous",
+    message: "J'ai créé une nouvelle version de ce site sur",
+    redirectLabel: "Toujours me rediriger vers typerace.io",
+  },
+  español: {
+    title: "Hola a todos",
+    message: "He creado una nueva versión de este sitio en",
+    redirectLabel: "Siempre redirigirme a typerace.io",
+  },
+  deutsch: {
+    title: "Hallo zusammen",
+    message: "Ich habe eine neue Version dieser Website erstellt auf",
+    redirectLabel: "Immer zu typerace.io weiterleiten",
+  },
+  italiano: {
+    title: "Ciao a tutti",
+    message: "Ho creato una nuova versione di questo sito su",
+    redirectLabel: "Reindirizzami sempre su typerace.io",
+  },
+  português: {
+    title: "Olá a todos",
+    message: "Criei uma nova versão deste site em",
+    redirectLabel: "Sempre me redirecionar para typerace.io",
+  },
+  dutch: {
+    title: "Hallo allemaal",
+    message: "Ik heb een nieuwe versie van deze website gebouwd op",
+    redirectLabel: "Stuur mij altijd door naar typerace.io",
+  },
+  polski: {
+    title: "Cześć wszystkim",
+    message: "Stworzyłem nową wersję tej strony na",
+    redirectLabel: "Zawsze przekierowuj mnie na typerace.io",
+  },
+  русский: {
+    title: "Всем привет",
+    message: "Я создал новую версию этого сайта на",
+    redirectLabel: "Всегда перенаправлять меня на typerace.io",
+  },
+  हिंदी: {
+    title: "सभी को नमस्कार",
+    message: "मैंने इस वेबसाइट का नया संस्करण बनाया है",
+    redirectLabel: "हमेशा मुझे typerace.io पर रीडायरेक्ट करें",
+  },
+};
+
+// Map from this site's mode slugs to valid typerace.io language slugs.
+// Only modes with a verified destination on typerace.io are included.
+const validDestinations: Record<string, string> = {
+  english: "",
+  español: "es",
+  français: "fr",
+  deutsch: "de",
+  italiano: "it",
+  português: "pt",
+  हिंदी: "hi",
+  dutch: "nl",
+};
+
+const defaultStrings: BannerStrings = translations["english"];
 
 function getStorageItem(key: string): string | null {
   try {
@@ -20,9 +96,37 @@ function setStorageItem(key: string, value: string): void {
   }
 }
 
+function getTargetUrl(pathname: string): string {
+  const segments = pathname.split("/").filter(Boolean);
+  const first = segments[0] ? decodeURIComponent(segments[0]) : "";
+
+  if (first in validDestinations) {
+    const slug = validDestinations[first];
+    return slug ? `${BASE_TARGET_URL}/${slug}` : BASE_TARGET_URL;
+  }
+
+  return BASE_TARGET_URL;
+}
+
+function getCurrentLanguage(pathname: string): string | undefined {
+  const segments = pathname.split("/").filter(Boolean);
+  const first = segments[0] ? decodeURIComponent(segments[0]) : "";
+
+  if (validLanguageModes.has(first)) {
+    return first;
+  }
+
+  return undefined;
+}
+
 export function RedirectBanner() {
   const [isDismissed, setIsDismissed] = useState(true); // Start hidden to avoid flash
   const [autoRedirect, setAutoRedirect] = useState(false);
+  const location = useLocation();
+
+  const targetUrl = getTargetUrl(location.pathname);
+  const currentLanguage = getCurrentLanguage(location.pathname);
+  const strings = (currentLanguage && translations[currentLanguage]) || defaultStrings;
 
   useEffect(() => {
     // Check localStorage on mount
@@ -31,7 +135,7 @@ export function RedirectBanner() {
 
     if (shouldRedirect) {
       // Full page navigation to external domain (intentional, not using React Router)
-      window.location.href = TARGET_URL;
+      window.location.href = getTargetUrl(window.location.pathname);
       return;
     }
 
@@ -53,7 +157,7 @@ export function RedirectBanner() {
 
     if (checked) {
       // Full page navigation to external domain (intentional, not using React Router)
-      window.location.href = TARGET_URL;
+      window.location.href = targetUrl;
     }
   };
 
@@ -69,15 +173,20 @@ export function RedirectBanner() {
     >
       <div className="flex flex-col gap-3">
         <div className="flex items-start justify-between gap-2">
-          <p className="text-base-300 text-sm leading-relaxed">
-            I've built a new version of this website at{" "}
-            <a
-              href={TARGET_URL}
-              className="text-accent hover:text-yellow-400 underline font-semibold"
-            >
-              typerace.io
-            </a>
-          </p>
+          <div>
+            <p className="text-base-200 text-sm font-semibold mb-1">
+              {strings.title}
+            </p>
+            <p className="text-base-300 text-sm leading-relaxed">
+              {strings.message}{" "}
+              <a
+                href={targetUrl}
+                className="text-accent hover:text-yellow-400 underline font-semibold"
+              >
+                typerace.io
+              </a>
+            </p>
+          </div>
           <button
             onClick={handleDismiss}
             className="text-base-500 hover:text-base-300 transition-colors flex-shrink-0"
@@ -106,7 +215,7 @@ export function RedirectBanner() {
             onChange={handleAutoRedirectChange}
             className="w-4 h-4 rounded border-base-600 bg-base-700 accent-accent cursor-pointer"
           />
-          <span>Always redirect me to typerace.io</span>
+          <span>{strings.redirectLabel}</span>
         </label>
       </div>
     </aside>
