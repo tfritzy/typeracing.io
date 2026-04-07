@@ -3,7 +3,19 @@ import { useLocation } from "react-router-dom";
 
 const STORAGE_KEY_DISMISSED = "typerace-redirect-dismissed";
 const STORAGE_KEY_AUTO_REDIRECT = "typerace-auto-redirect";
-const TARGET_URL = "https://typerace.io";
+const TARGET_ORIGIN = "https://typerace.io";
+const ROUTE_FALLBACK = "/";
+
+const LANGUAGE_SLUGS: Partial<Record<string, string>> = {
+  english: "",
+  français: "fr",
+  español: "es",
+  deutsch: "de",
+  italiano: "it",
+  português: "pt",
+  dutch: "nl",
+  हिंदी: "hi",
+};
 
 type BannerCopy = {
   title: string;
@@ -118,6 +130,41 @@ function getPathMode(pathname: string): string | null {
   return decodeURIComponent(segment);
 }
 
+function getTargetPath(pathname: string): string {
+  const [rawSegment, rawSubSegment] = pathname.split("/").filter(Boolean);
+
+  if (!rawSegment) {
+    return ROUTE_FALLBACK;
+  }
+
+  const segment = decodeURIComponent(rawSegment);
+
+  if (segment === "privacy-policy" || segment === "stats") {
+    return `/${segment}`;
+  }
+
+  if (segment === "code") {
+    return "/games";
+  }
+
+  if (segment === "profile") {
+    return ROUTE_FALLBACK;
+  }
+
+  const languageSlug = LANGUAGE_SLUGS[segment];
+  if (languageSlug === undefined) {
+    return ROUTE_FALLBACK;
+  }
+
+  const languagePrefix = languageSlug ? `/${languageSlug}` : ROUTE_FALLBACK;
+
+  if (!rawSubSegment || rawSubSegment === "search") {
+    return languagePrefix;
+  }
+
+  return `${languagePrefix === ROUTE_FALLBACK ? "" : languagePrefix}/game/${rawSubSegment}`;
+}
+
 function getStorageItem(key: string): string | null {
   try {
     return localStorage.getItem(key);
@@ -139,6 +186,7 @@ export function RedirectBanner() {
   const [autoRedirect, setAutoRedirect] = useState(false);
   const location = useLocation();
   const mode = getPathMode(location.pathname);
+  const targetUrl = `${TARGET_ORIGIN}${getTargetPath(location.pathname)}${location.search}${location.hash}`;
   const copy = (mode && TRANSLATED_COPY[mode]) || DEFAULT_COPY;
 
   useEffect(() => {
@@ -146,13 +194,13 @@ export function RedirectBanner() {
     const shouldRedirect = getStorageItem(STORAGE_KEY_AUTO_REDIRECT) === "true";
 
     if (shouldRedirect) {
-      window.location.href = TARGET_URL;
+      window.location.href = targetUrl;
       return;
     }
 
     setIsDismissed(dismissed);
     setAutoRedirect(shouldRedirect);
-  }, []);
+  }, [targetUrl]);
 
   const handleDismiss = () => {
     setStorageItem(STORAGE_KEY_DISMISSED, "true");
@@ -221,7 +269,7 @@ export function RedirectBanner() {
           </label>
 
           <a
-            href={TARGET_URL}
+            href={targetUrl}
             className="px-4 py-2 bg-accent hover:bg-yellow-400 text-black text-sm font-bold rounded-lg transition-all active:scale-95 shadow-sm whitespace-nowrap"
           >
             {copy.ctaLabel}
