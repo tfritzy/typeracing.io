@@ -140,11 +140,11 @@ function getTargetPath(pathname: string): string {
   const segment = decodeURIComponent(rawSegment);
 
   if (segment === "privacy-policy" || segment === "stats") {
-    return `/${segment}`;
+    return ROUTE_FALLBACK;
   }
 
   if (segment === "code") {
-    return "/games";
+    return ROUTE_FALLBACK;
   }
 
   if (segment === "profile") {

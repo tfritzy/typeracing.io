@@ -172,6 +172,7 @@ const baseHtmlTemplate = `<!DOCTYPE html>
       <h2>{{SR_SUBTITLE}}</h2>
       <p>{{SR_DESCRIPTION_1}}</p>
       <p>{{SR_DESCRIPTION_2}}</p>
+      <p>Looking for the latest version? Visit our new site at <a href="https://typerace.io">typerace.io</a>.</p>
     </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
