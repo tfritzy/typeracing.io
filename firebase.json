@@ -53,6 +53,10 @@
         "destination": "/русский.html"
       },
       {
+        "source": "/ukrainian",
+        "destination": "/ukrainian.html"
+      },
+      {
         "source": "/हिंदी",
         "destination": "/हिंदी.html"
       },

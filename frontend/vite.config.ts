@@ -22,6 +22,7 @@ export default defineConfig({
         "dutch": "dutch.html",
         "polski": "polski.html",
         "русский": "русский.html",
+        "ukrainian": "ukrainian.html",
         "हिंदी": "हिंदी.html",
         "copypastas": "copypastas.html",
         "shakespeare": "shakespeare.html",

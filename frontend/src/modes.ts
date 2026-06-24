@@ -223,6 +223,23 @@ export const allModes: Partial<Record<GroupType, Mode[]>> = {
         "प्रणाली तैयार", // system ready
       ],
     },
+    {
+      type: "ukrainian",
+      name: "Українська",
+      description: "Клавіатурний тренажер на основі faker-uk",
+      icon: "/flags/UA.svg",
+      formatting: "normal",
+      startupPhrases: [
+        "системи готові", // systems ready
+        "до бою", // to battle
+        "поїхали", // forward
+        "на позиції", // in position
+        "розпочнімо", // we begin
+        "в атаку", // to attack
+        "готові", // ready
+        "рушаймо", // let's move
+      ],
+    },
   ],
   programming: [
     {
